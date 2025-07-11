@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Bronze Assistant",
+  "name_for_model": "bronze_assistant",
+  "description_for_human": "Βοηθός για καμπίνες & καθρέφτες",
+  "description_for_model": "Answer questions about BronzeApp products",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://bronze-assistant-alt.vercel.app/openapi.yaml"
+  },
+  "logo_url": "https://bronze-assistant-alt.vercel.app/logo.png",
+  "contact_email": "info@bronze.gr",
+  "legal_info_url": "https://bronze.gr/legal"
+}

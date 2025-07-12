@@ -1,0 +1,36 @@
+
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <title>Bronze Assistant – Τελική Δοκιμή</title>
+</head>
+<body style="font-family: Arial, sans-serif; padding: 40px;">
+    <h1>🤖 Bronze Assistant – Τεστ Παραγωγής</h1>
+    <p>Γράψε την ερώτησή σου και πάτα «Ρώτα»</p>
+    <input type="text" id="questionInput" placeholder="Π.χ. Ποια καμπίνα είναι κατάλληλη για 120x190;" style="width: 80%; padding: 10px;">
+    <button onclick="askAssistant()" style="padding: 10px;">Ρώτα</button>
+    <pre id="response" style="margin-top: 30px; background: #f0f0f0; padding: 20px;"></pre>
+
+    <script>
+        async function askAssistant() {
+            const question = document.getElementById("questionInput").value;
+            const resElem = document.getElementById("response");
+            resElem.textContent = "⏳ Περιμένετε...";
+
+            try {
+                const response = await fetch("/api/assistant", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ question: question })
+                });
+
+                const data = await response.json();
+                resElem.textContent = "✅ Απάντηση: " + data.answer;
+            } catch (err) {
+                resElem.textContent = "❌ Σφάλμα: " + err.message;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -54,7 +54,7 @@ function generateCabinCode(request) {
   return `${request.model_code}${request.finish}${request.glass}-${request.width}-${request.height}${extras_code}`;
 }
 
-function generateCabinUrl(request, baseUrl="https://bronzeapp.eu/AssembleCabinLink") {
+function generateCabinUrl(request, baseUrl="https://www.bronzeapp.eu/AssembleCabinLink") {
   const extras_query = request.extras.map(e => `extra=${e}`).join('&');
   return `${baseUrl}?model=${request.model_code}&width=${request.width}&height=${request.height}&finish=${request.finish}&glass=${request.glass}&${extras_query}`;
 }

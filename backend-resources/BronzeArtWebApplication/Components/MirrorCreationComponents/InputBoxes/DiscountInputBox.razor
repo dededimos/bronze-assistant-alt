@@ -1,0 +1,91 @@
+﻿@* Discount Input Box - Disabled when User has Fixed Discount *@
+@namespace BronzeArtWebApplication.Components.MirrorCreationComponents.InputBoxes
+@inject BronzeUser user
+
+@inject ILanguageContainerService lc
+
+@if (user.IsDiscountVisible)
+{
+    <div class="d-flex flex-column justify-center align-center ma-@(MarginDiv) pa-@(PaddingDiv)" style="width:fit-content;background-color:inherit">
+        @if (!AreLabelsOnControl)
+        {
+            <MudText Typo="Typo.subtitle1">@lc.Keys["Discount"]</MudText>
+        }
+        <div class="d-flex @(AreDiscountBoxesHorizontal ? "flex-row" : "flex-column") justify-center align-center">
+            <div class="d-flex flex-column justify-center align-center">
+                <MudNumericField T="decimal"
+                                 @bind-Value:get="@CombinedDiscount"
+                                 @bind-Value:set="@SetCombinedDiscountParameter"
+                                 Label="@(AreLabelsOnControl ? @lc.Keys["Discount"] : "")"
+                                 Variant="Variant.Outlined"
+                                 Max="@(IsMinMaxDiscountDisabled ? 100 : user.MaximumDiscount)"
+                                 Min="@(IsMinMaxDiscountDisabled ? 0 : user.MinimumDiscount)"
+                                 Style="max-width:150px;"
+                                 Disabled="@(IsDiscountDisabled())"
+                                 HideSpinButtons="false"
+                                 Format="0.00" AdornmentText="%" Adornment="@(Adornment.End)"
+                                 Margin="@(Margin.Dense)"
+                                 Placeholder="@lc.Keys["Discount"]" />
+                <MudSlider @bind-Value:get="@CombinedDiscount"
+                           @bind-Value:set="@SetCombinedDiscountParameter"
+                           T="decimal"
+                           Color="Color.Primary"
+                           Max="@(IsMinMaxDiscountDisabled ? 100 : user.MaximumDiscount)"
+                           Min="@(IsMinMaxDiscountDisabled ? 0 : user.MinimumDiscount)"
+                           Class="pr-4 pl-4"
+                           Disabled="@(IsDiscountDisabled())" />
+            </div>
+
+            @if (AreExtraDiscountBoxesVisible())
+            {
+                @*Div Hidden in very small Screen Always (d-none) -- But its Flex from Small and Up*@
+                <div class="d-none d-sm-flex flex-row justify-center align-self-start ma-1 ">
+                    <MudNumericField T="decimal"
+                    @bind-Value:get="@PrimaryDiscount"
+                    @bind-Value:set="@SetPrimaryDiscountParameter"
+                                     Variant="Variant.Outlined"
+                                     Max="100"
+                                     Min="0"
+                                     Label="@(AreLabelsOnControl ? @lc.Keys["FirstDisc"] : "")"
+                                     Style="max-width: 50px; font-size: 12px"
+                                     Disabled="@(IsDiscountDisabled())"
+                                     HideSpinButtons="false"
+                                     Format="0"
+                                     Margin="Margin.Dense"
+                                     Class="ma-1" />
+                    <MudNumericField T="decimal"
+                    @bind-Value:get="@SecondaryDiscount"
+                    @bind-Value:set="@SetSecondaryDiscountParameter"
+                                     Variant="Variant.Outlined"
+                                     Max="100"
+                                     Min="0"
+                                     Label="@(AreLabelsOnControl ? @lc.Keys["SecondDisc"] : "")"
+                                     Style="max-width: 50px; font-size: 12px"
+                                     Disabled="@(IsDiscountDisabled())"
+                                     HideSpinButtons="false"
+                                     Format="0"
+                                     Margin="Margin.Dense"
+                                     Class="ma-1" />
+                    <MudNumericField T="decimal"
+                    @bind-Value:get="@TertiaryDiscount"
+                    @bind-Value:set="@SetTertiaryDiscountParameter"
+                                     Variant="Variant.Outlined"
+                                     Max="100"
+                                     Min="0"
+                                     Label="@(AreLabelsOnControl ? @lc.Keys["ThirdDisc"] : "")"
+                                     Style="max-width:50px;font-size:12px"
+                                     Disabled="@(IsDiscountDisabled())"
+                                     HideSpinButtons="false"
+                                     Format="0"
+                                     Margin="Margin.Dense"
+                                     Class="ma-1" />
+                </div>
+
+            }
+        </div>
+    </div>
+}
+
+@code {
+
+}

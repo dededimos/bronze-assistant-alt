@@ -1,0 +1,382 @@
+﻿@*Main Dimensions Panel opens also the Dimensions Dialog*@
+@namespace BronzeArtWebApplication.Pages.CabinsPage.Components.CabinPropertiesPanels
+@using static BronzeArtWebApplication.Shared.Helpers.StaticInfoCabins
+@using BronzeArtWebApplication.Pages.CabinsPage.Components.Dialogs
+@using BronzeArtWebApplication.Components.SVGComponents
+@using ShowerEnclosuresModelsLibrary.Enums
+@using ShowerEnclosuresModelsLibrary.Enums.ShowerDrawEnums
+@using BronzeArtWebApplication.Pages.CabinsPage.Components.DrawComponents
+@inject ILanguageContainerService lc
+@inject AssembleCabinViewModel vm
+
+<div id="MainDimensionsPanelContainer"
+     class="d-flex flex-column justify-center align-center rounded-lg mud-elevation-4">
+    <MudGrid Spacing="1" Justify="@(Justify.Center)">
+        @*TITLE*@
+        <MudItem xs="12">
+            <div id="DimensionsPanelTitleContainer" class="d-flex flex-row align-center justify-center pa-2 rounded-t-lg" style="border-bottom:4px solid var(--BronzeDarkPink);background-color:var(--BackgroundColor)">
+                <i class="fas fa-arrows-alt fa-2x mr-4"></i>
+                <MudText Style="user-select:none" Typo="Typo.h6">@(lc.Keys["Dimensions"])</MudText>
+            </div>
+        </MudItem>
+        @*SVG Draw and Photo*@
+        <MudItem xs="12" sm="12" md="7" lg="12" xl="7" xxl="7" Class="d-flex justify-center align-center">
+            <div class="px-2 d-flex flex-column" style="width:100%;">
+                <MudHidden Breakpoint="@(Breakpoint.SmAndUp)" Invert="true">
+                    <MeasureCabinDraw DrawNumber="@(vm.SelectedCabinDraw)"
+                                      PrimaryDimensionName="@(vm.PrimaryCabin.Model is not null ? PrimaryCabinLengthDescKey[(CabinModelEnum)vm.PrimaryCabin.Model] : "")"
+                                      SecondaryDimensionName="@(vm.SecondaryCabin.Model is not null ? SecondaryCabinLengthDescKey[(CabinModelEnum)vm.SecondaryCabin.Model] : "")"
+                                      TertiaryDimensionName="@(vm.TertiaryCabin.Model is not null ? TertiaryCabinLengthDescKey[(CabinModelEnum)vm.TertiaryCabin.Model] : "")"
+                                      PrimaryDimensionValue="@(vm.PrimaryCabin.InputLength)"
+                                      SecondaryDimensionValue="@(vm.SecondaryCabin.InputLength)"
+                                      TertiaryDimensionValue="@(vm.TertiaryCabin.InputLength)"
+                                      FocusedDimensionName="@(focusedDimension)"
+                                      FocusedSynthesisModel="@(focusedSynthesisModel)"
+                                      BackgroundColor="transparent"
+                                      IsBordered="@(false)"
+                                      IsFlipped="@(_isFlipped)"
+                                      LengthSVG="250"
+                                      HeightSVG="200" />
+                </MudHidden>
+                <MudHidden Breakpoint="@(Breakpoint.Xs)" Invert="true">
+                    <MeasureCabinDraw DrawNumber="@(vm.SelectedCabinDraw)"
+                                      PrimaryDimensionName="@(vm.PrimaryCabin.Model is not null ? PrimaryCabinLengthDescKey[(CabinModelEnum)vm.PrimaryCabin.Model] : "")"
+                                      SecondaryDimensionName="@(vm.SecondaryCabin.Model is not null ? SecondaryCabinLengthDescKey[(CabinModelEnum)vm.SecondaryCabin.Model] : "")"
+                                      TertiaryDimensionName="@(vm.TertiaryCabin.Model is not null ? TertiaryCabinLengthDescKey[(CabinModelEnum)vm.TertiaryCabin.Model] : "")"
+                                      PrimaryDimensionValue="@(vm.PrimaryCabin.InputLength)"
+                                      SecondaryDimensionValue="@(vm.SecondaryCabin.InputLength)"
+                                      TertiaryDimensionValue="@(vm.TertiaryCabin.InputLength)"
+                                      FocusedDimensionName="@(focusedDimension)"
+                                      FocusedSynthesisModel="@(focusedSynthesisModel)"
+                                      BackgroundColor="transparent"
+                                      IsBordered="@(false)"
+                                      IsFlipped="@(IsFlipped)"
+                                      LengthSVG="175"
+                                      HeightSVG="136" />
+                </MudHidden>
+            </div>
+        </MudItem>
+        @*Dimensions Input*@
+        <MudItem xs="12" sm="12" md="5" lg="12" xl="5" xxl="5" Class="d-flex flex-column justify-center align-center" Style="position:relative">
+            @if (vm.PrimaryCabin?.Model is not null)
+            {
+                <div class="d-flex flex-row justify-center align-center">
+                    <div class="d-flex flex-column mx-2 justify-center align-center mt-2 mb-1">
+                        <MudNumericField T="int?"
+                                         id="PrimaryLengthInput"
+                                         Style="min-width:155px"
+                                         AutoFocus="false"
+                                         Label="@($"{lc.Keys["Length"]} (mm) - {lc.Keys[PrimaryCabinLengthDescKey[(CabinModelEnum)vm.PrimaryCabin.Model]]}")"
+                                         FullWidth="true"
+                                         Max="@(vm.PrimaryCabin.MaxLengthLimit)"
+                                         Min="@(vm.PrimaryCabin.MinLengthLimit)"
+                                         HideSpinButtons="false"
+                                         Margin="@(Margin.Dense)"
+                                         Variant="@(Variant.Outlined)"
+                                         @bind-Value="@(vm.PrimaryCabin.InputLength)"
+                                         AdornmentIcon="@(Icons.Material.Filled.MenuBook)"
+                                         OnAdornmentClick="@(()=>menuPrimary.OpenMenuAsync(args))"
+                                         Adornment="Adornment.End"
+                                         @onfocus="@(() => IsLength1Focused = true)"
+                                         OnBlur="@(()=> IsLength1Focused = false)">
+                        </MudNumericField>
+                        @*PopMenu with Basic Dimensions*@
+                        <MudMenu MaxHeight="250"
+                                 Style="max-height:0;width:100%"
+                                 AnchorOrigin="@(Origin.BottomCenter)"
+                                 TransformOrigin="@(Origin.TopCenter)"
+                                 FullWidth="@(true)"
+                                 PopoverClass="mud-theme-dark"
+                                 LockScroll=@(true)
+                                 @ref="@(menuPrimary)"
+                                 Dense="true">
+                            <ActivatorContent>
+                                @*Should be Empty Menu Only Opens from Adornment Click*@
+                            </ActivatorContent>
+                            <ChildContent>
+                                @*add focus to length dimension lines when user hovers to base dimensions menu*@
+                                <div @onmouseenter="@(()=>IsLength1Focused = true)" @onmouseleave="@(()=>IsLength1Focused = false)">
+                                    <div class="d-flex justify-center align-center">
+                                        <MudText Align="@(Align.Center)" Class="ma-2" Typo="@(Typo.subtitle2)">@(lc.Keys["CatalogueDimensions"])</MudText>
+                                    </div>
+                                    <MudDivider />
+                                    @foreach (var length in BronzeRulesPricelistLibrary.CabinsPricelist.GetBaseLengths((CabinModelEnum)vm.PrimaryCabin.Model))
+                                    {
+                                        <MudMenuItem OnClick="@(()=> vm.PrimaryCabin.InputLength = length)"
+                                                     Style="min-width:155px">
+                                            <MudText Align="@(Align.Center)">@($"{length}mm")</MudText>
+                                        </MudMenuItem>
+                                    }
+                                </div>
+                            </ChildContent>
+                        </MudMenu>
+                        <div class="d-flex flex-row" style="width:100%">
+                            <MudText Class="pl-1 mr-auto" Style="color:#757575" Typo="Typo.caption">@($"{lc.Keys["Tollerance"]}:{vm.PrimaryCabin.MinLength}-{vm.PrimaryCabin.MaxLength}mm")</MudText>
+                            <MudSlider T="int"
+                                       Style="max-width:80px"
+                                       Class="ml-auto mt-n1 pr-1"
+                                       Step="1"
+                                       Max="@(vm.PrimaryCabin.MaxLengthLimit)"
+                                       Min="@(vm.PrimaryCabin.MinLengthLimit)"
+                                       Color="Color.Primary"
+                                       @bind-NullableValue="@(vm.PrimaryCabin.InputLength)"
+                                       @onfocus="@(() => IsLength1Focused = true)"
+                                       @onblur="@(()=> IsLength1Focused = false)" />
+                        </div>
+                    </div>
+                </div>
+            }
+            @if (vm.SecondaryCabin?.Model is not null)
+            {
+                <div class="d-flex flex-column mx-2 justify-center align-center my-1">
+                    <MudNumericField T="int?"
+                                     Style="min-width:155px"
+                                     AutoFocus="false"
+                                     Label="@($"{lc.Keys["Length"]} (mm) - {lc.Keys[SecondaryCabinLengthDescKey[(CabinModelEnum)vm.SecondaryCabin.Model]]}")"
+                                     FullWidth="true"
+                                     Max="@(vm.SecondaryCabin.MaxLengthLimit)"
+                                     Min="@(vm.SecondaryCabin.MinLengthLimit)"
+                                     HideSpinButtons="false"
+                                     Margin="@(Margin.Dense)"
+                                     Variant="@(Variant.Outlined)"
+                                     @bind-Value="@(vm.SecondaryCabin.InputLength)"
+                                     AdornmentIcon="@(Icons.Material.Filled.MenuBook)"
+                                     OnAdornmentClick="@(()=>menuSecondary.OpenMenuAsync(args))"
+                                     Adornment="Adornment.End"
+                                     @onfocus="@(() => IsLength2Focused = true)"
+                                     OnBlur="@(()=> IsLength2Focused = false)">
+                    </MudNumericField>
+                    @*PopMenu with Basic Dimensions*@
+                    <MudMenu MaxHeight="250"
+                             Style="max-height:0;width:100%"
+                             AnchorOrigin="@(Origin.BottomCenter)"
+                             TransformOrigin="@(Origin.TopCenter)"
+                             FullWidth="@(true)"
+                             PopoverClass="mud-theme-dark"
+                             LockScroll=@(true)
+                             @ref="@(menuSecondary)"
+                             Dense="true">
+                        <ActivatorContent>
+                            @*Should be Empty Menu Only Opens from Adornment Click*@
+                        </ActivatorContent>
+                        <ChildContent>
+                            <div @onmouseenter="@(()=>IsLength2Focused = true)" @onmouseleave="@(()=>IsLength2Focused = false)">
+                                <div class="d-flex justify-center align-center">
+                                    <MudText Align="@(Align.Center)" Class="ma-2" Typo="@(Typo.subtitle2)">@(lc.Keys["CatalogueDimensions"])</MudText>
+                                </div>
+                                <MudDivider />
+                                @foreach (var length in BronzeRulesPricelistLibrary.CabinsPricelist.GetBaseLengths((CabinModelEnum)vm.SecondaryCabin.Model))
+                                {
+                                    <MudMenuItem OnClick="@(()=> vm.SecondaryCabin.InputLength = length)" Style="min-width:155px">
+                                        <MudText Align="@(Align.Center)">@($"{length}mm")</MudText>
+                                    </MudMenuItem>
+                                }
+                            </div>
+                        </ChildContent>
+                    </MudMenu>
+                    <div class="d-flex flex-row" style="width:100%">
+                        <MudText Class="pl-1 mr-auto" Style="color:#757575" Typo="Typo.caption">@($"{lc.Keys["Tollerance"]}:{vm.SecondaryCabin.MinLength}-{vm.SecondaryCabin.MaxLength}mm")</MudText>
+                        <MudSlider T="int"
+                                   Style="max-width:80px"
+                                   Class="ml-auto mt-n1 pr-1"
+                                   Step="1"
+                                   Max="@(vm.SecondaryCabin.MaxLengthLimit)"
+                                   Min="@(vm.SecondaryCabin.MinLengthLimit)"
+                                   Color="Color.Primary"
+                                   @bind-NullableValue="@(vm.SecondaryCabin.InputLength)"
+                                   @onfocus="@(() => IsLength2Focused = true)"
+                                   @onblur="@(()=> IsLength2Focused = false)" />
+                    </div>
+                </div>
+            }
+            @if (vm.TertiaryCabin?.Model is not null)
+            {
+                <div class="d-flex flex-column mx-2 justify-center align-center my-1">
+                    <MudNumericField T="int?"
+                                     Style="min-width:155px"
+                                     AutoFocus="false"
+                                     Label="@($"{lc.Keys["Length"]} (mm) - {lc.Keys[TertiaryCabinLengthDescKey[(CabinModelEnum)vm.TertiaryCabin.Model]]}")"
+                                     FullWidth="true"
+                                     Max="@(vm.TertiaryCabin.MaxLengthLimit)"
+                                     Min="@(vm.TertiaryCabin.MinLengthLimit)"
+                                     HideSpinButtons="false"
+                                     Margin="@(Margin.Dense)"
+                                     Variant="@(Variant.Outlined)"
+                                     @bind-Value="@(vm.TertiaryCabin.InputLength)"
+                                     AdornmentIcon="@(Icons.Material.Filled.MenuBook)"
+                                     OnAdornmentClick="@(()=>menuTertiary.OpenMenuAsync(args))"
+                                     Adornment="Adornment.End"
+                                     @onfocus="@(() => IsLength3Focused = true)"
+                                     OnBlur="@(()=> IsLength3Focused = false)">
+                    </MudNumericField>
+                    @*PopMenu with Basic Dimensions*@
+                    <MudMenu MaxHeight="250"
+                             Style="max-height:0;width:100%"
+                             AnchorOrigin="@(Origin.BottomCenter)"
+                             TransformOrigin="@(Origin.TopCenter)"
+                             FullWidth="@(true)"
+                             PopoverClass="mud-theme-dark"
+                             LockScroll=@(true)
+                             @ref="@(menuTertiary)"
+                             Dense="true">
+                        <ActivatorContent>
+                            @*Should be Empty Menu Only Opens from Adornment Click*@
+                        </ActivatorContent>
+                        <ChildContent>
+                            <div @onmouseenter="@(()=>IsLength3Focused = true)" @onmouseleave="@(()=>IsLength3Focused = false)">
+                                <div class="d-flex justify-center align-center">
+                                    <MudText Align="@(Align.Center)" Class="ma-2" Typo="@(Typo.subtitle2)">@(lc.Keys["CatalogueDimensions"])</MudText>
+                                </div>
+                                <MudDivider />
+                                @foreach (var length in BronzeRulesPricelistLibrary.CabinsPricelist.GetBaseLengths((CabinModelEnum)vm.TertiaryCabin.Model))
+                                {
+                                    <MudMenuItem OnClick="@(()=> vm.TertiaryCabin.InputLength = length)" Style="min-width:155px">
+                                        <MudText Align="@(Align.Center)">@($"{length}mm")</MudText>
+                                    </MudMenuItem>
+                                }
+                            </div>
+                        </ChildContent>
+                    </MudMenu>
+                    <div class="d-flex flex-row" style="width:100%">
+                        <MudText Class="pl-1 mr-auto" Style="color:#757575" Typo="Typo.caption">@($"{lc.Keys["Tollerance"]}:{vm.TertiaryCabin.MinLength}-{vm.TertiaryCabin.MaxLength}mm")</MudText>
+                        <MudSlider T="int"
+                                   Style="max-width:80px"
+                                   Class="ml-auto mt-n1 pr-1"
+                                   Step="1"
+                                   Max="@(vm.TertiaryCabin.MaxLengthLimit)"
+                                   Min="@(vm.TertiaryCabin.MinLengthLimit)"
+                                   Color="Color.Primary"
+                                   @bind-NullableValue="@(vm.TertiaryCabin.InputLength)"
+                                   @onfocus="@(() => IsLength3Focused = true)"
+                                   @onblur="@(()=> IsLength3Focused = false)" />
+                    </div>
+                </div>
+            }
+            @if (vm.PrimaryCabin?.Model != null)
+            {
+                <div class="d-flex flex-column mx-2 justify-center align-center my-1">
+                    <MudNumericField T="int?"
+                                     Style="min-width:155px"
+                                     AutoFocus="false"
+                                     Label="@($"{lc.Keys["Height"]} (mm)")"
+                                     FullWidth="true"
+                                     Max="@(Math.Min(vm.PrimaryCabin.MaxHeightLimit,Math.Min(vm.SecondaryCabin.Model is not null  ? vm.SecondaryCabin.MaxHeightLimit : 9999,vm.TertiaryCabin.Model is not null ? vm.TertiaryCabin.MaxHeightLimit : 9999)))"
+                                     Min="@(Math.Max(vm.PrimaryCabin.MinHeightLimit,Math.Max(vm.SecondaryCabin.Model is not null ? vm.SecondaryCabin.MinHeightLimit : 0 , vm.TertiaryCabin.Model is not null ? vm.TertiaryCabin.MinHeightLimit : 0)))"
+                                     HideSpinButtons="false"
+                                     Margin="@(Margin.Dense)"
+                                     Variant="@Variant.Outlined"
+                                     @bind-Value="@(vm.PrimaryCabin.InputHeight)"
+                                     AdornmentIcon="@(Icons.Material.Filled.MenuBook)"
+                                     OnAdornmentClick="@(()=>menuHeight.OpenMenuAsync(args))"
+                                     Adornment="Adornment.End">
+                    </MudNumericField>
+                    @*PopMenu with Basic Dimensions*@
+                    <MudMenu MaxHeight="250"
+                             Style="max-height:0;width:100%"
+                             AnchorOrigin="@(Origin.BottomCenter)"
+                             TransformOrigin="@(Origin.TopCenter)"
+                             FullWidth="@(true)"
+                             PopoverClass="mud-theme-dark"
+                             LockScroll=@(true)
+                             @ref="@(menuHeight)"
+                             Dense="true">
+                        <ActivatorContent>
+                            @*Should be Empty Menu Only Opens from Adornment Click*@
+                        </ActivatorContent>
+                        <ChildContent>
+                            <div class="d-flex justify-center align-center">
+                                <MudText Align="@(Align.Center)" Class="ma-2" Typo="@(Typo.subtitle2)">@(lc.Keys["CatalogueDimensions"])</MudText>
+                            </div>
+                            <MudDivider />
+                            @foreach (var height in BronzeRulesPricelistLibrary.CabinsPricelist.GetBaseHeights((CabinModelEnum)vm.PrimaryCabin.Model))
+                            {
+                                <MudMenuItem OnClick="@(()=> vm.PrimaryCabin.InputHeight = height)" Style="min-width:155px">
+                                    <MudText Align="@(Align.Center)">@($"{height}mm")</MudText>
+                                </MudMenuItem>
+                            }
+                        </ChildContent>
+                    </MudMenu>
+                    <div class="d-flex flex-row" style="width:100%">
+                        <MudText Class="pl-1 mr-auto" Style="color:#757575" Typo="Typo.caption">
+                            @($"{lc.Keys["Range"]}:{Math.Max(vm.PrimaryCabin.MinHeightLimit, Math.Max(vm.SecondaryCabin.Model is not null ? vm.SecondaryCabin.MinHeightLimit : 0, vm.TertiaryCabin.Model is not null ? vm.TertiaryCabin.MinHeightLimit : 0))}-{Math.Min(vm.PrimaryCabin.MaxHeightLimit, Math.Min(vm.SecondaryCabin.Model is not null ? vm.SecondaryCabin.MaxHeightLimit : 9999, vm.TertiaryCabin.Model is not null ? vm.TertiaryCabin.MaxHeightLimit : 9999))}mm")
+                        </MudText>
+                        <MudSlider T="int"
+                                   Style="max-width:80px"
+                                   Class="ml-auto mt-n1 pr-1"
+                                   Step="1"
+                                   Max="@(Math.Min(vm.PrimaryCabin.MaxHeightLimit,Math.Min(vm.SecondaryCabin.Model is not null  ? vm.SecondaryCabin.MaxHeightLimit : 9999,vm.TertiaryCabin.Model is not null ? vm.TertiaryCabin.MaxHeightLimit : 9999)))"
+                                   Min="@(Math.Max(vm.PrimaryCabin.MinHeightLimit,Math.Max(vm.SecondaryCabin.Model is not null ? vm.SecondaryCabin.MinHeightLimit : 0 , vm.TertiaryCabin.Model is not null ? vm.TertiaryCabin.MinHeightLimit : 0)))"
+                                   Color="Color.Primary"
+                                   @bind-NullableValue="@(vm.PrimaryCabin.InputHeight)" />
+                    </div>
+                </div>
+
+                if (vm.PrimaryCabin.Model is CabinModelEnum.Model9C)
+                {
+                    <MudTooltip>
+                        <TooltipContent>
+                            <MudText Typo="Typo.caption">1.@(lc.Keys["9CHeightOnly1850"])</MudText>
+                        </TooltipContent>
+                        <ChildContent>
+                            <MudIcon Icon="@(Icons.Material.Outlined.Info)" Color="@(Color.Primary)" />
+                        </ChildContent>
+                    </MudTooltip>
+                }
+            }
+        </MudItem>
+        @*Footer Buttons*@
+        <MudItem xs="12">
+
+            <div class="d-flex flex-wrap justify-center align-center pt-1 px-2" style="border-top:1px solid var(--BackgroundColor)">
+                @*Flips the Image as well as the Direction*@
+                <MudTooltip>
+                    <ChildContent>
+                        <div class="d-flex justify-center px-2" style="min-width:150px">
+                            <MudButton OnClick="@(()=> IsFlipped = !IsFlipped)"
+                                       StartIcon="fas fa-exchange-alt"
+                                       Color="Color.Primary">
+                                <MudText Typo="Typo.caption" Color="@(Color.Dark)">
+                                    @(lc.Keys[CabinDirectionDescKey[vm.PrimaryCabin.Direction ?? CabinDirection.Undefined]])
+                                </MudText>
+                            </MudButton>
+                        </div>
+                    </ChildContent>
+                    <TooltipContent>
+                        @(lc.Keys["FlipDraw"])
+                    </TooltipContent>
+                </MudTooltip>
+                @*Opens the Step Dialog*@
+                <MudTooltip>
+                    <ChildContent>
+                        <div class="d-flex justify-center px-2" style="min-width:130px">
+                            <MudButton OnClick="@(()=>HandleClickStepDimensions())"
+                                       Color="Color.Primary"
+                                       StartIcon="@(Icons.Material.Filled.ContentCut)">
+                                <MudText Typo="Typo.caption" Color="@(Color.Dark)">
+                                    @(lc.Keys["StepCut"])
+                                </MudText>
+                                <SetCabinStepDimensionsDialog @bind-IsVisible="@(isStepDimensionsDialogVisible)"
+                                                              ActiveCabinSides="@(vm.NumberOfActiveCabinSides)"
+                                                              OnClosingDialog="@(()=> RemoveZeroValueSteps())" />
+                            </MudButton>
+                        </div>
+                    </ChildContent>
+                    <TooltipContent>
+                        <MudContainer Class="d-flex flex-column justify-center align-center ma-0 pa-0">
+                            <img src="@(CabinExtraImagePath[CabinExtraType.StepCut])"
+                                 style="max-height:100px;background-color:#757575;"
+                                 class="rounded-lg" />
+                            <MudText Style="max-width:180px" Typo="Typo.caption">@lc.Keys[CabinExtraFullDescKey[CabinExtraType.StepCut]]</MudText>
+                        </MudContainer>
+                    </TooltipContent>
+                </MudTooltip>
+            </div>
+        </MudItem>
+    </MudGrid>
+</div>
+
+
+
+@code {
+
+}

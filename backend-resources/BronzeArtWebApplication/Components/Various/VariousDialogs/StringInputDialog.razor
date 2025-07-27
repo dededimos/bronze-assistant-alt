@@ -1,0 +1,68 @@
+﻿@using BronzeArtWebApplication.Shared.Services;
+
+<MudDialog ContentStyle="min-height:60px">
+    <TitleContent>
+        <div style="padding-right:35px;">
+            <MudText Typo="@(Typo.h6)">@(MudDialog.Title)</MudText>
+            </div>
+    </TitleContent>
+    <DialogContent>
+            <MudTextField @bind-Value="@(input)"
+                          Label="@(InputName)"
+                          Clearable="@(true)"
+                          Adornment="@(Adornment.End)"
+                          Variant="@(Variant.Text)"
+                          Margin="@(Margin.Dense)"
+                          MaxLength="@(MaxInputLength)"
+                          AdornmentIcon="@(Icons.Material.Filled.Sync)"
+                          OnAdornmentClick="@(()=> input = StartingInput)" />
+    </DialogContent>
+    <DialogActions>
+        <MudButton Variant="@(Variant.Outlined)"
+                   Color="@(Color.Primary)"
+                   Style="text-transform:none"
+                   Class="ma-4"
+                   OnClick="@(()=> CloseDialog(input))">
+            @(OkButtonText)
+        </MudButton>
+        <MudButton Variant="@(Variant.Outlined)"
+                   Color="@(Color.Primary)"
+                   Style="text-transform:none"
+                   Class="ma-4"
+                   OnClick="@(()=> CloseDialog(string.Empty))">
+            @(CancelButtonText)
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    public IMudDialogInstance MudDialog { get; set; }
+
+    private string input;
+
+    /// <summary>
+    /// The Value that the Text Filed will start with , when this is Initilized
+    /// </summary>
+    [Parameter]
+    public string StartingInput { get; set; } = string.Empty;
+    /// <summary>
+    /// The Placeholder/Label of the Text Field
+    /// </summary>
+    [Parameter]
+    public string InputName { get; set; } = string.Empty;
+
+    [Parameter]
+    public string OkButtonText { get; set; } = "Ok";
+    [Parameter]
+    public string CancelButtonText { get; set; } = "Cancel";
+    [Parameter]
+    public int MaxInputLength { get; set; } = 1000;
+
+    void CloseDialog(string result) => MudDialog.Close(result);
+
+    protected override void OnParametersSet()
+    {
+        input = StartingInput;
+    }
+}

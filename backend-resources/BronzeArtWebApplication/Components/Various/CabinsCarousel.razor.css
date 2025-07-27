@@ -1,0 +1,12 @@
+﻿
+.cabinsCarousel {
+    width:100%;
+    min-height:500px;
+}
+
+@media (max-width: 450px){
+    .cabinsCarousel{
+        width:100%;
+        min-height:300px;
+    }
+}

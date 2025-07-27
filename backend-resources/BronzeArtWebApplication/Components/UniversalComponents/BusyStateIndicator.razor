@@ -1,0 +1,41 @@
+﻿@using BronzeArtWebApplication.Shared.Services.OtherServices
+
+@inject BusyStateService BusyService
+@implements IDisposable
+
+@if (BusyService.IsBusy)
+{
+    <MudOverlay Absolute="@(true)"
+                AutoClose="@(false)"
+                LockScroll="@(true)"
+                LightBackground="@(true)"
+                Visible="@(true)"
+                ZIndex="1500">
+
+        <MudProgressCircular Indeterminate="@(true)"
+                             Size="@(Size.Large)"
+                             Color="@(Color.Primary)" />
+
+        <MudText Color="@(Color.Primary)">
+            @(BusyService.IsBusyText)
+        </MudText>
+
+    </MudOverlay>
+}
+
+@code {
+    protected override void OnInitialized()
+    {
+        BusyService.OnBusyStateChanged += HandleBusyStateChange;
+    }
+
+    private void HandleBusyStateChange()
+    {
+        InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        BusyService.OnBusyStateChanged -= HandleBusyStateChange;
+    }
+}

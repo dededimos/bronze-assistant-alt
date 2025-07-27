@@ -1,0 +1,121 @@
+﻿@* The Lights Dialog - Improved Design *@
+@namespace BronzeArtWebApplication.Components.MirrorCreationComponents.Dialogs
+@inject ILanguageContainerService languageContainer
+
+<MudDialog @bind-Visible:get="@IsVisible"
+           @bind-Visible:set="@IsVisibleChanged"
+           Gutters="@(false)"
+           Class="ma-4"
+           Style="max-width:800px">
+    <TitleContent>
+        <MudText Typo="Typo.h6" Class="d-flex align-center">
+            <MudIcon Icon="@Icons.Material.Filled.Lightbulb" Class="mr-2" Color="Color.Dark" />
+            @languageContainer.Keys["DialogLightTitle"]
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudContainer Style="@DialogContainerCssStyle" Class="pa-0">
+
+            @* Special case for premium series - show premium lights only *@
+            <div class="mt-2 d-flex flex-wrap justify-center">
+                <div class="light-category-title">@languageContainer.Keys["CommonLights"]</div>
+                @foreach (MirrorLight light in StaticInfoMirror.GetSelectableLights(Series).primary)
+                {
+                    <div class="light-option"
+                         @onclick="@(()=>OnLightClick.InvokeAsync(light))">
+                        <div class="light-option-content">
+                            <img src="@(LightImagePaths[light])"
+                                 alt="@languageContainer.Keys[MirrorLightDescKey[light]]"
+                                 class="light-option-img" />
+                            <span class="light-option-text">
+                                @languageContainer.Keys[MirrorLightDescKey[light]]
+                            </span>
+                        </div>
+                    </div>
+
+                }
+            </div>
+            <style>
+                .expansion-icon {
+                    color: var(--BronzeGold);
+                    font-size: 1.2rem;
+                }
+                .expansion-panel{
+
+                }
+            </style>
+            @* Expandable panels for additional options *@
+            <MudExpansionPanels Dense="true"
+                                Elevation="0"
+                                Outlined="@(false)">
+                @* Dotless light options *@
+                @if (StaticInfoMirror.GetSelectableLights(Series).secondary.ToList().Any())
+                {
+                    <MudExpansionPanel Class="mt-2 expansion-panel">
+                        <TitleContent>
+                            <div class="expansion-title">
+                                <MudIcon Icon="@Icons.Material.Filled.LightMode" Class="expansion-icon" />
+                                @languageContainer.Keys["AdditionalLights"]
+                                <div class="lineElement" />
+                            </div>
+                        </TitleContent>
+                        <ChildContent>
+                            <div class="mt-4 d-flex flex-wrap justify-center mx-auto">
+                                @foreach (MirrorLight light in StaticInfoMirror.GetSelectableLights(Series).secondary)
+                                {
+                                    @*Hack to break the line of the flexbox so 16watt lights follow in a new line*@
+                                    @if (light == MirrorLight.Warm_16W) { <div style="flex-basis:100%"/> }
+                                    <div class="light-option"
+                                         @onclick="@(()=>OnLightClick.InvokeAsync(light))">
+                                        <div class="light-option-content">
+                                            <img src="@(LightImagePaths[light])"
+                                                 alt="@languageContainer.Keys[MirrorLightDescKey[light]]"
+                                                 class="light-option-img" />
+                                            <span class="light-option-text">
+                                                @languageContainer.Keys[MirrorLightDescKey[light]]
+                                            </span>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </ChildContent>
+                    </MudExpansionPanel>
+                }
+            </MudExpansionPanels>
+
+        </MudContainer>
+    </DialogContent>
+    <DialogActions>
+        <MudContainer Class="d-flex justify-center align-center">
+            <MudButton Variant="@ActionButtonVariant"
+                       Color="@ActionButtonColor"
+                       StartIcon="@Icons.Material.Filled.ArrowBack"
+                       Style="text-transform:none"
+                       Class="ma-4"
+                       OnClick="(() => OnPreviousClick.InvokeAsync())">
+                @languageContainer.Keys["DialogActionButtonBack"]
+            </MudButton>
+        </MudContainer>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [Parameter] public bool IsVisible { get; set; }
+    [Parameter] public EventCallback<bool> IsVisibleChanged { get; set; }
+    [Parameter] public EventCallback<MirrorLight> OnLightClick { get; set; }
+    [Parameter] public EventCallback OnPreviousClick { get; set; }
+    [Parameter] public MirrorSeries? Series { get; set; }
+
+    // You'll need to add these to your language resource file if they don't exist
+    private string GetLocalizedText(string key, string defaultText)
+    {
+        try
+        {
+            return languageContainer.Keys[key];
+        }
+        catch
+        {
+            return defaultText;
+        }
+    }
+}

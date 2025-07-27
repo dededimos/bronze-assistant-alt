@@ -1,0 +1,76 @@
+﻿@using ShowerEnclosuresModelsLibrary.Enums
+
+<svg version="1.1" style="max-width:400px;max-height:400px;shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd;"
+     viewBox="0 0 617 617">
+    <defs>
+        <font id="FontID0" horiz-adv-x="583" font-variant="normal" style="fill-rule:nonzero" font-style="normal" font-weight="400,700">
+            <font-face font-family="Humnst777 Cn BT">
+            </font-face>
+        </font>
+        <linearGradient id="id0" gradientUnits="objectBoundingBox" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" style="stop-opacity:1; stop-color:#FEFEFE" />
+            <stop offset="1" style="stop-opacity:1; stop-color:@(GradientColor)" />
+        </linearGradient>
+    </defs>
+    <g>
+        <path class="fil0" d="M54 357l90 -36c-5,10 -8,20 -9,30l347 0c-1,-10 -4,-20 -9,-30l90 36 -90 35c5,-9 8,-19 9,-29l-347 0c1,10 4,20 9,29l-90 -35z" />
+        <g>
+            <path class="fil0" d="M32 12l-26 0 0 -12 26 0 6 6 -6 6zm0 -12c4,0 6,3 6,6 0,3 -2,6 -6,6l0 -12zm-5 611l0 -605 11 0 0 605 -6 6 -5 -6zm11 0c0,3 -2,6 -6,6 -3,0 -5,-3 -5,-6l11 0zm-32 -6l26 0 0 12 -26 0 -6 -6 6 -6zm0 12c-3,0 -6,-3 -6,-6 0,-3 3,-6 6,-6l0 12zm6 -611l0 605 -12 0 0 -605 6 -6 6 6zm-12 0c0,-3 3,-6 6,-6 3,0 6,3 6,6l-12 0z" />
+            <polygon id="1" class="fil1" points="6,6 32,6 32,611 6,611 " />
+        </g>
+
+        @if (Thickness is CabinThicknessEnum.Thick6mm)
+        {
+            <g transform="matrix(1 0 0 1 -2240.91 1467.37)">
+                <text x="2463" y="-1187" style="fill:@(TextColor)" class="fnt0">6</text>
+            </g>
+        }
+        else if (Thickness is CabinThicknessEnum.Thick8mm)
+        {
+            <g transform="matrix(1 0 0 1 -2240.91 1467.37)">
+                <text x="2463" y="-1187" style="fill:@(TextColor)" class="fnt0">8</text>
+            </g>
+        }
+        else if (Thickness is CabinThicknessEnum.Thick10mm)
+        {
+            <g transform="matrix(1 0 0 1 -2240.91 1467.37)">
+                <text x="2378" y="-1187" style="fill:@(TextColor)" class="fnt0">10</text>
+            </g>
+        }
+        else if (Thickness is CabinThicknessEnum.Thick6mm8mm)
+        {
+            <g transform="matrix(1 0 0 1 -2240.91 1467.37)">
+                <text x="2327" y="-1187" style="fill:@(TextColor)" class="fnt0">6-8</text>
+            </g>
+        }
+        else if (Thickness is CabinThicknessEnum.Thick8mm10mm)
+        {
+            <g transform="matrix(1 0 0 1 -2240.91 1467.37)">
+                <text x="2313" y="-1187" style="fill:@(TextColor)" class="fnt810">8-10</text>
+            </g>
+        }
+        else if (Thickness is CabinThicknessEnum.ThickTenplex10mm)
+        {
+            <g transform="matrix(1 0 0 1 -2240.91 1322.1)">
+                <text x="2283" y="-1187" style="fill:@(TextColor)" class="fntTenplex">Tenplex</text>
+            </g>
+            <g transform="matrix(1 0 0 1 -2240.91 1322.1)">
+                <text x="2461" y="-979" style="fill:@(TextColor)" class="fntTenplex">10</text>
+            </g>
+        }
+        else
+        {
+            <g transform="matrix(1 0 0 1 -2240.91 1467.37)">
+                <text x="2477" y="-1187" style="fill:@(TextColor)" class="fnt0">?</text>
+            </g>
+        }
+        <!--MM Only-->
+        <g transform="matrix(1 0 0 1 -2239.55 1722.51)">
+            <text x="2429" y="-1187" style="fill:@(TextColor)" class="fntmm">mm</text>
+        </g>
+        <g>
+            <path class="fil0" d="M611 12l-27 0 0 -12 27 0 6 6 -6 6zm0 -12c3,0 6,3 6,6 0,3 -3,6 -6,6l0 -12zm-6 611l0 -605 12 0 0 605 -6 6 -6 -6zm12 0c0,3 -3,6 -6,6 -3,0 -6,-3 -6,-6l12 0zm-33 -6l27 0 0 12 -27 0 -5 -6 5 -6zm0 12c-3,0 -5,-3 -5,-6 0,-3 2,-6 5,-6l0 12zm6 -611l0 605 -11 0 0 -605 5 -6 6 6zm-11 0c0,-3 2,-6 5,-6 4,0 6,3 6,6l-11 0z" />
+            <polygon id="1" class="fil1" points="584,6 611,6 611,611 584,611 " />
+        </g>
+    </g>
+</svg>

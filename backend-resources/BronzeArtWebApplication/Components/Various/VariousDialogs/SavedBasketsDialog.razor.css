@@ -1,0 +1,21 @@
+﻿.contentContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position:relative;
+    min-height:250px;
+}
+.actionsContainer {
+    border-top: 1px solid var(--customPrimary);
+    width:100%;
+    display:flex;
+    justify-content:center;
+}
+table{
+    max-width:1200px;
+}
+td{
+    white-space:break-spaces;
+    word-break:break-word!important;
+}

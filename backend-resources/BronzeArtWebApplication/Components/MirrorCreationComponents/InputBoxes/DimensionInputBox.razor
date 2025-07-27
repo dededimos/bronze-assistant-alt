@@ -1,0 +1,34 @@
+﻿@* Dimension Box Steps Every 5cm with Autocomplete Function *@
+@namespace BronzeArtWebApplication.Components.MirrorCreationComponents.InputBoxes
+
+
+<div class="d-flex flex-column justify-center align-center ml-1 mr-1 pl-1 pr-1" style="width:fit-content">
+    <MudText Typo="Typo.subtitle1" Class="noselect">@Label</MudText>
+    <MudNumericField T="int?"
+                     @bind-Value:get="@Dimension"
+                     @bind-Value:set="@DimensionChanged"
+                     Variant="Variant.Outlined"
+                     Max="@MaxDimension"
+                     Min="@MinDimension"
+                     Style="max-width:150px"
+                     HideSpinButtons="true"
+                     Format="0" Adornment="@(Adornment.End)" AdornmentText="cm"
+                     Margin="Margin.Dense"
+                     Placeholder="@Label"
+                     Disabled="@(Disabled)" />
+    <MudSlider @bind-NullableValue:get="@Dimension"
+               @bind-NullableValue:set="@DimensionChanged"
+               T="int"
+               Color="Color.Primary"
+               Min="@MinDimension"
+               Max="@MaxDimension"
+               Class="pr-4 pl-4"
+               Disabled="@(Disabled)" />
+</div>
+
+
+
+@code {
+
+
+}

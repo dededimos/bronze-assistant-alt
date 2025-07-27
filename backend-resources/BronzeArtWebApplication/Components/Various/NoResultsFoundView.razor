@@ -1,0 +1,53 @@
+﻿@inject ILanguageContainerService lc
+
+<div class="no-results-container">
+    <div class="no-results-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400">
+            <!-- Background elements -->
+            <rect x="70" y="80" width="460" height="240" rx="15" fill="#f8f9fa" />
+            <circle cx="300" cy="200" r="120" fill="#f1f1f1" />
+
+            <!-- Magnifying glass -->
+            <circle cx="250" cy="180" r="70" fill="white" stroke="var(--customPrimary)" stroke-width="8" opacity="0.9" />
+            <line x1="300" y1="230" x2="350" y2="280" stroke="var(--customPrimary)" stroke-width="10" stroke-linecap="round" />
+
+            <!-- X mark inside magnifying glass -->
+            <line x1="230" y1="160" x2="270" y2="200" stroke="var(--customPrimary)" stroke-width="6" stroke-linecap="round" />
+            <line x1="270" y1="160" x2="230" y2="200" stroke="var(--customPrimary)" stroke-width="6" stroke-linecap="round" />
+
+            <!-- Decorative elements -->
+            <circle cx="130" cy="120" r="15" fill="var(--customLightPrimary)" opacity="0.6" />
+            <circle cx="480" cy="260" r="20" fill="var(--customLightPrimary)" opacity="0.6" />
+            <rect x="440" y="120" width="40" height="10" rx="5" fill="var(--customLightPrimary)" opacity="0.6" />
+            <rect x="150" y="250" width="60" height="8" rx="4" fill="var(--customLightPrimary)" opacity="0.6" />
+        </svg>
+    </div>
+
+    <h2 class="no-results-title">@lc.Keys["NoMirrorsFound"]</h2>
+    <p class="no-results-message">
+        @lc.Keys["NoMirrorsFoundDescription"]
+    </p>
+
+    <div class="search-tips">
+        <div class="search-tips-title">@lc.Keys["SearchTips"]:</div>
+        <ul>
+            <li>@lc.Keys["SearchTip1"]</li>
+            <li>@lc.Keys["SearchTip2"]</li>
+            <li>@lc.Keys["SearchTip3"]</li>
+            <li>@lc.Keys["SearchTip4"]</li>
+        </ul>
+    </div>
+
+    <MudButton Variant="Variant.Filled"
+               Color="Color.Primary"
+               StartIcon="@Icons.Material.Filled.FilterListOff"
+               OnClick="@OnClearFilters"
+               Style="text-transform:none"
+               Class="clear-filters-button">
+        @lc.Keys["ClearAllFilters"]
+    </MudButton>
+</div>
+
+@code {
+    [Parameter] public EventCallback OnClearFilters { get; set; }
+}

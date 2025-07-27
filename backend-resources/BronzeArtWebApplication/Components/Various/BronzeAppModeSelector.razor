@@ -1,0 +1,76 @@
+﻿@*The Components from which the User Selects or Views the Current Mode of the App*@
+@*The Selector is Shown Only if the User has Both Function Available or its a Power User -- OtherWise Only the Current Mode is Shown*@
+@namespace BronzeArtWebApplication.Components.Various
+@using BronzeArtWebApplication.Shared.Services;
+@inject ILanguageContainerService lc
+@inject IMessageService ms
+@inject BronzeUser user
+
+@if (IsSelectionForCabins)
+{
+    <BronzeAppModeOptionsDialog @bind-IsVisible="@(isOptionsDialogVisible)"
+                                @bind-RetailTheme="@(user.SelectedRetailTheme)"
+                                @bind-RetailPriceIncreaseFactor="@(user.SelectedPriceIncreaseFactorCabins)"
+                                MaxRetailDiscount="100"
+                                MinRetailDiscount="0"
+                                IsPriceIncreaseFactorEditable="@(user.IsPowerUser)"
+                                IsRetailThemeEditable="@(user.IsPowerUser)"
+                                CurrentMode="@(user.SelectedAppMode)" />
+
+}
+else
+{
+    <BronzeAppModeOptionsDialog @bind-IsVisible="@(isOptionsDialogVisible)"
+                                @bind-RetailTheme="@(user.SelectedRetailTheme)"
+                                @bind-RetailPriceIncreaseFactor="@(user.SelectedPriceIncreaseFactor)"
+                                MaxRetailDiscount="@(user.MaximumRetailDiscount)"
+                                MinRetailDiscount="@(user.MinimumRetailDiscount)"
+                                IsPriceIncreaseFactorEditable="@(user.IsPowerUser)"
+                                IsRetailThemeEditable="@(user.IsPowerUser)"
+                                CurrentMode="@(user.SelectedAppMode)" />
+}
+
+@if ((user.IsRetailFunctionAvailable && user.IsWholesaleFunctionAvailable) || user.IsPowerUser)
+{
+    <MudSelect T="BronzeAppMode"
+               Label="@(lc.Keys["CurrentState"])"
+               FullWidth="true"
+               Style="font-size:small;margin-top:5px"
+               AnchorOrigin="@(Origin.BottomLeft)"
+               TransformOrigin="@(Origin.TopLeft)"
+               Dense="true"
+               Variant="@(Variant.Outlined)"
+               Margin="@(Margin.Dense)"
+               @bind-Value="@(user.SelectedAppMode)"
+               ToStringFunc="(v => lc.Keys[BronzeAppModeDescKey[v]])">
+        <MudSelectItem Value="@(BronzeAppMode.Guest)"></MudSelectItem>
+        <MudSelectItem Value="@(BronzeAppMode.Retail)"></MudSelectItem>
+        <MudSelectItem Value="@(BronzeAppMode.Wholesale)"></MudSelectItem>
+    </MudSelect>
+    @if (!IsSelectionForAccessories)
+    {
+        <MudTooltip>
+            <TooltipContent>
+                <MudText Typo="Typo.caption">@(lc.Keys["PressToOpenOptionsTooltip"])</MudText>
+            </TooltipContent>
+            <ChildContent>
+                <MudIconButton Icon="@(Icons.Material.Filled.SettingsApplications)"
+                               Size="@(Size.Medium)"
+                               Variant="@(Variant.Filled)"
+                               Class="ml-2"
+                               OnClick="@(OpenOptionsDialog)" />
+            </ChildContent>
+        </MudTooltip>
+    }
+}
+else
+{
+    <MudChip T="string" Label="true"
+             Style="width:100%;height:40px">
+        @(user.IsWhiteLabeled ? lc.Keys[user.DisplayName] : lc.Keys[BronzeAppModeDescKey[user.SelectedAppMode]])
+    </MudChip>
+}
+
+@code {
+
+}

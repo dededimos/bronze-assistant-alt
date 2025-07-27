@@ -1,0 +1,26 @@
+﻿@media print{
+    #printOverlay {
+        display: none;
+    }
+}
+
+@page{
+    size:letter;
+    margin: 8mm 8mm 8mm 8mm
+}
+
+.IconContainer {
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 5px;
+    margin:2px;
+}
+
+.iconImg{
+    max-width:40px;
+}
+
+.iconImg2 {
+    width: 40px;
+    height: 40px;
+}

@@ -1,0 +1,356 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.ComponentsUC.ShapesEditViewsUcs.MirrorShapeViewUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.ShapesEditViewsUcs"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels.MirrorsViewModels.ShapeInfoViewModels"
+             xmlns:baseVm="clr-namespace:BronzeFactoryApplication.ViewModels"
+             xmlns:vw="clr-namespace:BronzeFactoryApplication.Views.HelperViews"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:mirrElements="clr-namespace:MirrorsLib.MirrorElements;assembly=MirrorsLib"
+             xmlns:globalCommands="clr-namespace:BronzeFactoryApplication.Helpers"
+             xmlns:EnumSource="clr-namespace:BronzeFactoryApplication.Helpers.MarkupExtensions"
+             xmlns:mirrorEnum="clr-namespace:MirrorsLib.Enums;assembly=MirrorsLib"
+             xmlns:drawContainer="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.DrawsRelevantUcs"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=vm:ShapeInfoBaseVm}">
+    <GroupBox Style="{StaticResource GroupBoxCabinProperties}"
+              Header="{StaticResource lngDimensions}">
+        <DockPanel>
+            <UniformGrid Margin="0,0,0,10"
+                         Rows="1"
+                         DockPanel.Dock="Top">
+                <vw:TasNumericTextBox TextBoxTitle="{StaticResource lngLength}"
+                                      IconTooltip="{StaticResource lngShapeLengthTooltip}"
+                                      InputMode="DigitInput"
+                                      Precision="0"
+                                      Margin="0,0,5,0"
+                                      MaxLength="4"
+                                      Text="{Binding Length, UpdateSourceTrigger=PropertyChanged ,Delay=300 ,StringFormat={}{0:F0}}" />
+                <vw:TasNumericTextBox TextBoxTitle="{StaticResource lngHeight}"
+                                      IconTooltip="{StaticResource lngShapeHeightTooltip}"
+                                      Precision="0"
+                                      Margin="5,0,0,0"
+                                      MaxLength="4"
+                                      InputMode="DigitInput"
+                                      Text="{Binding Height, UpdateSourceTrigger=PropertyChanged ,Delay=300,StringFormat={}{0:F0}}" />
+            </UniformGrid>
+            <ContentControl Content="{Binding .}"
+                            d:Content="{d:DesignInstance Type=vm:RectangleInfoVm, IsDesignTimeCreatable=True}"
+                            Margin="0"
+                            DockPanel.Dock="Top">
+                <ContentControl.Resources>
+
+                    <!--#region Rectangle Info -->
+                    <DataTemplate DataType="{x:Type vm:RectangleInfoVm}">
+                        <StackPanel Orientation="Vertical">
+                            <CheckBox IsChecked="{Binding HasSeperateRadius,UpdateSourceTrigger=PropertyChanged}"
+                                      d:IsChecked="False"
+                                      Content="{StaticResource lngRectangleHasSeperateRadiuses}"
+                                      HorizontalAlignment="Center"
+                                      Margin="0,5,0,5" />
+                            <vw:TasNumericTextBox Text="{Binding TotalRadius , UpdateSourceTrigger=PropertyChanged ,Delay=300,StringFormat={}{0:F0},FallbackValue=0}"
+                                                  TextBoxTitle="{StaticResource lngRectangleTotalRadius}"
+                                                  IconTooltip="{StaticResource lngRectangleTotalRadiusTooltip}"
+                                                  Precision="0"
+                                                  Margin="0,14"
+                                                  JustPositiveInput="True"
+                                                  InputMode="DigitInput"
+                                                  MaxLength="4"
+                                                  Visibility="{Binding HasSeperateRadius, Converter={StaticResource Boolean2VisibilityReConverter}}" />
+                            <TextBlock Text="{StaticResource lngRadiuses}"
+                                       HorizontalAlignment="Center"
+                                       Style="{StaticResource CTasTitleTextBlockStyle}"
+                                       Visibility="{Binding HasSeperateRadius,Converter={StaticResource Boolean2VisibilityConverter}}" />
+                            <hc:UniformSpacingPanel Spacing="15"
+                                                    ChildWrapping="Wrap"
+                                                    HorizontalAlignment="Center"
+                                                    Orientation="Horizontal"
+                                                    Visibility="{Binding HasSeperateRadius, Converter={StaticResource Boolean2VisibilityConverter}}">
+                                <!--#region Resources Styles -->
+                                <hc:UniformSpacingPanel.Resources>
+                                    <Style TargetType="vw:TasNumericTextBox">
+                                        <Setter Property="TitleVisibility"
+                                                Value="Collapsed" />
+                                        <Setter Property="Precision"
+                                                Value="0" />
+                                        <Setter Property="Width"
+                                                Value="50" />
+                                        <Setter Property="InputMode"
+                                                Value="DigitInput" />
+                                        <Setter Property="MaxLength"
+                                                Value="4" />
+                                        <Setter Property="JustPositiveInput"
+                                                Value="True" />
+                                    </Style>
+                                    <Style TargetType="cc:Icon"
+                                           BasedOn="{StaticResource CustomIconBaseStyle}">
+                                        <Setter Property="Height"
+                                                Value="20" />
+                                        <Setter Property="Margin"
+                                                Value="0,0,3,3" />
+                                        <Setter Property="Fill"
+                                                Value="{DynamicResource SecondaryBrush}" />
+                                    </Style>
+                                </hc:UniformSpacingPanel.Resources>
+                                <!--#endregion-->
+                                <!--#region Corner Radiuses Seperate -->
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal"
+                                                ToolTip="{StaticResource lngRectangleTopLeftRadiusTooltip}">
+                                        <vw:TasNumericTextBox Text="{Binding TopLeftRadius, UpdateSourceTrigger=PropertyChanged ,Delay=300,StringFormat={}{0:F0},FallbackValue=0}"
+                                                              InputMode="DigitInput"
+                                                              Precision="0" />
+                                        <cc:Icon GeometryData="{StaticResource CornerTopLeftGeometry}"
+                                                 IsTabStop="False" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal"
+                                                ToolTip="{StaticResource lngRectangleBottomLeftRadiusTooltip}">
+                                        <vw:TasNumericTextBox Text="{Binding BottomLeftRadius, UpdateSourceTrigger=PropertyChanged ,Delay=300,StringFormat={}{0:F0},FallbackValue=0}"
+                                                              InputMode="DigitInput"
+                                                              Precision="0" />
+                                        <cc:Icon GeometryData="{StaticResource CornerBottomLeftGeometry}"
+                                                 IsTabStop="False" />
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal"
+                                                ToolTip="{StaticResource lngRectangleTopRightRadiusTooltip}">
+                                        <cc:Icon GeometryData="{StaticResource CornerTopRightGeometry}"
+                                                 IsTabStop="False" />
+                                        <vw:TasNumericTextBox Text="{Binding TopRightRadius, UpdateSourceTrigger=PropertyChanged ,Delay=300,StringFormat={}{0:F0},FallbackValue=0}"
+                                                              InputMode="DigitInput"
+                                                              Precision="0" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal"
+                                                ToolTip="{StaticResource lngRectangleBottomRightRadiusTooltip}">
+                                        <cc:Icon GeometryData="{StaticResource CornerBottomRightGeometry}"
+                                                 IsTabStop="False" />
+                                        <vw:TasNumericTextBox Text="{Binding BottomRightRadius, UpdateSourceTrigger=PropertyChanged ,Delay=300,StringFormat={}{0:F0},FallbackValue=0}"
+                                                              InputMode="DigitInput"
+                                                              Precision="0" />
+                                    </StackPanel>
+                                </StackPanel>
+                                <!--#endregion-->
+                            </hc:UniformSpacingPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                    <!--#endregion-->
+
+                    <!--#region Rectangle Ring Info -->
+                    <DataTemplate DataType="{x:Type vm:RectangleRingInfoVm}">
+                        <hc:UniformSpacingPanel Spacing="20"
+                                                Margin="0,10,0,0"
+                                                ChildWrapping="Wrap"
+                                                Orientation="Vertical"
+                                                HorizontalAlignment="Center">
+                            <vw:TasNumericTextBox Text="{Binding Thickness}"
+                                                  TextBoxTitle="{StaticResource lngShapeRingThickness}"
+                                                  IconTooltip="{StaticResource lngShapeRingThicknessTooltip}"
+                                                  Precision="0"
+                                                  JustPositiveInput="True"
+                                                  InputMode="DigitInput"
+                                                  MaxLength="6" />
+                        </hc:UniformSpacingPanel>
+                    </DataTemplate>
+                    <!--#endregion-->
+
+                    <!--#region Circle Info -->
+                    <DataTemplate DataType="{x:Type vm:CircleInfoVm}">
+                        <hc:UniformSpacingPanel Spacing="20"
+                                                Orientation="Vertical">
+                            <UniformGrid Rows="1">
+                                <vw:TasNumericTextBox Text="{Binding Diameter,UpdateSourceTrigger=PropertyChanged ,Delay=300,StringFormat={}{0:F0}}"
+                                                      TextBoxTitle="{StaticResource lngCircleDiameter}"
+                                                      IconTooltip="{StaticResource lngCircleDiameterTooltip}"
+                                                      Precision="0"
+                                                      Margin="0,0,5,0"
+                                                      JustPositiveInput="True"
+                                                      InputMode="DigitInput"
+                                                      MaxLength="7" />
+                                <vw:TasNumericTextBox Text="{Binding Radius,UpdateSourceTrigger=PropertyChanged ,Delay=300,StringFormat={}{0:F0}}"
+                                                      TextBoxTitle="{StaticResource lngCircleRadius}"
+                                                      IconTooltip="{StaticResource lngCircleRadiusTooltip}"
+                                                      Precision="0"
+                                                      Margin="5,0,0,0"
+                                                      JustPositiveInput="True"
+                                                      InputMode="DigitInput"
+                                                      MaxLength="6" />
+                            </UniformGrid>
+                        </hc:UniformSpacingPanel>
+                    </DataTemplate>
+                    <!--#endregion-->
+
+                    <!--#region Circle Ring Info -->
+                    <DataTemplate DataType="{x:Type vm:CircleRingInfoVm}">
+                        <hc:UniformSpacingPanel Spacing="20"
+                                                Orientation="Vertical">
+                            <vw:TasNumericTextBox Text="{Binding Thickness,UpdateSourceTrigger=PropertyChanged ,Delay=300,StringFormat={}{0:F0}}"
+                                                  TextBoxTitle="{StaticResource lngShapeRingThickness}"
+                                                  IconTooltip="{StaticResource lngShapeRingThicknessTooltip}"
+                                                  Precision="0"
+                                                  JustPositiveInput="True"
+                                                  InputMode="DigitInput"
+                                                  MaxLength="6" />
+                            <vw:TasNumericTextBox Text="{Binding Radius,UpdateSourceTrigger=PropertyChanged ,Delay=300,StringFormat={}{0:F0}}"
+                                                  TextBoxTitle="{StaticResource lngCircleRadius}"
+                                                  IconTooltip="{StaticResource lngCircleRadiusTooltip}"
+                                                  Precision="0"
+                                                  JustPositiveInput="True"
+                                                  InputMode="DigitInput"
+                                                  MaxLength="6" />
+                        </hc:UniformSpacingPanel>
+                    </DataTemplate>
+                    <!--#endregion-->
+
+                    <!--#region Ellipse Info -->
+                    <DataTemplate DataType="{x:Type vm:EllipseInfoVm}">
+
+                    </DataTemplate>
+                    <!--#endregion-->
+
+                    <!--#region Capsule Info -->
+                    <DataTemplate DataType="{x:Type vm:CapsuleInfoVm}">
+
+                    </DataTemplate>
+                    <!--#endregion-->
+
+                    <!--#region Circle Segment -->
+                    <DataTemplate DataType="{x:Type vm:CircleSegmentInfoVm}">
+                        <hc:UniformSpacingPanel Spacing="10"
+                                                Orientation="Vertical">
+                            <vw:TasNumericTextBox Text="{Binding ChordLength,UpdateSourceTrigger=PropertyChanged ,Delay=300,StringFormat={}{0:F0}}"
+                                                  TextBoxTitle="{StaticResource lngCircleSegmentChord}"
+                                                  IconTooltip="{StaticResource lngCircleSegmentChordTooltip}"
+                                                  Precision="0"
+                                                  JustPositiveInput="True"
+                                                  InputMode="DigitInput"
+                                                  MaxLength="4" />
+                            <vw:TasNumericTextBox Text="{Binding Sagitta,UpdateSourceTrigger=PropertyChanged ,Delay=300,StringFormat={}{0:F0}}"
+                                                  TextBoxTitle="{StaticResource lngCircleSegmentSagitta}"
+                                                  IconTooltip="{StaticResource lngCircleSegmentSagittaTooltip}"
+                                                  Precision="0"
+                                                  JustPositiveInput="True"
+                                                  InputMode="DigitInput"
+                                                  MaxLength="4" />
+                        </hc:UniformSpacingPanel>
+                    </DataTemplate>
+                    <!--#endregion-->
+
+                    <!--#region Circle Quadrant -->
+                    <DataTemplate DataType="{x:Type vm:CircleQuadrantInfoVm}">
+                        <hc:UniformSpacingPanel Spacing="20"
+                                                Orientation="Vertical">
+                            <vw:TasNumericTextBox Text="{Binding Radius,UpdateSourceTrigger=PropertyChanged ,Delay=300,StringFormat={}{0:F0}}"
+                                                  TextBoxTitle="{StaticResource lngCircleRadius}"
+                                                  IconTooltip="{StaticResource lngCircleRadiusTooltip}"
+                                                  Precision="0"
+                                                  JustPositiveInput="True"
+                                                  InputMode="DigitInput"
+                                                  MaxLength="4" />
+                        </hc:UniformSpacingPanel>
+                    </DataTemplate>
+                    <!--#endregion-->
+
+                    <!--#region Egg Shape Info -->
+                    <DataTemplate DataType="{x:Type vm:EggShapeInfoVm}">
+                        <hc:UniformSpacingPanel Spacing="15"
+                                                Orientation="Vertical">
+                            <StackPanel HorizontalAlignment="Left"
+                                        Orientation="Horizontal"
+                                        Margin="0,0,0,0">
+                                <vw:TasNumericTextBox Text="{Binding PreferedElongation,UpdateSourceTrigger=PropertyChanged ,Delay=300,StringFormat={}{0:F2}}"
+                                                      TextBoxTitle="{StaticResource lngElongation}"
+                                                      IconTooltip="{StaticResource lngElongationTooltip}"
+                                                      Precision="2"
+                                                      JustPositiveInput="True"
+                                                      InputMode="DecimalInput"
+                                                      MaxLength="4"
+                                                      IsEnabled="{Binding UsesElongationCoefficient}" />
+                                <CheckBox IsChecked="{Binding UsesElongationCoefficient,UpdateSourceTrigger=PropertyChanged ,Delay=300,StringFormat={}{0:F0}}"
+                                          ToolTip="{StaticResource lngUsingElongationCoefficientTooltip}"
+                                          VerticalAlignment="Bottom"
+                                          Margin="10,0,0,5"
+                                          Content="{StaticResource lngEnabledAsk}" />
+                            </StackPanel>
+                            <UniformGrid Rows="1">
+                                <vw:TasNumericTextBox Text="{Binding CircleRadius ,UpdateSourceTrigger=PropertyChanged ,Delay=300,StringFormat={}{0:F0}}"
+                                                      TextBoxTitle="{StaticResource lngCircleRadius}"
+                                                      IconTooltip="{StaticResource lngCircleRadiusTooltip}"
+                                                      Precision="0"
+                                                      JustPositiveInput="True"
+                                                      InputMode="DigitInput"
+                                                      Margin="0,0,5,0"
+                                                      MaxLength="4" />
+                                <vw:TasNumericTextBox Text="{Binding EllipseRadius,UpdateSourceTrigger=PropertyChanged ,Delay=300,StringFormat={}{0:F0}}"
+                                                      TextBoxTitle="{StaticResource lngEllipseRadius}"
+                                                      IconTooltip="{StaticResource lngEllipseRadiusTooltip}"
+                                                      Precision="0"
+                                                      Margin="5,0,0,0"
+                                                      JustPositiveInput="True"
+                                                      InputMode="DigitInput"
+                                                      MaxLength="4" />
+                            </UniformGrid>
+                        </hc:UniformSpacingPanel>
+                    </DataTemplate>
+                    <!--#endregion-->
+
+                    <!--#region RegularPolygon Info -->
+                    <DataTemplate DataType="{x:Type vm:RegularPolygonInfoVm}">
+                        <hc:UniformSpacingPanel Spacing="10"
+                                                Orientation="Vertical">
+                            <vw:TasNumericTextBox Text="{Binding NumberOfSides,UpdateSourceTrigger=PropertyChanged ,Delay=300,StringFormat={}{0:F0}}"
+                                                  TextBoxTitle="{StaticResource lngPolygonNumberOfSides}"
+                                                  IconTooltip="{StaticResource lngPolygonNumberOfSidesTooltip}"
+                                                  Precision="0"
+                                                  JustPositiveInput="True"
+                                                  InputMode="DigitInput"
+                                                  MaxLength="2" />
+                            <vw:TasNumericTextBox Text="{Binding CircumscribedRadius,UpdateSourceTrigger=PropertyChanged ,Delay=300,StringFormat={}{0:F0}}"
+                                                  TextBoxTitle="{StaticResource lngCircumscribedCircleRadius}"
+                                                  IconTooltip="{StaticResource lngCircumscribedCircleRadiusTooltip}"
+                                                  Precision="0"
+                                                  JustPositiveInput="True"
+                                                  InputMode="DigitInput"
+                                                  MaxLength="6" />
+                        </hc:UniformSpacingPanel>
+                    </DataTemplate>
+                    <!--#endregion-->
+
+                    <!--#region Any Other -->
+                    <DataTemplate DataType="{x:Type baseVm:BaseViewModel}">
+                        <Border BorderBrush="{DynamicResource SecondaryBorderBrush}"
+                                BorderThickness="2"
+                                Padding="20"
+                                CornerRadius="15">
+                            <TextBlock Text="View Unavailable or Not Supported" />
+                        </Border>
+                    </DataTemplate>
+                    <!--#endregion-->
+                </ContentControl.Resources>
+            </ContentControl>
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        Margin="0,10,0,0"
+                        DockPanel.Dock="Top">
+                <Button Style="{StaticResource ButtonIcon}"
+                        hc:IconElement.Geometry="{StaticResource RotateRightGeometry}"
+                        ToolTip="{StaticResource lngShapeRotateClockwiseTooltip}"
+                        Foreground="{DynamicResource SecondaryBrush}"
+                        Command="{Binding ExecuteRotateClockwiseCommand}"
+                        Margin="5,0">
+                </Button>
+                <Button Style="{StaticResource ButtonIcon}"
+                        hc:IconElement.Geometry="{StaticResource RotateLeftGeometry}"
+                        ToolTip="{StaticResource lngShapeRotateAntiClockwiseTooltip}"
+                        Foreground="{DynamicResource SecondaryBrush}"
+                        Command="{Binding ExecuteRotateAntiClockwiseCommand}"
+                        Margin="5,0">
+                </Button>
+            </StackPanel>
+        </DockPanel>
+    </GroupBox>
+</UserControl>

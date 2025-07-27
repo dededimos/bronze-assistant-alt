@@ -1,0 +1,116 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.Modals.PrintCabinBomModal"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.Modals"
+             xmlns:b="clr-namespace:BronzeFactoryApplication.Helpers.Behaviours"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels.ModalViewModels"
+             xmlns:uc="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.Various"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=vm:PrintCabinBomModalViewModel}"
+             x:Name="BomsModal">
+
+    <Grid VerticalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <!--#region 1.Print - Zoom Controls -->
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    Grid.Row="0"
+                    Margin="0,0,0,20">
+            
+            <!--#region 1.Print to Normal Printer ONLY -->
+            <Button x:Name="TestPrint"
+                    Margin="0,0,100,0"
+                    hc:IconElement.Geometry="{StaticResource PrintGeometry}"
+                    ToolTip="Print Only To Normal Printer Here"
+                    Click="TestPrint_Click"
+                    Foreground="{DynamicResource SecondaryBrush}"
+                    Content="PRINTER ONLY" />
+            <!--#endregion-->
+            
+            <!--#region 2.Zoom Out Button -->
+            <Button x:Name="ZoomOutButton"
+                    Margin="10,0,0,0"
+                    hc:IconElement.Geometry="{StaticResource ZoomOutGeometry}"
+                    Foreground="{DynamicResource SecondaryBrush}"
+                    Content="ZoomOut"
+                    Click="ZoomOut_Click" />
+            <!--#endregion-->
+            
+            <!--#region 3.Zoom In Button -->
+            <Button x:Name="ZoomInButton"
+                    Margin="10,0,0,0"
+                    hc:IconElement.Geometry="{StaticResource ZoomInGeometry}"
+                    Foreground="{DynamicResource SecondaryBrush}"
+                    Content="ZoomIn"
+                    Click="ZoomIn_Click" />
+            <!--#endregion-->
+            
+            <!--#region 4.PDF Only Print -->
+            <Button x:Name="PrintButton"
+                    Margin="100,0,0,0"
+                    ToolTip="Print Only To PDF Here"
+                    Command="{Binding PrintBomsCommand}"
+                    hc:IconElement.Geometry="{StaticResource PrintGeometry}"
+                    Foreground="{DynamicResource SecondaryBrush}"
+                    Content="PDF ONLY" />
+            <!--#endregion-->
+            
+        </StackPanel>
+        <!--#endregion-->
+        
+        <hc:ScrollViewer VerticalScrollBarVisibility="Visible"
+                         HorizontalScrollBarVisibility="Auto"
+                         CanMouseWheel="True"
+                         Height="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=ActualHeight, Converter={StaticResource RatioConverter}, ConverterParameter='0.80'}"
+                         CanContentScroll="True"
+                         Grid.Row="1">
+            
+            <!--Set the Max Width as that of the Window by a factory of 0.9 (10%less) -->
+            <!--#region 2.Pages to Print -->
+            <Viewbox MaxWidth="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=ActualWidth, Converter={StaticResource RatioConverter}, ConverterParameter='0.9'}"
+                     Width="900"
+                     Stretch="Uniform"
+                     IsHitTestVisible="False"
+                     x:Name="PagesViewBox"
+                     VerticalAlignment="Center"
+                     HorizontalAlignment="Center">
+                <Grid Margin="50,0">
+                    <ItemsControl ItemsSource="{Binding Boms}"
+                                  IsHitTestVisible="False"
+                                  x:Name="BomsItemsControl">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <uc:CabinBomUC DataContext="{Binding .}"
+                                                   VerticalAlignment="Top"
+                                                   VerticalContentAlignment="Top" />
+                                    <!--<hc:Divider LineStroke="{DynamicResource SecondaryRegionBrush}"
+                                                LineStrokeThickness="50"
+                                                Orientation="Horizontal" 
+                                                x:Name="PageDivider"/>-->
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
+            </Viewbox>
+            <!--#endregion-->
+            
+        </hc:ScrollViewer>
+
+    </Grid>
+</UserControl>

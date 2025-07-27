@@ -1,0 +1,55 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.MirrorObjectsViews.MirrorApplicationOptionsViewUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.MirrorObjectsViews"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels.MirrorsViewModels.MirrorOptionsViewModels"
+             xmlns:vw="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.MirrorObjectsViews.MirrorApplicationOptionsViews"
+             xmlns:vwHelper="clr-namespace:BronzeFactoryApplication.Views.HelperViews"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:mirrElements="clr-namespace:MirrorsLib.MirrorElements;assembly=MirrorsLib"
+             xmlns:globalCommands="clr-namespace:BronzeFactoryApplication.Helpers"
+             xmlns:EnumSource="clr-namespace:BronzeFactoryApplication.Helpers.MarkupExtensions"
+             xmlns:mirrorEnum="clr-namespace:MirrorsLib.Enums;assembly=MirrorsLib"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=vm:MirrorApplicationOptionsBaseViewModel}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock Text="{Binding OptionsType, Converter={StaticResource languageConverter}}"
+                   d:Text="Title of Options Here"
+                   HorizontalAlignment="Left"
+                   Style="{StaticResource CHeaderTextBlock}" />
+        <hc:Divider Orientation="Horizontal"
+                    LineStroke="{DynamicResource SecondaryBorderBrush}"
+                    LineStrokeThickness="1"
+                    Grid.Row="1"
+                    Margin="0,5,0,10" />
+        <DockPanel VerticalAlignment="Top"
+                   HorizontalAlignment="Left"
+                   Grid.Row="2">
+            <ContentControl Content="{Binding .}">
+                <ContentControl.Resources>
+                    <DataTemplate DataType="{x:Type vm:MirrorCodesBuilderOptionsEditorViewModel}">
+                        <vw:MirrorCodesBuilderOptionsViewUC />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type vm:MirrorApplicationOptionsUndefinedViewModel}">
+                        <Border CornerRadius="20"
+                                BorderBrush="{DynamicResource SecondaryBorderBrush}"
+                                BorderThickness="2"
+                                Padding="50"
+                                Margin="50">
+                            <TextBlock Text="Unrecognized Options Type" />
+                        </Border>
+                    </DataTemplate>
+                </ContentControl.Resources>
+            </ContentControl>
+        </DockPanel>
+
+    </Grid>
+</UserControl>

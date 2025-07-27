@@ -1,0 +1,38 @@
+﻿@using BathAccessoriesModelsLibrary;
+@using BathAccessoriesModelsLibrary.Services;
+@inject ILanguageContainerService Lc
+@inject AccessoriesUrlHelper UrlHelper
+
+
+<div class="dimensionsTableContainer">
+    <div class="dimensionsTitleContainer">
+        @if (!string.IsNullOrEmpty(SelectedFinish.DimensionsPhotoUrl) || !string.IsNullOrEmpty(Accessory.DimensionsPhotoUrl))
+        {
+            <div class="hoverImageContainer"
+            @onmouseenter="@(()=> OnHoveredDimensionPhotoUrlChanged(string.IsNullOrEmpty(SelectedFinish.DimensionsPhotoUrl) ? Accessory.DimensionsPhotoUrl : SelectedFinish.DimensionsPhotoUrl))"
+            @onmouseleave="@(()=> OnHoveredDimensionPhotoUrlChanged(string.Empty))">
+
+                <MudIcon Icon="@(@Icons.Material.Filled.RemoveRedEye)" Size="@(Size.Small)" Style="position:absolute;top:5%;left:-10px" Class="doNotPrint" />
+                <img loading="lazy"
+                     src="@(string.IsNullOrEmpty(SelectedFinish.DimensionsPhotoUrl) ? UrlHelper.GetThumbnail(Accessory.DimensionsPhotoUrl) : UrlHelper.GetThumbnail(SelectedFinish.DimensionsPhotoUrl))"
+                     class="sketchImg" />
+            </div>
+        }
+        <span class="dimensionsTitleText">@(Lc.Keys["Dimensions"])</span>
+    </div>
+    <div class="dimensionsContainer">
+        @foreach (var dim in Accessory.Dimensions)
+        {
+            <div class="dimensionContainer">
+                <span class="dimensionTitle">@(dim.Key.Trait)</span>
+                <div class="dimensionInnerContainer">
+                    <img class="dimensionImg"
+                         loading="lazy"
+                         src="@(UrlHelper.GetThumbnail(dim.Key.PhotoURL))" />
+                    <span class="dimensionValue">@($"{dim.Value}mm")</span>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

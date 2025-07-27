@@ -1,0 +1,100 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.EntitiesManagment.EntitiesDataGridsUCs.MirrorSandblastRepoDataGridView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.EntitiesManagment.EntitiesDataGridsUCs"
+             xmlns:huc="clr-namespace:BronzeFactoryApplication.Views.HelperViews"
+             mc:Ignorable="d"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels.MirrorsViewModels"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:EnumSource="clr-namespace:BronzeFactoryApplication.Helpers.MarkupExtensions"
+             xmlns:mirrorEnum="clr-namespace:MirrorsLib.Enums;assembly=MirrorsLib"
+             d:DataContext="{d:DesignInstance Type=vm:MirrorSandblastsRepoManagerViewModel}"
+             x:Name="Container">
+    
+    <UserControl.Resources>
+        <CollectionViewSource x:Key="DatagridSource"
+                              Source="{Binding EntitiesCollection}"
+                              Filter="CollectionViewSource_Filter">
+        </CollectionViewSource>
+    </UserControl.Resources>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding InitilizeCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        
+        <DataGrid ItemsSource="{Binding Source={StaticResource DatagridSource}}"
+                  Style="{StaticResource MirrorsRepoManagerDatagrid}"
+                  SelectedItem="{Binding SelectedEntity, Mode=TwoWay}"
+                  HorizontalAlignment="Left">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="{StaticResource lngCode}"
+                                    Binding="{Binding Code}" />
+                <DataGridTextColumn Header="{StaticResource lngDescription}"
+                                    Binding="{Binding LocalizedDescriptionInfo.Name , Converter={StaticResource LocalizedStringMinifiedConverter},ConverterParameter='18'}">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell" BasedOn="{StaticResource CCenteredDatagridCell}">
+                            <Setter Property="ToolTip"
+                                    Value="{Binding LocalizedDescriptionInfo.Name , Converter={StaticResource LocalizedStringConverter}}" />
+                            <Setter Property="ToolTipService.Placement"
+                                    Value="Top" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="{StaticResource lngSandblastType}"
+                                    Binding="{Binding Sandblast.SandblastType, Converter={StaticResource languageConverter}}" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!--FILTERS-->
+        <StackPanel Grid.Row="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    Margin="10,20">
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        Margin="10,0,10,15">
+                <TextBlock Style="{StaticResource CHeaderTextBlock}"
+                           Text="{StaticResource lngFilters}" />
+                <Button Style="{StaticResource ButtonIcon}"
+                        hc:IconElement.Geometry="{StaticResource DeleteFillCircleGeometry}"
+                        Foreground="{DynamicResource SecondaryBrush}"
+                        Click="ClearFiltersClick" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <hc:UniformSpacingPanel Orientation="Vertical" Spacing="10">
+                    <huc:TasTextBox TextBoxTitle="{StaticResource lngCode}"
+                                    IconTooltip="{StaticResource lngCodeFilter}"
+                                    TextBoxKeyDown="TasTextBox_TextBoxKeyDown"
+                                    x:Name="CodeFilterBox" />
+                    <huc:TasComboBox ComboBoxTitle="{StaticResource lngSandblastType}"
+                                     x:Name="TypeFilterBox"
+                                     IconToolTip="{StaticResource lngSandblastTypeFilterTooltip}"
+                                     ItemsSource="{Binding Source={EnumSource:BindingSourceEnumValuesNoZero {x:Type mirrorEnum:MirrorSandblastType}}}"
+                                     ComboBoxSelectionChanged="TypeFilter_ComboBoxSelectionChanged">
+                        <huc:TasComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Converter={StaticResource languageConverter} , TargetNullValue=''}" />
+                            </DataTemplate>
+                        </huc:TasComboBox.ItemTemplate>
+                    </huc:TasComboBox>
+                </hc:UniformSpacingPanel>
+                <Button Style="{StaticResource ButtonIcon}"
+                        hc:IconElement.Geometry="{StaticResource SearchGeometry}"
+                        Foreground="{DynamicResource SecondaryBrush}"
+                        Click="ApplyFiltersClick"
+                        VerticalAlignment="Center" />
+            </StackPanel>
+        </StackPanel>
+
+    </Grid>
+</UserControl>

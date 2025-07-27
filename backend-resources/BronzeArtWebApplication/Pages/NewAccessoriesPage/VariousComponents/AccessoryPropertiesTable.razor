@@ -1,0 +1,204 @@
+﻿@using BathAccessoriesModelsLibrary;
+@using BathAccessoriesModelsLibrary.Services;
+@inject ILanguageContainerService Lc
+@inject IAccessoriesMemoryRepository Repo
+
+@code {
+
+    [Parameter]
+    public BathroomAccessory Accessory { get; set; } = BathroomAccessory.Empty();
+    [Parameter]
+    public AccessoryFinish SelectedFinish { get; set; } = AccessoryFinish.Empty();
+}
+
+<div class="propertiesTableContainer">
+    <span class="propertiesHeaderContainer">
+        @(Lc.Keys["Properties"])
+    </span>
+    <MudSimpleTable Elevation="4"
+                    Class="rounded-lg"
+                    Outlined="@(true)"
+                    Dense="@(true)">
+        <tbody>
+            <tr class="backgroundColorHover">
+                <td class="tableCellProperty">
+                    @(Lc.Keys["ArticleNo"])
+                </td>
+                <td class="tableCellDivider">
+                    :
+                </td>
+                <td class="tableCellValue" style="white-space:nowrap">
+                    @(Accessory.GetSpecificCode(SelectedFinish.Finish.Code))
+                </td>
+            </tr>
+            <tr class="backgroundColorHover">
+                <td class="tableCellProperty">
+                    @(Lc.Keys["Description"])
+                </td>
+                <td class="tableCellDivider">
+                    :
+                </td>
+                <td class="tableCellValue">
+                    @(Accessory.GetName())
+                </td>
+            </tr>
+            <tr class="backgroundColorHover">
+                <td class="tableCellProperty">
+                    @($"{Repo.GetTraitClass(TypeOfTrait.FinishTrait).DescriptionInfo.Name} ({Lc.Keys["SelectedFinishPref"]})")
+                </td>
+                <td class="tableCellDivider">
+                    :
+                </td>
+                <td class="tableCellValue">
+                    <div style="display:flex;flex-direction:row;align-items:center;justify-content:start;">
+                        <span>@(SelectedFinish.Finish.Trait)</span>
+                        <img class="smallSelectedFinishImg noselect"
+                             loading="lazy"
+                             src="@(SelectedFinish.Finish.PhotoURL)" />
+                    </div>
+                </td>
+            </tr>
+            <tr class="backgroundColorHover">
+                <td class="tableCellProperty">
+                    @(Repo.GetTraitClass(TypeOfTrait.SeriesTrait).DescriptionInfo.Name)
+                </td>
+                <td class="tableCellDivider">
+                    :
+                </td>
+                <td class="tableCellValue">
+                    @(Accessory.Series.Trait)
+                </td>
+            </tr>
+            @*Appear only when not the same with Series Type*@
+            @if(Accessory.PrimaryType.Trait != Accessory.Series.Trait)
+            {
+                <tr class="backgroundColorHover">
+                    <td class="tableCellProperty">
+                        @(Repo.GetTraitClass(TypeOfTrait.PrimaryTypeTrait).DescriptionInfo.Name)
+                    </td>
+                    <td class="tableCellDivider">
+                        :
+                    </td>
+                    <td class="tableCellValue">
+                        @(Accessory.PrimaryType.Trait)
+                    </td>
+                </tr>
+            }
+            @*Appear only when not the same with Primary Type*@
+            @if(Accessory.SecondaryType.Trait != Accessory.PrimaryType.Trait)
+            {
+                <tr class="backgroundColorHover">
+                    <td class="tableCellProperty">
+                        @(Repo.GetTraitClass(TypeOfTrait.SecondaryTypeTrait).DescriptionInfo.Name)
+                    </td>
+                    <td class="tableCellDivider">
+                        :
+                    </td>
+                    <td class="tableCellValue">
+                        @(Accessory.SecondaryType.Trait)
+                    </td>
+                </tr>
+            }
+            @if (!Accessory.Shape.IsEmpty)
+            {
+                <tr class="backgroundColorHover">
+                    <td class="tableCellProperty">
+                        @(Repo.GetTraitClass(TypeOfTrait.ShapeTrait).DescriptionInfo.Name)
+                    </td>
+                    <td class="tableCellDivider">
+                        :
+                    </td>
+                    <td class="tableCellValue">
+                        @(Accessory.Shape.Trait)
+                    </td>
+                </tr>
+            }
+            @if (!Accessory.Material.IsEmpty)
+            {
+                <tr class="backgroundColorHover">
+                    <td class="tableCellProperty">
+                        @(Repo.GetTraitClass(TypeOfTrait.MaterialTrait).DescriptionInfo.Name)
+                    </td>
+                    <td class="tableCellDivider">
+                        :
+                    </td>
+                    <td class="tableCellValue">
+                        @(Accessory.Material.Trait)
+                    </td>
+                </tr>
+            }
+            @if (!Accessory.Size.IsEmpty)
+            {
+                <tr class="backgroundColorHover">
+                    <td class="tableCellProperty">
+                        @(Repo.GetTraitClass(TypeOfTrait.SizeTrait).DescriptionInfo.Name)
+                    </td>
+                    <td class="tableCellDivider">
+                        :
+                    </td>
+                    <td class="tableCellValue">
+                        @(Accessory.Size.Trait)
+                    </td>
+                </tr>
+            }
+            @if (Accessory.Categories.Any())
+            {
+                <tr class="backgroundColorHover">
+                    <td class="tableCellProperty">
+                        @(Repo.GetTraitClass(TypeOfTrait.CategoryTrait).DescriptionInfo.Name)
+                    </td>
+                    <td class="tableCellDivider">
+                        :
+                    </td>
+                    <td class="tableCellValue">
+                        @(string.Join(',', Accessory.Categories.Select(c => c.Trait)))
+                    </td>
+                </tr>
+            }
+            @if (Accessory.MountingTypes.Any())
+            {
+                <tr class="backgroundColorHover">
+                    <td class="tableCellProperty">
+                        @(Repo.GetTraitClass(TypeOfTrait.MountingTypeTrait).DescriptionInfo.Name)
+                    </td>
+                    <td class="tableCellDivider">
+                        :
+                    </td>
+                    <td class="tableCellValue">
+                        @(string.Join(',', Accessory.MountingTypes.Select(mt => mt.Trait)))
+                    </td>
+                </tr>
+            }
+            @if (!string.IsNullOrWhiteSpace(Accessory.DescriptionInfo.Description))
+            {
+                <tr class="backgroundColorHover">
+                    <td class="tableCellProperty">
+                        @(Lc.Keys["FullDescription"])
+                    </td>
+                    <td class="tableCellDivider">
+                        :
+                    </td>
+                    <td class="tableCellValue">
+                        @(Accessory.DescriptionInfo.Description)
+                    </td>
+                </tr>
+            }
+            @if (!string.IsNullOrWhiteSpace(Accessory.DescriptionInfo.ExtendedDescription))
+            {
+                <tr class="backgroundColorHover">
+                    <td class="tableCellProperty">
+                        @(Lc.Keys["ExtendedDescription"])
+                    </td>
+                    <td class="tableCellDivider">
+                        :
+                    </td>
+                    <td class="tableCellValue">
+                        @(Accessory.DescriptionInfo.ExtendedDescription)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </MudSimpleTable>
+</div>
+
+

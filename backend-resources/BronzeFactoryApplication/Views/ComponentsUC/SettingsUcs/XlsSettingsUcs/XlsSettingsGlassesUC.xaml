@@ -1,0 +1,1109 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.ComponentsUC.SettingsUcs.XlsSettingsUcs.XlsSettingsGlassesUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:b="clr-namespace:BronzeFactoryApplication.Helpers.Behaviours"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:closedxml="clr-namespace:ClosedXML.Excel;assembly=ClosedXML"
+             xmlns:EnumSource="clr-namespace:BronzeFactoryApplication.Helpers.MarkupExtensions"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.SettingsUcs.XlsSettingsUcs"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels.SettingsViewModels.XlsSettingsViewModels"
+             mc:Ignorable="d"
+             x:Name="XlsSettingsContainer"
+             d:DataContext="{d:DesignInstance Type=vm:XlsSettingsGlassesViewModel}">
+    <Grid>
+        <Grid.Resources>
+            <Style TargetType="hc:TextBox" BasedOn="{StaticResource TextBoxExtend}">
+                <Setter Property="MinWidth" Value="150"/>
+                <Setter Property="hc:InfoElement.Placeholder" Value="..."/>
+            </Style>
+        </Grid.Resources>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Border x:Name="maskBorder" 
+                HorizontalAlignment="Stretch" 
+                VerticalAlignment="Stretch"
+                Background="{DynamicResource SecondaryRegionBrush}"
+                Opacity="0.8"
+                Panel.ZIndex="2"
+                Visibility="Collapsed"/>
+
+        <TabControl TabStripPlacement="Top" 
+                    MinWidth="900" 
+                    MinHeight="560" 
+                    Background="{DynamicResource SecondaryRegionBrush}"
+                    Style="{StaticResource TabControlInLine}"
+                    BorderThickness="0">
+            
+            <!--#region 1.MAIN SETTINGS -->
+            <TabItem Header="Main Settings">
+                <StackPanel x:Name="SettingsStackPanel" Margin="0,30" HorizontalAlignment="Center">
+                    <!--#region 0. Setting Name -->
+                    <StackPanel x:Name="SettingNameStackPanel"
+                                Margin="20,5,20,20">
+                        <DockPanel>
+                            <cc:Icon ToolTip="The Name of the Setting" Style="{StaticResource CInfoTooltipIcon}"/>
+                            <TextBlock x:Name="SettingNameTextBlock"
+                                       Style="{StaticResource TitleTextBlockStyle}"
+                                       Text="Setting Name">
+                            </TextBlock>
+                        </DockPanel>
+                        <hc:TextBox x:Name="SettingNameTextBox" d:Text="worksheet name" MaxLength="40"
+                                    Text="{Binding SettingsName ,Mode=TwoWay, TargetNullValue=''}"
+                                    IsEnabled="{Binding IsNewSetting}">
+                        </hc:TextBox>
+                    </StackPanel>
+                    <!--#endregion-->
+                    
+                    <!--#region A. Worksheet Name -->
+                    <StackPanel x:Name="WorksheetNameStackPanel"
+                                Margin="20,5,20,10">
+                        <DockPanel>
+                            <cc:Icon ToolTip="The Name of the Worksheet" Style="{StaticResource CInfoTooltipIcon}"/>
+                            <TextBlock x:Name="WorksheetNameTextBlock"
+                                       Style="{StaticResource TitleTextBlockStyle}"
+                                       Text="Worksheet Name">
+                            </TextBlock>
+                        </DockPanel>
+                        <hc:TextBox x:Name="WorksheetNameTextBox" d:Text="worksheet name" MaxLength="40"
+                                    Text="{Binding WorksheetName ,Mode=TwoWay, TargetNullValue=''}">
+                        </hc:TextBox>
+                    </StackPanel>
+                    <!--#endregion-->
+
+                    <!--#region B. Options Various Styling -->
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <StackPanel Margin="20,0">
+                            <!--#region B. FontSize && IsFontBold -->
+                            <StackPanel Orientation="Horizontal">
+                                <StackPanel x:Name="FontSizeStackPanel"
+                                    Margin="0,5">
+                                    <DockPanel>
+                                        <cc:Icon ToolTip="The Font Size of the Normal Lines"
+                             Style="{StaticResource CInfoTooltipIcon}"/>
+                                        <TextBlock x:Name="FontSizeTextBlock"
+                               Style="{StaticResource TitleTextBlockStyle}"
+                               Text="Font Size">
+                                        </TextBlock>
+                                    </DockPanel>
+                                    <hc:TextBox x:Name="FontSizeTextBox" d:Text="1000"
+                         Text="{Binding FontSize ,Mode=TwoWay , TargetNullValue=''}">
+                                        <i:Interaction.Behaviors>
+                                            <b:TextBoxNumericInputBehavior Precision="2" 
+                                                       InputMode="DecimalInput"
+                                                       JustPositivDecimalInput="True"/>
+                                        </i:Interaction.Behaviors>
+                                    </hc:TextBox>
+                                </StackPanel>
+                                <CheckBox IsChecked="{Binding IsFontBold}" 
+                          Content="Bold Font" 
+                          ToolTip="Weather the Font should be Bold"
+                          Margin="10,23,0,0"/>
+                            </StackPanel>
+                            <!--#endregion-->
+
+                            <!--#region C. Font Family -->
+                            <StackPanel x:Name="FontFamilyStackPanel"
+                                        Margin="0,5">
+                                <DockPanel>
+                                    <cc:Icon ToolTip="The Font Family of the Spreadsheet (ex. TimesNewRoman)"
+                                             Style="{StaticResource CInfoTooltipIcon}"/>
+                                    <TextBlock x:Name="FontFamilyTextBlock" DockPanel.Dock="Left"
+                                               Style="{StaticResource TitleTextBlockStyle}"
+                                               Text="Font Family">
+                                    </TextBlock>
+                                </DockPanel>
+                                <ComboBox x:Name="FontFamilyComboBox"
+                                          IsEditable="True"
+                                          ItemsSource="{x:Static Fonts.SystemFontFamilies}"
+                                          SelectedValue="{Binding FontFamily, Mode=TwoWay}"
+                                          SelectedValuePath="Source">
+                                    <ComboBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <VirtualizingStackPanel/>
+                                        </ItemsPanelTemplate>
+                                    </ComboBox.ItemsPanel>
+                                </ComboBox>
+                            </StackPanel>
+                            <!--#endregion-->
+
+                            <!--#region D. Font Color -->
+                            <StackPanel Margin="0,5">
+                                <DockPanel>
+                                    <cc:Icon ToolTip="The Color of the Fonts of the Normal Lines"
+                                             Style="{StaticResource CInfoTooltipIcon}"/>
+                                    <TextBlock x:Name="FontColorTextBlock"
+                                               Style="{StaticResource TitleTextBlockStyle}"
+                                               Text="Font Color"/>
+                                </DockPanel>
+                                <Border Background="{DynamicResource RegionBrush}"
+                                        Padding="5"
+                                        CornerRadius="7">
+                                    <DockPanel>
+                                        <Border Height="20" 
+                                                VerticalAlignment="Center" 
+                                                Width="90" Background="{Binding FontColor , Mode=TwoWay}" 
+                                                BorderBrush="{DynamicResource BorderBrush}"
+                                                BorderThickness="1"
+                                                d:Background="Red"
+                                                CornerRadius="7"
+                                                x:Name="FontColorContainer">
+                                            <Border.InputBindings>
+                                                <MouseBinding Gesture="LeftClick" 
+                                                              Command="{Binding ElementName=XlsSettingsContainer, Path=OpenColorPickerCommand}"
+                                                              CommandParameter="{Binding ElementName=FontColorContainer, Path=.}"/>
+                                            </Border.InputBindings>
+                                        </Border>
+                                        <Button Content="Color Picker" x:Name="FontColorButton"
+                                                Foreground="{DynamicResource SecondaryBrush}"
+                                                Command="{Binding ElementName=XlsSettingsContainer, Path=OpenColorPickerCommand}"
+                                                CommandParameter="{Binding ElementName=FontColorContainer, Path=.}"/>
+                                    </DockPanel>
+                                </Border>
+                            </StackPanel>
+                            <!--#endregion-->
+
+                            <!--#region E. Horizontal Alignment -->
+                            <StackPanel x:Name="HorizontalAlignmentStackPanel"
+                                        Margin="0,5">
+                                <DockPanel>
+                                    <cc:Icon ToolTip="The Horizontal Alignment of the Normal Cells"
+                                             Style="{StaticResource CInfoTooltipIcon}"/>
+                                    <TextBlock x:Name="HorizontalAlignmentTextBlock" DockPanel.Dock="Left"
+                                               Style="{StaticResource TitleTextBlockStyle}"
+                                               Text="Horizontal Cell Alignment">
+                                    </TextBlock>
+                                </DockPanel>
+                                <ComboBox x:Name="HorizontalAlignmentComboBox"
+                                          ItemsSource="{Binding Source={EnumSource:BindingSourceEnumValues {x:Type closedxml:XLAlignmentHorizontalValues}}}"
+                                          SelectedItem="{Binding HorizontalAlignment, Mode=TwoWay}">
+                                </ComboBox>
+                            </StackPanel>
+                            <!--#endregion-->
+
+                            <!--#region F. Vertical Alignment -->
+                            <StackPanel x:Name="VerticalAlignmentStackPanel"
+                        Margin="0,5">
+                                <DockPanel>
+                                    <cc:Icon ToolTip="The Vertical Alignment of the Normal Cells"
+                             Style="{StaticResource CInfoTooltipIcon}"/>
+                                    <TextBlock x:Name="VerticalAlignmentTextBlock" DockPanel.Dock="Left"
+                               Style="{StaticResource TitleTextBlockStyle}"
+                               Text="Vertical Cell Alignment">
+                                    </TextBlock>
+                                </DockPanel>
+                                <ComboBox x:Name="VerticalAlignmentComboBox"
+                          ItemsSource="{Binding Source={EnumSource:BindingSourceEnumValues {x:Type closedxml:XLAlignmentVerticalValues}}}"
+                          SelectedItem="{Binding VerticalAlignment, Mode=TwoWay}">
+                                </ComboBox>
+                            </StackPanel>
+                            <!--#endregion-->
+                        </StackPanel>
+
+                        <hc:Divider Style="{StaticResource VerticalDivider}"/>
+
+                        <StackPanel Margin="20,0">
+                            <!--#region A. Normal Row Height -->
+                            <StackPanel x:Name="NormalRowHeightStackPanel"
+                                        Margin="0,5">
+                                <DockPanel>
+                                    <cc:Icon ToolTip="The Height of the Normal Rows" Style="{StaticResource CInfoTooltipIcon}"/>
+                                    <TextBlock x:Name="NormalRowHeightTextBlock"
+                                               Style="{StaticResource TitleTextBlockStyle}"
+                                               Text="Normal Row Height">
+                                    </TextBlock>
+                                </DockPanel>
+                                <hc:TextBox x:Name="NormalRowHeightTextBox" d:Text="20" MaxLength="40"
+                                            Text="{Binding NormalRowHeight ,Mode=TwoWay, TargetNullValue=''}">
+                                    <i:Interaction.Behaviors>
+                                        <b:TextBoxNumericInputBehavior Precision="2"
+                                                       InputMode="DecimalInput"
+                                                       JustPositivDecimalInput="True"/>
+                                    </i:Interaction.Behaviors>
+                                </hc:TextBox>
+                            </StackPanel>
+                            <!--#endregion-->
+
+                            <!--#region B. Total Rows -->
+                            <StackPanel x:Name="TotalRowsStackPanel"
+                                        Margin="0,5">
+                                <DockPanel>
+                                    <cc:Icon ToolTip="The Maximum Number of Rows of the Spreadsheet" 
+                                             Style="{StaticResource CInfoTooltipIcon}"/>
+                                    <TextBlock x:Name="TotalRowsTextBlock"
+                                               Style="{StaticResource TitleTextBlockStyle}"
+                                               Text="Maximum Rows">
+                                    </TextBlock>
+                                </DockPanel>
+                                <hc:TextBox x:Name="TotalRowsTextBox" d:Text="2000" 
+                                            MaxLength="5"
+                                            Text="{Binding TotalRows ,Mode=TwoWay, TargetNullValue=''}">
+                                    <i:Interaction.Behaviors>
+                                        <b:TextBoxNumericInputBehavior Precision="0"
+                                                       InputMode="DigitInput"
+                                                       JustPositivDecimalInput="True"/>
+                                    </i:Interaction.Behaviors>
+                                </hc:TextBox>
+                            </StackPanel>
+                            <!--#endregion-->
+
+                            <!--#region C. First Row -->
+                            <StackPanel x:Name="FirstRowStackPanel"
+                                        Margin="0,5">
+                                <DockPanel>
+                                    <cc:Icon ToolTip="The First Row of the SpreadSheet (Where to Begin Writing)" 
+                                             Style="{StaticResource CInfoTooltipIcon}"/>
+                                    <TextBlock x:Name="FirstRowTextBlock"
+                                               Style="{StaticResource TitleTextBlockStyle}"
+                                               Text="First Row">
+                                    </TextBlock>
+                                </DockPanel>
+                                <hc:TextBox x:Name="FirstRowTextBox" d:Text="1" 
+                                            MaxLength="5"
+                                            Text="{Binding FirstRowIndex ,Mode=TwoWay, TargetNullValue=''}">
+                                    <i:Interaction.Behaviors>
+                                        <b:TextBoxNumericInputBehavior Precision="0"
+                                                       InputMode="DigitInput"
+                                                       JustPositivDecimalInput="True"/>
+                                    </i:Interaction.Behaviors>
+                                </hc:TextBox>
+                            </StackPanel>
+                            <!--#endregion-->
+
+                            <!--#region D. First Column -->
+                            <StackPanel x:Name="FirstColumnStackPanel"
+                                        Margin="0,5">
+                                <DockPanel>
+                                    <cc:Icon ToolTip="The First Column of the SpreadSheet (Where to Begin Writing)" 
+                                             Style="{StaticResource CInfoTooltipIcon}"/>
+                                    <TextBlock x:Name="FirstColumnTextBlock"
+                                               Style="{StaticResource TitleTextBlockStyle}"
+                                               Text="First Column">
+                                    </TextBlock>
+                                </DockPanel>
+                                <hc:TextBox x:Name="FirstColumnTextBox" d:Text="1" 
+                                            MaxLength="5"
+                                            Text="{Binding FirstColumnIndex ,Mode=TwoWay, TargetNullValue=''}">
+                                    <i:Interaction.Behaviors>
+                                        <b:TextBoxNumericInputBehavior Precision="0"
+                                                       InputMode="DigitInput"
+                                                       JustPositivDecimalInput="True"/>
+                                    </i:Interaction.Behaviors>
+                                </hc:TextBox>
+                            </StackPanel>
+                            <!--#endregion-->
+                        </StackPanel>
+
+                    </StackPanel>
+
+                    <!--#endregion-->
+                </StackPanel>
+            </TabItem>
+            <!--#endregion-->
+
+            <!--#region GLASSES TABLES SETTINGS -->
+            <TabItem Header="Glasses Tables Settings">
+                <StackPanel Margin="0,30" HorizontalAlignment="Center" Orientation="Horizontal">
+
+                    <StackPanel Margin="20,0">
+                        <!--#region A. Title Row Height -->
+                        <StackPanel x:Name="TitleRowHeightStackPanel"
+                                Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="The Height of the Titles Rows in the glass tables" Style="{StaticResource CInfoTooltipIcon}"/>
+                                <TextBlock x:Name="TitleRowHeightTextBlock"
+                                       Style="{StaticResource TitleTextBlockStyle}"
+                                       Text="Titles Row Height">
+                                </TextBlock>
+                            </DockPanel>
+                            <hc:TextBox x:Name="TitleRowHeightTextBox" d:Text="20" MaxLength="4"
+                                    Text="{Binding TitleRowHeight ,Mode=TwoWay, TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior Precision="2"
+                                                       InputMode="DecimalInput"
+                                                       JustPositivDecimalInput="True"/>
+                                </i:Interaction.Behaviors>
+                            </hc:TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region B. Title Font Color -->
+                        <StackPanel Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="The Color of the Font for the Titles of the Glass Tables"
+                                     Style="{StaticResource CInfoTooltipIcon}"/>
+                                <TextBlock x:Name="TitleFontColorTextBlock"
+                                       Style="{StaticResource TitleTextBlockStyle}"
+                                       Text="Titles Font Color"/>
+                            </DockPanel>
+                            <Border Background="{DynamicResource RegionBrush}"
+                                Padding="5"
+                                CornerRadius="7">
+                                <DockPanel>
+                                    <Border Height="20" 
+                                        VerticalAlignment="Center" 
+                                        Width="90" Background="{Binding TitleFontColor, Mode=TwoWay}" 
+                                        BorderBrush="{DynamicResource BorderBrush}"
+                                        BorderThickness="1"
+                                        d:Background="Red"
+                                        CornerRadius="7"
+                                        x:Name="TitlesFontColorContainer">
+                                        <Border.InputBindings>
+                                            <MouseBinding Gesture="LeftClick" 
+                                                      Command="{Binding ElementName=XlsSettingsContainer, Path=OpenColorPickerCommand}"
+                                                      CommandParameter="{Binding ElementName=TitlesFontColorContainer, Path=.}"/>
+                                        </Border.InputBindings>
+                                    </Border>
+                                    <Button Content="Color Picker" x:Name="TitlesFontColorButton"
+                                        Foreground="{DynamicResource SecondaryBrush}"
+                                        Command="{Binding ElementName=XlsSettingsContainer, Path=OpenColorPickerCommand}"
+                                        CommandParameter="{Binding ElementName=TitlesFontColorContainer, Path=.}"/>
+                                </DockPanel>
+                            </Border>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region C. Title Background Color -->
+                        <StackPanel Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="The Background of the Titles of the Glass Tables"
+                                     Style="{StaticResource CInfoTooltipIcon}"/>
+                                <TextBlock x:Name="TitleBackgroundColorTextBlock"
+                                       Style="{StaticResource TitleTextBlockStyle}"
+                                       Text="Titles Background Color"/>
+                            </DockPanel>
+                            <Border Background="{DynamicResource RegionBrush}"
+                                Padding="5"
+                                CornerRadius="7">
+                                <DockPanel>
+                                    <Border Height="20" 
+                                        VerticalAlignment="Center" 
+                                        Width="90" Background="{Binding TitleBackgroundColor , Mode=TwoWay}" 
+                                        BorderBrush="{DynamicResource BorderBrush}"
+                                        BorderThickness="1"
+                                        d:Background="Red"
+                                        CornerRadius="7"
+                                        x:Name="TitlesBackgroundColorContainer">
+                                        <Border.InputBindings>
+                                            <MouseBinding Gesture="LeftClick" 
+                                                      Command="{Binding ElementName=XlsSettingsContainer, Path=OpenColorPickerCommand}"
+                                                      CommandParameter="{Binding ElementName=TitlesBackgroundColorContainer, Path=.}"/>
+                                        </Border.InputBindings>
+                                    </Border>
+                                    <Button Content="Color Picker" x:Name="TitlesBackgroundColorButton"
+                                        Foreground="{DynamicResource SecondaryBrush}"
+                                        Command="{Binding ElementName=XlsSettingsContainer, Path=OpenColorPickerCommand}"
+                                        CommandParameter="{Binding ElementName=TitlesBackgroundColorContainer, Path=.}"/>
+                                </DockPanel>
+                            </Border>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region D. IsTitleFontBold -->
+                        <CheckBox IsChecked="{Binding IsTitleFontBold}" 
+                              Content="Titles Bold Font" 
+                              ToolTip="Weather the Font of the Titles should be Bold"
+                              HorizontalAlignment="Center"
+                              Margin="0,10,0,0"/>
+                        <!--#endregion-->
+
+                        <!--#region Q. Tables Alternating Row Background Color-->
+                        <StackPanel Margin="0,60,0,0">
+                            <DockPanel>
+                                <cc:Icon ToolTip="The Color of the Alternating row of the Tables (Every Second Row)"
+                                     Style="{StaticResource CInfoTooltipIcon}"/>
+                                <TextBlock x:Name="TablesAlternatingColorTextBlock"
+                                       Style="{StaticResource TitleTextBlockStyle}"
+                                       Text="Alternating Row Color"/>
+                            </DockPanel>
+                            <Border Background="{DynamicResource RegionBrush}"
+                                Padding="5"
+                                CornerRadius="7">
+                                <DockPanel>
+                                    <Border Height="20" 
+                                        VerticalAlignment="Center" 
+                                        Width="90" Background="{Binding AlternatingTableRowBackground , Mode=TwoWay}" 
+                                        BorderBrush="{DynamicResource BorderBrush}"
+                                        BorderThickness="1"
+                                        d:Background="Red"
+                                        CornerRadius="7"
+                                        x:Name="TablesAlternatingContainer">
+                                        <Border.InputBindings>
+                                            <MouseBinding Gesture="LeftClick" 
+                                                      Command="{Binding ElementName=XlsSettingsContainer, Path=OpenColorPickerCommand}"
+                                                      CommandParameter="{Binding ElementName=TablesAlternatingContainer, Path=.}"/>
+                                        </Border.InputBindings>
+                                    </Border>
+                                    <Button Content="Color Picker" x:Name="TablesAlternatingButton"
+                                        Foreground="{DynamicResource SecondaryBrush}"
+                                        Command="{Binding ElementName=XlsSettingsContainer, Path=OpenColorPickerCommand}"
+                                        CommandParameter="{Binding ElementName=TablesAlternatingContainer, Path=.}"/>
+                                </DockPanel>
+                            </Border>
+                        </StackPanel>
+                        <!--#endregion-->
+                    </StackPanel>
+
+                    <hc:Divider Style="{StaticResource VerticalDivider}" Height="350"/>
+
+                    <StackPanel Margin="20,0">
+                        <!--#region E. Tables Header Row Height -->
+                        <StackPanel x:Name="TablesHeaderRowHeightStackPanel"
+                                Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="The Height of the Header row in a Glass Table" Style="{StaticResource CInfoTooltipIcon}"/>
+                                <TextBlock x:Name="TablesHeaderRowHeightTextBlock"
+                                       Style="{StaticResource TitleTextBlockStyle}"
+                                       Text="Tables Header Row Height">
+                                </TextBlock>
+                            </DockPanel>
+                            <hc:TextBox x:Name="TablesHeaderRowHeightTextBox" d:Text="20" MaxLength="4"
+                                    Text="{Binding TablesHeaderRowHeight ,Mode=TwoWay, TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior Precision="2"
+                                                       InputMode="DecimalInput"
+                                                       JustPositivDecimalInput="True"/>
+                                </i:Interaction.Behaviors>
+                            </hc:TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region B. FontSize && IsFontBold -->
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel x:Name="TablesHeaderFontSizeStackPanel"
+                                        Margin="0,5">
+                                <DockPanel>
+                                    <cc:Icon ToolTip="The Font Size of the Tables Header"
+                                             Style="{StaticResource CInfoTooltipIcon}"/>
+                                    <TextBlock x:Name="TablesHeaderFontSizeTextBlock"
+                                               Style="{StaticResource TitleTextBlockStyle}"
+                                               Text="Tables Header Font Size">
+                                    </TextBlock>
+                                </DockPanel>
+                                <hc:TextBox x:Name="TablesHeaderFontSizeTextBox" d:Text="1000"
+                                            Text="{Binding TablesFontSize ,Mode=TwoWay , TargetNullValue=''}">
+                                    <i:Interaction.Behaviors>
+                                        <b:TextBoxNumericInputBehavior Precision="2" 
+                                                       InputMode="DecimalInput"
+                                                       JustPositivDecimalInput="True"/>
+                                    </i:Interaction.Behaviors>
+                                </hc:TextBox>
+                            </StackPanel>
+                            <CheckBox IsChecked="{Binding TablesIsFontBold}" 
+                                      Content="Bold Font" 
+                                      ToolTip="Weather the Font should be Bold"
+                                      Margin="10,23,0,0"/>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region H. Tables Header Font Color-->
+                        <StackPanel Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="The Color of the Font for the Header of the Glass Tables"
+                                     Style="{StaticResource CInfoTooltipIcon}"/>
+                                <TextBlock x:Name="TableHeaderFontColorTextBlock"
+                                       Style="{StaticResource TitleTextBlockStyle}"
+                                       Text="Tables Header Font Color"/>
+                            </DockPanel>
+                            <Border Background="{DynamicResource RegionBrush}"
+                                Padding="5"
+                                CornerRadius="7">
+                                <DockPanel>
+                                    <Border Height="20" 
+                                        VerticalAlignment="Center" 
+                                        Width="90" Background="{Binding TablesFontColor , Mode=TwoWay}" 
+                                        BorderBrush="{DynamicResource BorderBrush}"
+                                        BorderThickness="1"
+                                        d:Background="Red"
+                                        CornerRadius="7"
+                                        x:Name="TablesHeaderFontColorContainer">
+                                        <Border.InputBindings>
+                                            <MouseBinding Gesture="LeftClick" 
+                                                      Command="{Binding ElementName=XlsSettingsContainer, Path=OpenColorPickerCommand}"
+                                                      CommandParameter="{Binding ElementName=TablesHeaderFontColorContainer, Path=.}"/>
+                                        </Border.InputBindings>
+                                    </Border>
+                                    <Button Content="Color Picker" x:Name="TablesHeaderFontColorButton"
+                                        Foreground="{DynamicResource SecondaryBrush}"
+                                        Command="{Binding ElementName=XlsSettingsContainer, Path=OpenColorPickerCommand}"
+                                        CommandParameter="{Binding ElementName=TablesHeaderFontColorContainer, Path=.}"/>
+                                </DockPanel>
+                            </Border>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region I. Tables Header Background Color-->
+                        <StackPanel Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="The Color of the Background for the Header of the Glass Tables"
+                                     Style="{StaticResource CInfoTooltipIcon}"/>
+                                <TextBlock x:Name="TableHeaderBackgroundColorTextBlock"
+                                       Style="{StaticResource TitleTextBlockStyle}"
+                                       Text="Tables Header Background Color"/>
+                            </DockPanel>
+                            <Border Background="{DynamicResource RegionBrush}"
+                                Padding="5"
+                                CornerRadius="7">
+                                <DockPanel>
+                                    <Border Height="20" 
+                                        VerticalAlignment="Center" 
+                                        Width="90" Background="{Binding TablesBackgroundColor , Mode=TwoWay}" 
+                                        BorderBrush="{DynamicResource BorderBrush}"
+                                        BorderThickness="1"
+                                        d:Background="Red"
+                                        CornerRadius="7"
+                                        x:Name="TableHeaderBackgroundColorContainer">
+                                        <Border.InputBindings>
+                                            <MouseBinding Gesture="LeftClick" 
+                                                      Command="{Binding ElementName=XlsSettingsContainer, Path=OpenColorPickerCommand}"
+                                                      CommandParameter="{Binding ElementName=TableHeaderBackgroundColorContainer, Path=.}"/>
+                                        </Border.InputBindings>
+                                    </Border>
+                                    <Button Content="Color Picker" x:Name="TableHeaderBackgroundColorButton"
+                                        Foreground="{DynamicResource SecondaryBrush}"
+                                        Command="{Binding ElementName=XlsSettingsContainer, Path=OpenColorPickerCommand}"
+                                        CommandParameter="{Binding ElementName=TableHeaderBackgroundColorContainer, Path=.}"/>
+                                </DockPanel>
+                            </Border>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region J. Table Header Horizontal Alignment -->
+                        <StackPanel x:Name="TablesHeaderHorizontalAlignmentStackPanel"
+                                        Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="The Horizontal Alignment of the Header of the Glass Tables"
+                                             Style="{StaticResource CInfoTooltipIcon}"/>
+                                <TextBlock x:Name="TablesHeaderHorizontalAlignmentTextBlock" DockPanel.Dock="Left"
+                                               Style="{StaticResource TitleTextBlockStyle}"
+                                               Text="Tables Header Horizontal Alignment">
+                                </TextBlock>
+                            </DockPanel>
+                            <ComboBox x:Name="TablesHeaderHorizontalAlignmentComboBox"
+                                          ItemsSource="{Binding Source={EnumSource:BindingSourceEnumValues {x:Type closedxml:XLAlignmentHorizontalValues}}}"
+                                          SelectedItem="{Binding TablesHorizontalAlignment, Mode=TwoWay}">
+                            </ComboBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region K. Table Header Vertical Alignment -->
+                        <StackPanel x:Name="TableHeaderVerticalAlignmentStackPanel"
+                        Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="The Vertical Alignment of Headers of the Glasses Tables"
+                             Style="{StaticResource CInfoTooltipIcon}"/>
+                                <TextBlock x:Name="TableHeaderVerticalAlignmentTextBlock" DockPanel.Dock="Left"
+                               Style="{StaticResource TitleTextBlockStyle}"
+                               Text="Tables Header Vertical Alignment">
+                                </TextBlock>
+                            </DockPanel>
+                            <ComboBox x:Name="TableHeaderVerticalAlignmentComboBox"
+                          ItemsSource="{Binding Source={EnumSource:BindingSourceEnumValues {x:Type closedxml:XLAlignmentVerticalValues}}}"
+                          SelectedItem="{Binding TablesVerticalAlignment, Mode=TwoWay}">
+                            </ComboBox>
+                        </StackPanel>
+                        <!--#endregion-->
+                    </StackPanel>
+
+                    <hc:Divider Style="{StaticResource VerticalDivider}" Height="350"/>
+
+                    <StackPanel Margin="20,0">
+                        <!--#region L. Tables Horizontal Border Thickness -->
+                        <StackPanel x:Name="TablesHorizontalBorderThicknessStackPanel"
+                        Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="The Horizontal Border Thickness of the Glass Tables"
+                             Style="{StaticResource CInfoTooltipIcon}"/>
+                                <TextBlock x:Name="TablesHorizontalBorderThicknessTextBlock" DockPanel.Dock="Left"
+                               Style="{StaticResource TitleTextBlockStyle}"
+                               Text="Table Horizontal Border Thickness">
+                                </TextBlock>
+                            </DockPanel>
+                            <ComboBox x:Name="TablesHorizontalBorderThicknessComboBox"
+                          ItemsSource="{Binding Source={EnumSource:BindingSourceEnumValues {x:Type closedxml:XLBorderStyleValues}}}"
+                          SelectedItem="{Binding TablesHorizontalBorderThickness, Mode=TwoWay}">
+                            </ComboBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region M. Tables Vertical Border Thickness -->
+                        <StackPanel x:Name="TablesVerticalBorderThicknessStackPanel"
+                        Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="The Vertical Border Thickness of the Glass Tables"
+                             Style="{StaticResource CInfoTooltipIcon}"/>
+                                <TextBlock x:Name="TablesVerticalBorderThicknessTextBlock" DockPanel.Dock="Left"
+                               Style="{StaticResource TitleTextBlockStyle}"
+                               Text="Table Vertical Border Thickness">
+                                </TextBlock>
+                            </DockPanel>
+                            <ComboBox x:Name="TablesVerticalBorderThicknessComboBox"
+                          ItemsSource="{Binding Source={EnumSource:BindingSourceEnumValues {x:Type closedxml:XLBorderStyleValues}}}"
+                          SelectedItem="{Binding TablesVerticalBorderThickness, Mode=TwoWay}">
+                            </ComboBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region M. Tables Perimetrical Border Thickness -->
+                        <StackPanel x:Name="TablesPerimetricalBorderThicknessStackPanel"
+                        Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="The Perimetrical Border Thickness of the Glass Tables"
+                             Style="{StaticResource CInfoTooltipIcon}"/>
+                                <TextBlock x:Name="TablesPerimetricalBorderThicknessTextBlock" DockPanel.Dock="Left"
+                               Style="{StaticResource TitleTextBlockStyle}"
+                               Text="Table Perimetrical Border Thickness">
+                                </TextBlock>
+                            </DockPanel>
+                            <ComboBox x:Name="TablesPerimetricalBorderThicknessComboBox"
+                          ItemsSource="{Binding Source={EnumSource:BindingSourceEnumValues {x:Type closedxml:XLBorderStyleValues}}}"
+                          SelectedItem="{Binding TablesPerimetricalBorderThickness, Mode=TwoWay}">
+                            </ComboBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region N. Tables Horizontal Border Color-->
+                        <StackPanel Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="The Color of the Horizontal Border of the Tables"
+                                     Style="{StaticResource CInfoTooltipIcon}"/>
+                                <TextBlock x:Name="TablesHorizontalBorderColorTextBlock"
+                                       Style="{StaticResource TitleTextBlockStyle}"
+                                       Text="Tables Horizontal Border Color"/>
+                            </DockPanel>
+                            <Border Background="{DynamicResource RegionBrush}"
+                                Padding="5"
+                                CornerRadius="7">
+                                <DockPanel>
+                                    <Border Height="20" 
+                                        VerticalAlignment="Center" 
+                                        Width="90" Background="{Binding TablesHorizontalBorderColor , Mode=TwoWay}" 
+                                        BorderBrush="{DynamicResource BorderBrush}"
+                                        BorderThickness="1"
+                                        d:Background="Red"
+                                        CornerRadius="7"
+                                        x:Name="TablesHorizontalBorderColorContainer">
+                                        <Border.InputBindings>
+                                            <MouseBinding Gesture="LeftClick" 
+                                                      Command="{Binding ElementName=XlsSettingsContainer, Path=OpenColorPickerCommand}"
+                                                      CommandParameter="{Binding ElementName=TablesHorizontalBorderColorContainer, Path=.}"/>
+                                        </Border.InputBindings>
+                                    </Border>
+                                    <Button Content="Color Picker" x:Name="TablesHorizontalBorderColorButton"
+                                        Foreground="{DynamicResource SecondaryBrush}"
+                                        Command="{Binding ElementName=XlsSettingsContainer, Path=OpenColorPickerCommand}"
+                                        CommandParameter="{Binding ElementName=TablesHorizontalBorderColorContainer, Path=.}"/>
+                                </DockPanel>
+                            </Border>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region O. Tables Vertical Border Color-->
+                        <StackPanel Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="The Color of the Vertical Border of the Tables"
+                                     Style="{StaticResource CInfoTooltipIcon}"/>
+                                <TextBlock x:Name="TablesVerticalBorderColorTextBlock"
+                                       Style="{StaticResource TitleTextBlockStyle}"
+                                       Text="Tables Vertical Border Color"/>
+                            </DockPanel>
+                            <Border Background="{DynamicResource RegionBrush}"
+                                Padding="5"
+                                CornerRadius="7">
+                                <DockPanel>
+                                    <Border Height="20" 
+                                        VerticalAlignment="Center" 
+                                        Width="90" Background="{Binding TablesVerticalBorderColor , Mode=TwoWay}" 
+                                        BorderBrush="{DynamicResource BorderBrush}"
+                                        BorderThickness="1"
+                                        d:Background="Red"
+                                        CornerRadius="7"
+                                        x:Name="TablesVerticalBorderColorContainer">
+                                        <Border.InputBindings>
+                                            <MouseBinding Gesture="LeftClick" 
+                                                      Command="{Binding ElementName=XlsSettingsContainer, Path=OpenColorPickerCommand}"
+                                                      CommandParameter="{Binding ElementName=TablesVerticalBorderColorContainer, Path=.}"/>
+                                        </Border.InputBindings>
+                                    </Border>
+                                    <Button Content="Color Picker" x:Name="TablesVerticalBorderColorButton"
+                                        Foreground="{DynamicResource SecondaryBrush}"
+                                        Command="{Binding ElementName=XlsSettingsContainer, Path=OpenColorPickerCommand}"
+                                        CommandParameter="{Binding ElementName=TablesVerticalBorderColorContainer, Path=.}"/>
+                                </DockPanel>
+                            </Border>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region P. Tables Perimetrical Border Color-->
+                        <StackPanel Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="The Color of the Perimetrical Border of the Tables"
+                                     Style="{StaticResource CInfoTooltipIcon}"/>
+                                <TextBlock x:Name="TablesPerimetricalBorderColorTextBlock"
+                                       Style="{StaticResource TitleTextBlockStyle}"
+                                       Text="Tables Perimetrical Border Color"/>
+                            </DockPanel>
+                            <Border Background="{DynamicResource RegionBrush}"
+                                Padding="5"
+                                CornerRadius="7">
+                                <DockPanel>
+                                    <Border Height="20" 
+                                        VerticalAlignment="Center" 
+                                        Width="90" Background="{Binding TablesPerimetricalBorderColor , Mode=TwoWay}" 
+                                        BorderBrush="{DynamicResource BorderBrush}"
+                                        BorderThickness="1"
+                                        d:Background="Red"
+                                        CornerRadius="7"
+                                        x:Name="PerimetricalBorderColorContainer">
+                                        <Border.InputBindings>
+                                            <MouseBinding Gesture="LeftClick" 
+                                                      Command="{Binding ElementName=XlsSettingsContainer, Path=OpenColorPickerCommand}"
+                                                      CommandParameter="{Binding ElementName=PerimetricalBorderColorContainer, Path=.}"/>
+                                        </Border.InputBindings>
+                                    </Border>
+                                    <Button Content="Color Picker" x:Name="TablesPerimetricalBorderColorButton"
+                                        Foreground="{DynamicResource SecondaryBrush}"
+                                        Command="{Binding ElementName=XlsSettingsContainer, Path=OpenColorPickerCommand}"
+                                        CommandParameter="{Binding ElementName=PerimetricalBorderColorContainer, Path=.}"/>
+                                </DockPanel>
+                            </Border>
+                        </StackPanel>
+                        <!--#endregion-->
+                    </StackPanel>
+
+                </StackPanel>
+            </TabItem>
+            <!--#endregion-->
+
+            <!--#region Totals & Notes Box Settings -->
+            <TabItem Header="Other Settings">
+                <StackPanel HorizontalAlignment="Center" Margin="0,30" Orientation="Horizontal">
+
+                    <StackPanel Margin="20,0">
+                        <!--#region Q. GlassTotals Horizontal Alignment -->
+                        <StackPanel x:Name="TotalsHorizontalAlignmentStackPanel"
+                            Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="The Horizontal Alignment of the Totals Table"
+                                 Style="{StaticResource CInfoTooltipIcon}"/>
+                                <TextBlock x:Name="TotalsHorizontalAlignmentTextBlock" DockPanel.Dock="Left"
+                                   Style="{StaticResource TitleTextBlockStyle}"
+                                   Text="Totals Horizontal Alignment">
+                                </TextBlock>
+                            </DockPanel>
+                            <ComboBox x:Name="TotalsHorizontalAlignmentComboBox"
+                              ItemsSource="{Binding Source={EnumSource:BindingSourceEnumValues {x:Type closedxml:XLAlignmentHorizontalValues}}}"
+                              SelectedItem="{Binding GlassBoxHorizontalAlignment, Mode=TwoWay}">
+                            </ComboBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region R. Glass Totals Vertical Alignment -->
+                        <StackPanel x:Name="GlassTotalsVerticalAlignmentStackPanel"
+                        Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="The Vertical Alignment of the Totals Table"
+                             Style="{StaticResource CInfoTooltipIcon}"/>
+                                <TextBlock x:Name="GlassTotalsVerticalAlignmentTextBlock" DockPanel.Dock="Left"
+                               Style="{StaticResource TitleTextBlockStyle}"
+                               Text="Totals Vertical Alignment">
+                                </TextBlock>
+                            </DockPanel>
+                            <ComboBox x:Name="GlassTotalsVerticalAlignmentComboBox"
+                          ItemsSource="{Binding Source={EnumSource:BindingSourceEnumValues {x:Type closedxml:XLAlignmentVerticalValues}}}"
+                          SelectedItem="{Binding GlassBoxVerticalAlignment, Mode=TwoWay}">
+                            </ComboBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region S. Glass Box FontSize && IsFontBold -->
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel x:Name="TotalsFontSizeStackPanel"
+                                    Margin="0,5">
+                                <DockPanel>
+                                    <cc:Icon ToolTip="The Font Size of the Totals Table"
+                                         Style="{StaticResource CInfoTooltipIcon}"/>
+                                    <TextBlock x:Name="TotalsFontSizeTextBlock"
+                                           Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="Totals Font Size">
+                                    </TextBlock>
+                                </DockPanel>
+                                <hc:TextBox x:Name="TotalsFontSizeTextBox" d:Text="1000"
+                                        Text="{Binding GlassBoxFontSize ,Mode=TwoWay , TargetNullValue=''}">
+                                    <i:Interaction.Behaviors>
+                                        <b:TextBoxNumericInputBehavior Precision="2" 
+                                                       InputMode="DecimalInput"
+                                                       JustPositivDecimalInput="True"/>
+                                    </i:Interaction.Behaviors>
+                                </hc:TextBox>
+                            </StackPanel>
+                            <CheckBox IsChecked="{Binding GlassBoxIsFontBold}" 
+                          Content="Bold Font" 
+                          ToolTip="Weather the Font should be Bold"
+                          Margin="10,23,0,0"/>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region T. GlassTotals Font Color -->
+                        <StackPanel Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="The Color of the Font for the Totals Table"
+                                     Style="{StaticResource CInfoTooltipIcon}"/>
+                                <TextBlock x:Name="TotalsFontColorTextBlock"
+                                       Style="{StaticResource TitleTextBlockStyle}"
+                                       Text="Totals Font Color"/>
+                            </DockPanel>
+                            <Border Background="{DynamicResource RegionBrush}"
+                                Padding="5"
+                                CornerRadius="7">
+                                <DockPanel>
+                                    <Border Height="20" 
+                                        VerticalAlignment="Center" 
+                                        Width="90" Background="{Binding GlassBoxFontColor, Mode=TwoWay}" 
+                                        BorderBrush="{DynamicResource BorderBrush}"
+                                        BorderThickness="1"
+                                        d:Background="Red"
+                                        CornerRadius="7"
+                                        x:Name="TotalsFontColorContainer">
+                                        <Border.InputBindings>
+                                            <MouseBinding Gesture="LeftClick" 
+                                                      Command="{Binding ElementName=XlsSettingsContainer, Path=OpenColorPickerCommand}"
+                                                      CommandParameter="{Binding ElementName=TotalsFontColorContainer, Path=.}"/>
+                                        </Border.InputBindings>
+                                    </Border>
+                                    <Button Content="Color Picker" x:Name="TotalsFontColorButton"
+                                        Foreground="{DynamicResource SecondaryBrush}"
+                                        Command="{Binding ElementName=XlsSettingsContainer, Path=OpenColorPickerCommand}"
+                                        CommandParameter="{Binding ElementName=TotalsFontColorContainer, Path=.}"/>
+                                </DockPanel>
+                            </Border>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region U. GlassTotals Background Color -->
+                        <StackPanel Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="The Color of the Background for the Totals Table"
+                                     Style="{StaticResource CInfoTooltipIcon}"/>
+                                <TextBlock x:Name="TotalsBackgroundFontColorTextBlock"
+                                       Style="{StaticResource TitleTextBlockStyle}"
+                                       Text="Totals Background Color"/>
+                            </DockPanel>
+                            <Border Background="{DynamicResource RegionBrush}"
+                                Padding="5"
+                                CornerRadius="7">
+                                <DockPanel>
+                                    <Border Height="20" 
+                                        VerticalAlignment="Center" 
+                                        Width="90" Background="{Binding GlassBoxBackgroundColor, Mode=TwoWay}" 
+                                        BorderBrush="{DynamicResource BorderBrush}"
+                                        BorderThickness="1"
+                                        d:Background="Red"
+                                        CornerRadius="7"
+                                        x:Name="TotalsBackgroundColorContainer">
+                                        <Border.InputBindings>
+                                            <MouseBinding Gesture="LeftClick" 
+                                                      Command="{Binding ElementName=XlsSettingsContainer, Path=OpenColorPickerCommand}"
+                                                      CommandParameter="{Binding ElementName=TotalsBackgroundColorContainer, Path=.}"/>
+                                        </Border.InputBindings>
+                                    </Border>
+                                    <Button Content="Color Picker" x:Name="TotalsBackgroundColorButton"
+                                        Foreground="{DynamicResource SecondaryBrush}"
+                                        Command="{Binding ElementName=XlsSettingsContainer, Path=OpenColorPickerCommand}"
+                                        CommandParameter="{Binding ElementName=TotalsBackgroundColorContainer, Path=.}"/>
+                                </DockPanel>
+                            </Border>
+                        </StackPanel>
+                        <!--#endregion-->
+                    </StackPanel>
+
+                    <StackPanel Margin="20,0">
+                        <!--#region Q. Notes Horizontal Alignment -->
+                        <StackPanel x:Name="NotesHorizontalAlignmentStackPanel"
+                            Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="The Horizontal Alignment of the Notes Table"
+                                 Style="{StaticResource CInfoTooltipIcon}"/>
+                                <TextBlock x:Name="NotesHorizontalAlignmentTextBlock" DockPanel.Dock="Left"
+                                   Style="{StaticResource TitleTextBlockStyle}"
+                                   Text="Notes Horizontal Alignment">
+                                </TextBlock>
+                            </DockPanel>
+                            <ComboBox x:Name="NotesHorizontalAlignmentComboBox"
+                              ItemsSource="{Binding Source={EnumSource:BindingSourceEnumValues {x:Type closedxml:XLAlignmentHorizontalValues}}}"
+                              SelectedItem="{Binding NotesHorizontalAlignment, Mode=TwoWay}">
+                            </ComboBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region R. Notes Vertical Alignment -->
+                        <StackPanel x:Name="NotesVerticalAlignmentStackPanel"
+                        Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="The Vertical Alignment of the Notes Table"
+                             Style="{StaticResource CInfoTooltipIcon}"/>
+                                <TextBlock x:Name="NotesVerticalAlignmentTextBlock" DockPanel.Dock="Left"
+                               Style="{StaticResource TitleTextBlockStyle}"
+                               Text="Notes Vertical Alignment">
+                                </TextBlock>
+                            </DockPanel>
+                            <ComboBox x:Name="NotesVerticalAlignmentComboBox"
+                          ItemsSource="{Binding Source={EnumSource:BindingSourceEnumValues {x:Type closedxml:XLAlignmentVerticalValues}}}"
+                          SelectedItem="{Binding NotesVerticalAlignment , Mode=TwoWay}">
+                            </ComboBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region S. Notes FontSize && IsFontBold -->
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel x:Name="NotesFontSizeStackPanel"
+                                    Margin="0,5">
+                                <DockPanel>
+                                    <cc:Icon ToolTip="The Font Size of the Notes Table"
+                                         Style="{StaticResource CInfoTooltipIcon}"/>
+                                    <TextBlock x:Name="NotesFontSizeTextBlock"
+                                           Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="Notes Font Size">
+                                    </TextBlock>
+                                </DockPanel>
+                                <hc:TextBox x:Name="NotesFontSizeTextBox" d:Text="1000"
+                                        Text="{Binding NotesFontSize,Mode=TwoWay , TargetNullValue=''}">
+                                    <i:Interaction.Behaviors>
+                                        <b:TextBoxNumericInputBehavior Precision="2" 
+                                                       InputMode="DecimalInput"
+                                                       JustPositivDecimalInput="True"/>
+                                    </i:Interaction.Behaviors>
+                                </hc:TextBox>
+                            </StackPanel>
+                            <CheckBox IsChecked="{Binding NotesIsFontBold}" 
+                          Content="Bold Font" 
+                          ToolTip="Weather the Font should be Bold"
+                          Margin="10,23,0,0"/>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region T. Notes Font Color -->
+                        <StackPanel Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="The Color of the Font for the Notes Table"
+                                     Style="{StaticResource CInfoTooltipIcon}"/>
+                                <TextBlock x:Name="NotesFontColorTextBlock"
+                                       Style="{StaticResource TitleTextBlockStyle}"
+                                       Text="Notes Font Color"/>
+                            </DockPanel>
+                            <Border Background="{DynamicResource RegionBrush}"
+                                Padding="5"
+                                CornerRadius="7">
+                                <DockPanel>
+                                    <Border Height="20" 
+                                        VerticalAlignment="Center" 
+                                        Width="90" Background="{Binding NotesFontColor, Mode=TwoWay}" 
+                                        BorderBrush="{DynamicResource BorderBrush}"
+                                        BorderThickness="1"
+                                        d:Background="Red"
+                                        CornerRadius="7"
+                                        x:Name="NotesFontColorContainer">
+                                        <Border.InputBindings>
+                                            <MouseBinding Gesture="LeftClick" 
+                                                      Command="{Binding ElementName=XlsSettingsContainer, Path=OpenColorPickerCommand}"
+                                                      CommandParameter="{Binding ElementName=NotesFontColorContainer, Path=.}"/>
+                                        </Border.InputBindings>
+                                    </Border>
+                                    <Button Content="Color Picker" x:Name="NotesFontColorButton"
+                                        Foreground="{DynamicResource SecondaryBrush}"
+                                        Command="{Binding ElementName=XlsSettingsContainer, Path=OpenColorPickerCommand}"
+                                        CommandParameter="{Binding ElementName=NotesFontColorContainer, Path=.}"/>
+                                </DockPanel>
+                            </Border>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region U. Notes Background Color -->
+                        <StackPanel Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="The Color of the Background for the Notes Table"
+                                     Style="{StaticResource CInfoTooltipIcon}"/>
+                                <TextBlock x:Name="NotesBackgroundFontColorTextBlock"
+                                       Style="{StaticResource TitleTextBlockStyle}"
+                                       Text="Notes Background Color"/>
+                            </DockPanel>
+                            <Border Background="{DynamicResource RegionBrush}"
+                                Padding="5"
+                                CornerRadius="7">
+                                <DockPanel>
+                                    <Border Height="20" 
+                                        VerticalAlignment="Center" 
+                                        Width="90" Background="{Binding NotesBackgroundColor, Mode=TwoWay}" 
+                                        BorderBrush="{DynamicResource BorderBrush}"
+                                        BorderThickness="1"
+                                        d:Background="Red"
+                                        CornerRadius="7"
+                                        x:Name="NotesBackgroundColorContainer">
+                                        <Border.InputBindings>
+                                            <MouseBinding Gesture="LeftClick" 
+                                                      Command="{Binding ElementName=XlsSettingsContainer, Path=OpenColorPickerCommand}"
+                                                      CommandParameter="{Binding ElementName=NotesBackgroundColorContainer, Path=.}"/>
+                                        </Border.InputBindings>
+                                    </Border>
+                                    <Button Content="Color Picker" x:Name="NotesBackgroundColorButton"
+                                        Foreground="{DynamicResource SecondaryBrush}"
+                                        Command="{Binding ElementName=XlsSettingsContainer, Path=OpenColorPickerCommand}"
+                                        CommandParameter="{Binding ElementName=NotesBackgroundColorContainer, Path=.}"/>
+                                </DockPanel>
+                            </Border>
+                        </StackPanel>
+                        <!--#endregion-->
+                    </StackPanel>
+
+                </StackPanel>
+            </TabItem>
+            <!--#endregion-->
+
+        </TabControl>
+
+        <!--#region COLOR PICKER MODULE -->
+
+        <Border Padding="20" 
+                Background="{DynamicResource RegionBrush}"
+                CornerRadius="10" 
+                Grid.Row="0"
+                Margin="20,0,0,0"
+                x:Name="ColorPickerContainer"
+                Visibility="Collapsed"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Panel.ZIndex="2">
+            <StackPanel>
+                <Grid>
+                    <TextBlock Text="Color Picker" Style="{StaticResource CHeaderTextBlock}"
+                           Margin="0,0,0,10"/>
+                    <Button Style="{StaticResource ButtonIconCircular.Small}" 
+                            hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
+                            Foreground ="{DynamicResource DangerBrush}"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            BorderThickness="0" 
+                            Margin="0,-10,-10,0"
+                            Click="ColorPicker_Canceled"/>
+                </Grid>
+                <hc:ColorPicker Confirmed="ColorPicker_Confirmed"
+                                Canceled="ColorPicker_Canceled"
+                                x:Name="ColorPickerControl"/>
+            </StackPanel>
+        </Border>
+
+        <!--#endregion-->
+
+    </Grid>
+</UserControl>

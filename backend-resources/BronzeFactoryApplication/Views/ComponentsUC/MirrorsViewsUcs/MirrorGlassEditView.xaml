@@ -1,0 +1,801 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.MirrorGlassEditView"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels.MirrorsViewModels"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:drawVm="clr-namespace:BronzeFactoryApplication.ViewModels.DrawingsViewModels"
+             xmlns:vwShape="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.ShapesEditViewsUcs"
+             xmlns:vwHelper="clr-namespace:BronzeFactoryApplication.Views.HelperViews"
+             xmlns:shapeEnum="clr-namespace:MirrorsLib.Enums;assembly=MirrorsLib"
+             xmlns:EnumSource="clr-namespace:BronzeFactoryApplication.Helpers.MarkupExtensions"
+             xmlns:drawing="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.DrawsRelevantUcs"
+             xmlns:sandblastTypes="clr-namespace:MirrorsLib.MirrorElements;assembly=MirrorsLib"
+             mc:Ignorable="d"
+             x:Name="glassEditUC"
+             d:DataContext="{d:DesignInstance Type=vm:MirrorSynthesisEditorViewModel}">
+    <Grid HorizontalAlignment="Stretch"
+          VerticalAlignment="Stretch">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <!--#region Shape Type -->
+        <GroupBox Style="{StaticResource GroupBoxCabinProperties}"
+                  Header="{StaticResource lngShape}"
+                  Grid.Column="0"
+                  Grid.Row="0">
+            <GroupBox.HeaderTemplate>
+                <DataTemplate>
+                    <DockPanel>
+                        <Button hc:IconElement.Geometry="{StaticResource DeleteFillCircleGeometry}"
+                                hc:IconElement.Height="14"
+                                Style="{StaticResource ButtonIcon.Small}"
+                                Margin="-20,0,0,0"
+                                ToolTip="{StaticResource lngRefresh}"
+                                Command="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=DataContext.ResetMirrorCommand}"
+                                Foreground="{DynamicResource SecondaryBrush}" />
+                        <TextBlock Text="{StaticResource lngShape}"
+                                   Margin="0,0,0,0" />
+                    </DockPanel>
+                </DataTemplate>
+            </GroupBox.HeaderTemplate>
+            <StackPanel>
+                <StackPanel.Resources>
+                    <Style TargetType="RadioButton"
+                           BasedOn="{StaticResource RadioButtonIcon}">
+                        <Setter Property="HorizontalContentAlignment"
+                                Value="Left" />
+                        <Setter Property="HorizontalAlignment"
+                                Value="Stretch" />
+                        <Setter Property="Foreground"
+                                Value="{DynamicResource SecondaryBrush}" />
+                        <Setter Property="hc:IconElement.Width"
+                                Value="20" />
+                        <Setter Property="Padding"
+                                Value="5,3" />
+                        <Setter Property="Margin"
+                                Value="0,2" />
+                        <Style.Triggers>
+                            <Trigger Property="IsChecked"
+                                     Value="True">
+                                <Setter Property="Foreground"
+                                        Value="{DynamicResource PrimaryBrush}" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Resources>
+                <RadioButton hc:IconElement.Geometry="{StaticResource RectangleSolidGeometry}"
+                             Content="{StaticResource RectangleMirrorShape}"
+                             IsChecked="{Binding Shape, Converter={StaticResource isCheckedToMirrorShapeConverter},ConverterParameter={x:Static shapeEnum:BronzeMirrorShape.RectangleMirrorShape }}" />
+                <RadioButton hc:IconElement.Geometry="{StaticResource CircleSolidGeometry}"
+                             Content="{StaticResource CircleMirrorShape}"
+                             IsChecked="{Binding Shape, Converter={StaticResource isCheckedToMirrorShapeConverter},ConverterParameter={x:Static shapeEnum:BronzeMirrorShape.CircleMirrorShape }}" />
+                <RadioButton hc:IconElement.Geometry="{StaticResource CapsuleSolidGeometry}"
+                             Content="{StaticResource CapsuleMirrorShape}"
+                             IsChecked="{Binding Shape, Converter={StaticResource isCheckedToMirrorShapeConverter},ConverterParameter={x:Static shapeEnum:BronzeMirrorShape.CapsuleMirrorShape }}" />
+                <RadioButton hc:IconElement.Geometry="{StaticResource EllipseSolidGeometry}"
+                             Content="{StaticResource EllipseMirrorShape}"
+                             IsChecked="{Binding Shape, Converter={StaticResource isCheckedToMirrorShapeConverter},ConverterParameter={x:Static shapeEnum:BronzeMirrorShape.EllipseMirrorShape }}" />
+                <RadioButton hc:IconElement.Geometry="{StaticResource EggSolidGeometry}"
+                             Content="{StaticResource EggMirrorShape}"
+                             IsChecked="{Binding Shape, Converter={StaticResource isCheckedToMirrorShapeConverter},ConverterParameter={x:Static shapeEnum:BronzeMirrorShape.EggMirrorShape }}" />
+                <RadioButton hc:IconElement.Geometry="{StaticResource QuadrantSolidGeometry}"
+                             Content="{StaticResource CircleQuadrantMirrorShape}"
+                             IsChecked="{Binding Shape, Converter={StaticResource isCheckedToMirrorShapeConverter},ConverterParameter={x:Static shapeEnum:BronzeMirrorShape.CircleQuadrantMirrorShape }}" />
+                <RadioButton hc:IconElement.Geometry="{StaticResource CircleSegmentSolidGeometry}"
+                             Content="{StaticResource CircleSegmentMirrorShape}"
+                             IsChecked="{Binding Shape, Converter={StaticResource isCheckedToMirrorShapeConverter},ConverterParameter={x:Static shapeEnum:BronzeMirrorShape.CircleSegmentMirrorShape }}" />
+                <RadioButton hc:IconElement.Geometry="{StaticResource RegularPolygonGeometry}"
+                             Content="{StaticResource RegularPolygonShapeInfo}"
+                             IsChecked="{Binding Shape, Converter={StaticResource isCheckedToMirrorShapeConverter},ConverterParameter={x:Static shapeEnum:BronzeMirrorShape.RegularPolygonMirrorShape }}" />
+            </StackPanel>
+        </GroupBox>
+        <!--#endregion-->
+        <!--#region Glass Props -->
+        <GroupBox Grid.Column="1"
+                  Grid.Row="1"
+                  Style="{StaticResource GroupBoxCabinProperties}"
+                  Header="{StaticResource lngGlass}"
+                  IsEnabled="{Binding CanEditMirror}">
+            <hc:UniformSpacingPanel Orientation="Vertical"
+                                    VerticalAlignment="Top"
+                                    Spacing="5"
+                                    Margin="0">
+                <vwHelper:TasComboBox ComboBoxTitle="{StaticResource lngGlassThickness}"
+                                      x:Name="GlassThicknessComboBox"
+                                      IconToolTip="{StaticResource lngGlassThickness}"
+                                      ItemsSource="{Binding Source={EnumSource:BindingSourceEnumValues {x:Type shapeEnum:MirrorGlassThickness}}}"
+                                      SelectedItem="{Binding GlassThickness}">
+                    <vwHelper:TasComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Converter={StaticResource languageConverter} , TargetNullValue=''}" />
+                        </DataTemplate>
+                    </vwHelper:TasComboBox.ItemTemplate>
+                </vwHelper:TasComboBox>
+                <vwHelper:TasComboBox ComboBoxTitle="{StaticResource lngGlassType}"
+                                      x:Name="GlassTypeComboBox"
+                                      IconToolTip="{StaticResource lngGlassType}"
+                                      ItemsSource="{Binding Source={EnumSource:BindingSourceEnumValues {x:Type shapeEnum:MirrorGlassType}}}"
+                                      SelectedItem="{Binding GlassType}">
+                    <vwHelper:TasComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Converter={StaticResource languageConverter} , TargetNullValue=''}" />
+                        </DataTemplate>
+                    </vwHelper:TasComboBox.ItemTemplate>
+                </vwHelper:TasComboBox>
+                <vwHelper:TasTextBox IsReadOnly="True"
+                                     Text="{Binding GlassCode , Mode=OneWay}"
+                                     TextBoxTitle="{StaticResource lngGlassCode}"
+                                     IconTooltip="{StaticResource lngGlassCode}"
+                                     MaxWidth="210"
+                                     HorizontalAlignment="Left" />
+                <DockPanel MaxWidth="210"
+                           LastChildFill="True">
+                    <CheckBox Content="Auto"
+                              IsChecked="{Binding IsMirrorCodeEditable , Converter={StaticResource Boolean2BooleanReConverter}}" 
+                              DockPanel.Dock="Right"
+                              VerticalAlignment="Bottom"
+                              ToolTip="Uncheck to override automatic Code Generation"
+                              Margin="10,0,0,5"/>
+                    <vwHelper:TasTextBox IsReadOnly="{Binding IsMirrorCodeEditable, Converter={StaticResource Boolean2BooleanReConverter}}"
+                                         Text="{Binding MirrorCode}"
+                                         TextBoxTitle="{StaticResource lngMirrorCode}"
+                                         IconTooltip="{StaticResource lngMirrorCode}"/>
+                </DockPanel>
+            </hc:UniformSpacingPanel>
+        </GroupBox>
+        <!--#endregion-->
+        <!--#region Dimensions Information -->
+        <vwShape:MirrorShapeViewUC Grid.Column="0"
+                                   Grid.Row="1"
+                                   MinWidth="270"
+                                   IsEnabled="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.CanEditMirror}"
+                                   DataContext="{Binding DimensionsInformation}" />
+        <!--#endregion-->
+        <!--#region Sandblast & Support Options -->
+        <GroupBox Grid.Column="1"
+                  Grid.Row="0"
+                  Style="{StaticResource GroupBoxCabinProperties}"
+                  Header="{StaticResource lngSandblastAndSupport}"
+                  IsEnabled="{Binding CanEditMirror}">
+            <hc:UniformSpacingPanel Spacing="15"
+                                    Orientation="Vertical"
+                                    VerticalAlignment="Center">
+                <hc:UniformSpacingPanel.Resources>
+                    <!--#region Whole Item DockPanel -->
+                    <Style TargetType="DockPanel"
+                           x:Key="ItemDockPanelStyle">
+                        <Setter Property="DockPanel.Dock"
+                                Value="Top" />
+                        <Setter Property="Margin"
+                                Value="0,7" />
+                    </Style>
+                    <!--#endregion-->
+                    <!--#region Title DockPanel -->
+                    <Style TargetType="DockPanel"
+                           x:Key="TitleDockPanelStyle">
+                        <Setter Property="DockPanel.Dock"
+                                Value="Top" />
+                    </Style>
+                    <!--#endregion-->
+                    <!--#region Item Border Style -->
+                    <Style TargetType="Border"
+                           x:Key="ItemBorderStyle">
+                        <Setter Property="BorderBrush"
+                                Value="{DynamicResource BorderBrush}" />
+                        <Setter Property="BorderThickness"
+                                Value="1" />
+                        <Setter Property="Background"
+                                Value="{DynamicResource RegionBrush}" />
+                        <Setter Property="DockPanel.Dock"
+                                Value="Top" />
+                        <Setter Property="Padding"
+                                Value="0,3" />
+                    </Style>
+                    <!--#endregion-->
+                    <!--#region Selector Menu Various Styles -->
+                    <Style TargetType="MenuItem"
+                           x:Key="SelectorMenuStyle"
+                           BasedOn="{StaticResource MenuItemBaseStyle}">
+                        <Setter Property="Foreground"
+                                Value="{DynamicResource SecondaryBrush}" />
+                        <Setter Property="Padding"
+                                Value="12" />
+                        <Setter Property="ItemTemplate">
+                            <Setter.Value>
+                                <DataTemplate DataType="{x:Type sandblastTypes:MirrorElementBase}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"
+                                                              SharedSizeGroup="Col1" />
+                                            <ColumnDefinition Width="10"
+                                                              SharedSizeGroup="Col2" />
+                                            <ColumnDefinition Width="auto"
+                                                              SharedSizeGroup="Col3" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Foreground="{DynamicResource SecondaryBrush}"
+                                                   Text="{Binding Code}"
+                                                   Grid.Column="0"
+                                                   HorizontalAlignment="Left" />
+                                        <TextBlock Foreground="{DynamicResource SecondaryBrush}"
+                                                   Text="{Binding LocalizedDescriptionInfo.Name,Converter={StaticResource LocalizedStringMinifiedConverter}}"
+                                                   Grid.Column="2" />
+                                    </Grid>
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                    <Style TargetType="MenuItem"
+                           x:Key="MenuItemContainerStyle">
+                        <Setter Property="CommandParameter"
+                                Value="{Binding .}" />
+                        <Setter Property="Padding"
+                                Value="4" />
+                    </Style>
+                    <Style TargetType="cc:Icon"
+                           BasedOn="{StaticResource CustomIconBaseStyle}"
+                           x:Key="MenuSelectorIconStyle">
+                        <Setter Property="Fill"
+                                Value="{DynamicResource SecondaryBrush}" />
+                        <Setter Property="Height"
+                                Value="25" />
+                    </Style>
+                    <!--#endregion-->
+                    <!--#region Code Description TextBlocks and DockPanel -->
+                    <Style TargetType="TextBlock"
+                           BasedOn="{StaticResource CMediumInfoTextBlock}"
+                           x:Key="CodeTextBlockStyle">
+                        <Setter Property="FontSize"
+                                Value="12" />
+                        <Setter Property="DockPanel.Dock"
+                                Value="Top" />
+                        <Setter Property="TextAlignment"
+                                Value="Center" />
+                        <Setter Property="Margin"
+                                Value="2" />
+                    </Style>
+                    <Style TargetType="TextBlock"
+                           BasedOn="{StaticResource CMediumInfoTextBlock}"
+                           x:Key="DescriptionTextBlockStyle">
+                        <Setter Property="FontSize"
+                                Value="12" />
+                        <Setter Property="TextAlignment"
+                                Value="Center" />
+                        <Setter Property="Margin"
+                                Value="2" />
+                        <Setter Property="TextTrimming"
+                                Value="CharacterEllipsis" />
+                        <Style.Triggers>
+                            <Trigger Property="Text"
+                                     Value="">
+                                <Setter Property="Visibility"
+                                        Value="Collapsed" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                    <Style TargetType="DockPanel"
+                           x:Key="DescriptionDockPanelStyle">
+                        <Setter Property="HorizontalAlignment"
+                                Value="Center" />
+                        <Setter Property="VerticalAlignment"
+                                Value="Center" />
+                        <Setter Property="Margin"
+                                Value="5" />
+                        <Setter Property="DockPanel.Dock"
+                                Value="Left" />
+                    </Style>
+                    <!--#endregion-->
+                    <!--#region Buttons Edit Styles -->
+                    <Style TargetType="DockPanel"
+                           x:Key="ButtonsEditDockPanelStyle">
+                        <Setter Property="HorizontalAlignment"
+                                Value="Right" />
+                        <Setter Property="VerticalAlignment"
+                                Value="Center" />
+                        <Setter Property="DockPanel.Dock"
+                                Value="Right" />
+                    </Style>
+                    <Style TargetType="Button"
+                           BasedOn="{StaticResource ButtonIconCircular.Small}"
+                           x:Key="EditItemButtonStyle">
+                        <Setter Property="Foreground"
+                                Value="{DynamicResource SecondaryBrush}" />
+                        <Setter Property="BorderBrush"
+                                Value="{DynamicResource SecondaryBorderBrush}" />
+                        <Setter Property="hc:IconElement.Geometry"
+                                Value="{StaticResource EditGeometry}" />
+                        <Setter Property="hc:IconElement.Height"
+                                Value="10" />
+                        <Setter Property="ToolTip"
+                                Value="{StaticResource lngEdit}" />
+                        <Setter Property="Margin"
+                                Value="2" />
+                        <Setter Property="Padding"
+                                Value="4" />
+                        <Setter Property="DockPanel.Dock"
+                                Value="Top" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+                                <Setter Property="Opacity"
+                                        Value="0.7" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                    <Style TargetType="Button"
+                           BasedOn="{StaticResource ButtonIconCircular.Small}"
+                           x:Key="DeleteItemButtonStyle">
+                        <Setter Property="Foreground"
+                                Value="{DynamicResource DangerBrush}" />
+                        <Setter Property="hc:IconElement.Geometry"
+                                Value="{StaticResource DeleteFillCircleGeometry}" />
+                        <Setter Property="hc:IconElement.Height"
+                                Value="14" />
+                        <Setter Property="ToolTip"
+                                Value="{StaticResource lngRemove}" />
+                        <Setter Property="Margin"
+                                Value="2" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+                                <Setter Property="Opacity"
+                                        Value="0.7" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                    <!--#endregion-->
+
+                </hc:UniformSpacingPanel.Resources>
+
+                <DockPanel Width="200">
+                    <!--#region Support Selections -->
+                    <DockPanel Style="{StaticResource ItemDockPanelStyle}">
+                        <DockPanel Style="{StaticResource TitleDockPanelStyle}">
+                            <cc:Icon Style="{StaticResource CInfoTooltipIcon}"
+                                     ToolTip="{StaticResource lngSupport}" />
+                            <TextBlock Style="{StaticResource CTasTitleTextBlockStyle}"
+                                       Text="{StaticResource lngSupport}" />
+                        </DockPanel>
+                        <Border Style="{StaticResource ItemBorderStyle}">
+                            <DockPanel>
+                                <Menu x:Name="SupportsSelectionMenu"
+                                      DockPanel.Dock="Left"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center">
+                                    <MenuItem ItemsSource="{Binding SelectableSupports}"
+                                              Style="{StaticResource SelectorMenuStyle}">
+                                        <MenuItem.Header>
+                                            <cc:Icon Style="{StaticResource MenuSelectorIconStyle}"
+                                                     GeometryData="{StaticResource SupportIconGeometry}" />
+                                        </MenuItem.Header>
+                                        <MenuItem.ItemContainerStyle>
+                                            <Style TargetType="MenuItem"
+                                                   BasedOn="{StaticResource MenuItemContainerStyle}">
+                                                <Setter Property="Command"
+                                                        Value="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.SelectSupportCommand}" />
+                                            </Style>
+                                        </MenuItem.ItemContainerStyle>
+                                    </MenuItem>
+                                </Menu>
+                                <DockPanel Style="{StaticResource ButtonsEditDockPanelStyle}">
+                                    <Button Style="{StaticResource EditItemButtonStyle}"
+                                            Command="{Binding EditSupportCommand}" />
+                                    <Button Style="{StaticResource DeleteItemButtonStyle}"
+                                            Command="{Binding RemoveSupportCommand}" />
+                                </DockPanel>
+                                <DockPanel Style="{StaticResource DescriptionDockPanelStyle}">
+                                    <TextBlock Text="{Binding Support.Code , FallbackValue={StaticResource lngWithout}}"
+                                               Style="{StaticResource CodeTextBlockStyle}" />
+                                    <TextBlock Text="{Binding Support.LocalizedDescriptionInfo.Name,Converter={StaticResource LocalizedStringMinifiedConverter}, TargetNullValue={StaticResource lngWithout}}"
+                                               Style="{StaticResource DescriptionTextBlockStyle}" />
+                                </DockPanel>
+                            </DockPanel>
+                        </Border>
+                    </DockPanel>
+                    <!--#endregion-->
+                    <!--#region Sandblast Selections -->
+                    <DockPanel Style="{StaticResource ItemDockPanelStyle}">
+                        <DockPanel DockPanel.Dock="Top">
+                            <cc:Icon Style="{StaticResource CInfoTooltipIcon}"
+                                     ToolTip="{StaticResource lngSandblast}" />
+                            <TextBlock Style="{StaticResource CTasTitleTextBlockStyle}"
+                                       Text="{StaticResource lngSandblast}" />
+                        </DockPanel>
+                        <Border Style="{StaticResource ItemBorderStyle}">
+                            <DockPanel>
+                                <Menu x:Name="SandblastsSelectionMenu"
+                                      DockPanel.Dock="Left"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center">
+                                    <MenuItem ItemsSource="{Binding SelectableSandblasts}"
+                                              Style="{StaticResource SelectorMenuStyle}">
+                                        <MenuItem.Header>
+                                            <cc:Icon Style="{StaticResource MenuSelectorIconStyle}"
+                                                     GeometryData="{StaticResource SandblastIconGeometry}" />
+                                        </MenuItem.Header>
+                                        <MenuItem.ItemContainerStyle>
+                                            <Style TargetType="MenuItem"
+                                                   BasedOn="{StaticResource MenuItemContainerStyle}">
+                                                <Setter Property="Command"
+                                                        Value="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.SelectSandblastCommand}" />
+                                            </Style>
+                                        </MenuItem.ItemContainerStyle>
+                                    </MenuItem>
+                                </Menu>
+                                <DockPanel Style="{StaticResource ButtonsEditDockPanelStyle}">
+                                    <Button Style="{StaticResource EditItemButtonStyle}"
+                                            Command="{Binding EditSandblastCommand}" />
+                                    <Button Style="{StaticResource DeleteItemButtonStyle}"
+                                            Command="{Binding RemoveSandblastCommand}" />
+                                </DockPanel>
+                                <DockPanel Style="{StaticResource DescriptionDockPanelStyle}">
+                                    <TextBlock Text="{Binding Sandblast.Code,FallbackValue={StaticResource lngWithout}}"
+                                               Style="{StaticResource CodeTextBlockStyle}" />
+                                    <TextBlock Text="{Binding Sandblast.LocalizedDescriptionInfo.Name,Converter={StaticResource LocalizedStringMinifiedConverter}}"
+                                               Style="{StaticResource DescriptionTextBlockStyle}" />
+                                </DockPanel>
+                            </DockPanel>
+                        </Border>
+                    </DockPanel>
+                    <!--#endregion-->
+
+                </DockPanel>
+            </hc:UniformSpacingPanel>
+
+        </GroupBox>
+        <!--#endregion-->
+        <!--#region Glass Edit Modules-->
+        <GroupBox Grid.Column="0"
+                  Grid.Row="2"
+                  Grid.RowSpan="1"
+                  Grid.ColumnSpan="2"
+                  HorizontalAlignment="Stretch"
+                  VerticalAlignment="Stretch"
+                  Style="{StaticResource GroupBoxCabinProperties}"
+                  Header="{StaticResource lngExtras}">
+            <GroupBox.Resources>
+
+            </GroupBox.Resources>
+            <DockPanel>
+                <!--#region Modules CheckBoxes -->
+                <Grid Margin="5"
+                      DockPanel.Dock="Top">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.Resources>
+                        <!--#region Selector Menu Various Styles -->
+                        <Style TargetType="MenuItem"
+                               x:Key="SelectorMenuStyle"
+                               BasedOn="{StaticResource MenuItemBaseStyle}">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver"
+                                         Value="True">
+                                    <Setter Property="Opacity"
+                                            Value="0.7" />
+                                </Trigger>
+                            </Style.Triggers>
+                            <Setter Property="Foreground"
+                                    Value="{DynamicResource SecondaryBrush}" />
+                            <Setter Property="Padding"
+                                    Value="0" />
+                            <Setter Property="HeaderTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <cc:Icon Style="{StaticResource CustomIconBaseStyle}"
+                                                 GeometryData="{StaticResource AddGeometry}"
+                                                 Fill="{DynamicResource SecondaryBrush}"
+                                                 Height="12"
+                                                 Margin="2" />
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="ItemTemplate">
+                                <Setter.Value>
+                                    <DataTemplate DataType="sandblastTypes:MirrorElement">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto"
+                                                                  SharedSizeGroup="Col1" />
+                                                <ColumnDefinition Width="10"
+                                                                  SharedSizeGroup="Col2" />
+                                                <ColumnDefinition Width="auto"
+                                                                  SharedSizeGroup="Col3" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Foreground="{DynamicResource SecondaryBrush}"
+                                                       Text="{Binding Code}"
+                                                       Grid.Column="0"
+                                                       HorizontalAlignment="Left" />
+                                            <TextBlock Foreground="{DynamicResource SecondaryBrush}"
+                                                       Text="{Binding LocalizedDescriptionInfo.Name,Converter={StaticResource LocalizedStringMinifiedConverter}}"
+                                                       Grid.Column="2" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                        <Style TargetType="MenuItem"
+                               x:Key="MenuItemContainerStyle">
+                            <Setter Property="CommandParameter"
+                                    Value="{Binding .}" />
+                            <Setter Property="Command"
+                                    Value="{Binding RelativeSource={RelativeSource AncestorType=Menu}, Path=DataContext.SelectModuleCommand}" />
+                            <Setter Property="Padding"
+                                    Value="4" />
+                        </Style>
+                        <Style TargetType="Menu"
+                               BasedOn="{StaticResource MenuBaseStyle}"
+                               x:Key="MenuStyle">
+                            <Setter Property="Width"
+                                    Value="20" />
+                            <Setter Property="Background"
+                                    Value="Transparent" />
+                            <Setter Property="DockPanel.Dock"
+                                    Value="Right" />
+                            <Setter Property="Margin"
+                                    Value="2,0,0,0" />
+                        </Style>
+
+                        <!--#endregion-->
+                    </Grid.Resources>
+                    <DockPanel LastChildFill="False"
+                               HorizontalAlignment="Left"
+                               Grid.Row="0"
+                               IsEnabled="{Binding CanHaveSimpleMagnifier}">
+                        <CheckBox Content="{StaticResource MagnifierModuleType}"
+                                  IsChecked="{Binding HasSimpleMagnifier}"
+                                  Width="145" />
+                        <Menu x:Name="SimpleMagnifiersSelectionMenu"
+                              Style="{StaticResource MenuStyle}">
+                            <MenuItem Style="{StaticResource SelectorMenuStyle}"
+                                      ItemsSource="{Binding SelectableSimpleMagnifiers}"
+                                      ItemContainerStyle="{StaticResource MenuItemContainerStyle}">
+                            </MenuItem>
+                        </Menu>
+                    </DockPanel>
+                    <DockPanel LastChildFill="False"
+                               HorizontalAlignment="Left"
+                               Grid.Row="1"
+                               IsEnabled="{Binding CanHaveMagnifierWithLight}">
+                        <CheckBox Content="{StaticResource MagnifierSandblastedModuleType}"
+                                  IsChecked="{Binding HasMagnifierWithLight}"
+                                  Width="145" />
+                        <Menu x:Name="SandblastedMagnifiersSelectionMenu"
+                              Style="{StaticResource MenuStyle}">
+                            <MenuItem Style="{StaticResource SelectorMenuStyle}"
+                                      ItemsSource="{Binding SelectableSandblastedMagnifiers}"
+                                      ItemContainerStyle="{StaticResource MenuItemContainerStyle}">
+                            </MenuItem>
+                        </Menu>
+                    </DockPanel>
+                    <DockPanel LastChildFill="False"
+                               HorizontalAlignment="Left"
+                               Grid.Row="0"
+                               Grid.Column="2"
+                               IsEnabled="{Binding CanHaveProcess}">
+                        <CheckBox Content="{StaticResource ProcessModuleType}"
+                                  IsChecked="{Binding HasProcess}"
+                                  Width="125" />
+                        <Menu x:Name="ProcessSelectionMenu"
+                              Style="{StaticResource MenuStyle}">
+                            <MenuItem Style="{StaticResource SelectorMenuStyle}"
+                                      ItemsSource="{Binding SelectableProcesses}"
+                                      ItemContainerStyle="{StaticResource MenuItemContainerStyle}">
+                            </MenuItem>
+                        </Menu>
+                    </DockPanel>
+                    <DockPanel LastChildFill="False"
+                               HorizontalAlignment="Left"
+                               Grid.Row="1"
+                               Grid.Column="2"
+                               IsEnabled="{Binding CanHaveRoundedCorners}">
+                        <CheckBox Content="{StaticResource RoundedCornersModuleType}"
+                                  IsChecked="{Binding HasRoundedCorners}"
+                                  Width="125" />
+                        <Menu x:Name="RoundedCornersSelectionMenu"
+                              Style="{StaticResource MenuStyle}">
+                            <MenuItem Style="{StaticResource SelectorMenuStyle}"
+                                      ItemsSource="{Binding SelectableRoundedCorners}"
+                                      ItemContainerStyle="{StaticResource MenuItemContainerStyle}">
+                            </MenuItem>
+                        </Menu>
+                    </DockPanel>
+
+                </Grid>
+                <!--#endregion-->
+
+                <!--#region Modules DataGrid -->
+                <DataGrid Style="{StaticResource CDataGridSmall}"
+                          RowHeaderStyle="{StaticResource DataGridRowHeaderStyle}"
+                          ColumnHeaderStyle="{StaticResource DataGridColumnHeaderStyle.Small}"
+                          RowStyle="{StaticResource DataGridRowStyle.Small}"
+                          FontSize="14"
+                          BorderThickness="0"
+                          ItemsSource="{Binding Modules}"
+                          VerticalAlignment="Stretch"
+                          DockPanel.Dock="Right"
+                          Margin="0,0"
+                          MaxHeight="200"
+                          Width="510"
+                          HorizontalAlignment="Stretch"
+                          hc:DataGridAttach.ShowRowNumber="True"
+                          SelectionMode="Single"
+                          ScrollViewer.VerticalScrollBarVisibility="Visible"
+                          SelectedItem="{Binding CurrentSelectedModule}">
+                    <DataGrid.Resources>
+                        <!--#region Selector Menu Various Styles -->
+                        <Style TargetType="MenuItem"
+                               x:Key="SelectorMenuStyle"
+                               BasedOn="{StaticResource MenuItemBaseStyle}">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver"
+                                         Value="True">
+                                    <Setter Property="Opacity"
+                                            Value="0.7" />
+                                </Trigger>
+                            </Style.Triggers>
+                            <Setter Property="Foreground"
+                                    Value="{DynamicResource SecondaryBrush}" />
+                            <Setter Property="Padding"
+                                    Value="0" />
+                            <Setter Property="HeaderTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <cc:Icon Style="{StaticResource CustomIconBaseStyle}"
+                                                 GeometryData="{StaticResource AddGeometry}"
+                                                 Fill="{DynamicResource SecondaryBrush}"
+                                                 Height="12"
+                                                 Margin="2" />
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="ItemTemplate">
+                                <Setter.Value>
+                                    <DataTemplate DataType="sandblastTypes:MirrorElement">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto"
+                                                                  SharedSizeGroup="Col1" />
+                                                <ColumnDefinition Width="10"
+                                                                  SharedSizeGroup="Col2" />
+                                                <ColumnDefinition Width="auto"
+                                                                  SharedSizeGroup="Col3" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Foreground="{DynamicResource SecondaryBrush}"
+                                                       Text="{Binding Code}"
+                                                       Grid.Column="0"
+                                                       HorizontalAlignment="Left" />
+                                            <TextBlock Foreground="{DynamicResource SecondaryBrush}"
+                                                       Text="{Binding LocalizedDescriptionInfo.Name,Converter={StaticResource LocalizedStringMinifiedConverter}}"
+                                                       Grid.Column="2" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                        <Style TargetType="MenuItem"
+                               x:Key="MenuItemContainerStyle">
+                            <Setter Property="CommandParameter"
+                                    Value="{Binding .}" />
+                            <Setter Property="Command"
+                                    Value="{Binding RelativeSource={RelativeSource AncestorType=DataGrid}, Path=DataContext.SelectPositionOfModuleCommand}" />
+                            <Setter Property="Padding"
+                                    Value="4" />
+                        </Style>
+                        <Style TargetType="Menu"
+                               BasedOn="{StaticResource MenuBaseStyle}"
+                               x:Key="MenuStyle">
+                            <Setter Property="Width"
+                                    Value="20" />
+                            <Setter Property="Background"
+                                    Value="Transparent" />
+                            <Setter Property="DockPanel.Dock"
+                                    Value="Right" />
+                            <Setter Property="Margin"
+                                    Value="2,0,0,0" />
+                        </Style>
+
+                        <!--#endregion-->
+                    </DataGrid.Resources>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="{StaticResource lngCode}"
+                                            Binding="{Binding Module.Code}"
+                                            MaxWidth="130" />
+                        <DataGridTextColumn Header="{StaticResource lngDescription}"
+                                            MaxWidth="160"
+                                            Binding="{Binding Module.LocalizedDescriptionInfo.Name,Converter={StaticResource LocalizedStringMinifiedConverter}}" />
+                        <DataGridTemplateColumn Header="{StaticResource lngPosition}"
+                                                Width="115">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <DockPanel VerticalAlignment="Center"
+                                               HorizontalAlignment="Right">
+                                        <Menu x:Name="PositionsSelectionMenu"
+                                              Style="{StaticResource MenuStyle}">
+                                            <MenuItem Style="{StaticResource SelectorMenuStyle}"
+                                                      ItemContainerStyle="{StaticResource MenuItemContainerStyle}">
+                                                <MenuItem.ItemsSource>
+                                                    <MultiBinding Converter="{StaticResource moduleIdToAvailablePositionsConverter}">
+                                                        <Binding Path="Module.ElementId" />
+                                                        <Binding Path="DataContext.OrientedShape"
+                                                                 RelativeSource="{RelativeSource AncestorType=DataGrid}" />
+                                                    </MultiBinding>
+                                                </MenuItem.ItemsSource>
+                                            </MenuItem>
+                                        </Menu>
+                                        <TextBlock Text="{Binding Position.LocalizedDescriptionInfo.Name,Converter={StaticResource LocalizedStringMinifiedConverter},FallbackValue='N/A'}"
+                                                   DockPanel.Dock="Left"
+                                                   TextTrimming="CharacterEllipsis"
+                                                   ToolTip="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Text}" />
+                                    </DockPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="{StaticResource lngActions}"
+                                                Width="85">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <DataTemplate.Resources>
+                                        <Style TargetType="Button"
+                                               BasedOn="{StaticResource ButtonIconCircular.Small}">
+                                            <Setter Property="ToolTipService.VerticalOffset"
+                                                    Value="-15" />
+                                            <Setter Property="ToolTipService.HorizontalOffset"
+                                                    Value="10" />
+                                            <Setter Property="ToolTipService.Placement"
+                                                    Value="Right" />
+                                            <Setter Property="ToolTipService.InitialShowDelay"
+                                                    Value="0" />
+                                            <Setter Property="hc:IconElement.Height"
+                                                    Value="10" />
+                                            <Setter Property="CommandParameter"
+                                                    Value="{Binding .}" />
+                                            <Setter Property="Foreground"
+                                                    Value="{DynamicResource SecondaryBrush}" />
+                                            <Setter Property="BorderBrush"
+                                                    Value="{DynamicResource SecondaryBrush}" />
+                                        </Style>
+                                    </DataTemplate.Resources>
+                                    <hc:UniformSpacingPanel Spacing="3">
+                                        <Button hc:IconElement.Geometry="{StaticResource EditGeometry}"
+                                                ToolTip="{StaticResource lngEdit}"
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=DataGrid, Mode=FindAncestor}, Path=DataContext.EditModuleCommand}" />
+                                        <Button hc:IconElement.Geometry="{StaticResource PositionGeometry}"
+                                                ToolTip="{StaticResource lngEditPositionInstructions}"
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=DataGrid,Mode=FindAncestor}, Path=DataContext.EditModulePositionCommand}" />
+                                        <Button hc:IconElement.Geometry="{StaticResource DeleteFillCircleGeometry}"
+                                                ToolTip="{StaticResource lngRemove}"
+                                                Foreground="{DynamicResource DangerBrush}"
+                                                BorderBrush="{DynamicResource DangerBrush}"
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=DataGrid, Mode=FindAncestor}, Path=DataContext.RemoveModuleCommand}" />
+                                    </hc:UniformSpacingPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <!--#endregion-->
+            </DockPanel>
+        </GroupBox>
+        <!--#endregion-->
+    </Grid>
+</UserControl>

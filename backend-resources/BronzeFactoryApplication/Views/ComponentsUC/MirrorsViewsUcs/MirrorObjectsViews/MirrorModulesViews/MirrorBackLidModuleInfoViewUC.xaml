@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.MirrorObjectsViews.MirrorModulesViews.MirrorBackLidModuleInfoViewUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.MirrorObjectsViews.MirrorModulesViews"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels.MirrorsViewModels.ModulesViewModels"
+             xmlns:vw="clr-namespace:BronzeFactoryApplication.Views.HelperViews"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:mirrElements="clr-namespace:MirrorsLib.MirrorElements;assembly=MirrorsLib"
+             xmlns:globalCommands="clr-namespace:BronzeFactoryApplication.Helpers"
+             xmlns:EnumSource="clr-namespace:BronzeFactoryApplication.Helpers.MarkupExtensions"
+             xmlns:mirrorEnum="clr-namespace:MirrorsLib.Enums;assembly=MirrorsLib"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=vm:MirrorBackLidModuleEditorViewModel}">
+    <Grid>
+        <hc:UniformSpacingPanel Spacing="20"
+                                ChildWrapping="Wrap">
+            <vw:TasNumericTextBox Text="{Binding MinDistanceFromSupport}"
+                                  TextBoxTitle="{StaticResource lngPositionableMinDistanceFromSupport}"
+                                  IconTooltip="{StaticResource lngPositionableMinDistanceFromSupportTooltip}"
+                                  Precision="0"
+                                  JustPositiveInput="True"
+                                  InputMode="DigitInput"
+                                  MaxLength="4" />
+            <vw:TasNumericTextBox Text="{Binding MinDistanceFromSandblast}"
+                                  TextBoxTitle="{StaticResource lngPositionableMinDistanceFromSandblast}"
+                                  IconTooltip="{StaticResource lngPositionableMinDistanceFromSandblastTooltip}"
+                                  Precision="0"
+                                  JustPositiveInput="True"
+                                  InputMode="DigitInput"
+                                  MaxLength="4" />
+            <vw:TasNumericTextBox Text="{Binding MinDistanceFromOtherModules}"
+                                  TextBoxTitle="{StaticResource lngPositionableMinDistanceFromOtherModules}"
+                                  IconTooltip="{StaticResource lngPositionableMinDistanceFromOtherModulesTooltip}"
+                                  Precision="0"
+                                  JustPositiveInput="True"
+                                  InputMode="DigitInput"
+                                  MaxLength="4" />
+        </hc:UniformSpacingPanel>
+    </Grid>
+</UserControl>

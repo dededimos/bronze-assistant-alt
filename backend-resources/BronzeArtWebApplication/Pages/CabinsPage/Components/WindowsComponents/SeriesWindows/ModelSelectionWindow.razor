@@ -1,0 +1,49 @@
+﻿@* The Window from Which the User Selects CabinSeries Specific Models *@
+@namespace BronzeArtWebApplication.Pages.CabinsPage.Components.WindowsComponents.SeriesWindows
+@using BronzeArtWebApplication.Pages.CabinsPage.Components.Dialogs
+@using ShowerEnclosuresModelsLibrary.Enums
+@using ShowerEnclosuresModelsLibrary.Enums.CabinCategories
+@using static BronzeArtWebApplication.Shared.Helpers.StaticInfoCabins
+@using static BronzeArtWebApplication.Shared.Helpers.StylesStaticInfoCabins
+@inject ILanguageContainerService lc
+@inject AssembleCabinViewModel vm
+
+<StoryContainer Title = "@(lc.Keys["WindowChooseModelTitle"])" 
+                @bind-IsVisible = "@(vm.IsWindowVisible[ModelWindowToRender])" 
+                IsNextButtonVisible = "@(false)"
+                IsPreviousButtonVisible = "@(true)"
+                OnPreviousClick = "@(()=> vm.ShowWindow(StoryWindow.SeriesPrimary,ModelWindowToRender))"
+                OnResetClick = "@(()=> vm.ResetViewModel())">
+    <MainContent>
+        <MudGrid Justify="Justify.Center" Spacing="2" Class="px-5 py-5" >
+                @foreach (CabinModelEnum model in modelsList)
+                    {
+                     <MudItem xs="12" sm="12" md="6" lg="4" xl="4" xxl="4" Class="d-flex justify-center align-center">
+                         <MudButton Variant="Variant.Filled"
+                                    FullWidth="true"
+                                    Style="text-transform:none;height:100%"
+                                    Class="ma-2"
+                                    OnClick = "@(()=>HandleModelSelection(model))">
+                             <MudContainer Class="d-flex justify-center flex-column ma-1 pa-1" Style="max-width:90%">
+                                 <img src="@(CabinModelEnumImagePaths[model])"
+                                      alt="@lc.Keys[CabinModelEnumDescKey[model]]"
+                                      class="rounded-lg" />
+                                 <MudText Typo="Typo.subtitle1">
+                                     @lc.Keys[CabinModelEnumDescKey[model]]
+                                 </MudText>
+                             </MudContainer>
+                         </MudButton>
+                     </MudItem>   
+                    }
+        </MudGrid>
+
+        <!--Selection Dialog-->
+        <ChooseCabinDrawNumber @bind-IsVisible="@(isDialogVisible)"
+                               SelectedModel="@(selectedModel)"
+                               OnChoosingDrawClick="@((draw)=> HandleDrawNoSelection(draw))"/>
+    </MainContent>
+</StoryContainer>
+
+@code {
+
+}

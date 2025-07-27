@@ -1,0 +1,487 @@
+﻿.quoteBasketContainer {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    padding: 0px;
+    border: 1px solid var(--BackgroundColor);
+    border-radius: 10px;
+    position: relative;
+}
+
+.basketEmptyContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    flex-grow:1;
+}
+
+.basketEmptyText {
+    font-size: 2rem;
+    text-align: center;
+}
+
+.quoteTableContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.toolsContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0px;
+    border-bottom: 1px solid white;
+}
+
+.selectedRulesTextContainer{
+    font-size:0.75rem;
+    margin:auto;
+    border-radius:10px;
+    border:1px solid var(--BackgroundColor);
+}
+
+.toolsSubContainer1 {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+}
+.toolsSubContainer2 {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.toolsSubContainer3 {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    align-items: center;
+}
+
+.quoteTable {
+    border-collapse: collapse;
+    width: 100%;
+    position: relative;
+}
+
+
+tr:nth-child(odd) {
+    background-color: white;
+}
+
+tr:nth-child(even) {
+    background-color: white;
+}
+
+thead {
+    position: sticky;
+    z-index: 2;
+    top: 0;
+}
+
+th, td {
+    padding: 8px;
+}
+
+th {
+    background-color: var(--BackgroundColor);
+}
+
+
+.smallInfoCell {
+    padding: 2px 6px;
+    color: var(--mud-palette-action-disabled);
+}
+
+    .smallInfoCell:first-child {
+        text-align: left;
+    }
+
+    .smallInfoCell:last-child {
+        text-align: right;
+    }
+
+.headerCell {
+    /*background-color: #f1f1f1;*/
+    color: black;
+    font-size: 0.875rem;
+    font-weight: bold;
+    padding: 5px 10px;
+}
+/*The Fake border of the sticky header*/
+thead th::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0px; /* Aligns with the bottom of the cell */
+    width: 100%;
+    border-bottom: 2px solid var(--customPrimary);
+    z-index: 2; /* Below the text but above the content */
+}
+
+tr th:first-child {
+    border-left: 1px solid var(--customLightGray);
+}
+
+tr th:last-child {
+    border-right: 1px solid var(--customLightGray);
+}
+
+.headerCell.toolboxHeader {
+    border-bottom: none;
+}
+
+tfoot {
+    position: sticky;
+    z-index: 2;
+    bottom: 0;
+}
+
+.footertd {
+    background-color: white;
+    color: black;
+    text-align: right;
+    font-size: 0.9rem;
+    font-weight: bold;
+    padding: 0px;
+    padding-right:20px;
+    height: 1px; /*Needed to scale child containers properly*/
+}
+
+/*Fake border of footer*/
+tfoot .footertd::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: -2px; /* Aligns with the top of the cell */
+    width: 100%;
+    border-top: 2px solid var(--customPrimary);
+    z-index: 2; /* Below the text but above the content */
+}
+
+.cell {
+    color: black;
+    vertical-align: middle;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    padding: 10px;
+    border-bottom: 1px solid #dedede;
+}
+
+tr .cell:first-child {
+    border-left: 1px solid #dedede;
+}
+
+tr .cell:last-child {
+    border-right: 1px solid #dedede;
+}
+
+.cellContainer-centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.centeredText {
+    text-align: center;
+}
+
+.rightText {
+    text-align: right;
+}
+
+.leftText {
+    text-align: left;
+}
+
+.scrollable-table {
+    overflow-x: auto;
+    overflow-y: auto;
+}
+
+.imageContainer {
+    width: 90px;
+    height: 90px;
+    margin: auto;
+    padding: 5px;
+    border-radius: 10px;
+    background-color: white;
+}
+
+.trAboveOverlay {
+    z-index: 1000;
+    position: relative;
+}
+    /*Apply styles to all children of trAboveOverlay with the cell class*/
+    .trAboveOverlay .cell {
+        border-top: 2px solid var(--customPrimary);
+        
+        background-color: white;
+    }
+
+        .trAboveOverlay .cell:first-child {
+            border-left: 2px solid var(--customPrimary);
+        }
+
+        .trAboveOverlay .cell:last-child {
+            border-right: 2px solid var(--customPrimary);
+        }
+
+.codeDescriptionQtyEditContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+}
+
+.codeDescriptionEditContainer {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.quantityEditContainer {
+    flex-grow: 0;
+    max-width: 110px;
+}
+
+.priceDiscountsContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+}
+
+.initialPriceEditControl {
+    max-width: 125px;
+    display: flex;
+    flex-direction: column;
+    margin-top:21px;
+}
+
+.editPriceSwitchContainer {
+    margin-left:-16px;
+}
+
+.discountBoxesContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width:155px;
+}
+
+.totalDiscountContainer {
+    max-width: 175px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.totalDiscountEditControl {
+}
+
+.editDiscountSwitchContainer {
+}
+
+.subDiscountsContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.subDiscountContainer {
+    max-width: 55px;
+    margin: 10px 2px 0px 2px;
+}
+
+.ruleSumsContainer {
+    display:flex;
+    flex-direction:row;
+    justify-content:center;
+    align-items:center;
+    gap:16px;
+}
+
+.ruleSumsTable {
+    border-collapse: collapse;
+}
+
+    .ruleSumsTable tr:last-child .smallInfoCell {
+        border-top: 1px solid var(--mud-palette-action-disabled-background);
+    }
+
+.infoIconContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.rulesContainer {
+    font-size: 0.75rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    min-height: 30px;
+}
+
+.rulesContainerText {
+    margin-top: 2px;
+}
+
+.informationAddtionalTr {
+    z-index: 1000;
+    position: relative;
+}
+
+.informationSingleRowCell {
+    background-color: white;
+    border: 2px solid var(--customPrimary);
+    border-top: none;
+}
+
+.sumsTable {
+    margin-right: 0px;
+    margin-left: auto;
+    table-layout: auto;
+    width: min-content;
+}
+
+    .sumsTable td {
+        padding: 2px;
+    }
+
+/*covers the rolling border of the table*/
+.coverRollBorder {
+    position: absolute;
+    width: 1px;
+    height: 100%;
+    top: 0%;
+    left: -1px;
+    background-color: white;
+}
+
+.moreToolsContainer {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    transition: width ease 0.5s;
+    overflow: hidden;
+    border:1px solid var(--BackgroundColor);
+}
+.moreToolsTitle{
+    width:100%;
+    font-size:1rem;
+    text-align:center;
+    font-weight:bold;
+    padding:15px;
+    background-color: var(--BackgroundColor);
+    border-bottom: 2px solid var(--customPrimary);
+    position:relative;
+    white-space:nowrap;
+    overflow:hidden;
+}
+
+.maxWidthSmallCell {
+    width: 27px;
+}
+
+.optionContainer {
+    margin: 10px;
+}
+.optionContainerText {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 5px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.toolDiscountsContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    /*box-shadow: var(--mud-elevation-4);*/
+    padding: 10px 10px;
+}
+
+.tooltipTableCell {
+    background-color: var(--mud-palette-dark);
+}
+
+.searchOptionsContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.notesContainer{
+    
+}
+
+.addByCodeContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+    /*box-shadow: var(--mud-elevation-4);*/
+    padding: 10px;
+    border-radius: 10px;
+}
+
+
+.accSearchContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    border: solid 1px var(--BackgroundColor);
+    border-radius: 5px;
+    transition: border-color ease 0.5s;
+    padding: 10px;
+}
+    .accSearchContainer:hover {
+        border-color: var(--customPrimary);
+    }
+.accSearchTextContainer {
+    text-align: start;
+    width: 100px;
+    margin-right: 10px;
+}
+
+.searchItemImage {
+    width: 65px;
+    height: 65px;
+}
+.accessoryImage {
+    object-fit: scale-down;
+}
+
+
+/*.otherButtonsContainer {
+    box-shadow: var(--mud-elevation-4);
+    padding: 10px;
+    border-radius: 10px;
+    display:flex;
+    flex-direction:row;
+    flex-wrap:wrap;
+}
+.otherButtonContainer{
+    width:80px;
+}*/

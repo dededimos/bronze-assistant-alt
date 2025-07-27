@@ -1,0 +1,66 @@
+﻿@*A Panel Containing Controls to Choose Glass Properties *@
+@namespace BronzeArtWebApplication.Pages.CabinsPage.Components.CabinPropertiesPanels
+@using static BronzeArtWebApplication.Shared.Helpers.StaticInfoCabins
+@using BronzeArtWebApplication.Components.SVGComponents
+@using ShowerEnclosuresModelsLibrary.Enums
+@using ShowerEnclosuresModelsLibrary.Enums.ShowerDrawEnums
+@inject AssembleCabinViewModel vm
+@inject ILanguageContainerService lc
+
+<div id="GlassPropertiesMainContainer" class="d-flex flex-column justify-center rounded-lg mud-elevation-4">
+    <div id="GlassPropsTitleContainer" class="d-flex flex-row justify-center align-center pa-2 rounded-t-lg" style="border-bottom:4px solid var(--BronzeDarkPink);background-color:var(--BackgroundColor)">
+        <div style="width:33px;height:33px">
+            <MirrorIconSVG Fill="var(--customDark)" />
+        </div>
+        <MudText Typo="Typo.h6" Style="user-select:none">@(lc.Keys["Glass"])</MudText>
+    </div>
+    <div class="d-flex flex-column mx-auto my-auto px-2 py-4">
+        <MudSelect T="@(CabinThicknessEnum?)"
+                   Label="@(lc.Keys["Thickness"])"
+                   FullWidth="true"
+                   Style="font-size:small"
+                   AnchorOrigin="@(Origin.BottomLeft)"
+                   TransformOrigin="@(Origin.TopLeft)"
+                   Dense="true"
+                   Variant="@(Variant.Outlined)"
+                   Margin="@(Margin.Dense)"
+                   @bind-Value="@(vm.PrimaryCabin.Thicknesses)">
+                   
+            @foreach (CabinThicknessEnum thickness in vm.PrimaryCabin.ValidThicknesses)
+            {
+                <MudSelectItem T="CabinThicknessEnum?" 
+                    Value="thickness"
+                    Disabled="@(!vm.PrimaryCabin.IsThicknessAllowed(thickness))">
+                    @(lc.Keys[CabinThicknessesEnumDescKey[thickness]])
+                </MudSelectItem>
+            }
+        </MudSelect>
+        <MudSelect T="@(GlassFinishEnum?)"
+                   Label="@(lc.Keys["Type"])"
+                   Class="mt-2"
+                   FullWidth="true"
+                   Style="font-size:small"
+                   AnchorOrigin="@(Origin.BottomLeft)"
+                   TransformOrigin="@(Origin.TopLeft)"
+                   Dense="true"
+                   Variant="@(Variant.Outlined)"
+                   Margin="@(Margin.Dense)"
+                   @bind-Value="@(vm.PrimaryCabin.GlassFinish)"
+                   ToStringFunc="@(v => v != null ? lc.Keys[GlassFinishEnumDescKey[(GlassFinishEnum)v]] : "")">
+            @foreach (GlassFinishEnum finish in vm.PrimaryCabin.ValidGlassFinishes)
+            {
+                <MudSelectItem T="GlassFinishEnum?" Value="finish">
+
+                </MudSelectItem>
+            }
+        </MudSelect>
+    </div>
+</div>
+
+
+@code {
+        private string GetMultiSelectionText(List<string> selected)
+        {
+            return lc.Keys[CabinThicknessesEnumDescKey[vm.PrimaryCabin.Thicknesses ?? CabinThicknessEnum.NotSet]];
+        }
+}

@@ -1,0 +1,193 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.ComponentsUC.DrawsRelevantUcs.DrawPdfOptionsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.DrawsRelevantUcs"
+             mc:Ignorable="d"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels.ComponentsUCViewModels.DrawsViewModels"
+             xmlns:drawingVm="clr-namespace:BronzeFactoryApplication.ViewModels.DrawingsViewModels"
+             xmlns:helperVw="clr-namespace:BronzeFactoryApplication.Views.HelperViews"
+             xmlns:modelsPresOpt="clr-namespace:DrawingLibrary.Models.PresentationOptions;assembly=DrawingLibrary"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             d:DataContext="{d:DesignInstance Type=drawingVm:DrawPdfDocumentOptionsViewModel}">
+    <Grid>
+        <StackPanel>
+            <hc:UniformSpacingPanel Spacing="20">
+                <!--#region PageWidth -->
+                <helperVw:TasNumericTextBox TextBoxTitle="{StaticResource lngPageWidth}"
+                                            IconTooltip="{StaticResource lngPageWidthTooltip}"
+                                            Text="{Binding PageWidth}"
+                                            Precision="0"
+                                            MaxLength="4"
+                                            InputMode="DigitInput"
+                                            JustPositiveInput="True" />
+                <!--#endregion-->
+                <!--#region PageHeight -->
+                <helperVw:TasNumericTextBox TextBoxTitle="{StaticResource lngPageHeight}"
+                                            IconTooltip="{StaticResource lngPageHeightTooltip}"
+                                            Text="{Binding PageHeight}"
+                                            Precision="0"
+                                            MaxLength="4"
+                                            InputMode="DigitInput"
+                                            JustPositiveInput="True" />
+                <!--#endregion-->
+                <!--#region PageHeight -->
+                <helperVw:TasNumericTextBox TextBoxTitle="{StaticResource lngPageMargin}"
+                                            IconTooltip="{StaticResource lngPageMarginTooltip}"
+                                            Text="{Binding PageMargin}"
+                                            Precision="0"
+                                            MaxLength="4"
+                                            InputMode="DigitInput"
+                                            JustPositiveInput="True" />
+                <!--#endregion-->
+                <!--#region Scale to Fit -->
+                <CheckBox IsChecked="{Binding ScaleDrawToFit}"
+                          ToolTip="{StaticResource lngScaleDrawToFitTooltip}"
+                          Content="{StaticResource lngScaleDrawToFit}" />
+                <!--#endregion-->
+            </hc:UniformSpacingPanel>
+            <hc:UniformSpacingPanel Spacing="20"
+                                    ChildWrapping="Wrap"
+                                    MaxWidth="600"
+                                    Margin="0,20,0,0">
+                <hc:UniformSpacingPanel.Resources>
+                    <Style TargetType="helperVw:TasTextBox">
+                        <Setter Property="Width"
+                                Value="180" />
+                    </Style>
+                </hc:UniformSpacingPanel.Resources>
+                <!--#region Responsible Department -->
+                <helperVw:TasTextBox TextBoxTitle="{StaticResource lngResponsibleDepartment}"
+                                     IconTooltip="{StaticResource lngResponsibleDepartment}"
+                                     Text="{Binding ResponsibleDepartment}"
+                                     MaxLength="20" />
+                <!--#endregion-->
+                <!--#region Technical Reference -->
+                <helperVw:TasTextBox TextBoxTitle="{StaticResource lngTechnicalReference}"
+                                     IconTooltip="{StaticResource lngTechnicalReference}"
+                                     Text="{Binding TechnicalReference}"
+                                     MaxLength="20"
+                                     IsReadOnly="{Binding StopChangingTitleAutomatically,Converter={StaticResource Boolean2BooleanReConverter}}" />
+                <!--#endregion-->
+                <!--#region Created By -->
+                <helperVw:TasTextBox TextBoxTitle="{StaticResource lngCreatedBy}"
+                                     IconTooltip="{StaticResource lngCreatedBy}"
+                                     Text="{Binding CreatedBy}"
+                                     MaxLength="20" />
+                <!--#endregion-->
+                <!--#region Approved By -->
+                <helperVw:TasTextBox TextBoxTitle="{StaticResource lngApprovedBy}"
+                                     IconTooltip="{StaticResource lngApprovedBy}"
+                                     Text="{Binding ApprovedBy}"
+                                     MaxLength="20" />
+                <!--#endregion-->
+                <!--#region Document Type -->
+                <helperVw:TasTextBox TextBoxTitle="{StaticResource lngDocumentType}"
+                                     IconTooltip="{StaticResource lngDocumentType}"
+                                     Text="{Binding DocumentType}"
+                                     MaxLength="20" />
+                <!--#endregion-->
+                <!--#region Document Type -->
+                <helperVw:TasTextBox TextBoxTitle="{StaticResource lngDocumentStatus}"
+                                     IconTooltip="{StaticResource lngDocumentStatus}"
+                                     Text="{Binding DocumentStatus}"
+                                     MaxLength="20" />
+                <!--#endregion-->
+                <DockPanel>
+                    <!--#region Logo Path -->
+                    <helperVw:TasPhotoUpload ImageUrl="{Binding LogoPath, Mode=TwoWay}"
+                                             ControlTitle="{StaticResource lngLogoPath}"
+                                             ToolTip="{StaticResource lngLogoPathTooltip}" 
+                                             Margin="0,0,40,0"/>
+                    <!--#endregion-->
+                    <hc:UniformSpacingPanel Spacing="20"
+                                            ChildWrapping="Wrap"
+                                            ItemHorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Center">
+                        <!--#region Legal Owner -->
+                        <helperVw:TasTextBox TextBoxTitle="{StaticResource lngLegalOwner}"
+                                             IconTooltip="{StaticResource lngLegalOwner}"
+                                             Text="{Binding LegalOwner}"
+                                             MaxLength="20" />
+                        <!--#endregion-->
+                        <!--#region Title,Supp Title -->
+                        <helperVw:TasTextBox TextBoxTitle="{StaticResource lngTitleSupplementaryTitle}"
+                                             IconTooltip="{StaticResource lngTitleSupplementaryTitle}"
+                                             Text="{Binding DrawItemTitle}"
+                                             MaxLength="30"
+                                             IsReadOnly="{Binding StopChangingTitleAutomatically,Converter={StaticResource Boolean2BooleanReConverter}}" />
+                        <!--#endregion-->
+                        <!--#region Code -->
+                        <helperVw:TasTextBox TextBoxTitle="{StaticResource lngCode}"
+                                             IconTooltip="{StaticResource lngCode}"
+                                             Text="{Binding Code}"
+                                             MaxLength="20"
+                                             IsReadOnly="{Binding StopChangingCodeAutomatically,Converter={StaticResource Boolean2BooleanReConverter}}"/>
+                        <!--#endregion-->
+                        <!--#region Date Of Issue -->
+                        <helperVw:TasTextBox TextBoxTitle="{StaticResource lngDateOfIssue}"
+                                             IconTooltip="{StaticResource lngDateOfIssue}"
+                                             Text="{Binding DateOfIssue}"
+                                             MaxLength="12" />
+                        <!--#endregion-->
+                        <!--#region Internal References -->
+                        <helperVw:TasTextBox TextBoxTitle="{StaticResource lngInternalReference}"
+                                             IconTooltip="{StaticResource lngInternalReference}"
+                                             Text="{Binding InternalReferenceNotes}"
+                                             MaxLength="12" />
+                        <!--#endregion-->
+                        <!--#region Revision -->
+                        <helperVw:TasTextBox TextBoxTitle="{StaticResource lngRev}"
+                                             IconTooltip="{StaticResource lngRev}"
+                                             Text="{Binding Revision}"
+                                             MaxLength="2"/>
+                        <!--#endregion-->
+                    </hc:UniformSpacingPanel>
+                </DockPanel>
+            </hc:UniformSpacingPanel>
+            <!--#region Notes -->
+            <hc:TextBox MaxLength="600"
+                        Width="585"
+                        Height="150"
+                        Padding="5"
+                        Margin="0,20"
+                        hc:InfoElement.Placeholder="Notes"
+                        hc:InfoElement.ShowClearButton="True"
+                        ScrollViewer.VerticalScrollBarVisibility="Auto"
+                        TextAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        HorizontalAlignment="Left"
+                        FontSize="12"
+                        TextWrapping="Wrap"
+                        AcceptsReturn="True"
+                        d:Text="Test Notes"
+                        Text="{Binding Notes}">
+            </hc:TextBox>
+            <!--#endregion-->
+            <hc:UniformSpacingPanel Spacing="20" HorizontalAlignment="Center">
+                <hc:UniformSpacingPanel Orientation="Vertical" Spacing="10">
+                    <CheckBox IsChecked="{Binding StopChangingCodeAutomatically}"
+                              Content="{StaticResource lngDisableCodeAutoChange}"
+                              ToolTip="{StaticResource lngDisableCodeAutoChangeTooltip}"
+                              Foreground="{DynamicResource SecondaryBrush}" />
+                    <CheckBox IsChecked="{Binding StopChangingTechnicalReferenceAutomatically}"
+                              Content="{StaticResource lngDisableTechnicalReferenceAutoChange}"
+                              ToolTip="{StaticResource lngDisableTechnicalReferenceAutoChangeTooltip}"
+                              Foreground="{DynamicResource SecondaryBrush}" />
+                    <CheckBox IsChecked="{Binding StopChangingTitleAutomatically}"
+                              Content="{StaticResource lngDisableTitleAutoChange}"
+                              ToolTip="{StaticResource lngDisableTitleAutoChangeTooltip}"
+                              Foreground="{DynamicResource SecondaryBrush}" />
+                </hc:UniformSpacingPanel>
+                <Button Command="{Binding ResetToDefaultsCommand}"
+                        Content="{StaticResource lngDefaultSettings}"
+                        Foreground="{DynamicResource SecondaryBrush}"
+                        hc:IconElement.Geometry="{StaticResource UndoIconGeometry}" />
+            </hc:UniformSpacingPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

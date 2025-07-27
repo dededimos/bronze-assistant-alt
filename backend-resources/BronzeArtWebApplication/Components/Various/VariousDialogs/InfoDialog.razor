@@ -1,0 +1,27 @@
+﻿@inject ILanguageContainerService Lc
+
+<MudDialog>
+    <DialogContent>
+        @(Message)
+    </DialogContent>
+    <DialogActions>
+        <MudButton Variant="@(Variant.Outlined)"
+                   Color="@(Color.Primary)"
+                   Style="text-transform:none"
+                   Class="ma-4"
+                   OnClick="@(()=> CloseDialog())">
+            @(Lc.Keys["DialogActionButtonClose"])
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+
+@code {
+    [CascadingParameter]
+    public IMudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public string Message { get; set; } = string.Empty;
+
+    void CloseDialog() => MudDialog.Close();
+}

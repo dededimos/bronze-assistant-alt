@@ -1,0 +1,34 @@
+﻿using BronzeFactoryApplication.Helpers.Other;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+
+namespace BronzeFactoryApplication.Views.Modals
+{
+    /// <summary>
+    /// Interaction logic for EditGlassRowModalUC.xaml
+    /// </summary>
+    public partial class EditGlassRowModalUC : UserControl
+    {
+        public EditGlassRowModalUC()
+        {
+            InitializeComponent();
+        }
+
+        private void NotesTextBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            //NotesTextBox.Focus();
+        }
+    }
+}

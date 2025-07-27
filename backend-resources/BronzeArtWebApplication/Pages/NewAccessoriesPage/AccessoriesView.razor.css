@@ -1,0 +1,35 @@
+﻿.accessoriesViewContainer {
+    display: flex;
+    flex-direction: column;
+    animation: fadeInAnimation 500ms;
+}
+
+.stickyOptionsContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    position: sticky;
+    top: 0%;
+    left: 0%;
+    z-index: 99;
+    width: 100%;
+    background-color: white;
+    overflow-x: auto;
+}
+
+.viewSelectorContainer{
+    display:flex;
+    flex-direction:row;
+    background-color:white;
+    justify-content:start;
+    align-items:start;
+}
+
+.cardRowsContainer{
+    display:flex;
+    flex-direction:row;
+    flex-wrap:wrap;
+    align-content:center;
+    justify-content:center;
+    margin-bottom:100px;
+}

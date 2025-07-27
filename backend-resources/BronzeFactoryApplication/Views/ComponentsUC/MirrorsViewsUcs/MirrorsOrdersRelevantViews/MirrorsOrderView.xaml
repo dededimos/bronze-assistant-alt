@@ -1,0 +1,335 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.MirrorsOrdersRelevantViews.MirrorsOrderView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.MirrorsOrdersRelevantViews"
+             xmlns:huc="clr-namespace:BronzeFactoryApplication.Views.HelperViews"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:b="clr-namespace:BronzeFactoryApplication.Helpers.Behaviours"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels.MirrorsViewModels.MirrorOrdersViewModels"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:EnumSource="clr-namespace:BronzeFactoryApplication.Helpers.MarkupExtensions"
+             xmlns:mirrorEnum="clr-namespace:MirrorsLib.Enums;assembly=MirrorsLib"
+             xmlns:mirrorVw="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs"
+             xmlns:mirrorsLib="clr-namespace:MirrorsLib;assembly=MirrorsLib"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=vm:MirrorsOrderViewModel}">
+
+    <GroupBox Style="{StaticResource GroupBoxCabinProperties}"
+              HorizontalContentAlignment="Stretch"
+              Header="{Binding RelativeSource={RelativeSource Mode=Self}, Path=DataContext}">
+
+        <!--#region AA. HEADER TEMPLATE -->
+
+        <GroupBox.HeaderTemplate>
+            <DataTemplate DataType="{x:Type vm:MirrorsOrderViewModel}">
+                <Grid  VerticalAlignment="Center"
+                       HorizontalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+                    <!--#region OrderNo Header -->
+                    <StackPanel Orientation="Horizontal"
+                                Grid.Column="0"
+                                HorizontalAlignment="Left">
+                        <Button hc:IconElement.Geometry="{StaticResource EditGeometry}"
+                                Style="{StaticResource ButtonIconCircular.Small}"
+                                Foreground="{DynamicResource SecondaryBrush}"
+                                BorderThickness="1"
+                                BorderBrush="{DynamicResource SecondaryBrush}"
+                                Background="Transparent"
+                                Margin="0,0,10,0"
+                                Command="{Binding EditOrderDetailsCommand}" />
+                        <TextBlock  Text="{StaticResource lngGlassesOrder}"
+                                    Style="{StaticResource CHeaderTextBlock}"
+                                    Foreground="{DynamicResource SecondaryBrush}" />
+                        <TextBlock Text="{Binding OrderNo}"
+                                   Style="{StaticResource CHeaderTextBlock}"
+                                   Foreground="{DynamicResource SecondaryBrush}"
+                                   Margin="10,0" />
+                    </StackPanel>
+                    <!--#endregion-->
+
+                    <!--#region Glasses Count -->
+                    <StackPanel Orientation="Horizontal"
+                                Margin="20,0,0,0"
+                                VerticalAlignment="Center"
+                                DockPanel.Dock="Right"
+                                Grid.Column="1">
+                        <cc:Icon Style="{StaticResource CInfoTooltipIcon}"
+                                 Margin="0,0,5,2"
+                                 ToolTipService.InitialShowDelay="200"
+                                 ToolTipService.BetweenShowDelay="200"
+                                 ToolTip="{StaticResource lngGlassesCountTooltip}" />
+                        <TextBlock Text="{StaticResource lngGlassAbbreviation}" />
+                        <TextBlock Text="{Binding TotalQuantity}"
+                                   d:Text="50" />
+                    </StackPanel>
+                    <!--#endregion-->
+
+                    <!--#region PAOPAM Count -->
+                    <StackPanel Orientation="Horizontal"
+                                Margin="20,0,0,0"
+                                VerticalAlignment="Center"
+                                DockPanel.Dock="Right"
+                                Grid.Column="3">
+                        <cc:Icon Style="{StaticResource CInfoTooltipIcon}"
+                                 Margin="0,0,5,2"
+                                 ToolTipService.InitialShowDelay="200"
+                                 ToolTipService.BetweenShowDelay="200"
+                                 ToolTip="{StaticResource lngPA0CountTooltip}" />
+                        <TextBlock Text="{StaticResource lngOrdersAbbrevation}" />
+                        <TextBlock Text="{Binding TotalPAOPAM}"
+                                   d:Text="50" />
+                    </StackPanel>
+                    <!--#endregion-->
+
+                </Grid>
+            </DataTemplate>
+        </GroupBox.HeaderTemplate>
+
+        <!--#endregion-->
+
+        <Grid x:Name="OrderRowsGroupBoxGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition MaxHeight="320" />
+            </Grid.RowDefinitions>
+
+            <!--#region 0.ToolBox Border -->
+            <DockPanel Margin="0"
+                       VerticalAlignment="Top">
+                <Button Style="{StaticResource ButtonIcon}"
+                        hc:IconElement.Geometry="{StaticResource PrintGeometry}"
+                        Foreground="{DynamicResource SecondaryBrush}"
+                        Command="{Binding OpenAllPrintBomCommand}"
+                        ToolTip="Print All BOMs"
+                        Height="25"
+                        ToolTipService.Placement="Top"
+                        BorderThickness="1"
+                        BorderBrush="{DynamicResource SecondaryBrush}"
+                        DockPanel.Dock="Left"
+                        HorizontalAlignment="Left" />
+                <Button Style="{StaticResource ButtonIcon}"
+                        hc:IconElement.Geometry="{StaticResource DrawIconGeometry}"
+                        Foreground="{DynamicResource SecondaryBrush}"
+                        Command="{Binding OpenDrawsDialogCommand}"
+                        ToolTip="Open Draws Command"
+                        Height="25"
+                        ToolTipService.Placement="Top"
+                        BorderThickness="1"
+                        BorderBrush="{DynamicResource SecondaryBrush}"
+                        DockPanel.Dock="Left"
+                        HorizontalAlignment="Left" />
+            </DockPanel>
+            <!--#endregion-->
+
+            <!--#region 1. Mirrors Order DataGrid -->
+
+            <DockPanel Margin="0,10,0,0"
+                       LastChildFill="True">
+                <DockPanel.Resources>
+                    <!-- Define the CollectionViewSource with grouping -->
+                    <CollectionViewSource x:Key="GroupedMirrorsView"
+                                          Source="{Binding Rows}">
+                        <CollectionViewSource.GroupDescriptions>
+                            <PropertyGroupDescription PropertyName="Mirror.GeneralShapeType" />
+                        </CollectionViewSource.GroupDescriptions>
+                    </CollectionViewSource>
+                </DockPanel.Resources>
+                <TextBlock Style="{StaticResource CHeaderTextBlock}"
+                           Text="{StaticResource lngMirrors}"
+                           HorizontalAlignment="Center"
+                           DockPanel.Dock="Top" />
+                <DataGrid x:Name="GlassesOrderDataGrid"
+                          Background="{DynamicResource LightPrimaryBrush}"
+                          ItemsSource="{Binding Source={StaticResource GroupedMirrorsView}}"
+                          SelectedItem="{Binding SelectedRow, Mode=TwoWay}"
+                          Style="{StaticResource CDataGridSmall}"
+                          ColumnHeaderStyle="{StaticResource DataGridColumnHeaderStyle.Small}"
+                          MaxHeight="850"
+                          Width="670"
+                          VerticalAlignment="Stretch"
+                          SelectionMode="Single"
+                          HorizontalAlignment="Stretch"
+                          CellStyle="{StaticResource DataGridCellStyle.Small}"
+                          IsSynchronizedWithCurrentItem="True">
+                    <DataGrid.InputBindings>
+                        <KeyBinding Key="Delete"
+                                    Command="{Binding RemoveRowCommand}"
+                                    CommandParameter="{Binding SelectedRow}" />
+                    </DataGrid.InputBindings>
+                    <!-- Define the GroupStyle for the DataGrid -->
+                    <DataGrid.GroupStyle>
+                        <GroupStyle>
+                            <GroupStyle.HeaderTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name,Converter={StaticResource languageConverter}}"
+                                               Style="{StaticResource CHeaderTextBlock}"
+                                               HorizontalAlignment="Left"
+                                               FontWeight="Bold"
+                                               FontSize="14"
+                                               Margin="5,10,5,5" />
+                                </DataTemplate>
+                            </GroupStyle.HeaderTemplate>
+                        </GroupStyle>
+                    </DataGrid.GroupStyle>
+
+                    <!--#region B. Row Style -->
+                    <DataGrid.RowStyle>
+                        <Style TargetType="DataGridRow"
+                               BasedOn="{StaticResource DataGridRowStyle}">
+                            <Setter Property="Background"
+                                    Value="{DynamicResource RegionBrush}" />
+
+                            <!--Store the DataContext of Datagrid in each row Tag Property so that it can be accessed by the context menu afterwards-->
+                            <Setter Property="Tag"
+                                    Value="{Binding DataContext , RelativeSource={RelativeSource AncestorType=DataGrid}}" />
+                            <Setter Property="ContextMenu">
+                                <Setter.Value>
+                                    <!--We bind to the Tag Property of the DataGridRow that contains the DataContext of Datagrid . Because we cannot find with relative source the datagrid here as the Context menu is not present in the visual tree and as soon as the Datacontext set with relativeSource changes it is loosing it-->
+                                    <ContextMenu Padding="0"
+                                                 Margin="0"
+                                                 DataContext="{Binding PlacementTarget.Tag, RelativeSource={RelativeSource Self}}">
+                                        <!--We bind to the Placement targets datacontext of the context menu which is the DataGrid Row - because now the DataContext of the Context menu has become that of the Datagrid
+                                We also normally bind to the Command of the ViewModel that is the DataContext of the Datagrid-->
+                                        <MenuItem Header="{StaticResource lngRemove}"
+                                                  Foreground="{StaticResource DangerBrush}"
+                                                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu, Mode=FindAncestor}, Path=PlacementTarget.DataContext}"
+                                                  Command="{Binding RemoveRowCommand}">
+                                            <MenuItem.Style>
+                                                <Style TargetType="MenuItem"
+                                                       BasedOn="{StaticResource MenuItemBaseStyle}">
+                                                    <Setter Property="Icon">
+                                                        <Setter.Value>
+                                                            <cc:Icon GeometryData="{StaticResource DeleteGeometry}"
+                                                                     Height="12"
+                                                                     Fill="{DynamicResource DangerBrush}" />
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsMouseOver"
+                                                                 Value="True">
+                                                            <Setter Property="BorderBrush"
+                                                                    Value="{StaticResource DangerBrush}" />
+                                                            <Setter Property="BorderThickness"
+                                                                    Value="1" />
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </MenuItem.Style>
+                                        </MenuItem>
+                                        <MenuItem Header="{StaticResource lngEditRow}"
+                                                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu, Mode=FindAncestor}, Path=PlacementTarget.DataContext}"
+                                                  Command="{Binding EditRowCommand}">
+                                            <MenuItem.Icon>
+                                                <cc:Icon GeometryData="{StaticResource EditGeometry}"
+                                                         Height="12"
+                                                         Fill="{DynamicResource PrimaryTextBrush}" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                    </ContextMenu>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGrid.RowStyle>
+                    <!--#endregion-->
+
+                    <!--#region C.Columns -->
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="-"
+                                            Binding="{Binding LineNumber}" />
+                        <DataGridTextColumn Header="{StaticResource lngMirrorCode}"
+                                            Binding="{Binding Mirror.Code}"
+                                            MaxWidth="130" />
+                        <DataGridTextColumn Header="{StaticResource lngGlassDimensions}"
+                                            MaxWidth="160"
+                                            Binding="{Binding Mirror.MirrorGlassShape.DimensionString}" />
+                        <DataGridTextColumn Header="{StaticResource lngPA0Number}"
+                                            Binding="{Binding RefPAOPAM}">
+                            <DataGridTextColumn.CellStyle>
+                                <Style TargetType="DataGridCell"
+                                       BasedOn="{StaticResource DataGridCellStyle.Small}">
+                                    <Setter Property="HorizontalAlignment"
+                                            Value="Right" />
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="{StaticResource lngPCS}"
+                                            Binding="{Binding Quantity}">
+                            <DataGridTextColumn.CellStyle>
+                                <Style TargetType="DataGridCell"
+                                       BasedOn="{StaticResource DataGridCellStyle.Small}">
+                                    <Setter Property="HorizontalAlignment"
+                                            Value="Right" />
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                        </DataGridTextColumn>
+                        <DataGridTemplateColumn Header="{StaticResource lngExtras}"
+                                                MaxWidth="170"
+                                                HeaderStyle="{StaticResource CenteredDataGridColumnHeader}">
+                            <DataGridTemplateColumn.CellStyle>
+                                <Style TargetType="DataGridCell"
+                                       BasedOn="{StaticResource DataGridCellStyle.Small}">
+                                    <Setter Property="HorizontalAlignment"
+                                            Value="Center" />
+                                </Style>
+                            </DataGridTemplateColumn.CellStyle>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Mirror.Sandblast.Code,TargetNullValue='-',FallbackValue='-'}" 
+                                                   FontSize="10"
+                                                   HorizontalAlignment="Center"/>
+                                        <TextBlock Text="{Binding Mirror.ModulesInfo,TargetNullValue='-',FallbackValue='-'}"
+                                                   FontSize="10"
+                                                   HorizontalAlignment="Center" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn HeaderTemplate="{StaticResource DatagridNotesHeaderTemplate}">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <cc:Icon ToolTip="{Binding Notes}"
+                                             ToolTipService.ShowOnDisabled="False"
+                                             ToolTipService.Placement="Top"
+                                             ToolTipService.HorizontalOffset="0"
+                                             ToolTipService.BetweenShowDelay="0">
+                                        <cc:Icon.Style>
+                                            <Style TargetType="cc:Icon"
+                                                   BasedOn="{StaticResource CInfoTooltipIcon}">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Notes}"
+                                                                 Value="">
+                                                        <Setter Property="Opacity"
+                                                                Value="0.3" />
+                                                        <Setter Property="IsEnabled"
+                                                                Value="False" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </cc:Icon.Style>
+                                    </cc:Icon>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+
+                    <!--#endregion-->
+
+                </DataGrid>
+            </DockPanel>
+
+            <!--#endregion-->
+
+
+        </Grid>
+    </GroupBox>
+</UserControl>

@@ -1,0 +1,36 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:hc="https://handyorg.github.io/handycontrol">
+    <ResourceDictionary.MergedDictionaries>
+        <hc:ColorPaletteResources
+            TargetTheme="Light"
+            RegionColor="#ececec"
+            SecondaryRegionColor="#ffffff"
+            BackgroundColor="#ffffff"
+            TitleColor="#232936"
+            PrimaryTextColor="#000000"
+            PrimaryColor="#546E7A"
+            BorderColor="#d4d4d4"
+            LightPrimaryBrush="#f4f4f4"
+            DarkPrimaryBrush="#ececec"
+            DarkDefaultBrush="#aab7bd">
+            <SolidColorBrush
+                x:Key="DimmedTextBrush" Color="#808080"/>
+            <SolidColorBrush x:Key="SecondaryBrush" Color="#9b575f"/>
+            <SolidColorBrush x:Key="TertiaryBrush" Color="#8c8db9"/>
+        </hc:ColorPaletteResources>
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>
+    
+    <!--
+    TargetTheme="Light"
+            RegionColor="#FAFAFA"
+            SecondaryRegionColor="#F5F5F5"
+            BackgroundColor="#FFFFFF"
+            TitleColor="#212121"
+            PrimaryTextColor="#000000"
+            PrimaryColor="#2196F3" 
+            LightPrimaryBrush="#E8E8E8"
+            DarkPrimaryBrush="#9E9E9E"
+            BorderColor="#BFBFBF"
+    -->

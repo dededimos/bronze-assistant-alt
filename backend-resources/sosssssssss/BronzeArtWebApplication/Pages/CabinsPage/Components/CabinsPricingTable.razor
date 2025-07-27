@@ -1,0 +1,375 @@
+﻿@*The Table containing Codes and Prices for the Selected Cabin*@
+@using System.Collections.Generic
+@using BronzeRulesPricelistLibrary
+@using BronzeRulesPricelistLibrary.ConcreteRules
+@using BronzeRulesPricelistLibrary.ConcreteRules.RulesCabins
+@using BronzeRulesPricelistLibrary.Models
+@using BronzeRulesPricelistLibrary.Models.Priceables
+@using ShowerEnclosuresModelsLibrary.Enums
+@using ShowerEnclosuresModelsLibrary.Enums.ShowerDrawEnums
+@using ShowerEnclosuresModelsLibrary.Models
+@using static BronzeArtWebApplication.Shared.Helpers.StaticInfoCabins
+@using static BronzeArtWebApplication.Shared.Helpers.CommonStaticInfo
+@namespace BronzeArtWebApplication.Pages.CabinsPage.Components
+@inject ILanguageContainerService lc
+@inject BronzeUser user
+@inject AssembleCabinViewModel vm
+
+<style>
+    .mud-table-head .header-centered th {
+        text-align: center;
+    }
+</style>
+@*The Footer of the Table acts as a normal row (this way it is not printed on the Page)*@
+<style>
+    tfoot {
+        display: table-row-group !important
+    }
+</style>
+
+<MudTable T="IPriceable" @bind-Items="@(items)" ReadOnly="true"
+          Dense="true"
+          Hover="true"
+          Class="@(Class)"
+          Style="background-color:inherit;width:100%;"
+          CustomFooter="true"
+          CustomHeader="true"
+          Elevation="@(WithPrintStyle ? 0 : 4)"
+          Breakpoint="Breakpoint.None"
+          HorizontalScrollbar="true"
+          id="@(TableId)">
+    <HeaderContent>
+        @*ADDS STYLE TO A DIV BEFORE TABLE-HEADER SO THAT MULTIPLE PAGES TABLE DOES NOT OVERLAP PRINTED PAGE HEADERS*@
+        @if (WithPrintStyle)
+        {
+            <div id="PrintPaddingArea" style="padding-top:@(PrintingTopPaddingPX)px"></div>
+        }
+        <MudTHeadRow Class="header-centered" Style="background-color:var(--BackgroundColor);border-bottom:12px solid var(--BronzeDarkPink)">
+            <MudTh>@lc.Keys["Draw"]</MudTh>
+            <MudTh>@lc.Keys["Code"]</MudTh>
+            <MudTh>@lc.Keys["Description"]</MudTh>
+            @if (user.IsPricingVisible && (user.IsWhiteLabeled == false || user.RetailTheme is RetailModeTheme.Lakiotis))
+            {
+                @if (user.SelectedAppMode == BronzeAppMode.Retail && user.CombinedDiscountCabin is 0)
+                {
+                    @*DO NOTHING*@
+                }
+                else
+                {
+                    <MudTh>@lc.Keys["RetailPrice"]</MudTh>
+                }
+                <MudTh>@(user.SelectedAppMode != BronzeAppMode.Retail ? $"{lc.Keys["NetPrice"]}({lc.Keys["PlusVat"]}*)" : (lc.Keys["FinalPrice"]))</MudTh>
+                @if (!WithPrintStyle && (user.IsPowerUser || user.RetailTheme is RetailModeTheme.Lakiotis))
+                {
+                    <MudTh Style="width:20px"></MudTh>
+                }
+            }
+        </MudTHeadRow>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="@lc.Keys["Draw"]" Class="d-flex justify-center align-center" Style="position:relative">
+            @*Flips the Image if Direction of Cabin is not the Default Direction*@
+            <img src="@(context.ThumbnailPhotoPath)"
+                 class="my-2 @(FlipHorizontalOnNonDefautlDirection(context))"
+                 alt="-"
+                 style="max-width:100px;max-height:140px;object-fit:scale-down;border-radius:10px" />
+
+            @if (context.AppliedRules.Any(r => r.RuleName == nameof(CabinSpecialDimensionRule)))
+            {
+                <span style="position:absolute;bottom:2px;left:50%;transform:translate(-50%,0);color:var(--customPrimary)">@(lc.Keys["CustomizedDimension"])</span>
+            }
+        </MudTd>
+        <MudTd DataLabel="@lc.Keys["Code"]" Style="text-align:center;white-space:nowrap">
+            @(context.Code)
+        </MudTd>
+        <MudTd DataLabel="@lc.Keys["Description"]" Style="text-align:center">
+            @foreach (string key in context.DescriptionKeys)
+            {
+                if (context.DescriptionKeys.IndexOf(key) != 0)
+                {
+                    <br />
+                }
+                @lc.Keys[key]
+            }
+        </MudTd>
+        @if (user.IsPricingVisible && (user.IsWhiteLabeled is false || user.RetailTheme is RetailModeTheme.Lakiotis))
+        {
+            @if (user.SelectedAppMode == BronzeAppMode.Retail && user.CombinedDiscountCabin == 0 )
+            {
+                @*DO NOTHING*@
+            }
+            else
+            {
+                <MudTd DataLabel="@lc.Keys["RetailPrice"]">
+                    <MudText Typo="Typo.body2" Align="Align.Center"
+                     Style="@((user.SelectedAppMode == BronzeAppMode.Retail) ? "text-decoration:line-through;" : "")">
+                        @(context.StartingPrice.ToString("0.00\u20AC"))
+                    </MudText>
+                </MudTd>
+            }
+            <MudTd DataLabel="@($"{lc.Keys["NetPrice"]}{lc.Keys["PlusVat"]}*")">
+                <MudText Typo="Typo.body2" Align="Align.Center">
+                    @(context.GetNetPrice().ToString("0.00\u20AC"))
+                </MudText>
+            </MudTd>
+            @if (!WithPrintStyle && (user.IsPowerUser || user.RetailTheme is RetailModeTheme.Lakiotis))
+            {
+                <MudTd DataLabel="i">
+                    <MudTooltip Placement="@(Placement.Left)">
+                        <ChildContent>
+                            <MudIcon Icon="@(Icons.Material.Filled.Info)" Color="@(Color.Primary)" />
+                        </ChildContent>
+                        <TooltipContent>
+                            <div style="position:relative">
+                                @if (HasComplexRule(context.AppliedRules) && user.RetailTheme is not RetailModeTheme.Lakiotis)
+                                {
+                                    <div class="px-4 pb-4 pt-1" style="border-radius:5px;position:absolute;right:110%;top:-5px;display:block;background:var(--mud-palette-dark-lighten)">
+                                        <MudText Style="text-decoration:underline">@(lc.Keys["SpecialDimensionCalculations"])</MudText>
+                                            <table style="border-collapse:collapse;white-space:nowrap">
+                                            @foreach (var descriptor in GetComplexRule(context.AppliedRules).CalculationsDescriptors)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        <MudText Class="mr-2" Align="@(Align.Left)" Typo="@(Typo.subtitle2)">@($"{GetComplexRule(context.AppliedRules).CalculationsDescriptors.IndexOf(descriptor) + 1}.{lc.Keys[descriptor.TitleKey]}")</MudText>
+                                                        </td>
+                                                        <td>
+                                                            <MudText Style="color:lightgreen" Class="my-auto" Align="@(Align.Right)" Typo="@(Typo.subtitle2)">@(descriptor.Description)</MudText>
+                                                        </td>
+                                                    </tr>
+                                            }
+                                        </table>
+                                        @if (GetSecondComplexRule(context.AppliedRules) is not null)
+                                        {
+                                            <MudText Style="text-decoration:underline">@(lc.Keys["IrregularThicknessCalculations"])</MudText>
+                                            <table style="border-collapse:collapse;white-space:nowrap;width:100%">
+                                                @foreach (var descriptor in GetSecondComplexRule(context.AppliedRules).CalculationsDescriptors)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            <MudText Class="mr-2" Align="@(Align.Left)" Typo="@(Typo.subtitle2)">@($"{GetSecondComplexRule(context.AppliedRules).CalculationsDescriptors.IndexOf(descriptor) + 1}.{lc.Keys[descriptor.TitleKey]}")</MudText>
+                                                            </td>
+                                                            <td>
+                                                                <MudText Style="color:lightgreen" Class="my-auto" Align="@(Align.Right)" Typo="@(Typo.subtitle2)">@(descriptor.Description)</MudText>
+                                                            </td>
+                                                        </tr>
+                                                }
+                                            </table>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                            <MudText Style="text-decoration:underline">@(lc.Keys["AppliedDiscountRules"])</MudText>
+                                <table style="border-collapse:collapse">
+                                @foreach (AppliedRule rule in context.AppliedRules)
+                                {
+                                    <tr>
+                                        <td><MudText Align="@(Align.Left)" Class="mr-2" Typo="@(Typo.subtitle2)">@($"{context.AppliedRules.IndexOf(rule) + 1}.{lc.Keys[PricingRulesDescKeys[rule.RuleName]]}")</MudText></td>
+                                            <td><MudText Style="color:lightgreen" Align="@(Align.Right)" Typo="@(Typo.subtitle2)">@(rule.RuleApplicationDescription)</MudText></td>
+                                        </tr>
+                                }
+                                <tr style="border-top:1px solid ghostwhite">
+                                    <td><MudText Align="@(Align.Left)" Class="mr-2" Typo="@(Typo.subtitle2)">@(lc.Keys["CalculatedPrice"])</MudText></td>
+                                        <td><MudText Style="color:lightgreen" Align="@(Align.Right)" Typo="@(Typo.subtitle2)">@(context.GetNetPrice().ToString("0.00\u20AC"))</MudText></td>
+                                    </tr>
+                                </table>
+                            </TooltipContent>
+                        </MudTooltip>
+                    </MudTd>
+            }
+        }
+    </RowTemplate>
+    @* Footer Changes according to AppMode Retail or Wholesale (Guest is Out Either Way because of Price Visibility)
+    Vat FooterRows are Visible Except for RetailTheme.Lakiotis
+    *@
+    <FooterContent>
+        @if (user.IsPricingVisible && (user.IsWhiteLabeled == false || user.RetailTheme is RetailModeTheme.Lakiotis))
+        {
+            <MudTFootRow>
+                <MudTd colspan="3">
+                    <MudText Typo="Typo.h6" Align="Align.Right">@(lc.Keys["Total"])</MudText>
+                    </MudTd>
+                @if (user.SelectedAppMode == BronzeAppMode.Retail && user.CombinedDiscountCabin == 0)
+                {
+                    @*Do no Show The Column if Discount is Zero*@
+                }
+                else
+                {
+                    <MudTd>
+                        <MudText Typo="Typo.body2" Align="Align.Center" Style="@CataloguePriceStyle">
+                            @(vm.GetProductsList().Sum(p => p.StartingPrice).ToString("0.00\u20AC"))
+                        </MudText>
+                    </MudTd>
+                }
+                <MudTd>
+                    <MudText Typo="Typo.body2" Align="Align.Center" Style="font-weight:700">
+                        @(vm.GetProductsList().Sum(p => p.GetNetPrice()).ToString("0.00\u20AC"))
+                    </MudText>
+                </MudTd>
+                @if (!WithPrintStyle && user.IsPowerUser)
+                {
+                    <MudTd>
+                        <MudTooltip Placement="@(Placement.Left)">
+                            <ChildContent>
+                                <MudIcon Icon="@(Icons.Material.Filled.Info)" Color="@(Color.Primary)" />
+                            </ChildContent>
+                            <TooltipContent>
+                                <MudText Style="text-decoration:underline">@(lc.Keys["AppliedDiscountRules"])</MudText>
+                                    <table style="border-collapse:collapse">
+                                    @foreach (var item in items)
+                                    {
+                                        <tr>
+                                            <td><MudText Align="@(Align.Left)" Class="mr-2" Typo="@(Typo.subtitle2)">@($"{items.IndexOf(item) + 1}.  {item.Code}")</MudText></td>
+                                                <td><MudText Style="color:lightgreen" Align="@(Align.Right)" Typo="@(Typo.subtitle2)">@($"{item.GetNetPrice().ToString("0.00\u20AC")}")</MudText></td>
+                                            </tr>
+                                    }
+                                    <tr style="border-top:1px solid ghostwhite">
+                                        <td>
+                                            <MudText Align="@(Align.Left)" Class="mr-2" Typo="@(Typo.subtitle2)">@(lc.Keys["CalculatedPrice"])</MudText>
+                                            </td>
+                                            <td>
+                                                <MudText Style="color:lightgreen" Align="@(Align.Right)" Typo="@(Typo.subtitle2)">@(items.Sum(i => i.GetNetPrice()).ToString("0.00\u20AC"))</MudText>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </TooltipContent>
+                            </MudTooltip>
+                        </MudTd>
+                }
+            </MudTFootRow>
+            @if (user.SelectedAppMode != BronzeAppMode.Retail)
+            {
+                <MudTFootRow>
+                    <MudTd colspan="6" Style="text-align:right">
+                        <MudText Typo="Typo.caption">
+                            @($"*{lc.Keys["WhereApplicable"]}")
+                        </MudText>
+                    </MudTd>
+                </MudTFootRow>
+            }
+            @*THESE ARE THE FOOTROWS ASSOCIATED WITH VAT*@
+            else if (user.SelectedAppMode == BronzeAppMode.Retail && user.SelectedRetailTheme != RetailModeTheme.Lakiotis)
+            {
+                <MudTFootRow>
+                    <MudTd colspan="3" Style="text-align:right">
+                        <MudText Typo="Typo.subtitle1" Style="font-weight:500">
+                            @($"{lc.Keys["VAT"]}({(user.SelectedVatFactor - 1).ToString("0%")})")
+                        </MudText>
+                    </MudTd>
+                    @if (user.CombinedDiscountCabin == 0)
+                    {
+                        @*Do no Show The Column if Discount is Zero*@
+                    }
+                    else
+                    {
+                        <MudTd>
+                            <MudText Typo="Typo.body2" Align="Align.Center" Style="@CataloguePriceStyle">
+                                @(vm.GetProductsList().Sum(p => (p.GetStartingPriceWithVat() - p.StartingPrice)).ToString("0.00\u20AC"))
+                            </MudText>
+                        </MudTd>
+                    }
+                    <MudTd Style="text-align:right">
+                        <MudText Typo="@(Typo.body2)" Align="@(Align.Center)" Style="font-weight:700">
+                            @(vm.GetProductsList().Sum(p => (p.GetNetPriceWithVat() - p.GetNetPrice())).ToString("0.00\u20AC"))
+                        </MudText>
+                    </MudTd>
+                    @if (!WithPrintStyle && user.IsPowerUser)
+                    {
+                        <MudTd>
+                            <MudTooltip Placement="@(Placement.Left)">
+                                <ChildContent>
+                                    <MudIcon Icon="@(Icons.Material.Filled.Info)" Color="@(Color.Primary)" />
+                                </ChildContent>
+                                <TooltipContent>
+                                    <MudText Style="text-decoration:underline">@(lc.Keys["AppliedDiscountRules"])</MudText>
+                                        <table style="border-collapse:collapse">
+                                            <tr>
+                                                <td><MudText Align="@(Align.Left)" Class="mr-2" Typo="@(Typo.subtitle2)">@($"1.{@lc.Keys["Total"]}")</MudText></td>
+                                                <td><MudText Style="color:lightgreen" Align="@(Align.Right)" Typo="@(Typo.subtitle2)">@($"{items.Sum(i => i.GetNetPrice()).ToString("0.00\u20AC")}")</MudText></td>
+                                            </tr>
+                                            <tr>
+                                                <td><MudText Align="@(Align.Left)" Class="mr-2" Typo="@(Typo.subtitle2)">@($"2.{lc.Keys["VAT"]}(%)")</MudText></td>
+                                                <td><MudText Style="color:lightgreen" Align="@(Align.Right)" Typo="@(Typo.subtitle2)">@($"x{(user.SelectedVatFactor - 1).ToString("0%")}")</MudText></td>
+                                            </tr>
+                                            <tr style="border-top:1px solid ghostwhite">
+                                                <td>
+                                                    <MudText Align="@(Align.Center)" Class="mr-2" Typo="@(Typo.subtitle2)">@(lc.Keys["CalculatedPrice"])</MudText>
+                                                </td>
+                                                <td>
+                                                    <MudText Style="color:lightgreen" Align="@(Align.Center)" Typo="@(Typo.subtitle2)">@(items.Sum(i => i.GetNetPriceWithVat() - i.GetNetPrice()).ToString("0.00\u20AC"))</MudText>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </TooltipContent>
+                                </MudTooltip>
+                            </MudTd>
+                    }
+                </MudTFootRow>
+
+                <MudTFootRow>
+                    <MudTd colspan="3" Style="text-align:right">
+                        <MudText Typo="Typo.h6">
+                            @(lc.Keys["FinalTotal"])
+                        </MudText>
+                    </MudTd>
+                    @if (user.CombinedDiscountCabin == 0)
+                    {
+                        @*Do no Show The Column if Discount is Zero*@
+                    }
+                    else
+                    {
+                        <MudTd>
+                            <MudText Typo="Typo.body2" Align="Align.Center" Style="@CataloguePriceStyle">
+                                @(vm.GetProductsList().Sum(p => p.GetStartingPriceWithVat()).ToString("0.00\u20AC"))
+                            </MudText>
+                        </MudTd>
+                    }
+                    <MudTd Style="text-align:center">
+                        <MudText Typo="@(Typo.body2)" Align="@(Align.Center)" Style="font-weight:700">
+                            @(vm.GetProductsList().Sum(p => p.GetNetPriceWithVat()).ToString("0.00\u20AC"))
+                        </MudText>
+                    </MudTd>
+                    @if (!WithPrintStyle && user.IsPowerUser)
+                    {
+                        <MudTd>
+                            <MudTooltip Placement="@(Placement.Left)">
+                                <ChildContent>
+                                    <MudIcon Icon="@(Icons.Material.Filled.Info)" Color="@(Color.Primary)" />
+                                </ChildContent>
+                                <TooltipContent>
+                                    <MudText Style="text-decoration:underline">@(lc.Keys["AppliedDiscountRules"])</MudText>
+                                        <table style="border-collapse:collapse">
+                                            <tr>
+                                                <td><MudText Align="@(Align.Left)" Class="mr-2" Typo="@(Typo.subtitle2)">@($"1.{@lc.Keys["Total"]}")</MudText></td>
+                                                <td><MudText Style="color:lightgreen" Align="@(Align.Right)" Typo="@(Typo.subtitle2)">@($"{items.Sum(i => i.GetNetPrice()).ToString("0.00\u20AC")}")</MudText></td>
+                                            </tr>
+                                            <tr>
+                                                <td><MudText Align="@(Align.Left)" Class="mr-2" Typo="@(Typo.subtitle2)">@($"2.{lc.Keys["VAT"]}")</MudText></td>
+                                                <td><MudText Style="color:lightgreen" Align="@(Align.Right)" Typo="@(Typo.subtitle2)">@($"+{items.Sum(i => i.GetNetPriceWithVat() - i.GetNetPrice()).ToString("0.00\u20AC")}")</MudText></td>
+                                            </tr>
+                                            <tr style="border-top:1px solid ghostwhite">
+                                                <td>
+                                                    <MudText Align="@(Align.Center)" Class="mr-2" Typo="@(Typo.subtitle2)">@(lc.Keys["CalculatedPrice"])</MudText>
+                                                </td>
+                                                <td>
+                                                    <MudText Style="color:lightgreen" Align="@(Align.Center)" Typo="@(Typo.subtitle2)">@(items.Sum(i => i.GetNetPriceWithVat()).ToString("0.00\u20AC"))</MudText>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </TooltipContent>
+                                </MudTooltip>
+                            </MudTd>
+                    }
+                </MudTFootRow>
+            }
+            else
+            {
+                //DoNot Show any Vat Specifics
+            }
+        }
+    </FooterContent>
+
+</MudTable>
+
+@code {
+    public const string TableId = "cabinsPricingTable";
+}

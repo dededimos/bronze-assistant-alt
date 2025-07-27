@@ -1,0 +1,44 @@
+﻿@* The Window from Which the User Selects A Model After he has Selected an Opening *@
+@namespace BronzeArtWebApplication.Pages.CabinsPage.Components.WindowsComponents.OpeningsWindows.ThirdStep
+@using ShowerEnclosuresModelsLibrary.Enums
+@using ShowerEnclosuresModelsLibrary.Enums.CabinCategories
+@using ShowerEnclosuresModelsLibrary.Enums.ShowerDrawEnums
+@using static BronzeArtWebApplication.Shared.Helpers.StaticInfoCabins
+@using static BronzeArtWebApplication.Shared.Helpers.StylesStaticInfoCabins
+@inject ILanguageContainerService lc
+@inject AssembleCabinViewModel vm
+
+<StoryContainer Title = "@(lc.Keys["WindowChooseModelTitle"])" 
+                @bind-IsVisible = "@(vm.IsWindowVisible[ModelWindowToRender])" 
+                IsNextButtonVisible = "@(false)"
+                IsPreviousButtonVisible = "@(true)"
+                OnPreviousClick = "@(()=> vm.ShowWindow(vm.GetParentWindow(ModelWindowToRender),ModelWindowToRender))"
+                OnResetClick = "@(()=> vm.ResetViewModel())">
+    <MainContent>
+        <MudGrid Justify="Justify.Center" Spacing="2" Class="px-5 py-5" >
+                @foreach (CabinDrawNumber model in modelsList)
+                    {
+                     <MudItem xs="12" sm="12" md="6" lg="4" xl="4" xxl="4" Class="d-flex justify-center align-center">
+                         <MudButton Variant="Variant.Filled"
+                                    FullWidth="true"
+                                    Style="text-transform:none;height:100%"
+                                    Class="ma-2"
+                                    OnClick = "@(()=>HandleModelSelection(model))">
+                             <MudContainer Class="d-flex justify-center flex-column ma-1 pa-1" Style="max-width:90%">
+                                 <img src="@(CabinDrawNumberImagePath[model])"
+                                      alt="@lc.Keys[CabinDrawNumberDescKey[model]]"
+                                      class="rounded-lg" />
+                                 <MudText Typo="Typo.subtitle1">
+                                     @lc.Keys[CabinDrawNumberDescKey[model]]
+                                 </MudText>
+                             </MudContainer>
+                         </MudButton>
+                     </MudItem>   
+                    }
+        </MudGrid>
+    </MainContent>
+</StoryContainer>
+
+@code {
+
+}

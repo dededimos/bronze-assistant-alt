@@ -1,0 +1,135 @@
+﻿@using BathAccessoriesModelsLibrary.Services;
+@using BathAccessoriesModelsLibrary;
+@using BronzeArtWebApplication.Pages.NewAccessoriesPage.VariousComponents
+@using BronzeArtWebApplication.Shared.Services;
+@using BronzeArtWebApplication.Shared.ViewModels.AccessoriesPageViewModels;
+@using BronzeRulesPricelistLibrary.Models.Priceables.AccessoriesPriceables;
+@using CommonInterfacesBronze;
+@inject AccessoriesUrlHelper photosHelper
+@inject NavigationManager Nav
+@inject BasketViewModel basket
+@inject IAccessoriesMemoryRepository repo
+@inject ILanguageContainerService Lc
+@inject IMessageService ms
+
+<div class="accessoryCardDiv" 
+     id="@(Accessory.Code)">
+     <div class="interactionsContainer">
+        <MudTooltip RootClass="d-none d-sm-flex">
+            <ChildContent>
+                <MudIconButton Icon="@(Icons.Material.Filled.ShoppingCart)"
+                               Color="@(Color.Primary)"
+                               Size="@(Size.Medium)"
+                               Variant="@(Variant.Outlined)"
+                               OnClick="@(()=> ms.OpenAddToBasketDialogAsync(Accessory,Accessory.GetAvailableFinish(ShownAccessoryFinishCode)))" />
+            </ChildContent>
+            <TooltipContent>
+                @(Lc.Keys["AddToQuoteBasket"])
+            </TooltipContent>
+        </MudTooltip>
+        <MudTooltip>
+            <ChildContent>
+                <MudIconButton Icon="@(Icons.Material.Outlined.Info)"
+                               Color="@(Color.Primary)"
+                               Size="@(Size.Medium)"
+                               Variant="@(Variant.Outlined)"
+                               OnClick="@(()=> Nav.NavigateTo($"{RoutesStash.DetailedAccessoryCard}?{RoutesStash.CodeParamName}={Accessory.Code}{GetCurrentFinishQueryParam()}"))" />
+            </ChildContent>
+            <TooltipContent>
+                @(Lc.Keys["SeeMoreDetails"])
+            </TooltipContent>
+        </MudTooltip>
+     </div>
+    <div class="mainImageContainer">
+        <AccessoryImagePresenter Accessory="@(Accessory)" 
+                                 ShownAccessoryFinishCode="@(mousedOverFinishCode ?? ShownAccessoryFinishCode)"
+                                 PhotoSize="@(PhotoSize.Small)"/>
+    </div>
+
+    <div class="bottomContainer noselect">
+        @if (ShowDimensions)
+        {
+            <div class="dimensionsContainer noselect">
+                @foreach (var dim in Accessory.Dimensions.Where(d => AppearingDimensionsCodes.Any(c => c == d.Key.Code)))
+                {
+                    <div class="dimensionContainer noselect">
+                        <img src="@($"{photosHelper.GetThumbnail(dim.Key.PhotoURL)}")"
+                             class="dimensionImage noselect"
+                             loading="lazy" />
+                        <span style="margin:auto">@(dim.Value)</span>
+                    </div>
+                }
+            </div>
+        }
+        <div class="bottomTextContainer">
+            <MudText Align="@(Align.Center)" Typo="@(Typo.body1)" Style="font-weight:500">@(Accessory.GetSpecificCode(mousedOverFinishCode ?? ShownAccessoryFinishCode))</MudText>
+                @if (ShowSeries)
+            {
+                <MudText Align="@(Align.Center)" Typo="@(Typo.subtitle2)">@(Accessory.Series.Trait)</MudText>
+            }
+            @if (ShowName)
+            {
+                @* Show the Name or the Secondary Type when Name is not Present *@
+                <MudText Align="@(Align.Center)" Typo="@(Typo.subtitle2)">
+                    @(Accessory.GetName())
+                </MudText>
+            }
+            @if (ShowFinishes)
+            {
+                <div class="finishesContainer noselect">
+                    @foreach (var finish in Accessory.AvailableFinishes)
+                    {
+                        <div class="finishContainer noselect"
+                        @onmouseover="@(()=> MouseOverFinish(finish.Finish.Code))"
+                        @onmouseout="@(()=> MouseOverFinish(null))"
+                        @onclick="@(()=> Nav.NavigateTo($"{RoutesStash.DetailedAccessoryCard}?{RoutesStash.CodeParamName}={Accessory.Code}{GetCurrentFinishQueryParam()}"))">
+                            <MudTooltip>
+                                <ChildContent>
+                                    <img src="@($"{photosHelper.GetThumbnail(finish.Finish.PhotoURL)}")"
+                                         class="finishImage noselect"
+                                         loading="lazy" />
+                                </ChildContent>
+                                <TooltipContent>
+                                    @($"{finish.Finish.Trait}")
+                                </TooltipContent>
+                            </MudTooltip>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+        @if (ShowPrices || ShowStock)
+        {
+            <div class="bottomPriceStockContainer">
+                @if (ShowPrices)
+                {
+                    <div class="bottomPriceContainer">
+                        <span>@(Accessory.GetPriceFirstOrDefault(mousedOverFinishCode ?? (string.IsNullOrEmpty(ShownAccessoryFinishCode) ? Accessory.BasicFinish.Code : ShownAccessoryFinishCode)).PriceValue.ToString("0.00€"))</span>
+                    </div>
+                }
+                @if (ShowStock)
+                {
+                    <div class="bottomStockContainer">
+                        <span>@($"Stock : {repo.GetAccessoryStock(Accessory.GetSpecificCode(mousedOverFinishCode ?? (string.IsNullOrEmpty(ShownAccessoryFinishCode) ? Accessory.BasicFinish.Code : ShownAccessoryFinishCode))):0}pcs")</span>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+
+    private string GetCurrentFinishQueryParam()
+    {
+        var param = mousedOverFinishCode ?? ShownAccessoryFinishCode;
+        if (string.IsNullOrEmpty(param))
+        {
+            return string.Empty;
+        }
+        else
+        {
+            return $"&{RoutesStash.FinishParamName}={param}";
+        }
+    }
+}

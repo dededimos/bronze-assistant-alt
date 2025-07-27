@@ -1,0 +1,349 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.Modals.WrappedViewModalUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.Modals"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:modalVm="clr-namespace:BronzeFactoryApplication.ViewModels.ModalViewModels"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels.MirrorsViewModels"
+             xmlns:sandblastVm="clr-namespace:BronzeFactoryApplication.ViewModels.MirrorsViewModels.SandblastViewModels"
+             xmlns:supportVm="clr-namespace:BronzeFactoryApplication.ViewModels.MirrorsViewModels.SupportsViewModels"
+             xmlns:mirrorModulesWithElementInfoVm="clr-namespace:BronzeFactoryApplication.ViewModels.MirrorsViewModels.ModulesViewModels.MirrorModuleWithElementInfoVms"
+             xmlns:vmShape="clr-namespace:BronzeFactoryApplication.ViewModels.MirrorsViewModels.ShapeInfoViewModels"
+             xmlns:vmDraws="clr-namespace:BronzeFactoryApplication.ViewModels.DrawingsViewModels"
+             xmlns:vmPositionInstructions="clr-namespace:BronzeFactoryApplication.ViewModels.MirrorsViewModels.PositionInstructionsViewModels"
+             xmlns:vmMirrorOptions="clr-namespace:BronzeFactoryApplication.ViewModels.MirrorsViewModels.MirrorOptionsViewModels"
+             xmlns:vmMirrorsOrders="clr-namespace:BronzeFactoryApplication.ViewModels.MirrorsViewModels.MirrorOrdersViewModels"
+             xmlns:vw="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.EntitiesManagment"
+             xmlns:vwHelper="clr-namespace:BronzeFactoryApplication.Views.HelperViews"
+             xmlns:vwShape="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.ShapesEditViewsUcs"
+             xmlns:vwEntities="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.EntitiesManagment.EntitiesViews"
+             xmlns:vwMirrorObjects="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.MirrorObjectsViews"
+             xmlns:vwDraws="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.DrawsRelevantUcs"
+             xmlns:vwMirrorGeneral="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs"
+             xmlns:vwMirrorOptions="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.MirrorObjectsViews.MirrorApplicationOptionsViews"
+             xmlns:vwMirrorsOrders="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.MirrorsOrdersRelevantViews"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=modalVm:WrappedViewModelModalViewModel}">
+    <!--A Control to Display Wrapped ViewModels-->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <ContentControl x:Name="ModalContentPresenter"
+                        Content="{Binding WrappedViewModel}">
+            <ContentControl.Resources>
+                <!--#region 1. Mirrors EntitiesManagmentViewModel -->
+                <DataTemplate DataType="{x:Type vm:MirrorsEntitiesManagmentViewModel}">
+                    <vw:EntitiesModuleUC VerticalAlignment="Center"
+                                         HorizontalAlignment="Stretch" />
+                </DataTemplate>
+                <!--#endregion-->
+                <!--#region 2. PositionOptionsRepoManagerViewModel -->
+                <DataTemplate DataType="{x:Type vm:PositionOptionsRepoManagerViewModel}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <!--#region ToolBar EntityEdit -->
+                        <DockPanel LastChildFill="True"
+                                   Grid.Row="0"
+                                   Grid.Column="2"
+                                   HorizontalAlignment="Stretch"
+                                   MinWidth="800">
+                            <DockPanel.Resources>
+                                <Style TargetType="Button"
+                                       BasedOn="{StaticResource ButtonDefault}">
+                                    <Setter Property="Foreground"
+                                            Value="{DynamicResource SecondaryBrush}" />
+                                    <Setter Property="Margin"
+                                            Value="0,0,5,0" />
+                                    <Setter Property="hc:BorderElement.CornerRadius"
+                                            Value="5,5,0,0" />
+                                </Style>
+                            </DockPanel.Resources>
+
+                            <Button Command="{Binding SaveEntityCommand}"
+                                    hc:IconElement.Geometry="{StaticResource SaveGeometry}"
+                                    Content="{StaticResource lngSave}"
+                                    IsEnabled="{Binding EntityEditor.HasUnsavedChanges}" />
+                            <!--<Button Command="{Binding CreateNewEntityCommand}"
+                                    hc:IconElement.Geometry="{StaticResource AddGeometry}"
+                                    Content="{StaticResource lngNewEntity}"
+                                    ToolTip="{StaticResource lngNewEntityTooltip}"
+                                    DockPanel.Dock="Left"
+                                    IsEnabled="True">
+                                <Button.Resources>
+                                    <Style TargetType="Button"
+                                           BasedOn="{StaticResource ButtonDefault}">
+                                        <Setter Property="Foreground"
+                                                Value="{DynamicResource SecondaryBrush}" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsNewEntity}"
+                                                         Value="True">
+                                                <Setter Property="Foreground"
+                                                        Value="{DynamicResource SuccessBrush}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>-->
+
+                            <Button Command="{Binding DeleteEntityCommand}"
+                                    hc:IconElement.Geometry="{StaticResource DeleteFillCircleGeometry}"
+                                    Foreground="{DynamicResource DangerBrush}"
+                                    Content="{StaticResource lngDeleteEntity}"
+                                    ToolTip="{StaticResource lngDeleteEntityTooltip}"
+                                    DockPanel.Dock="Right"
+                                    Margin="0"
+                                    IsEnabled="{Binding IsNewEntity , Converter={StaticResource Boolean2BooleanReConverter}}" />
+                            <Button Command="{Binding EntityEditor.FullUndoCommand}"
+                                    hc:IconElement.Geometry="{StaticResource UndoGeometry}"
+                                    Foreground="{DynamicResource DangerBrush}"
+                                    Content="{StaticResource lngFullUndo}"
+                                    ToolTip="{StaticResource lngFullUndoTooltip}"
+                                    DockPanel.Dock="Right" />
+
+                            <DockPanel LastChildFill="False"
+                                       HorizontalAlignment="Center">
+                                <Button Command="{Binding EntityEditor.UndoCommand}"
+                                        hc:IconElement.Geometry="{StaticResource UndoIconGeometry}"
+                                        Content="{StaticResource lngUndo}" />
+                                <Button Command="{Binding EntityEditor.RedoCommand}"
+                                        hc:IconElement.Geometry="{StaticResource RedoIconGeometry}"
+                                        Content="{StaticResource lngRedo}" />
+                            </DockPanel>
+                        </DockPanel>
+                        <!--#endregion-->
+
+                        <!--#region Positions Edit View -->
+                        <Border BorderBrush="{DynamicResource BorderBrush}"
+                                BorderThickness="2"
+                                Padding="20"
+                                CornerRadius="0,0,20,20"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                Grid.Row="1">
+                            <vwEntities:MirrorPositionOptionsEntityViewUC DataContext="{Binding EntityEditor}" />
+                        </Border>
+                        <!--#endregion-->
+                    </Grid>
+                </DataTemplate>
+                <!--#endregion-->
+                <!--#region 3. Draw Container Options -->
+                <DataTemplate DataType="{x:Type vmDraws:DrawContainerOptionsVm}">
+                    <vwDraws:DrawingContainerOptionsView VerticalAlignment="Center"
+                                                         HorizontalAlignment="Stretch" />
+                </DataTemplate>
+                <!--#endregion-->
+                <!--#region 4. Drawing Presentation Options -->
+                <DataTemplate DataType="{x:Type vmDraws:DrawingPresentationOptionsVm}">
+                    <vwDraws:DrawingPresentationOptionsView VerticalAlignment="Center"
+                                                            HorizontalAlignment="Stretch"
+                                                            MaxHeight="500" />
+                </DataTemplate>
+                <!--#endregion-->
+                <!--#region 5. Drawing Presentation Options Global -->
+                <DataTemplate DataType="{x:Type vmDraws:DrawingPresentationOptionsGlobalVm}">
+                    <hc:ScrollViewer>
+                        <vwDraws:DrawingPresentationOptionsGlobalView VerticalAlignment="Center"
+                                                                      HorizontalAlignment="Stretch"
+                                                                      MinHeight="800"
+                                                                      MinWidth="800" />
+                    </hc:ScrollViewer>
+                </DataTemplate>
+                <!--#endregion-->
+                <!--#region 6. Draw Pdf Options -->
+                <DataTemplate DataType="{x:Type vmDraws:DrawPdfDocumentOptionsViewModel}">
+                    <hc:ScrollViewer>
+                        <vwDraws:DrawPdfOptionsView VerticalAlignment="Center"
+                                                    HorizontalAlignment="Stretch" />
+                    </hc:ScrollViewer>
+                </DataTemplate>
+                <!--#endregion-->
+                <!--#region 7. MirrorSandblast Edit -->
+                <DataTemplate DataType="{x:Type sandblastVm:MirrorSandblastEditorViewModel}">
+                    <hc:ScrollViewer>
+                        <DockPanel VerticalAlignment="Center"
+                                   HorizontalAlignment="Stretch">
+                            <vwMirrorObjects:MirrorElementInfoViewUC DataContext="{Binding ElementInfo}"
+                                                                     DockPanel.Dock="Top"
+                                                                     HorizontalAlignment="Center" />
+                            <vwMirrorObjects:SandblastInfoViewUC DataContext="{Binding SandblastInfo}"
+                                                                 DockPanel.Dock="Bottom"
+                                                                 HorizontalAlignment="Center" />
+                        </DockPanel>
+                    </hc:ScrollViewer>
+                </DataTemplate>
+                <!--#endregion-->
+                <!--#region 8. MirrorModule Edit -->
+                <DataTemplate DataType="{x:Type mirrorModulesWithElementInfoVm:MirrorModuleEditorVmBase}">
+                    <hc:ScrollViewer>
+                        <DockPanel VerticalAlignment="Center"
+                                   HorizontalAlignment="Stretch">
+                            <vwMirrorObjects:MirrorElementInfoViewUC DataContext="{Binding ElementInfo}"
+                                                                     DockPanel.Dock="Top"
+                                                                     HorizontalAlignment="Center"
+                                                                     Margin="0,0,0,20" />
+                            <vwMirrorObjects:MirrorModuleInfoViewUC DataContext="{Binding MirrorModule}"
+                                                                    DockPanel.Dock="Bottom"
+                                                                    HorizontalAlignment="Center" />
+                        </DockPanel>
+                    </hc:ScrollViewer>
+                </DataTemplate>
+                <!--#endregion-->
+                <!--#region 9. Position Instructions Edit Base -->
+                <DataTemplate DataType="{x:Type vmPositionInstructions:PositionInstructionsBaseViewModel}">
+                    <hc:ScrollViewer>
+                        <vwMirrorObjects:PositionInstructionsViewUC DataContext="{Binding .}"
+                                                                    DockPanel.Dock="Top"
+                                                                    HorizontalAlignment="Center" />
+                    </hc:ScrollViewer>
+                </DataTemplate>
+                <!--#endregion-->
+                <!--#region 10. Position Instructions Edit -->
+                <DataTemplate DataType="{x:Type vmPositionInstructions:MirrorElementPositionEditorViewModel}">
+                    <hc:ScrollViewer>
+                        <DockPanel VerticalAlignment="Center"
+                                   HorizontalAlignment="Stretch">
+                            <vwMirrorObjects:MirrorElementInfoViewUC DataContext="{Binding ElementInfo}"
+                                                                     DockPanel.Dock="Top"
+                                                                     HorizontalAlignment="Center" />
+                            <vwMirrorObjects:PositionInstructionsViewUC DataContext="{Binding Instructions}"
+                                                                        DockPanel.Dock="Top"
+                                                                        HorizontalAlignment="Center" />
+                        </DockPanel>
+                    </hc:ScrollViewer>
+                </DataTemplate>
+                <!--#endregion-->
+                <!--#region 11. MirrorSupport Edit -->
+                <DataTemplate DataType="{x:Type supportVm:MirrorSupportEditorViewModel}">
+                    <hc:ScrollViewer>
+                        <DockPanel VerticalAlignment="Center"
+                                   HorizontalAlignment="Stretch">
+                            <vwMirrorObjects:MirrorElementInfoViewUC DataContext="{Binding ElementInfo}"
+                                                                     DockPanel.Dock="Top"
+                                                                     HorizontalAlignment="Center" />
+                            <vwMirrorObjects:MirrorSupportInfoViewUC DataContext="{Binding SupportInfo}"
+                                                                     DockPanel.Dock="Bottom"
+                                                                     HorizontalAlignment="Center" />
+                            <Grid HorizontalAlignment="Center"
+                                  Margin="20">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                </Grid.RowDefinitions>
+                                <DockPanel HorizontalAlignment="Stretch"
+                                           Grid.Row="0">
+                                    <cc:Icon ToolTip="{StaticResource lngFinishTooltip}"
+                                             Style="{StaticResource CTasInfoTooltipIcon}" />
+                                    <TextBlock Style="{StaticResource CTasTitleTextBlockStyle}"
+                                               Text="{StaticResource lngFinish}">
+                                    </TextBlock>
+                                </DockPanel>
+                                <hc:ComboBox ItemTemplate="{StaticResource MirrorElementFinishComboBoxItemDataTemplate}"
+                                             SelectedValue="{Binding SelectedFinishId}"
+                                             SelectedValuePath="ElementId"
+                                             ItemsSource="{Binding SelectableFinishes}"
+                                             hc:DropDownElement.ConsistentWidth="False"
+                                             MinWidth="270"
+                                             Grid.Row="1">
+                                    <hc:ComboBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <VirtualizingStackPanel Grid.IsSharedSizeScope="True" />
+                                        </ItemsPanelTemplate>
+                                    </hc:ComboBox.ItemsPanel>
+                                </hc:ComboBox>
+                            </Grid>
+                        </DockPanel>
+                    </hc:ScrollViewer>
+                </DataTemplate>
+                <!--#endregion-->
+                <!--#region 12. Edit Drawing ViewModel  -->
+                <DataTemplate DataType="{x:Type vmDraws:DrawingViewModel}">
+                    <vwDraws:EditSingleDrawingViewUC VerticalAlignment="Center"
+                                                     HorizontalAlignment="Stretch" />
+                </DataTemplate>
+                <!--#endregion-->
+                <!--#region 13. Edit Dimension Drawing ViewModel -->
+                <DataTemplate DataType="{x:Type vmDraws:DimensionLineDrawingViewModel}">
+                    <vwDraws:EditSingleDrawingViewUC VerticalAlignment="Center"
+                                                     HorizontalAlignment="Stretch" />
+                </DataTemplate>
+                <!--#endregion-->
+                <!--#region 14. Edit MirrorSynthesisWithDrawViewModel-->
+                <DataTemplate DataType="{x:Type vm:MirrorSynthesisEditorWithDrawViewModel}">
+                    <ScrollViewer>
+                        <Grid HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                            </Grid.RowDefinitions>
+                            <vwMirrorGeneral:MirrorGlassEditView  Grid.Column="0"
+                                                                  DataContext="{Binding MirrorEditor}" />
+                            <vwMirrorGeneral:MirrorGlassDrawingView Grid.Column="1"
+                                                                    DataContext="{Binding MirrorDrawing}" />
+                        </Grid>
+                    </ScrollViewer>
+                </DataTemplate>
+                <!--#endregion-->
+                <!--#region 15. Edit Element Code Affix Options -->
+                <DataTemplate DataType="{x:Type vmMirrorOptions:ElementCodeAffixOptionsEditorViewModel}">
+                    <vwMirrorOptions:ElementCodeAffixOptionsViewUC VerticalAlignment="Center"
+                                                                   HorizontalAlignment="Stretch" />
+                </DataTemplate>
+                <!--#endregion-->
+                <!--#region 16. SelectMirrorsOrderViewModel -->
+                <DataTemplate DataType="{x:Type vmMirrorsOrders:SelectMirrorsOrderViewModel}">
+                    <vwMirrorsOrders:SelectMirrorsOrderView VerticalAlignment="Center"
+                                                            HorizontalAlignment="Stretch" />
+                </DataTemplate>
+                <!--#endregion-->
+                <!--#region 17.Mirrors Orders Detail -->
+                <DataTemplate DataType="{x:Type vmMirrorsOrders:MirrorsOrderViewModel}">
+                    <vwMirrorsOrders:EditMirrorsOrdersDetailsView VerticalAlignment="Center"
+                                                                  HorizontalAlignment="Stretch" />
+                </DataTemplate>
+                <!--#endregion-->
+                <!--#region 18.Mirror Order Row -->
+                <DataTemplate DataType="{x:Type vmMirrorsOrders:MirrorOrderRowUndoViewModel}">
+                    <vwMirrorsOrders:MirrorOrderRowView VerticalAlignment="Center"
+                                                        HorizontalAlignment="Stretch" />
+                </DataTemplate>
+                <!--#endregion-->
+                <!--#region 19.Mirror Constraints -->
+                <DataTemplate DataType="{x:Type vm:MirrorConstraintsEditorViewModel}">
+                    <vwMirrorObjects:MirrorConstraintsViewUC VerticalAlignment="Center"
+                                                             HorizontalAlignment="Stretch" />
+                </DataTemplate>
+                <!--#endregion-->
+            </ContentControl.Resources>
+        </ContentControl>
+        <DockPanel Grid.Row="1"
+                   HorizontalAlignment="Center"
+                   Margin="10"
+                   Visibility="{Binding HasCustomAction , Converter={StaticResource Boolean2VisibilityConverter}}">
+            <Button Style="{StaticResource SaveButton}"
+                    Command="{Binding CustomActionCommand}"
+                    Visibility="{Binding HasCustomSaveAndCloseAction , Converter={StaticResource Boolean2VisibilityConverter}}" />
+            <Button Content="{StaticResource lngAdd}"
+                    hc:IconElement.Geometry="{StaticResource AddGeometry}"
+                    Foreground="{DynamicResource SecondaryBrush}"
+                    Command="{Binding CustomActionCommand}"
+                    Visibility="{Binding HasCustomAddAndCloseAction , Converter={StaticResource Boolean2VisibilityConverter}}" />
+        </DockPanel>
+    </Grid>
+</UserControl>

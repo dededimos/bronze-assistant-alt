@@ -1,0 +1,165 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.MirrorObjectsViews.MirrorSupportInfoViewUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.MirrorObjectsViews"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:vmSupport="clr-namespace:BronzeFactoryApplication.ViewModels.MirrorsViewModels.SupportsViewModels"
+             xmlns:vw="clr-namespace:BronzeFactoryApplication.Views.HelperViews"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:mirrElements="clr-namespace:MirrorsLib.MirrorElements;assembly=MirrorsLib"
+             xmlns:globalCommands="clr-namespace:BronzeFactoryApplication.Helpers"
+             xmlns:EnumSource="clr-namespace:BronzeFactoryApplication.Helpers.MarkupExtensions"
+             xmlns:mirrorEnum="clr-namespace:MirrorsLib.Enums;assembly=MirrorsLib"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type={x:Type vmSupport:MirrorSupportInfoBaseViewModel}}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <DockPanel VerticalAlignment="Top"
+                   HorizontalAlignment="Center">
+            <hc:UniformSpacingPanel Spacing="20"
+                                    HorizontalAlignment="Center"
+                                    Margin="0,20,0,0"
+                                    ChildWrapping="Wrap"
+                                    DockPanel.Dock="Top">
+                <vw:TasNumericTextBox Text="{Binding MinDistanceFromSandblast}"
+                                      TextBoxTitle="{StaticResource lngPositionableMinDistanceFromSandblast}"
+                                      IconTooltip="{StaticResource lngPositionableMinDistanceFromSandblastTooltip}"
+                                      Precision="0"
+                                      JustPositiveInput="True"
+                                      InputMode="DigitInput"
+                                      MaxLength="4" />
+                <vw:TasNumericTextBox Text="{Binding MinDistanceFromOtherModules}"
+                                      TextBoxTitle="{StaticResource lngPositionableMinDistanceFromOtherModules}"
+                                      IconTooltip="{StaticResource lngPositionableMinDistanceFromOtherModulesTooltip}"
+                                      Precision="0"
+                                      JustPositiveInput="True"
+                                      InputMode="DigitInput"
+                                      MaxLength="4" />
+                <CheckBox Content="{StaticResource lngIsModulesBoundary}"
+                          ToolTip="{StaticResource lngIsModulesBoundaryTooltip}"
+                          IsChecked="{Binding IsModulesBoundary}"
+                          Margin="0,10,0,0"/>
+
+            </hc:UniformSpacingPanel>
+            <ContentControl Content="{Binding .}"
+                            DockPanel.Dock="Bottom"
+                            Margin="0,20,0,0" HorizontalAlignment="Center">
+                <ContentControl.Resources>
+                    <!--#region Multi Support -->
+                    <DataTemplate DataType="{x:Type vmSupport:MirrorMultiSupportsEditorViewModel}">
+                        <DockPanel>
+                            <local:MirrorSupportInstructionsViewUC DataContext="{Binding TopSupportsInstructions}"
+                                                                   Title="{StaticResource lngTopSupportsInstructions}" 
+                                                                   DockPanel.Dock="Top"
+                                                                   Margin="0,0,0,10"/>
+                            <local:MirrorSupportInstructionsViewUC DataContext="{Binding BottomSupportsInstructions}"
+                                                                   Title="{StaticResource lngBottomSupportsInstructions}" />
+                        </DockPanel>
+                    </DataTemplate>
+                    <!--#endregion-->
+                    <!--#region Visible Frame Support -->
+                    <DataTemplate DataType="{x:Type vmSupport:MirrorVisibleFrameSupportEditorViewModel}">
+                        <DockPanel>
+                            <hc:UniformSpacingPanel Spacing="20"
+                                                    ChildWrapping="Wrap">
+                                <vw:TasNumericTextBox Text="{Binding FrontThickness}"
+                                                      TextBoxTitle="{StaticResource lngFrameFrontThickness}"
+                                                      IconTooltip="{StaticResource lngFrameFrontThicknessTooltip}"
+                                                      Precision="0"
+                                                      JustPositiveInput="True"
+                                                      InputMode="DigitInput"
+                                                      MaxLength="4" />
+                                <vw:TasNumericTextBox Text="{Binding Depth}"
+                                                      TextBoxTitle="{StaticResource lngFrameDepth}"
+                                                      IconTooltip="{StaticResource lngFrameDepthTooltip}"
+                                                      Precision="0"
+                                                      JustPositiveInput="True"
+                                                      InputMode="DigitInput"
+                                                      MaxLength="4" />
+                                <vw:TasNumericTextBox Text="{Binding RearThickness1}"
+                                                      TextBoxTitle="{StaticResource lngFrameRearThickness1}"
+                                                      IconTooltip="{StaticResource lngFrameRearThickness1Tooltip}"
+                                                      Precision="0"
+                                                      JustPositiveInput="True"
+                                                      InputMode="DigitInput"
+                                                      MaxLength="4" />
+                                <vw:TasNumericTextBox Text="{Binding RearThickness2}"
+                                                      TextBoxTitle="{StaticResource lngFrameRearThickness2}"
+                                                      IconTooltip="{StaticResource lngFrameRearThickness2Tooltip}"
+                                                      Precision="0"
+                                                      JustPositiveInput="True"
+                                                      InputMode="DigitInput"
+                                                      MaxLength="4" />
+                                <vw:TasNumericTextBox Text="{Binding GlassInProfile}"
+                                                      TextBoxTitle="{StaticResource lngFrameGlassInProfile}"
+                                                      IconTooltip="{StaticResource lngFrameGlassInProfileTooltip}"
+                                                      Precision="0"
+                                                      JustPositiveInput="True"
+                                                      InputMode="DigitInput"
+                                                      MaxLength="4" />
+                                <vw:TasTextBox Text="{Binding GlassShrink,Mode=OneWay}"
+                                               TextBoxTitle="{StaticResource lngFrameGlassShrink}"
+                                               IconTooltip="{StaticResource lngFrameGlassShrinkTooltip}"
+                                               IsReadOnly="True"
+                                               TextBoxBackground="{DynamicResource OddEvenRegionBrush}"
+                                               TextBoxForeground="{DynamicResource SecondaryTextBrush}" />
+                            </hc:UniformSpacingPanel>
+                        </DockPanel>
+                    </DataTemplate>
+                    <!--#endregion-->
+                    <!--#region Back Frame Support -->
+                    <DataTemplate DataType="{x:Type vmSupport:MirrorBackFrameSupportEditorViewModel}">
+                        <DockPanel>
+                            <hc:UniformSpacingPanel Spacing="20"
+                                                    ChildWrapping="Wrap">
+                                <vw:TasNumericTextBox Text="{Binding Thickness}"
+                                                      TextBoxTitle="{StaticResource lngBackFrameThickness}"
+                                                      IconTooltip="{StaticResource lngBackFrameThicknessTooltip}"
+                                                      Precision="0"
+                                                      JustPositiveInput="True"
+                                                      InputMode="DigitInput"
+                                                      MaxLength="4" />
+                                <vw:TasNumericTextBox Text="{Binding Depth}"
+                                                      TextBoxTitle="{StaticResource lngBackFrameDepth}"
+                                                      IconTooltip="{StaticResource lngBackFrameDepthTooltip}"
+                                                      Precision="0"
+                                                      JustPositiveInput="True"
+                                                      InputMode="DigitInput"
+                                                      MaxLength="4" />
+                                <vw:TasNumericTextBox Text="{Binding DistanceFromEdge}"
+                                                      TextBoxTitle="{StaticResource lngBackFrameDistanceFromEdge}"
+                                                      IconTooltip="{StaticResource lngBackFrameDistanceFromEdgeTooltip}"
+                                                      Precision="0"
+                                                      JustPositiveInput="True"
+                                                      InputMode="DigitInput"
+                                                      MaxLength="4" />
+                            </hc:UniformSpacingPanel>
+                        </DockPanel>
+                    </DataTemplate>
+
+                    <!--#endregion-->
+                    <!--#region Undefined Support -->
+                    <DataTemplate DataType="{x:Type vmSupport:MirrorSupportInfoUndefinedViewModel}">
+                        <Grid VerticalAlignment="Stretch"
+                              HorizontalAlignment="Stretch">
+                            <Border CornerRadius="20"
+                                    BorderBrush="{DynamicResource SecondaryBorderBrush}"
+                                    BorderThickness="5"
+                                    Padding="50"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                <TextBlock FontSize="20"
+                                           Text="{StaticResource lngSupportTypeNotSelected}" />
+                            </Border>
+                        </Grid>
+                    </DataTemplate>
+                    <!--#endregion-->
+                </ContentControl.Resources>
+            </ContentControl>
+        </DockPanel>
+    </Grid>
+</UserControl>

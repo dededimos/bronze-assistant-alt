@@ -1,0 +1,252 @@
+﻿@using SVGCabinDraws.ConcreteDraws
+@using SVGCabinDraws.ConcreteDraws.B6000Draws
+@using SVGCabinDraws.ConcreteDraws.DBDraws
+@using SVGCabinDraws.ConcreteDraws.Inox304Draws
+@using SVGCabinDraws.ConcreteDraws.WSDraws
+@using SVGDrawingLibrary.Models
+@using SVGDrawingLibrary.Models.ConcreteShapes
+@namespace BronzeArtWebApplication.Pages.CabinsPage.Components.DrawComponents
+@inject ILanguageContainerService lc
+
+<div style="@($"position:relative;{Style}")" class="d-flex">
+    @if (AreSideButtonsVisible)
+    {
+        @if (draw.NumberOfDrawableSides is > 1)
+        {
+            <div style="position:absolute;right:0px;top:0px">
+                <MudTooltip Placement="@(Placement.Left)">
+                    <ChildContent>
+                        <MudIconButton Size="Size.Small"
+                               Icon="@(Icons.Material.Filled.Filter1)"
+                                       Color="@(SelectedDraw is 1 ? Color.Primary : Color.Dark)"
+                               OnClick="@(()=> {SelectedDraw = 1;DefineDraw();StateHasChanged();})" />
+                    </ChildContent>
+                    <TooltipContent>
+                        @(lc.Keys["FrontDraw"])
+                    </TooltipContent>
+                </MudTooltip>
+            </div>
+        }
+        @if (draw.NumberOfDrawableSides is > 1)
+        {
+            <div style="position:absolute;right:0px;top:23px">
+                <MudTooltip Placement="@(Placement.Left)">
+                    <ChildContent>
+                        <MudIconButton Size="Size.Small"
+                               Icon="@(Icons.Material.Filled.Filter2)"
+                                       Color="@(SelectedDraw is 2 ? Color.Primary : Color.Dark)"
+                               OnClick="@(()=> {SelectedDraw = 2;DefineDraw();StateHasChanged();})" />
+                    </ChildContent>
+                    <TooltipContent>
+                        @(lc.Keys["SideDraw"])
+                    </TooltipContent>
+                </MudTooltip>
+            </div>
+        }
+        @if (draw.NumberOfDrawableSides is > 2)
+        {
+            <div style="position:absolute;right:0px;top:46px">
+                <MudTooltip Placement="@(Placement.Left)">
+                    <ChildContent>
+                        <MudIconButton Size="Size.Small"
+                               Icon="@(Icons.Material.Filled.Filter3)"
+                                       Color="@(SelectedDraw is 3 ? Color.Primary : Color.Dark)"
+                               OnClick="@(()=> {SelectedDraw = 3;DefineDraw();StateHasChanged();})" />
+                    </ChildContent>
+                    <TooltipContent>
+                        @(lc.Keys["SideDraw"])-2
+                    </TooltipContent>
+                </MudTooltip>
+            </div>
+        }
+    }
+    @if (isDrawAvailable)
+    {
+        @*<div style="position:absolute;left:0px;top:0px;width:100%;height:100%">
+            <img src="/Images/Logos/BAGold.png" style="width:52px;height:15px;">
+            </div>*@
+        <svg viewBox="0 0 @(viewBoxLength) @(viewBoxHeight)" fill="@(BackgroundFill)" id="CabinSVGDraw" style="width:100%;">
+            @*User Space on Use for gradient units to avoid malformations on small aread*@
+            <defs>
+                <pattern id="sandblastPatternGlass" width="5" height="5" viewBox="0 0 40 40" patternUnits="userSpaceOnUse" patternTransform="rotate(136)">
+                    <rect width="100%" height="100%" fill="rgba(255, 255, 255,1)" />
+                    <path d="M-0.5 20v20h1v-20zM39.5 20v20h1v-20z" fill="rgba(0, 0, 0,1)" />
+                    <path d="M-10 29.5 h60 v1 h-60z" fill="rgba(0, 0, 0,1)" />
+                    <path d="M19.5 0v40h1v-40z" fill="rgba(0, 0, 0,1)" />
+                    <path d="M-10 9.5h60v1h-60z" fill="rgba(0, 0, 0,1)" />
+                    <path d="M-0.5 0v20h1v-20zM39.5 0v20h1v-20z" fill="rgba(0, 0, 0,1)" />
+                </pattern>
+                <pattern id="WallPatternStep" width="858.29" height="156.43" viewBox="0 0 858.29 156.43" patternUnits="userSpaceOnUse">
+                    <g id="layer1" transform="translate(-94.286 -478.08)">
+                        <g id="g2813">
+                            <rect id="rect2811" style="fill:lightslategray" height="154.29" width="857.14" y="478.08" x="94.286" />
+                            <g id="g2772" transform="translate(-48.571 225.71)">
+                                <rect id="rect2680" style="fill:#FFFFFF" height="34.286" width="35.714" y="295.22" x="142.86" />
+                                <rect id="rect2682" style="fill:#FFFFFF" height="34.286" width="94.286" y="335.22" x="142.86" />
+                                <rect id="rect2684" style="fill:#FFFFFF" height="34.286" width="94.286" y="334.51" x="242.86" />
+                                <rect id="rect2686" style="fill:#FFFFFF" height="34.286" width="60" y="373.79" x="142.86" />
+                                <rect id="rect2688" style="fill:#FFFFFF" height="34.286" width="94.286" y="255.93" x="235" />
+                                <rect id="rect2690" style="fill:#FFFFFF" height="34.286" width="94.286" y="295.22" x="282.86" />
+                                <rect id="rect2692" style="fill:#FFFFFF" height="34.286" width="88.571" y="255.93" x="142.86" />
+                                <rect id="rect2694" style="fill:#FFFFFF" height="34.286" width="94.286" y="295.22" x="182.14" />
+                                <rect id="rect2696" style="fill:#FFFFFF" height="34.286" width="94.286" y="255.22" x="334.86" />
+                                <rect id="rect2698" style="fill:#FFFFFF" height="34.286" width="94.286" y="335.22" x="342.86" />
+                                <rect id="rect2700" style="fill:#FFFFFF" height="34.286" width="94.286" y="295.22" x="382.86" />
+                                <rect id="rect2720" style="fill:#FFFFFF" height="34.286" width="94.286" y="374.51" x="206.86" />
+                                <rect id="rect2722" style="fill:#FFFFFF" height="34.286" width="94.286" y="374.51" x="306.86" />
+                                <rect id="rect2724" style="fill:#FFFFFF" height="34.286" width="94.286" y="374.51" x="406.86" />
+                                <rect id="rect2726" style="fill:#FFFFFF" height="34.286" width="94.286" y="335.22" x="442.86" />
+                                <rect id="rect2728" style="fill:#FFFFFF" height="34.286" width="94.286" y="295.22" x="482.86" />
+                                <rect id="rect2730" style="fill:#FFFFFF" height="34.286" width="94.286" y="255.22" x="434.86" />
+                                <rect id="rect2732" style="fill:#FFFFFF" height="34.286" width="94.286" y="255.22" x="534.86" />
+                                <rect id="rect2734" style="fill:#FFFFFF" height="34.286" width="94.286" y="295.22" x="582.86" />
+                                <rect id="rect2736" style="fill:#FFFFFF" height="34.286" width="94.286" y="335.22" x="542.86" />
+                                <rect id="rect2738" style="fill:#FFFFFF" height="34.286" width="94.286" y="374.51" x="506.86" />
+                                <rect id="rect2740" style="fill:#FFFFFF" height="34.286" width="94.286" y="374.51" x="606.86" />
+                                <rect id="rect2742" style="fill:#FFFFFF" height="34.286" width="94.286" y="335.22" x="642.86" />
+                                <rect id="rect2744" style="fill:#FFFFFF" height="34.286" width="94.286" y="335.22" x="742.86" />
+                                <rect id="rect2746" style="fill:#FFFFFF" height="34.286" width="94.286" y="295.22" x="682.86" />
+                                <rect id="rect2748" style="fill:#FFFFFF" height="34.286" width="94.286" y="255.22" x="634.86" />
+                                <rect id="rect2750" style="fill:#FFFFFF" height="34.286" width="94.286" y="374.51" x="706.86" />
+                                <rect id="rect2752" style="fill:#FFFFFF" height="34.286" width="94.286" y="255.22" x="734.86" />
+                                <rect id="rect2754" style="fill:#FFFFFF" height="34.286" width="94.286" y="335.22" x="842.86" />
+                                <rect id="rect2756" style="fill:#FFFFFF" height="34.286" width="94.286" y="374.51" x="806.86" />
+                                <rect id="rect2758" style="fill:#FFFFFF" height="34.286" width="94.286" y="295.22" x="782.86" />
+                                <rect id="rect2760" style="fill:#FFFFFF" height="34.286" width="94.286" y="295.22" x="882.86" />
+                                <rect id="rect2762" style="fill:#FFFFFF" height="34.286" width="94.286" y="255.22" x="834.86" />
+                                <rect id="rect2764" style="fill:#FFFFFF" height="34.286" width="94.286" y="374.51" x="906.86" />
+                                <rect id="rect2766" style="fill:#FFFFFF" height="34.286" width="57.143" y="335.22" x="942.86" />
+                                <rect id="rect2768" style="fill:#FFFFFF" height="34.286" width="15.714" y="295.22" x="982.86" />
+                                <rect id="rect2770" style="fill:#FFFFFF" height="34.286" width="62.857" y="255.22" x="934.86" />
+                            </g>
+                        </g>
+                    </g>
+                </pattern>
+                <linearGradient id="ChromeGradient">
+                    <stop stop-color="silver" offset="40%" />
+                    <stop stop-color="ghostwhite" offset="100%" />
+                </linearGradient>
+                <linearGradient id="BlackGradient">
+                    <stop stop-color="black" offset="0%" />
+                    <stop stop-color="gray" offset="100%" />
+                </linearGradient>
+                <linearGradient id="WhiteGradient">
+                    <stop stop-color="lightgray" offset="0%" />
+                    <stop stop-color="ghostwhite" offset="40%" />
+                </linearGradient>
+                <linearGradient id="BronzeGradient">
+                    <stop stop-color="#CD7F32" offset="0%" />
+                    <stop stop-color="#FCF6BA" offset="100%" />
+                </linearGradient>
+                <linearGradient id="CopperGradient">
+                    <stop stop-color="#a64545" offset="0%" />
+                    <stop stop-color="#FCF6BA" offset="100%" />
+                </linearGradient>
+                <linearGradient id="GoldGradient">
+                    <stop stop-color="#BF953F" offset="0%" />
+                    <stop stop-color="#FCF6BA" offset="100%" />
+                </linearGradient>
+            </defs>
+
+
+            @foreach (DrawShape part in activeDraw)
+            {
+                @*Opacity to Fixed Glass so that Sliding glass can be seen moving on the back*@
+                <path d="@(part.GetShapePathData())"
+              stroke="@(part.Stroke)"
+              stroke-width="@(part.Name is "AL1DividingLine" ? 2 : 1)"
+              fill="@(part.Fill)"
+              opacity="@(part.Name is nameof(Cabin9SDraw.FixedGlassDraw1)
+                                   or nameof(Cabin94Draw.FixedGlassDraw2)
+                                   or nameof(Cabin94Draw.SlidingGlassDraw1)
+                                   or nameof(Cabin94Draw.SlidingGlassDraw2)
+                                   or nameof (CabinDBDraw.DoorGlassDraw1) ? "0.8" : "1")">
+                    @*Animation of Single Door or 1st Door*@
+                    @if (part.Name is nameof(Cabin9SDraw.MagnetStrip1)
+                   or nameof(Cabin9SDraw.SlidingGlassDraw1)
+                   or nameof(Cabin9SDraw.Handle1)
+                   or nameof(CabinVSDraw.Door1WheelLeft)
+                   or nameof(CabinVSDraw.Door1WheelRight)
+                   or nameof(CabinVSDraw.Door1WheelLockLeft)
+                   or nameof(CabinVSDraw.Door1WheelLockRight)
+                   or nameof(CabinVSDraw.Door1WheelLockLeft)
+                   or nameof(CabinWSDraw.DoorStopperBumperPart)
+                   or nameof(CabinWSDraw.DoorStopperMetalPart))
+                    {
+                        @*Searches for the element with id = testSVG and when mousenters begins animation!*@
+                        @*values translate from dx0 dy0 to dx1 dy1 and dx2 dy2*@
+                        @*When the Draw is Flipped the Opening should be Opposite of Normal *@
+                        @*When the Draw is of an 'A' model check whether it is the flipped or the non flipped side to assign correct openings*@
+                        <animateTransform attributeName="transform"
+                              begin="CabinSVGDraw.mouseenter"
+                              dur="5s"
+                              type="translate"
+                              values="0 0;@(IsActiveDrawAFlipped ? draw.SecondaryDoorOpening.ToString().Replace(',','.') : (-draw.PrimaryDoorOpening).ToString().Replace(',','.')) 0;0 0"
+                              repeatCount="1" />
+                        @*Animation of Wheels Single Door or 1st Door*@
+                        @if (part.Name is nameof(CabinV4Draw.Door1WheelLeft)
+                       or nameof(CabinV4Draw.Door1WheelRight))
+                        {
+                            @*Rotate from 0-360 for 5s Origin as the center of shape each moment -- When Shape is Flipped A the flip rotation angle!*@
+                            <animateTransform attributeName="transform" additive="sum"
+                              begin="CabinSVGDraw.mouseenter"
+                              dur="5s"
+                              type="rotate"
+                              values="0 @(part.ShapeCenterX.ToString().Replace(',','.')) @(part.ShapeCenterY.ToString().Replace(',','.'));@(IsActiveDrawAFlipped ? +360 : -360) @(part.ShapeCenterX.ToString().Replace(',','.')) @(part.ShapeCenterY.ToString().Replace(',','.'));0 @(part.ShapeCenterX.ToString().Replace(',','.')) @(part.ShapeCenterY.ToString().Replace(',','.'))"
+                              repeatCount="1" />
+                        }
+                    }
+                    @*Animation of Second Door*@
+                    @if (part.Name is nameof(Cabin94Draw.MagnetStrip2)
+                   or nameof(Cabin94Draw.SlidingGlassDraw2)
+                   or nameof(Cabin94Draw.Handle2)
+                   or nameof(CabinV4Draw.Door2WheelLeft)
+                   or nameof(CabinV4Draw.Door2WheelRight)
+                   or nameof(CabinV4Draw.Door2WheelLockLeft)
+                   or nameof(CabinV4Draw.Door2WheelLockRight)
+                   or nameof(CabinV4Draw.Door2WheelLockLeft))
+                    {
+                        @*Searches for the element with id = CabinSVGDraw and when mousenters begins animation!*@
+                        @*values translate from dx0 dy0 to dx1 dy1 and dx2 dy2*@
+                        @*When the Draw is Flipped the Opening should be Opposite of Normal *@
+                        <animateTransform attributeName="transform" additive="sum"
+                              begin="CabinSVGDraw.mouseenter"
+                              dur="5s"
+                              type="translate"
+                              values="0 0;@(draw.PrimaryDoorOpening.ToString().Replace(',','.')) 0;0 0"
+                              repeatCount="1" />
+                        @*Animation of Wheels Second Door*@
+                        @if (part.Name is nameof(CabinV4Draw.Door2WheelLeft)
+                       or nameof(CabinV4Draw.Door2WheelRight))
+                        {
+                            <animateTransform attributeName="transform" additive="sum"
+                              begin="CabinSVGDraw.mouseenter"
+                              dur="5s"
+                              type="rotate"
+                              values="0 @(part.ShapeCenterX.ToString().Replace(',','.')) @(part.ShapeCenterY.ToString().Replace(',','.'));360 @(part.ShapeCenterX.ToString().Replace(',','.')) @(part.ShapeCenterY.ToString().Replace(',','.'));0 @(part.ShapeCenterX.ToString().Replace(',','.')) @(part.ShapeCenterY.ToString().Replace(',','.'))"
+                              repeatCount="1" />
+                        }
+                    }
+                </path>
+            }
+        </svg>
+    }
+    else
+    {
+        @if (ShowErrorOnMissingDraw)
+        {
+            <div class="d-flex flex-column justify-center align-center pa-5 rounded-lg" style="width:100%;border:1px solid var(--customPrimary)">
+                <i class="fa-solid fa-triangle-exclamation fa-4x" style="color:var(--customPrimary)"></i>
+                <MudText Typo="@Typo.body2" Color="@(Color.Primary)">
+                    @(lc.Keys[errorMessage])
+                </MudText>
+            </div>
+        }
+    }
+
+</div>
+
+
+@code {
+    
+}

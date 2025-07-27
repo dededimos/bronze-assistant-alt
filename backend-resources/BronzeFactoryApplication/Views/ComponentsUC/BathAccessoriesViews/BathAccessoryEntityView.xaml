@@ -1,0 +1,2398 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.ComponentsUC.BathAccessoriesViews.BathAccessoryEntityView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels.AccessoriesViewModels"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.BathAccessoriesViews"
+             xmlns:helpers="clr-namespace:BronzeFactoryApplication.Helpers"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:b="clr-namespace:BronzeFactoryApplication.Helpers.Behaviours"
+             xmlns:cachedImage="clr-namespace:CachedImage.Core;assembly=CachedImage.Core"
+             xmlns:photoSizeEnum="clr-namespace:AzureBlobStorageLibrary;assembly=AzureBlobStorageLibrary"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:globalCommands="clr-namespace:BronzeFactoryApplication.Helpers"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=vm:BathAccessoryEntityViewModel}">
+    <UserControl.Resources>
+        <Style TargetType="TextBlock"
+               BasedOn="{StaticResource TextBlockBaseStyle}"
+               x:Key="LocalizedStringVmTextBlockStyle">
+            <Setter Property="Width"
+                    Value="150" />
+            <Setter Property="TextAlignment"
+                    Value="Left" />
+        </Style>
+    </UserControl.Resources>
+    <Grid x:Name="AccessoryEntityGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="490" />
+            <ColumnDefinition Width="40" />
+            <ColumnDefinition Width="580" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="{StaticResource lngAccessoryProperties}"
+                   HorizontalAlignment="Left"
+                   TextAlignment="Center"
+                   TextDecorations="Underline"
+                   Margin="0"
+                   Style="{StaticResource CHeaderTextBlock}"
+                   VerticalAlignment="Top"
+                   Grid.Row="0"
+                   Grid.Column="0" />
+        <hc:Divider Grid.Row="0"
+                    Grid.RowSpan="7"
+                    Grid.Column="1"
+                    Margin="0,0,0,15"
+                    Orientation="Vertical"
+                    LineStroke="{DynamicResource BorderBrush}" />
+
+        <!-- COLUMN 1 -->
+
+        <!--#region 1-2. Descriptions -->
+        <StackPanel Grid.Column="0"
+                    Grid.Row="1"
+                    Grid.RowSpan="2"
+                    VerticalAlignment="Center">
+            <!--#region Name -->
+            <StackPanel Orientation="Horizontal"
+                        x:Name="NameStackPanel">
+                <Button Style="{StaticResource EditLocalizedStringVmButtonStyle}"
+                        Command="{Binding EditLocalizedStringCommand}"
+                        CommandParameter="Name" />
+                <TextBlock Text="{StaticResource lngName}"
+                           Style="{StaticResource LocalizedStringVmTextBlockStyle}" />
+                <TextBlock Text=" : "
+                           VerticalAlignment="Center" />
+                <TextBlock Text="{Binding BaseDescriptiveEntity.Name.MinifiedDefaultValue}"
+                           VerticalAlignment="Center" />
+            </StackPanel>
+            <!--#endregion-->
+
+            <!--#region Description -->
+            <StackPanel Orientation="Horizontal">
+                <Button Style="{StaticResource EditLocalizedStringVmButtonStyle}"
+                        Command="{Binding EditLocalizedStringCommand}"
+                        CommandParameter="Description" />
+                <TextBlock Text="{StaticResource lngDescription}"
+                           Style="{StaticResource LocalizedStringVmTextBlockStyle}" />
+                <TextBlock Text=" : "
+                           VerticalAlignment="Center" />
+                <TextBlock Text="{Binding BaseDescriptiveEntity.Description.MinifiedDefaultValue}"
+                           VerticalAlignment="Center" />
+            </StackPanel>
+            <!--#endregion-->
+
+            <!--#region Extended Description -->
+            <StackPanel Orientation="Horizontal">
+                <Button Style="{StaticResource EditLocalizedStringVmButtonStyle}"
+                        Command="{Binding EditLocalizedStringCommand}"
+                        CommandParameter="ExtendedDescription" />
+                <TextBlock Text="{StaticResource lngExtendedDescription}"
+                           Style="{StaticResource LocalizedStringVmTextBlockStyle}" />
+                <TextBlock Text=" : "
+                           VerticalAlignment="Center" />
+                <TextBlock Text="{Binding BaseDescriptiveEntity.ExtendedDescription.MinifiedDefaultValue}"
+                           VerticalAlignment="Center" />
+            </StackPanel>
+            <!--#endregion-->
+
+            <!--#region IsOnline & UsesOnly Main Code & SortNo -->
+            <DockPanel>
+                <StackPanel x:Name="SortNoStackPanel"
+                            Margin="0,5"
+                            Grid.Row="3"
+                            Grid.Column="0">
+                    <DockPanel>
+                        <cc:Icon ToolTip="{StaticResource lngSortNoTooltip}"
+                                 Style="{StaticResource CInfoTooltipIcon}" />
+                        <TextBlock x:Name="SortNoTextBlock"
+                                   Style="{StaticResource TitleTextBlockStyle}"
+                                   Text="{StaticResource lngSortNo}">
+                        </TextBlock>
+                    </DockPanel>
+                    <TextBox x:Name="SortNoTextBox"
+                             d:Text="99999"
+                             Text="{Binding SortNo ,Mode=TwoWay, TargetNullValue=''}"
+                             MaxLength="5">
+                        <i:Interaction.Behaviors>
+                            <b:TextBoxNumericInputBehavior Precision="0"
+                                                           InputMode="DigitInput" />
+                        </i:Interaction.Behaviors>
+                    </TextBox>
+                </StackPanel>
+                <StackPanel Margin="30,5,0,0"
+                            HorizontalAlignment="Right">
+                    <DockPanel Margin="0,5"
+                               HorizontalAlignment="Left">
+                        <cc:Icon ToolTip="{StaticResource lngIsOnlineStatusTooltipAccessory}"
+                                 Style="{StaticResource CInfoTooltipIcon}"
+                                 Margin="10,0,5,0" />
+                        <CheckBox IsChecked="{Binding IsOnline}"
+                                  Content="{StaticResource lngIsOnlineStatus}" />
+                    </DockPanel>
+                    <DockPanel Margin="0,5"
+                               HorizontalAlignment="Left">
+                        <cc:Icon ToolTip="{StaticResource lngUsesOnlyMainCodeTooltipAccessory}"
+                                 Style="{StaticResource CInfoTooltipIcon}"
+                                 Margin="10,0,5,0" />
+                        <CheckBox IsChecked="{Binding UsesOnlyMainCode}"
+                                  Content="{StaticResource lngUsesOnlyMainCode}" />
+                    </DockPanel>
+                </StackPanel>
+            </DockPanel>
+            <!--#endregion-->
+        </StackPanel>
+        <!--#endregion-->
+        <!--#region 3.MainCode & Extra Code -->
+        <Grid x:Name="MainCodeExtraCodeGrid"
+              Margin="0,5"
+              Grid.Row="3"
+              Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <StackPanel x:Name="MainCodeStackPanel"
+                        Grid.Column="0"
+                        Margin="0,0,5,0">
+                <DockPanel>
+                    <cc:Icon ToolTip="{StaticResource lngMainCodeTooltipAccessory}"
+                             Style="{StaticResource CInfoTooltipIcon}" />
+                    <TextBlock x:Name="MainCodeTextBlock"
+                               Style="{StaticResource TitleTextBlockStyle}"
+                               Text="{StaticResource lngMainCode}">
+                    </TextBlock>
+                </DockPanel>
+                <TextBox x:Name="MainCodeTextBox"
+                         d:Text="5150"
+                         Text="{Binding MainCode ,Mode=TwoWay, TargetNullValue=''}"
+                         MaxLength="15">
+                </TextBox>
+            </StackPanel>
+            <StackPanel x:Name="ExtraCodeStackPanel"
+                        Grid.Column="1"
+                        Margin="5,0,0,0"
+                        IsEnabled="{Binding UsesOnlyMainCode, Converter={StaticResource Boolean2BooleanReConverter}}">
+                <DockPanel>
+                    <cc:Icon ToolTip="{StaticResource lngExtraCodeTooltipAccessory}"
+                             Style="{StaticResource CInfoTooltipIcon}" />
+                    <TextBlock x:Name="ExtraCodeTextBlock"
+                               Style="{StaticResource TitleTextBlockStyle}"
+                               Text="{StaticResource lngExtraCode}">
+                    </TextBlock>
+                </DockPanel>
+                <TextBox x:Name="ExtraCodeTextBox"
+                         d:Text="K"
+                         Text="{Binding ExtraCode ,Mode=TwoWay, TargetNullValue=''}"
+                         MaxLength="10">
+                </TextBox>
+            </StackPanel>
+        </Grid>
+        <!--#endregion-->
+        <!--#region 4.Material & Shape -->
+        <Grid x:Name="MaterialShapeGrid"
+              Margin="0,5"
+              Grid.Row="4"
+              Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <StackPanel x:Name="MaterialStackPanel"
+                        Grid.Column="0"
+                        Margin="0,0,5,0">
+                <DockPanel>
+                    <cc:Icon ToolTip="{StaticResource lngMaterial}"
+                             Style="{StaticResource CInfoTooltipIcon}" />
+                    <TextBlock x:Name="MaterialTextBlock"
+                               Style="{StaticResource TitleTextBlockStyle}"
+                               Text="{StaticResource lngMaterial}">
+                    </TextBlock>
+                </DockPanel>
+                <ComboBox x:Name="MaterialComboBox"
+                          ItemsSource="{Binding MaterialTraits, Mode=OneWay}"
+                          SelectedValue="{Binding SelectedMaterialId}"
+                          SelectedValuePath="IdAsString"
+                          HorizontalContentAlignment="Stretch">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Trait,Converter={StaticResource LocalizedStringConverter} }" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel x:Name="ShapeStackPanel"
+                        Margin="5,0,0,0"
+                        Grid.Column="1">
+                <DockPanel>
+                    <cc:Icon ToolTip="{StaticResource lngShape}"
+                             Style="{StaticResource CInfoTooltipIcon}" />
+                    <TextBlock x:Name="ShapeTextBlock"
+                               Style="{StaticResource TitleTextBlockStyle}"
+                               Text="{StaticResource lngShape}">
+                    </TextBlock>
+                </DockPanel>
+                <ComboBox x:Name="ShapeComboBox"
+                          ItemsSource="{Binding ShapeTraits, Mode=OneWay}"
+                          SelectedValue="{Binding SelectedShapeId}"
+                          SelectedValuePath="IdAsString"
+                          HorizontalContentAlignment="Stretch">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Trait,Converter={StaticResource LocalizedStringConverter} }" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+        </Grid>
+        <!--#endregion-->
+        <!--#region 5 Default Finish -->
+        <StackPanel VerticalAlignment="Center"
+                    Margin="0,5"
+                    Grid.Row="5"
+                    Grid.Column="0">
+            <DockPanel>
+                <cc:Icon ToolTip="{StaticResource lngDefaultFinishTooltip}"
+                         Style="{StaticResource CInfoTooltipIcon}" />
+                <TextBlock Style="{StaticResource TitleTextBlockStyle}"
+                           Text="{StaticResource lngDefaultFinish}">
+                </TextBlock>
+            </DockPanel>
+            <ComboBox x:Name="AvailableDefaultFinishesComboBox"
+                      ItemsSource="{Binding AvailableDefaultFinishes, Mode=OneWay}"
+                      SelectedValue="{Binding SelectedFinishId}"
+                      SelectedValuePath="IdAsString"
+                      MinHeight="60"
+                      HorizontalContentAlignment="Stretch"
+                      VerticalAlignment="Center"
+                      MaxDropDownHeight="500">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <DockPanel HorizontalAlignment="Stretch"
+                                   LastChildFill="True">
+                            <cachedImage:Image ImageUrl="{Binding PhotoURL, Converter={StaticResource BlobUrlConverter}, ConverterParameter={x:Static photoSizeEnum:BlobPhotoSize.ThumbSizePhoto}}"
+                                               FailedImage="{StaticResource DefaultNoImage}"
+                                               Width="70"
+                                               Height="50"
+                                               Stretch="Uniform"
+                                               HorizontalAlignment="Center" />
+                            <TextBlock Text="{Binding Trait,Converter={StaticResource LocalizedStringConverter} }"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Center"
+                                       DockPanel.Dock="Right"
+                                       TextAlignment="Center" />
+                        </DockPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </StackPanel>
+        <!--#endregion-->
+
+        <hc:Divider LineStroke="{DynamicResource BorderBrush}"
+                    Orientation="Horizontal"
+                    Grid.Row="6"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    Margin="20,5" />
+
+        <!--#region 7-8.Available Finishes -->
+        <DockPanel x:Name="AvailableFinishesDockPanel"
+                   Margin="0,5,15,5"
+                   VerticalAlignment="Center"
+                   Grid.Row="7"
+                   Grid.RowSpan="2"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2">
+
+            <StackPanel DockPanel.Dock="Right">
+                <DockPanel>
+                    <cc:Icon ToolTip="{StaticResource lngAvailableFinishesTooltip}"
+                             Style="{StaticResource CInfoTooltipIcon}" />
+                    <TextBlock x:Name="AvailableFinishesTextBlock"
+                               Style="{StaticResource TitleTextBlockStyle}"
+                               Text="{StaticResource lngAvailableFinishes}">
+                    </TextBlock>
+                </DockPanel>
+                <ListBox ItemsSource="{Binding AvailableFinishes}"
+                         SelectedItem="{Binding SelectedAvailableFinish}"
+                         Height="130"
+                         DockPanel.Dock="Right"
+                         Width="230">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <DockPanel LastChildFill="True">
+                                <Button Style="{StaticResource ButtonIconCircular.Small}"
+                                        Foreground="{DynamicResource DangerBrush}"
+                                        hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
+                                        hc:IconElement.Height="8"
+                                        BorderBrush="{DynamicResource DangerBrush}"
+                                        Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor} , Path=DataContext.RemoveAvailableFinishCommand}"
+                                        CommandParameter="{Binding .}" />
+                                <cachedImage:Image ImageUrl="{Binding Finish.PhotoURL, Converter={StaticResource BlobUrlConverter}, ConverterParameter={x:Static photoSizeEnum:BlobPhotoSize.ThumbSizePhoto}}"
+                                                   FailedImage="{StaticResource DefaultNoImage}"
+                                                   Height="19"
+                                                   Stretch="Uniform"
+                                                   Margin="10,0" />
+                                <TextBlock Text="{Binding Finish.Trait, Converter={StaticResource LocalizedStringConverter}}"
+                                           VerticalAlignment="Center"
+                                           TextAlignment="Center"
+                                           Margin="10,0" />
+                            </DockPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+            <DockPanel>
+                <DockPanel DockPanel.Dock="Top">
+                    <!--#region Add Finish Button -->
+                    <Button Style="{StaticResource ButtonIconCircular}"
+                            hc:IconElement.Geometry="{StaticResource AddGeometry}"
+                            Foreground="{DynamicResource SuccessBrush}"
+                            Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.AddAvailableFinishCommand}"
+                            CommandParameter="{Binding ElementName=AllFinishesComboBox, Path=SelectedItem}"
+                            DockPanel.Dock="Right"
+                            Margin="0,22,10,0" />
+                    <!--#endregion-->
+                    <!--#region ComboBox Selector -->
+                    <StackPanel VerticalAlignment="Center"
+                                Margin="10,0">
+
+                        <DockPanel>
+                            <cc:Icon ToolTip="{StaticResource lngFinishToAddTooltip}"
+                                     Style="{StaticResource CInfoTooltipIcon}" />
+                            <TextBlock Style="{StaticResource TitleTextBlockStyle}"
+                                       Text="{StaticResource lngFinishToAdd}">
+                            </TextBlock>
+                        </DockPanel>
+                        <ComboBox x:Name="AllFinishesComboBox"
+                                  ItemsSource="{Binding FinishTraits, Mode=OneWay}"
+                                  SelectedItem="{Binding SelectedAccessoryFinishVariation}"
+                                  MinHeight="60"
+                                  HorizontalContentAlignment="Stretch"
+                                  VerticalAlignment="Center"
+                                  MaxDropDownHeight="500">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <DockPanel HorizontalAlignment="Stretch"
+                                               LastChildFill="True">
+                                        <cachedImage:Image ImageUrl="{Binding PhotoURL, Converter={StaticResource BlobUrlConverter}, ConverterParameter={x:Static photoSizeEnum:BlobPhotoSize.ThumbSizePhoto}}"
+                                                           FailedImage="{StaticResource DefaultNoImage}"
+                                                           Width="70"
+                                                           Height="50"
+                                                           Stretch="Uniform"
+                                                           HorizontalAlignment="Center" />
+                                        <TextBlock Text="{Binding Trait,Converter={StaticResource LocalizedStringConverter} }"
+                                                   VerticalAlignment="Center"
+                                                   HorizontalAlignment="Center"
+                                                   DockPanel.Dock="Right"
+                                                   TextAlignment="Center" />
+                                    </DockPanel>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+                    <!--#endregion-->
+                </DockPanel>
+                <DockPanel>
+                    <!--#region Add FinishGroup Button -->
+                    <Button Style="{StaticResource ButtonIconCircular}"
+                            hc:IconElement.Geometry="{StaticResource AddGeometry}"
+                            Foreground="{DynamicResource SuccessBrush}"
+                            Command="{Binding AddAvailableFinishByGroupCommand}"
+                            DockPanel.Dock="Right"
+                            ToolTip="{StaticResource lngAddFinishGroupTooltip}"
+                            Margin="0,22,10,0"
+                            Height="25"
+                            Width="25" />
+                    <!--#endregion-->
+                    <!--#region ComboBox Add Group Selector -->
+                    <StackPanel VerticalAlignment="Center"
+                                Margin="10,0">
+                        <DockPanel>
+                            <cc:Icon ToolTip="{StaticResource lngNewFinishGroupTooltip}"
+                                     Style="{StaticResource CInfoTooltipIcon}" />
+                            <TextBlock Style="{StaticResource TitleTextBlockStyle}"
+                                       Text="{StaticResource lngNewFinishGroup}">
+                            </TextBlock>
+                        </DockPanel>
+                        <ComboBox x:Name="FinishTraitGroupsComboBox"
+                                  ItemsSource="{Binding FinishTraitGroups, Mode=OneWay}"
+                                  SelectedItem="{Binding SelectedFinishGroupToAdd}"
+                                  HorizontalContentAlignment="Stretch"
+                                  VerticalAlignment="Center"
+                                  MaxDropDownHeight="500">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name,Converter={StaticResource LocalizedStringConverter} }"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+                    <!--#endregion-->
+                </DockPanel>
+            </DockPanel>
+        </DockPanel>
+        <!--#endregion-->
+
+        <!-- COLUMN 2 -->
+        <!--#region 0-2.Images - Pdf Files -->
+        <DockPanel Grid.Row="0"
+                   Grid.RowSpan="3"
+                   Grid.Column="2">
+            <DockPanel.Resources>
+                <Style TargetType="Border"
+                       BasedOn="{StaticResource CPhotoControlBorder}" />
+            </DockPanel.Resources>
+
+            <!--#region Main Photo Url Control -->
+            <Border>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="140" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Style="{StaticResource CSmallInfoTextBlock}"
+                               Text="{StaticResource lngMainPhotoUrl}"
+                               Grid.Row="0"
+                               Grid.Column="1"
+                               VerticalAlignment="Center" />
+                    <!--#region Buttons StackPanel -->
+                    <StackPanel Grid.Row="0"
+                                Grid.RowSpan="2"
+                                Grid.Column="0"
+                                VerticalAlignment="Top">
+                        <!--#region Select Photo Button -->
+                        <Button Style="{StaticResource ButtonIcon}"
+                                hc:IconElement.Geometry="{StaticResource EditGeometry}"
+                                hc:IconElement.Height="13"
+                                Margin="7"
+                                Height="auto"
+                                Padding="0"
+                                VerticalAlignment="Top"
+                                Foreground="{DynamicResource SecondaryBrush}"
+                                Command="{Binding ChangeMainPhotoUrlCommand}"
+                                ToolTip="{StaticResource lngSelectNewPhoto}"
+                                ToolTipService.Placement="Left"
+                                ToolTipService.VerticalOffset="-15"
+                                ToolTipService.InitialShowDelay="0" />
+                        <!--#endregion-->
+                        <!--#region Open Photo Viewer Button -->
+                        <Button hc:IconElement.Geometry="{StaticResource EyeOpenGeometry}"
+                                hc:IconElement.Height="10"
+                                Margin="7"
+                                Padding="0"
+                                Height="auto"
+                                VerticalAlignment="Top"
+                                Command="{Binding OpenImageViewerCommand}"
+                                CommandParameter="{Binding MainPhotoUrl , Converter={StaticResource BlobUrlConverter}, ConverterParameter={x:Static photoSizeEnum:BlobPhotoSize.MediumSizePhoto}}"
+                                Style="{StaticResource ButtonIcon}"
+                                Foreground="{DynamicResource SecondaryBrush}"
+                                ToolTip="{StaticResource lngInspectPhoto}"
+                                ToolTipService.Placement="Left"
+                                ToolTipService.VerticalOffset="-15"
+                                ToolTipService.HorizontalOffset="2"
+                                ToolTipService.InitialShowDelay="0" />
+                        <!--#endregion-->
+                        <!--#region Info Tooltip -->
+                        <cc:Icon GeometryData="{StaticResource InfoGeometry}"
+                                 Height="14"
+                                 Margin="7"
+                                 Padding="0"
+                                 VerticalAlignment="Top"
+                                 Fill="{DynamicResource SecondaryBrush}"
+                                 ToolTip="{Binding MainPhotoUrl}"
+                                 ToolTipService.Placement="Left"
+                                 ToolTipService.VerticalOffset="-15"
+                                 ToolTipService.HorizontalOffset="2"
+                                 ToolTipService.InitialShowDelay="0" />
+                        <!--#endregion-->
+                        <!--#region Remove Photo -->
+                        <Button Style="{StaticResource ButtonIcon}"
+                                hc:IconElement.Geometry="{StaticResource DeleteFillCircleGeometry}"
+                                hc:IconElement.Height="14"
+                                Margin="0,40,0,0"
+                                Height="auto"
+                                Padding="0"
+                                VerticalAlignment="Top"
+                                Foreground="{DynamicResource DangerBrush}"
+                                Command="{Binding RemoveMainPhotoUrlCommand}"
+                                ToolTip="{StaticResource lngRemoveImage}"
+                                ToolTipService.Placement="Left"
+                                ToolTipService.VerticalOffset="-15"
+                                ToolTipService.InitialShowDelay="0" />
+                        <!--#endregion-->
+                    </StackPanel>
+                    <!--#endregion-->
+                    <!--#region Buttons Divider -->
+                    <hc:Divider Grid.Column="1"
+                                Grid.RowSpan="2"
+                                HorizontalAlignment="Left"
+                                Margin="0"
+                                Orientation="Vertical"
+                                LineStroke="{DynamicResource SecondaryBorderBrush}" />
+                    <!--#endregion-->
+                    <!--#region MainUrlImage -->
+                    <cachedImage:Image Source="{Binding MainPhotoUrl,Converter={StaticResource BlobUrlConverter}, ConverterParameter={x:Static photoSizeEnum:BlobPhotoSize.SmallSizePhoto},Mode=OneWay,FallbackValue={StaticResource DefaultNoImage}}"
+                                       FailedImage="{StaticResource DefaultNoImage}"
+                                       Width="110"
+                                       Margin="10,0,0,0"
+                                       HorizontalAlignment="Center"
+                                       Height="130"
+                                       Stretch="Uniform"
+                                       Grid.Row="1"
+                                       Grid.Column="1" />
+                    <!--#endregion-->
+                </Grid>
+            </Border>
+            <!--#endregion-->
+
+            <!--#region Dimensions Photo Url Control -->
+            <Border Margin="10,0,0,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="140" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Style="{StaticResource CSmallInfoTextBlock}"
+                               Text="{StaticResource lngDimensionPhotoUrl}"
+                               Grid.Row="0"
+                               Grid.Column="1"
+                               VerticalAlignment="Center" />
+                    <!--#region Buttons StackPanel -->
+                    <StackPanel Grid.Row="0"
+                                Grid.RowSpan="2"
+                                Grid.Column="0"
+                                VerticalAlignment="Top">
+                        <!--#region Select Photo Button -->
+                        <Button Style="{StaticResource ButtonIcon}"
+                                hc:IconElement.Geometry="{StaticResource EditGeometry}"
+                                hc:IconElement.Height="13"
+                                Margin="7"
+                                Height="auto"
+                                Padding="0"
+                                VerticalAlignment="Top"
+                                Foreground="{DynamicResource SecondaryBrush}"
+                                Command="{Binding ChangeDimensionsPhotoUrlCommand}"
+                                ToolTip="{StaticResource lngSelectNewPhoto}"
+                                ToolTipService.Placement="Left"
+                                ToolTipService.VerticalOffset="-15"
+                                ToolTipService.InitialShowDelay="0" />
+                        <!--#endregion-->
+                        <!--#region Open Photo Viewer Button -->
+                        <Button hc:IconElement.Geometry="{StaticResource EyeOpenGeometry}"
+                                hc:IconElement.Height="10"
+                                Margin="7"
+                                Padding="0"
+                                Height="auto"
+                                VerticalAlignment="Top"
+                                Command="{Binding OpenImageViewerCommand}"
+                                CommandParameter="{Binding DimensionsPhotoUrl , Converter={StaticResource BlobUrlConverter}, ConverterParameter={x:Static photoSizeEnum:BlobPhotoSize.MediumSizePhoto}}"
+                                Style="{StaticResource ButtonIcon}"
+                                Foreground="{DynamicResource SecondaryBrush}"
+                                ToolTip="{StaticResource lngInspectPhoto}"
+                                ToolTipService.Placement="Left"
+                                ToolTipService.VerticalOffset="-15"
+                                ToolTipService.HorizontalOffset="2"
+                                ToolTipService.InitialShowDelay="0" />
+                        <!--#endregion-->
+                        <!--#region Info Tooltip -->
+                        <cc:Icon GeometryData="{StaticResource InfoGeometry}"
+                                 Height="14"
+                                 Margin="7"
+                                 Padding="0"
+                                 VerticalAlignment="Top"
+                                 Fill="{DynamicResource SecondaryBrush}"
+                                 ToolTip="{Binding DimensionsPhotoUrl}"
+                                 ToolTipService.Placement="Left"
+                                 ToolTipService.VerticalOffset="-15"
+                                 ToolTipService.HorizontalOffset="2"
+                                 ToolTipService.InitialShowDelay="0" />
+                        <!--#endregion-->
+                        <!--#region Remove Photo -->
+                        <Button Style="{StaticResource ButtonIcon}"
+                                hc:IconElement.Geometry="{StaticResource DeleteFillCircleGeometry}"
+                                hc:IconElement.Height="14"
+                                Margin="0,40,0,0"
+                                Height="auto"
+                                Padding="0"
+                                VerticalAlignment="Top"
+                                Foreground="{DynamicResource DangerBrush}"
+                                Command="{Binding RemoveDimensionsPhotoUrlCommand}"
+                                ToolTip="{StaticResource lngRemoveImage}"
+                                ToolTipService.Placement="Left"
+                                ToolTipService.VerticalOffset="-15"
+                                ToolTipService.InitialShowDelay="0" />
+                        <!--#endregion-->
+                    </StackPanel>
+                    <!--#endregion-->
+                    <!--#region Buttons Divider -->
+                    <hc:Divider Grid.Column="1"
+                                Grid.RowSpan="2"
+                                HorizontalAlignment="Left"
+                                Margin="0"
+                                Orientation="Vertical"
+                                LineStroke="{DynamicResource SecondaryBorderBrush}" />
+                    <!--#endregion-->
+                    <!--#region DimUrlImage -->
+                    <cachedImage:Image Source="{Binding DimensionsPhotoUrl,Converter={StaticResource BlobUrlConverter}, ConverterParameter={x:Static photoSizeEnum:BlobPhotoSize.SmallSizePhoto},Mode=OneWay,FallbackValue={StaticResource DefaultNoImage}}"
+                                       FailedImage="{StaticResource DefaultNoImage}"
+                                       Width="110"
+                                       Margin="10,0,0,0"
+                                       HorizontalAlignment="Center"
+                                       Height="130"
+                                       Stretch="Uniform"
+                                       Grid.Row="1"
+                                       Grid.Column="1" />
+                    <!--#endregion-->
+                </Grid>
+            </Border>
+            <!--#endregion-->
+
+            <!--#region Extra Photos Url Control -->
+            <Border Margin="10,0,0,0" Padding="5">
+                <DockPanel>
+                    <!--#region Title With Add Button -->
+                    <StackPanel DockPanel.Dock="Top"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                Margin="0,0,-20,0">
+                        <TextBlock Text="{StaticResource lngExtraPhotosUrl}"
+                                   Style="{StaticResource CSmallInfoTextBlock}" />
+                        <Button hc:IconElement.Geometry="{StaticResource AddGeometry}"
+                                hc:IconElement.Height="12"
+                                Height="auto"
+                                Padding="0"
+                                BorderThickness="0"
+                                Foreground="{DynamicResource SecondaryBrush}"
+                                Background="Transparent"
+                                Margin="10,0"
+                                Command="{Binding AddExtraPhotoUrlCommand}"
+                                ToolTip="{StaticResource lngSelectNewPhoto}"
+                                ToolTipService.Placement="Center"
+                                ToolTipService.VerticalOffset="-30"
+                                ToolTipService.InitialShowDelay="0" />
+                    </StackPanel>
+                    <!--#endregion-->
+                    <!--#region Photos ListBox -->
+                    <ListBox Style="{StaticResource StackPanelHorizontalListBox}"
+                             ItemsSource="{Binding ExtraPhotosURL}"
+                             Grid.ColumnSpan="3"
+                             ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                             DockPanel.Dock="Bottom"
+                             HorizontalContentAlignment="Center"
+                             Width="130"
+                             Background="{DynamicResource SecondaryRegionBrush}"
+                             BorderThickness="0">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <DockPanel LastChildFill="True">
+                                    <!--#region Buttons -->
+                                    <DockPanel LastChildFill="False"
+                                               DockPanel.Dock="Top"
+                                               Margin="10,5">
+                                        <!--#region Delete Photo Button -->
+                                        <Button hc:IconElement.Geometry="{StaticResource DeleteFillCircleGeometry}"
+                                                hc:IconElement.Height="12"
+                                                Height="auto"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Background="Transparent"
+                                                BorderThickness="0"
+                                                Panel.ZIndex="1"
+                                                Padding="0"
+                                                Margin="25,0,5,0"
+                                                Foreground="{DynamicResource DangerBrush}"
+                                                ToolTip="{StaticResource lngRemoveImage}"
+                                                ToolTipService.Placement="Center"
+                                                ToolTipService.VerticalOffset="-30"
+                                                ToolTipService.HorizontalOffset="0"
+                                                ToolTipService.InitialShowDelay="0"
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=DataContext.RemoveExtraPhotoUrlCommand}"
+                                                CommandParameter="{Binding .}" />
+                                        <!--#endregion-->
+                                        <!--#region Open Photo Viewer Button -->
+                                        <Button hc:IconElement.Geometry="{StaticResource EyeOpenGeometry}"
+                                                hc:IconElement.Height="10"
+                                                Height="auto"
+                                                Margin="0,0,25,0"
+                                                Padding="0"
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=DataContext.OpenImageViewerCommand}"
+                                                CommandParameter="{Binding . , Converter={StaticResource BlobUrlConverter}, ConverterParameter={x:Static photoSizeEnum:BlobPhotoSize.MediumSizePhoto}}"
+                                                Style="{StaticResource ButtonIcon}"
+                                                Foreground="{DynamicResource SecondaryBrush}"
+                                                ToolTip="{StaticResource lngInspectPhoto}"
+                                                DockPanel.Dock="Right"
+                                                ToolTipService.Placement="Center"
+                                                ToolTipService.VerticalOffset="-30"
+                                                ToolTipService.HorizontalOffset="0"
+                                                ToolTipService.InitialShowDelay="0" />
+                                        <!--#endregion-->
+                                    </DockPanel>
+                                    <!--#endregion-->
+                                    <!--#region Divider -->
+                                    <hc:Divider Orientation="Horizontal"
+                                                LineStroke="{DynamicResource SecondaryBorderBrush}"
+                                                Margin="30,0,30,10"
+                                                DockPanel.Dock="Top" />
+                                    <!--#endregion-->
+                                    <!--#region Photo -->
+                                    <cachedImage:Image Source="{Binding .,Converter={StaticResource BlobUrlConverter}, ConverterParameter={x:Static photoSizeEnum:BlobPhotoSize.SmallSizePhoto},Mode=OneWay,FallbackValue={StaticResource DefaultNoImage},TargetNullValue={StaticResource DefaultNoImage}}"
+                                                       FailedImage="{StaticResource DefaultNoImage}"
+                                                       Width="100"
+                                                       Height="100"
+                                                       Margin="10,0"
+                                                       Stretch="Uniform" />
+                                    <!--#endregion-->
+                                </DockPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <!--#endregion-->
+                </DockPanel>
+            </Border>
+            <!--#endregion-->
+
+            <!--#region PDF -->
+            <Border Margin="10,0,0,0"
+                    Padding="5">
+                <DockPanel>
+                    <TextBlock Text="{StaticResource lngPdfUrl}"
+                               TextWrapping="Wrap"
+                               Width="60"
+                               TextAlignment="Center"
+                               HorizontalAlignment="Center"
+                               Style="{StaticResource CSmallInfoTextBlock}"
+                               DockPanel.Dock="Top" />
+                    <StackPanel DockPanel.Dock="Bottom"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Center">
+                        <Button hc:IconElement.Geometry="{StaticResource EditGeometry}"
+                                hc:IconElement.Height="13"
+                                Foreground="{DynamicResource SecondaryBrush}"
+                                Command="{Binding ChangePdfUrlCommand}"
+                                Margin="2"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Height="auto"
+                                VerticalAlignment="Center"
+                                Padding="2"
+                                ToolTipService.Placement="Center"
+                                ToolTipService.VerticalOffset="30"
+                                ToolTipService.InitialShowDelay="0"
+                                ToolTip="{StaticResource lngSelectNewPdf}">
+                        </Button>
+                        <Button hc:IconElement.Geometry="{StaticResource EyeOpenGeometry}"
+                                hc:IconElement.Height="11"
+                                Foreground="{DynamicResource SecondaryBrush}"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                VerticalAlignment="Center"
+                                Margin="2"
+                                Height="auto"
+                                Padding="2"
+                                ToolTipService.Placement="Center"
+                                ToolTipService.VerticalOffset="30"
+                                ToolTipService.InitialShowDelay="0"
+                                ToolTip="{StaticResource lngViewPdf}"
+                                Command="{x:Static globalCommands:GlobalCommands.OpenPdfFileAsyncCommand}"
+                                CommandParameter="{Binding PdfURL, Converter={StaticResource BlobUrlConverter}}">
+                        </Button>
+                        <Button hc:IconElement.Geometry="{StaticResource DeleteFillCircleGeometry}"
+                                hc:IconElement.Height="13"
+                                Foreground="{DynamicResource DangerBrush}"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                VerticalAlignment="Center"
+                                Margin="2"
+                                Height="auto"
+                                Padding="2"
+                                ToolTipService.Placement="Center"
+                                ToolTipService.VerticalOffset="30"
+                                ToolTipService.InitialShowDelay="0"
+                                ToolTip="{StaticResource lngRemovePdf}"
+                                Command="{Binding RemovePdfUrlCommand}">
+                        </Button>
+                    </StackPanel>
+                    <Image ToolTipService.InitialShowDelay="0"
+                           ToolTipService.Placement="Top"
+                           MaxWidth="75">
+                        <Image.Style>
+                            <Style TargetType="Image">
+                                <Setter Property="Source"
+                                        Value="{StaticResource PdfIcon}" />
+                                <Setter Property="ToolTip"
+                                        Value="{Binding PdfURL}" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding PdfURL , Converter={StaticResource BlobUrlConverter}}"
+                                                 Value="UndefinedURL">
+                                        <Setter Property="Source"
+                                                Value="{StaticResource BrokenLinkIcon}" />
+                                        <Setter Property="ToolTip"
+                                                Value="Broken Link" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Image.Style>
+                    </Image>
+                </DockPanel>
+            </Border>
+            <!--#endregion-->
+        </DockPanel>
+
+        <!--#endregion-->
+        <!--#region 3-5.Info Table -->
+        <Grid x:Name="InformationGrid"
+              Margin="0,5,0,0"
+              Grid.Row="3"
+              Grid.RowSpan="3"
+              Grid.Column="2"
+              VerticalAlignment="Top"
+              HorizontalAlignment="Left">
+            <Grid.Resources>
+                <Style TargetType="TextBlock"
+                       BasedOn="{StaticResource TextBlockBaseStyle}">
+                    <Setter Property="FontSize"
+                            Value="12" />
+                    <Setter Property="HorizontalAlignment"
+                            Value="Left" />
+                    <Setter Property="Margin"
+                            Value="5,2" />
+                </Style>
+            </Grid.Resources>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+            <!--#region 0.Code -->
+            <TextBlock Text="{StaticResource lngCode}"
+                       Grid.Row="0" />
+            <TextBlock Text=" : "
+                       Grid.Row="0"
+                       Grid.Column="1" />
+            <TextBlock Text="{Binding Code}"
+                       Grid.Row="0"
+                       Grid.Column="2" />
+            <!--#endregion-->
+
+            <!--#region 1.Finishes -->
+            <TextBlock Text="{StaticResource lngAvailableFinishes}"
+                       Grid.Row="1" />
+            <TextBlock Text=" : "
+                       Grid.Row="1"
+                       Grid.Column="1" />
+            <TextBlock Text="{Binding AvailableDefaultFinishes , Converter={StaticResource TraitEntitiesListToStringConverter}}"
+                       Grid.Row="1"
+                       Grid.Column="2" />
+            <!--#endregion-->
+
+            <!--#region 2.Material -->
+            <TextBlock Text="{StaticResource lngMaterial}"
+                       Grid.Row="2" />
+            <TextBlock Text=" : "
+                       Grid.Row="2"
+                       Grid.Column="1" />
+            <TextBlock Text="{Binding SelectedMaterial.Trait , Converter={StaticResource LocalizedStringConverter}}"
+                       Grid.Row="2"
+                       Grid.Column="2" />
+            <!--#endregion-->
+
+            <!--#region 3.Size -->
+            <TextBlock Text="{StaticResource lngSize}"
+                       Grid.Row="3" />
+            <TextBlock Text=" : "
+                       Grid.Row="3"
+                       Grid.Column="1" />
+            <TextBlock Text="{Binding SelectedSize.Trait , Converter={StaticResource LocalizedStringConverter}}"
+                       Grid.Row="3"
+                       Grid.Column="2" />
+            <!--#endregion-->
+
+            <!--#region 4.Shape -->
+            <TextBlock Text="{StaticResource lngShape}"
+                       Grid.Row="4" />
+            <TextBlock Text=" : "
+                       Grid.Row="4"
+                       Grid.Column="1" />
+            <TextBlock Text="{Binding SelectedShape.Trait , Converter={StaticResource LocalizedStringConverter}}"
+                       Grid.Row="4"
+                       Grid.Column="2" />
+            <!--#endregion-->
+
+            <!--#region 5.Primary Types -->
+            <TextBlock Text="{StaticResource lngPrimaryTypes}"
+                       Grid.Row="5" />
+            <TextBlock Text=" : "
+                       Grid.Row="5"
+                       Grid.Column="1" />
+            <TextBlock Text="{Binding PrimaryTypes , Converter={StaticResource TraitEntitiesListToStringConverter}}"
+                       Grid.Row="5"
+                       Grid.Column="2" />
+            <!--#endregion-->
+
+            <!--#region 6.Secondary Types -->
+            <TextBlock Text="{StaticResource lngSecondaryTypes}"
+                       Grid.Row="6" />
+            <TextBlock Text=" : "
+                       Grid.Row="6"
+                       Grid.Column="1" />
+            <TextBlock Text="{Binding SecondaryTypes , Converter={StaticResource TraitEntitiesListToStringConverter}}"
+                       Grid.Row="6"
+                       Grid.Column="2" />
+            <!--#endregion-->
+
+            <!--#region 7.Categories -->
+            <TextBlock Text="{StaticResource lngCategories}"
+                       Grid.Row="7" />
+            <TextBlock Text=" : "
+                       Grid.Row="7"
+                       Grid.Column="1" />
+            <TextBlock Text="{Binding Categories , Converter={StaticResource TraitEntitiesListToStringConverter}}"
+                       Grid.Row="7"
+                       Grid.Column="2" />
+            <!--#endregion-->
+
+            <!--#region 8.Series -->
+            <TextBlock Text="{StaticResource lngSeries}"
+                       Grid.Row="8" />
+            <TextBlock Text=" : "
+                       Grid.Row="8"
+                       Grid.Column="1" />
+            <TextBlock Text="{Binding Series , Converter={StaticResource TraitEntitiesListToStringConverter}}"
+                       Grid.Row="8"
+                       Grid.Column="2" />
+            <!--#endregion-->
+
+            <!--#region 9.MountingTypes -->
+            <TextBlock Text="{StaticResource lngMountingTypes}"
+                       Grid.Row="9" />
+            <TextBlock Text=" : "
+                       Grid.Row="9"
+                       Grid.Column="1" />
+            <TextBlock Text="{Binding MountingTypes , Converter={StaticResource TraitEntitiesListToStringConverter}}"
+                       Grid.Row="9"
+                       Grid.Column="2" />
+            <!--#endregion-->
+
+            <!--#region 10.Database Id -->
+            <TextBlock Text="Database Id"
+                       Grid.Row="10" />
+            <TextBlock Text=" : "
+                       Grid.Row="10"
+                       Grid.Column="1" />
+            <StackPanel Grid.Row="10"
+                        Grid.Column="2"
+                        Orientation="Horizontal">
+                <TextBlock Text="{Binding BaseDescriptiveEntity.BaseEntity.Id}" />
+                <Button Style="{StaticResource CopyToClipboardButton}"
+                        Height="12"
+                        CommandParameter="{Binding BaseDescriptiveEntity.BaseEntity.Id,Converter={StaticResource Object2StringConverter}}" />
+            </StackPanel>
+            <!--#endregion-->
+        </Grid>
+        <!--#endregion-->
+        <!--#region 7-8.Selected Available Finish Photos -->
+        <DockPanel x:Name="AvailableFinishesPhotosDockPanel"
+                   Grid.Row="7"
+                   Grid.RowSpan="2"
+                   Grid.Column="2"
+                   IsEnabled="{Binding IsAnyAvailableFinishSelected}">
+            <DockPanel.Resources>
+                <Style TargetType="Border"
+                       BasedOn="{StaticResource CPhotoControlBorder}" />
+            </DockPanel.Resources>
+            <StackPanel Orientation="Horizontal"
+                        DockPanel.Dock="Top"
+                        Margin="0,0,0,5"
+                        HorizontalAlignment="Center">
+                <TextBlock Text="{StaticResource lngFiles}"
+                           Style="{StaticResource CHeaderTextBlock}"
+                           FontSize="16"
+                           Margin="5,0" />
+                <TextBlock Text="{StaticResource lngFinish}"
+                           Style="{StaticResource CHeaderTextBlock}"
+                           FontSize="16"
+                           Margin="0,0,5,0" />
+                <TextBlock Text="{Binding SelectedAvailableFinish.Finish.Trait,Converter={StaticResource LocalizedStringConverter},TargetNullValue='?????'}"
+                           Style="{StaticResource CHeaderTextBlock}"
+                           FontSize="16" />
+            </StackPanel>
+            <!--#region Main Photo Url Control -->
+            <Border>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="140" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Style="{StaticResource CSmallInfoTextBlock}"
+                               Text="{StaticResource lngMainPhotoUrl}"
+                               Grid.Row="0"
+                               Grid.Column="1"
+                               VerticalAlignment="Center" />
+                    <!--#region Buttons StackPanel -->
+                    <StackPanel Grid.Row="0"
+                                Grid.RowSpan="2"
+                                Grid.Column="0"
+                                VerticalAlignment="Top">
+                        <!--#region Select Photo Button -->
+                        <Button Style="{StaticResource ButtonIcon}"
+                                hc:IconElement.Geometry="{StaticResource EditGeometry}"
+                                hc:IconElement.Height="13"
+                                Margin="7"
+                                Height="auto"
+                                Padding="0"
+                                VerticalAlignment="Top"
+                                Foreground="{DynamicResource SecondaryBrush}"
+                                Command="{Binding ChangePhotoUrlAvailbleFinishCommand}"
+                                ToolTip="{StaticResource lngSelectNewPhoto}"
+                                ToolTipService.Placement="Left"
+                                ToolTipService.VerticalOffset="-15"
+                                ToolTipService.InitialShowDelay="0" />
+                        <!--#endregion-->
+                        <!--#region Open Photo Viewer Button -->
+                        <Button hc:IconElement.Geometry="{StaticResource EyeOpenGeometry}"
+                                hc:IconElement.Height="10"
+                                Margin="7"
+                                Padding="0"
+                                Height="auto"
+                                VerticalAlignment="Top"
+                                Command="{Binding OpenImageViewerCommand}"
+                                CommandParameter="{Binding SelectedAvailableFinish.PhotoUrl , Converter={StaticResource BlobUrlConverter}, ConverterParameter={x:Static photoSizeEnum:BlobPhotoSize.MediumSizePhoto}}"
+                                Style="{StaticResource ButtonIcon}"
+                                Foreground="{DynamicResource SecondaryBrush}"
+                                ToolTip="{StaticResource lngInspectPhoto}"
+                                ToolTipService.Placement="Left"
+                                ToolTipService.VerticalOffset="-15"
+                                ToolTipService.HorizontalOffset="2"
+                                ToolTipService.InitialShowDelay="0" />
+                        <!--#endregion-->
+                        <!--#region Info Tooltip -->
+                        <cc:Icon GeometryData="{StaticResource InfoGeometry}"
+                                 Height="14"
+                                 Margin="7"
+                                 Padding="0"
+                                 VerticalAlignment="Top"
+                                 Fill="{DynamicResource SecondaryBrush}"
+                                 ToolTip="{Binding SelectedAvailableFinish.PhotoUrl}"
+                                 ToolTipService.Placement="Left"
+                                 ToolTipService.VerticalOffset="-15"
+                                 ToolTipService.HorizontalOffset="2"
+                                 ToolTipService.InitialShowDelay="0" />
+                        <!--#endregion-->
+                        <!--#region Remove Photo -->
+                        <Button Style="{StaticResource ButtonIcon}"
+                                hc:IconElement.Geometry="{StaticResource DeleteFillCircleGeometry}"
+                                hc:IconElement.Height="14"
+                                Margin="0,40,0,0"
+                                Height="auto"
+                                Padding="0"
+                                VerticalAlignment="Top"
+                                Foreground="{DynamicResource DangerBrush}"
+                                Command="{Binding RemoveMainPhotoUrlAvailableFinishCommand}"
+                                ToolTip="{StaticResource lngRemoveImage}"
+                                ToolTipService.Placement="Left"
+                                ToolTipService.VerticalOffset="-15"
+                                ToolTipService.InitialShowDelay="0" />
+                        <!--#endregion-->
+                    </StackPanel>
+                    <!--#endregion-->
+                    <!--#region Buttons Divider -->
+                    <hc:Divider Grid.Column="1"
+                                Grid.RowSpan="2"
+                                HorizontalAlignment="Left"
+                                Margin="0"
+                                Orientation="Vertical"
+                                LineStroke="{DynamicResource SecondaryBorderBrush}" />
+                    <!--#endregion-->
+                    <!--#region MainUrlImage -->
+                    <cachedImage:Image Source="{Binding SelectedAvailableFinish.PhotoUrl,Converter={StaticResource BlobUrlConverter}, ConverterParameter={x:Static photoSizeEnum:BlobPhotoSize.SmallSizePhoto},Mode=OneWay,FallbackValue={StaticResource DefaultNoImage}}"
+                                       FailedImage="{StaticResource DefaultNoImage}"
+                                       Width="110"
+                                       Margin="10,0,0,0"
+                                       HorizontalAlignment="Center"
+                                       Height="130"
+                                       Stretch="Uniform"
+                                       Grid.Row="1"
+                                       Grid.Column="1" />
+                    <!--#endregion-->
+                </Grid>
+            </Border>
+            <!--#endregion-->
+
+            <!--#region Dimension Photo Url Control -->
+            <Border Margin="10,0,0,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="140" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Style="{StaticResource CSmallInfoTextBlock}"
+                               Text="{StaticResource lngDimensionPhotoUrl}"
+                               Grid.Row="0" TextAlignment="Center"
+                               Grid.Column="1"
+                               VerticalAlignment="Center" />
+                    <!--#region Buttons StackPanel -->
+                    <StackPanel Grid.Row="0"
+                                Grid.RowSpan="2"
+                                Grid.Column="0"
+                                VerticalAlignment="Top">
+                        <!--#region Select Photo Button -->
+                        <Button Style="{StaticResource ButtonIcon}"
+                                hc:IconElement.Geometry="{StaticResource EditGeometry}"
+                                hc:IconElement.Height="13"
+                                Margin="7"
+                                Height="auto"
+                                Padding="0"
+                                VerticalAlignment="Top"
+                                Foreground="{DynamicResource SecondaryBrush}"
+                                Command="{Binding ChangeDimensionsPhotoUrlAvailableFinishCommand}"
+                                ToolTip="{StaticResource lngSelectNewPhoto}"
+                                ToolTipService.Placement="Left"
+                                ToolTipService.VerticalOffset="-15"
+                                ToolTipService.InitialShowDelay="0" />
+                        <!--#endregion-->
+                        <!--#region Open Photo Viewer Button -->
+                        <Button hc:IconElement.Geometry="{StaticResource EyeOpenGeometry}"
+                                hc:IconElement.Height="10"
+                                Margin="7"
+                                Padding="0"
+                                Height="auto"
+                                VerticalAlignment="Top"
+                                Command="{Binding OpenImageViewerCommand}"
+                                CommandParameter="{Binding SelectedAvailableFinish.DimensionsPhotoUrl , Converter={StaticResource BlobUrlConverter}, ConverterParameter={x:Static photoSizeEnum:BlobPhotoSize.MediumSizePhoto}}"
+                                Style="{StaticResource ButtonIcon}"
+                                Foreground="{DynamicResource SecondaryBrush}"
+                                ToolTip="{StaticResource lngInspectPhoto}"
+                                ToolTipService.Placement="Left"
+                                ToolTipService.VerticalOffset="-15"
+                                ToolTipService.HorizontalOffset="2"
+                                ToolTipService.InitialShowDelay="0" />
+                        <!--#endregion-->
+                        <!--#region Info Tooltip -->
+                        <cc:Icon GeometryData="{StaticResource InfoGeometry}"
+                                 Height="14"
+                                 Margin="7"
+                                 Padding="0"
+                                 VerticalAlignment="Top"
+                                 Fill="{DynamicResource SecondaryBrush}"
+                                 ToolTip="{Binding SelectedAvailableFinish.DimensionsPhotoUrl}"
+                                 ToolTipService.Placement="Left"
+                                 ToolTipService.VerticalOffset="-15"
+                                 ToolTipService.HorizontalOffset="2"
+                                 ToolTipService.InitialShowDelay="0" />
+                        <!--#endregion-->
+                        <!--#region Remove Photo -->
+                        <Button Style="{StaticResource ButtonIcon}"
+                                hc:IconElement.Geometry="{StaticResource DeleteFillCircleGeometry}"
+                                hc:IconElement.Height="14"
+                                Margin="0,40,0,0"
+                                Height="auto"
+                                Padding="0"
+                                VerticalAlignment="Top"
+                                Foreground="{DynamicResource DangerBrush}"
+                                Command="{Binding RemoveDimensionsPhotoUrlAvailableFinishCommand}"
+                                ToolTip="{StaticResource lngRemoveImage}"
+                                ToolTipService.Placement="Left"
+                                ToolTipService.VerticalOffset="-15"
+                                ToolTipService.InitialShowDelay="0" />
+                        <!--#endregion-->
+                    </StackPanel>
+                    <!--#endregion-->
+                    <!--#region Buttons Divider -->
+                    <hc:Divider Grid.Column="1"
+                                Grid.RowSpan="2"
+                                HorizontalAlignment="Left"
+                                Margin="0"
+                                Orientation="Vertical"
+                                LineStroke="{DynamicResource SecondaryBorderBrush}" />
+                    <!--#endregion-->
+                    <!--#region MainUrlImage -->
+                    <cachedImage:Image Source="{Binding SelectedAvailableFinish.DimensionsPhotoUrl,Converter={StaticResource BlobUrlConverter}, ConverterParameter={x:Static photoSizeEnum:BlobPhotoSize.SmallSizePhoto},Mode=OneWay,FallbackValue={StaticResource DefaultNoImage}}"
+                                       FailedImage="{StaticResource DefaultNoImage}"
+                                       Width="110"
+                                       Margin="10,0,0,0"
+                                       HorizontalAlignment="Center"
+                                       Height="130"
+                                       Stretch="Uniform"
+                                       Grid.Row="1"
+                                       Grid.Column="1" />
+                    <!--#endregion-->
+                </Grid>
+            </Border>
+            <!--#endregion-->
+
+            <!--#region Extra Photos Url Control -->
+            <Border Margin="10,0,0,0"
+                    Padding="5">
+                <DockPanel>
+                    <!--#region Title With Add Button -->
+                    <StackPanel DockPanel.Dock="Top"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                Margin="0,0,-20,0">
+                        <TextBlock Text="{StaticResource lngExtraPhotosUrl}"
+                                   Style="{StaticResource CSmallInfoTextBlock}" />
+                        <Button hc:IconElement.Geometry="{StaticResource AddGeometry}"
+                                hc:IconElement.Height="12"
+                                Height="auto"
+                                Padding="0"
+                                BorderThickness="0"
+                                Foreground="{DynamicResource SecondaryBrush}"
+                                Background="Transparent"
+                                Margin="10,0"
+                                Command="{Binding AddExtraPhotoUrlAvailableFinishCommand}"
+                                ToolTip="{StaticResource lngSelectNewPhoto}"
+                                ToolTipService.Placement="Center"
+                                ToolTipService.VerticalOffset="-30"
+                                ToolTipService.InitialShowDelay="0" />
+                    </StackPanel>
+                    <!--#endregion-->
+                    <!--#region Photos ListBox -->
+                    <ListBox Style="{StaticResource StackPanelHorizontalListBox}"
+                             ItemsSource="{Binding SelectedAvailableFinish.ExtraPhotosUrl}"
+                             Grid.ColumnSpan="3"
+                             ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                             DockPanel.Dock="Bottom"
+                             HorizontalContentAlignment="Center"
+                             Width="130"
+                             Background="{DynamicResource SecondaryRegionBrush}"
+                             BorderThickness="0">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <DockPanel LastChildFill="True">
+                                    <!--#region Buttons -->
+                                    <DockPanel LastChildFill="False"
+                                               DockPanel.Dock="Top"
+                                               Margin="10,5">
+                                        <!--#region Delete Photo Button -->
+                                        <Button hc:IconElement.Geometry="{StaticResource DeleteFillCircleGeometry}"
+                                                hc:IconElement.Height="12"
+                                                Height="auto"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Background="Transparent"
+                                                BorderThickness="0"
+                                                Panel.ZIndex="1"
+                                                Padding="0"
+                                                Margin="25,0,5,0"
+                                                Foreground="{DynamicResource DangerBrush}"
+                                                ToolTip="{StaticResource lngRemoveImage}"
+                                                ToolTipService.Placement="Center"
+                                                ToolTipService.VerticalOffset="-30"
+                                                ToolTipService.HorizontalOffset="0"
+                                                ToolTipService.InitialShowDelay="0"
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=DataContext.RemoveExtraPhotoUrlAvailableFinishCommand}"
+                                                CommandParameter="{Binding .}" />
+                                        <!--#endregion-->
+                                        <!--#region Open Photo Viewer Button -->
+                                        <Button hc:IconElement.Geometry="{StaticResource EyeOpenGeometry}"
+                                                hc:IconElement.Height="10"
+                                                Height="auto"
+                                                Margin="0,0,25,0"
+                                                Padding="0"
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=DataContext.OpenImageViewerCommand}"
+                                                CommandParameter="{Binding . , Converter={StaticResource BlobUrlConverter}, ConverterParameter={x:Static photoSizeEnum:BlobPhotoSize.MediumSizePhoto}}"
+                                                Style="{StaticResource ButtonIcon}"
+                                                Foreground="{DynamicResource SecondaryBrush}"
+                                                ToolTip="{StaticResource lngInspectPhoto}"
+                                                DockPanel.Dock="Right"
+                                                ToolTipService.Placement="Center"
+                                                ToolTipService.VerticalOffset="-30"
+                                                ToolTipService.HorizontalOffset="0"
+                                                ToolTipService.InitialShowDelay="0" />
+                                        <!--#endregion-->
+                                    </DockPanel>
+                                    <!--#endregion-->
+                                    <!--#region Divider -->
+                                    <hc:Divider Orientation="Horizontal"
+                                                LineStroke="{DynamicResource SecondaryBorderBrush}"
+                                                Margin="30,0,30,10"
+                                                DockPanel.Dock="Top" />
+                                    <!--#endregion-->
+                                    <!--#region Photo -->
+                                    <cachedImage:Image Source="{Binding .,Converter={StaticResource BlobUrlConverter}, ConverterParameter={x:Static photoSizeEnum:BlobPhotoSize.SmallSizePhoto},Mode=OneWay,FallbackValue={StaticResource DefaultNoImage}}"
+                                                       FailedImage="{StaticResource DefaultNoImage}"
+                                                       Width="100"
+                                                       Height="100"
+                                                       Margin="10,0"
+                                                       Stretch="Uniform" />
+                                    <!--#endregion-->
+                                </DockPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <!--#endregion-->
+                </DockPanel>
+            </Border>
+            <!--#endregion-->
+
+            <!--#region PDF -->
+            <Border Margin="10,0,0,0"
+                    Padding="5">
+                <DockPanel>
+                    <TextBlock Text="{StaticResource lngPdfUrl}"
+                               TextWrapping="Wrap"
+                               Width="60"
+                               TextAlignment="Center"
+                               HorizontalAlignment="Center"
+                               Style="{StaticResource CSmallInfoTextBlock}"
+                               DockPanel.Dock="Top" />
+                    <StackPanel DockPanel.Dock="Bottom"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Center">
+                        <Button hc:IconElement.Geometry="{StaticResource EditGeometry}"
+                                hc:IconElement.Height="13"
+                                Foreground="{DynamicResource SecondaryBrush}"
+                                Command="{Binding ChangePdfUrlAvailableFinishCommand}"
+                                Margin="2"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Height="auto"
+                                VerticalAlignment="Center"
+                                Padding="2"
+                                ToolTipService.Placement="Center"
+                                ToolTipService.VerticalOffset="30"
+                                ToolTipService.InitialShowDelay="0"
+                                ToolTip="{StaticResource lngSelectNewPdf}">
+                        </Button>
+                        <Button hc:IconElement.Geometry="{StaticResource EyeOpenGeometry}"
+                                hc:IconElement.Height="11"
+                                Foreground="{DynamicResource SecondaryBrush}"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                VerticalAlignment="Center"
+                                Margin="2"
+                                Height="auto"
+                                Padding="2"
+                                ToolTipService.Placement="Center"
+                                ToolTipService.VerticalOffset="30"
+                                ToolTipService.InitialShowDelay="0"
+                                ToolTip="{StaticResource lngViewPdf}"
+                                Command="{x:Static globalCommands:GlobalCommands.OpenPdfFileAsyncCommand}"
+                                CommandParameter="{Binding SelectedAvailableFinish.PdfUrl, Converter={StaticResource BlobUrlConverter}}">
+                        </Button>
+                        <Button hc:IconElement.Geometry="{StaticResource DeleteFillCircleGeometry}"
+                                hc:IconElement.Height="13"
+                                Foreground="{DynamicResource DangerBrush}"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                VerticalAlignment="Center"
+                                Margin="2"
+                                Height="auto"
+                                Padding="2"
+                                ToolTipService.Placement="Center"
+                                ToolTipService.VerticalOffset="30"
+                                ToolTipService.InitialShowDelay="0"
+                                ToolTip="{StaticResource lngRemovePdf}"
+                                Command="{Binding RemovePdfUrlAvailableFinishCommand}">
+                        </Button>
+                    </StackPanel>
+                    <Image ToolTipService.InitialShowDelay="0"
+                           ToolTipService.Placement="Top"
+                           MaxWidth="75">
+                        <Image.Style>
+                            <Style TargetType="Image">
+                                <Setter Property="Source"
+                                        Value="{StaticResource PdfIcon}" />
+                                <Setter Property="ToolTip"
+                                        Value="{Binding SelectedAvailableFinish.PdfUrl}" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SelectedAvailableFinish.PdfUrl , Converter={StaticResource BlobUrlConverter}}"
+                                                 Value="UndefinedURL">
+                                        <Setter Property="Source"
+                                                Value="{StaticResource BrokenLinkIcon}" />
+                                        <Setter Property="ToolTip"
+                                                Value="Broken Link" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Image.Style>
+                    </Image>
+                </DockPanel>
+            </Border>
+            <!--#endregion-->
+        </DockPanel>
+        <!--#endregion-->
+
+
+        <!-- ALL COLUMNS -->
+        <!--#region 9.TAB Control -->
+        <TabControl Grid.Row="9"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    TabStripPlacement="Top"
+                    Background="{DynamicResource SecondaryRegionBrush}"
+                    Style="{StaticResource TabControlBaseStyle}"
+                    Margin="0,5"
+                    HorizontalAlignment="Stretch">
+            <TabControl.Resources>
+                <Style TargetType="TabItem"
+                       x:Key="CTabItemStyle"
+                       BasedOn="{StaticResource TabItemStyle}">
+                    <Setter Property="FontSize"
+                            Value="14" />
+                </Style>
+                <Style TargetType="DockPanel"
+                       x:Key="TabItemContainerDockPanel">
+                    <Setter Property="Height"
+                            Value="190" />
+                    <Setter Property="HorizontalAlignment"
+                            Value="Center" />
+                    <Setter Property="Margin"
+                            Value="20" />
+                </Style>
+                <Style TargetType="StackPanel"
+                       x:Key="TabItemContainerStackPanel">
+                    <Setter Property="Height"
+                            Value="210" />
+                    <Setter Property="HorizontalAlignment"
+                            Value="Center" />
+                    <Setter Property="Margin"
+                            Value="10" />
+                    <Setter Property="Orientation"
+                            Value="Horizontal" />
+                </Style>
+                <Style TargetType="ListBox"
+                       BasedOn="{StaticResource ListBoxBaseStyle}">
+                    <Setter Property="Width"
+                            Value="250" />
+                    <Setter Property="Height"
+                            Value="130" />
+                </Style>
+            </TabControl.Resources>
+            <!--#region A. Size Tab Item -->
+            <TabItem Header="{StaticResource lngSize}"
+                     Style="{StaticResource CTabItemStyle}">
+                <DockPanel Style="{StaticResource TabItemContainerDockPanel}">
+                    <!--#region 1.Size -->
+                    <StackPanel x:Name="SizeStackPanel"
+                                Margin="0,5"
+                                DockPanel.Dock="Left"
+                                Width="200"
+                                VerticalAlignment="Center">
+                        <DockPanel>
+                            <cc:Icon ToolTip="{StaticResource lngSizeTooltip}"
+                                     Style="{StaticResource CInfoTooltipIcon}" />
+                            <TextBlock x:Name="SizeTextBlock"
+                                       Style="{StaticResource TitleTextBlockStyle}"
+                                       Text="{StaticResource lngSize}">
+                            </TextBlock>
+                        </DockPanel>
+                        <ComboBox x:Name="SizeComboBox"
+                                  ItemsSource="{Binding SizeTraits, Mode=OneWay}"
+                                  SelectedValue="{Binding SelectedSizeId}"
+                                  SelectedValuePath="IdAsString"
+                                  HorizontalContentAlignment="Stretch">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <DockPanel HorizontalAlignment="Stretch"
+                                               LastChildFill="True">
+                                        <TextBlock Text="{Binding Trait,Converter={StaticResource LocalizedStringConverter} }" />
+                                    </DockPanel>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+                    <!--#endregion-->
+                    <hc:Divider Orientation="Vertical"
+                                LineStroke="{DynamicResource PrimaryBrush}"
+                                Margin="20" />
+                    <!--#region 2.Size Variations -->
+                    <StackPanel x:Name="SizeVariationsStackPanel"
+                                Margin="0,5"
+                                DockPanel.Dock="Right"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+
+                        <!--#region ListBox with Title -->
+                        <StackPanel>
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngSizeVariationsTooltip}"
+                                         Style="{StaticResource CInfoTooltipIcon}" />
+                                <TextBlock x:Name="SizeVariationsTextBlock"
+                                           Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="{StaticResource lngSizeVariations}">
+                                </TextBlock>
+                            </DockPanel>
+                            <ListBox ItemsSource="{Binding SizeVariations}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <DockPanel LastChildFill="True">
+                                            <Button Style="{StaticResource ButtonIconCircular.Small}"
+                                                    Foreground="{DynamicResource DangerBrush}"
+                                                    hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
+                                                    hc:IconElement.Height="8"
+                                                    BorderBrush="{DynamicResource DangerBrush}"
+                                                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor} , Path=DataContext.RemoveSizeVariationCommand}"
+                                                    CommandParameter="{Binding .}" />
+                                            <TextBlock Text="{Binding Code}"
+                                                       VerticalAlignment="Center"
+                                                       TextAlignment="Center"
+                                                       Margin="10,0" />
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region ComboBox with Add Button -->
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Margin="20,0,0,0">
+                            <StackPanel>
+                                <DockPanel>
+                                    <cc:Icon ToolTip="{StaticResource lngVariationAccessoryTooltip}"
+                                             Style="{StaticResource CInfoTooltipIcon}" />
+                                    <TextBlock x:Name="AddSizeVariationTextBlock"
+                                               Style="{StaticResource TitleTextBlockStyle}"
+                                               Text="{StaticResource lngVariationAccessory}">
+                                    </TextBlock>
+                                </DockPanel>
+                                <ComboBox x:Name="AllAccessoriesComboBoxSize"
+                                          ItemsSource="{Binding AllAccessories}"
+                                          SelectedItem="{Binding SelectedSizeVariation}"
+                                          DisplayMemberPath="Code"
+                                          IsTextSearchEnabled="True"
+                                          TextSearch.TextPath="Code"
+                                          IsEditable="True"
+                                          Width="150"
+                                          VerticalAlignment="Center">
+                                </ComboBox>
+                            </StackPanel>
+                            <Button Style="{StaticResource ButtonIconCircular}"
+                                    hc:IconElement.Geometry="{StaticResource AddGeometry}"
+                                    Foreground="{DynamicResource SuccessBrush}"
+                                    Command="{Binding AddSizeVariationCommand}"
+                                    CommandParameter="{Binding SelectedSizeVariation}"
+                                    VerticalAlignment="Bottom"
+                                    Margin="15,0"
+                                    ToolTip="{StaticResource lngAdd}" />
+                        </StackPanel>
+                        <!--#endregion-->
+                    </StackPanel>
+
+                    <!--#endregion-->
+                </DockPanel>
+            </TabItem>
+            <!--#endregion-->
+            <!--#region B. Primary Types Tab Item -->
+            <TabItem Header="{StaticResource lngPrimaryType}"
+                     Style="{StaticResource CTabItemStyle}">
+                <StackPanel x:Name="PrimaryTypesStackPanel"
+                            Style="{StaticResource TabItemContainerStackPanel}">
+
+                    <!--#region ListBox with Title -->
+                    <StackPanel VerticalAlignment="Center">
+                        <DockPanel>
+                            <cc:Icon ToolTip="{StaticResource lngPrimaryTypesTooltipAccessory}"
+                                     Style="{StaticResource CInfoTooltipIcon}" />
+                            <TextBlock x:Name="PrimaryTypesTextBlock"
+                                       Style="{StaticResource TitleTextBlockStyle}"
+                                       Text="{StaticResource lngPrimaryTypes}">
+                            </TextBlock>
+                        </DockPanel>
+                        <ListBox ItemsSource="{Binding PrimaryTypes}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <DockPanel LastChildFill="True">
+                                        <Button Style="{StaticResource ButtonIconCircular.Small}"
+                                                Foreground="{DynamicResource DangerBrush}"
+                                                hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
+                                                hc:IconElement.Height="8"
+                                                BorderBrush="{DynamicResource DangerBrush}"
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor} , Path=DataContext.RemovePrimaryTypeCommand}"
+                                                CommandParameter="{Binding .}" />
+                                        <TextBlock Text="{Binding Trait , Converter={StaticResource LocalizedStringConverter}}"
+                                                   VerticalAlignment="Center"
+                                                   TextAlignment="Center"
+                                                   Margin="10,0" />
+                                    </DockPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                    <!--#endregion-->
+
+                    <!--#region ComboBox with Add Button -->
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Margin="20,0,0,0">
+                        <StackPanel>
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngAdd}"
+                                         Style="{StaticResource CInfoTooltipIcon}" />
+                                <TextBlock x:Name="AddPrimaryTypeTextBlock"
+                                           Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="{StaticResource lngAdd}">
+                                </TextBlock>
+                            </DockPanel>
+                            <ComboBox x:Name="AllPrimaryTypesComboBoxSize"
+                                      ItemsSource="{Binding PrimaryTypesTraits}"
+                                      SelectedItem="{Binding SelectedPrimaryType}"
+                                      Width="150"
+                                      VerticalAlignment="Center">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Trait, Converter={StaticResource LocalizedStringConverter}}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </StackPanel>
+                        <Button Style="{StaticResource ButtonIconCircular}"
+                                hc:IconElement.Geometry="{StaticResource AddGeometry}"
+                                Foreground="{DynamicResource SuccessBrush}"
+                                Command="{Binding AddPrimaryTypeCommand}"
+                                CommandParameter="{Binding SelectedPrimaryType}"
+                                VerticalAlignment="Bottom"
+                                Margin="15,0"
+                                ToolTip="{StaticResource lngAdd}" />
+                    </StackPanel>
+                    <!--#endregion-->
+                </StackPanel>
+
+            </TabItem>
+            <!--#endregion-->
+            <!--#region C. Secondary Types Tab Item -->
+            <TabItem Header="{StaticResource lngSecondaryType}"
+                     Style="{StaticResource CTabItemStyle}">
+                <StackPanel x:Name="SecondaryTypesStackPanel"
+                            Style="{StaticResource TabItemContainerStackPanel}">
+
+                    <!--#region ListBox with Title -->
+                    <StackPanel VerticalAlignment="Center">
+                        <DockPanel>
+                            <cc:Icon ToolTip="{StaticResource lngSecondaryTypesTooltipAccessory}"
+                                     Style="{StaticResource CInfoTooltipIcon}" />
+                            <TextBlock x:Name="SecondaryTypesTextBlock"
+                                       Style="{StaticResource TitleTextBlockStyle}"
+                                       Text="{StaticResource lngSecondaryTypes}">
+                            </TextBlock>
+                        </DockPanel>
+                        <ListBox ItemsSource="{Binding SecondaryTypes}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <DockPanel LastChildFill="True">
+                                        <Button Style="{StaticResource ButtonIconCircular.Small}"
+                                                Foreground="{DynamicResource DangerBrush}"
+                                                hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
+                                                hc:IconElement.Height="8"
+                                                BorderBrush="{DynamicResource DangerBrush}"
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor} , Path=DataContext.RemoveSecondaryTypeCommand}"
+                                                CommandParameter="{Binding .}" />
+                                        <TextBlock Text="{Binding Trait , Converter={StaticResource LocalizedStringConverter}}"
+                                                   VerticalAlignment="Center"
+                                                   TextAlignment="Center"
+                                                   Margin="10,0" />
+                                    </DockPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                    <!--#endregion-->
+
+                    <!--#region ComboBox with Add Button -->
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Margin="20,0,0,0">
+                        <StackPanel>
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngAdd}"
+                                         Style="{StaticResource CInfoTooltipIcon}" />
+                                <TextBlock x:Name="AddSecondaryTypeTextBlock"
+                                           Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="{StaticResource lngAdd}">
+                                </TextBlock>
+                            </DockPanel>
+                            <ComboBox x:Name="AllSecondaryTypesComboBoxSize"
+                                      ItemsSource="{Binding CurrentlyAvailableSecondaryTypes}"
+                                      SelectedItem="{Binding SelectedSecondaryType}"
+                                      Width="150"
+                                      VerticalAlignment="Center">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Trait, Converter={StaticResource LocalizedStringConverter}}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </StackPanel>
+                        <Button Style="{StaticResource ButtonIconCircular}"
+                                hc:IconElement.Geometry="{StaticResource AddGeometry}"
+                                Foreground="{DynamicResource SuccessBrush}"
+                                Command="{Binding AddSecondaryTypeCommand}"
+                                CommandParameter="{Binding SelectedSecondaryType}"
+                                VerticalAlignment="Bottom"
+                                Margin="15,0"
+                                ToolTip="{StaticResource lngAdd}" />
+                    </StackPanel>
+                    <!--#endregion-->
+                </StackPanel>
+
+            </TabItem>
+            <!--#endregion-->
+            <!--#region D. Categories Tab Item -->
+            <TabItem Header="{StaticResource lngCategories}"
+                     Style="{StaticResource CTabItemStyle}">
+                <StackPanel x:Name="CategoriesStackPanel"
+                            Style="{StaticResource TabItemContainerStackPanel}">
+
+                    <!--#region ListBox with Title -->
+                    <StackPanel VerticalAlignment="Center">
+                        <DockPanel>
+                            <cc:Icon ToolTip="{StaticResource lngCategoriesTooltipAccessory}"
+                                     Style="{StaticResource CInfoTooltipIcon}" />
+                            <TextBlock x:Name="CategoryTextBlock"
+                                       Style="{StaticResource TitleTextBlockStyle}"
+                                       Text="{StaticResource lngCategories}">
+                            </TextBlock>
+                        </DockPanel>
+                        <ListBox ItemsSource="{Binding Categories}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <DockPanel LastChildFill="True">
+                                        <Button Style="{StaticResource ButtonIconCircular.Small}"
+                                                Foreground="{DynamicResource DangerBrush}"
+                                                hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
+                                                hc:IconElement.Height="8"
+                                                BorderBrush="{DynamicResource DangerBrush}"
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor} , Path=DataContext.RemoveCategoryCommand}"
+                                                CommandParameter="{Binding .}" />
+                                        <TextBlock Text="{Binding Trait , Converter={StaticResource LocalizedStringConverter}}"
+                                                   VerticalAlignment="Center"
+                                                   TextAlignment="Center"
+                                                   Margin="10,0" />
+                                    </DockPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                    <!--#endregion-->
+
+                    <!--#region ComboBox with Add Button -->
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Margin="20,0,0,0">
+                        <StackPanel>
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngAdd}"
+                                         Style="{StaticResource CInfoTooltipIcon}" />
+                                <TextBlock x:Name="AddCategoryTextBlock"
+                                           Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="{StaticResource lngAdd}">
+                                </TextBlock>
+                            </DockPanel>
+                            <ComboBox x:Name="AllCategoriesComboBox"
+                                      ItemsSource="{Binding CategoryTraits}"
+                                      SelectedItem="{Binding SelectedCategory}"
+                                      Width="150"
+                                      VerticalAlignment="Center">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Trait, Converter={StaticResource LocalizedStringConverter}}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </StackPanel>
+                        <Button Style="{StaticResource ButtonIconCircular}"
+                                hc:IconElement.Geometry="{StaticResource AddGeometry}"
+                                Foreground="{DynamicResource SuccessBrush}"
+                                Command="{Binding AddCategoryCommand}"
+                                CommandParameter="{Binding SelectedCategory}"
+                                VerticalAlignment="Bottom"
+                                Margin="15,0"
+                                ToolTip="{StaticResource lngAdd}" />
+                    </StackPanel>
+                    <!--#endregion-->
+                </StackPanel>
+
+            </TabItem>
+            <!--#endregion-->
+            <!--#region E. Series Tab Item -->
+            <TabItem Header="{StaticResource lngSeries}"
+                     Style="{StaticResource CTabItemStyle}">
+                <StackPanel x:Name="SeriesStackPanel"
+                            Style="{StaticResource TabItemContainerStackPanel}">
+
+                    <!--#region ListBox with Title -->
+                    <StackPanel VerticalAlignment="Center">
+                        <DockPanel>
+                            <cc:Icon ToolTip="{StaticResource lngSeries}"
+                                     Style="{StaticResource CInfoTooltipIcon}" />
+                            <TextBlock x:Name="SeriesTextBlock"
+                                       Style="{StaticResource TitleTextBlockStyle}"
+                                       Text="{StaticResource lngSeries}">
+                            </TextBlock>
+                        </DockPanel>
+                        <ListBox ItemsSource="{Binding Series}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <DockPanel LastChildFill="True">
+                                        <Button Style="{StaticResource ButtonIconCircular.Small}"
+                                                Foreground="{DynamicResource DangerBrush}"
+                                                hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
+                                                hc:IconElement.Height="8"
+                                                BorderBrush="{DynamicResource DangerBrush}"
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor} , Path=DataContext.RemoveSeriesCommand}"
+                                                CommandParameter="{Binding .}" />
+                                        <TextBlock Text="{Binding Trait , Converter={StaticResource LocalizedStringConverter}}"
+                                                   VerticalAlignment="Center"
+                                                   TextAlignment="Center"
+                                                   Margin="10,0" />
+                                    </DockPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                    <!--#endregion-->
+
+                    <!--#region ComboBox with Add Button -->
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Margin="20,0,0,0">
+                        <StackPanel>
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngAdd}"
+                                         Style="{StaticResource CInfoTooltipIcon}" />
+                                <TextBlock x:Name="AddSeriesTextBlock"
+                                           Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="{StaticResource lngAdd}">
+                                </TextBlock>
+                            </DockPanel>
+                            <ComboBox x:Name="AllSeriesComboBox"
+                                      ItemsSource="{Binding SeriesTraits}"
+                                      SelectedItem="{Binding SelectedSeries}"
+                                      Width="150"
+                                      VerticalAlignment="Center">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Trait, Converter={StaticResource LocalizedStringConverter}}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </StackPanel>
+                        <Button Style="{StaticResource ButtonIconCircular}"
+                                hc:IconElement.Geometry="{StaticResource AddGeometry}"
+                                Foreground="{DynamicResource SuccessBrush}"
+                                Command="{Binding AddSeriesCommand}"
+                                CommandParameter="{Binding SelectedSeries}"
+                                VerticalAlignment="Bottom"
+                                Margin="15,0"
+                                ToolTip="{StaticResource lngAdd}" />
+                    </StackPanel>
+                    <!--#endregion-->
+                </StackPanel>
+
+            </TabItem>
+            <!--#endregion-->
+            <!--#region F. Mounting Types Tab Item -->
+            <TabItem Header="{StaticResource lngMountingType}"
+                     Style="{StaticResource CTabItemStyle}">
+                <DockPanel Style="{StaticResource TabItemContainerDockPanel}">
+                    <!--#region 1.MountingTypes -->
+                    <StackPanel x:Name="MountingTypesStackPanel"
+                                Style="{StaticResource TabItemContainerStackPanel}">
+
+                        <!--#region ListBox with Title -->
+                        <StackPanel VerticalAlignment="Center">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngMountingTypesTooltipAccessories}"
+                                         Style="{StaticResource CInfoTooltipIcon}" />
+                                <TextBlock x:Name="MountingTypesTextBlock"
+                                           Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="{StaticResource lngMountingTypes}">
+                                </TextBlock>
+                            </DockPanel>
+                            <ListBox ItemsSource="{Binding MountingTypes}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <DockPanel LastChildFill="True">
+                                            <Button Style="{StaticResource ButtonIconCircular.Small}"
+                                                    Foreground="{DynamicResource DangerBrush}"
+                                                    hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
+                                                    hc:IconElement.Height="8"
+                                                    BorderBrush="{DynamicResource DangerBrush}"
+                                                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor} , Path=DataContext.RemoveMountingTypeCommand}"
+                                                    CommandParameter="{Binding .}" />
+                                            <TextBlock Text="{Binding Trait , Converter={StaticResource LocalizedStringConverter}}"
+                                                       VerticalAlignment="Center"
+                                                       TextAlignment="Center"
+                                                       Margin="10,0" />
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region ComboBox with Add Button -->
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Margin="20,0,0,0">
+                            <StackPanel>
+                                <DockPanel>
+                                    <cc:Icon ToolTip="{StaticResource lngAdd}"
+                                             Style="{StaticResource CInfoTooltipIcon}" />
+                                    <TextBlock x:Name="AddMountingTypeTextBlock"
+                                               Style="{StaticResource TitleTextBlockStyle}"
+                                               Text="{StaticResource lngAdd}">
+                                    </TextBlock>
+                                </DockPanel>
+                                <ComboBox x:Name="AllMountingTypesComboBox"
+                                          ItemsSource="{Binding MountingTraits}"
+                                          SelectedItem="{Binding SelectedMountingType}"
+                                          Width="150"
+                                          VerticalAlignment="Center">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Trait, Converter={StaticResource LocalizedStringConverter}}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                            </StackPanel>
+                            <Button Style="{StaticResource ButtonIconCircular}"
+                                    hc:IconElement.Geometry="{StaticResource AddGeometry}"
+                                    Foreground="{DynamicResource SuccessBrush}"
+                                    Command="{Binding AddMountingTypeCommand}"
+                                    CommandParameter="{Binding SelectedMountingType}"
+                                    VerticalAlignment="Bottom"
+                                    Margin="15,0"
+                                    ToolTip="{StaticResource lngAdd}" />
+                        </StackPanel>
+                        <!--#endregion-->
+                    </StackPanel>
+                    <!--#endregion-->
+                    <hc:Divider Orientation="Vertical"
+                                LineStroke="{DynamicResource PrimaryBrush}"
+                                Margin="20" />
+                    <!--#region 2.Mounting Variations -->
+                    <StackPanel x:Name="MountingVariationsStackPanel"
+                                Margin="0,5"
+                                DockPanel.Dock="Right"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+
+                        <!--#region ListBox with Title -->
+                        <DockPanel>
+                            <cc:Icon ToolTip="{StaticResource lngMountingVariationsTooltip}"
+                                     Style="{StaticResource CInfoTooltipIcon}" />
+                            <TextBlock x:Name="MountingVariationsTextBlock"
+                                       Style="{StaticResource TitleTextBlockStyle}"
+                                       Text="{StaticResource lngMountingVariations}">
+                            </TextBlock>
+                        </DockPanel>
+                        <ListBox ItemsSource="{Binding MountingVariations}"
+                                 Height="70">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <DockPanel LastChildFill="True">
+                                        <Button Style="{StaticResource ButtonIconCircular.Small}"
+                                                Foreground="{DynamicResource DangerBrush}"
+                                                hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
+                                                hc:IconElement.Height="8"
+                                                BorderBrush="{DynamicResource DangerBrush}"
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor} , Path=DataContext.RemoveMountingVariationCommand}"
+                                                CommandParameter="{Binding .}" />
+                                        <TextBlock Text="{Binding Code}"
+                                                   VerticalAlignment="Center"
+                                                   TextAlignment="Center"
+                                                   Margin="10,0" />
+                                    </DockPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <!--#endregion-->
+
+                        <!--#region ComboBox with Add Button -->
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Center"
+                                    Margin="0,20,0,0">
+                            <StackPanel>
+                                <DockPanel>
+                                    <cc:Icon ToolTip="{StaticResource lngVariationAccessoryTooltip}"
+                                             Style="{StaticResource CInfoTooltipIcon}" />
+                                    <TextBlock x:Name="AddMountingVariationTextBlock"
+                                               Style="{StaticResource TitleTextBlockStyle}"
+                                               Text="{StaticResource lngVariationAccessory}">
+                                    </TextBlock>
+                                </DockPanel>
+                                <ComboBox x:Name="AllAccessoriesComboBoxMounting"
+                                          ItemsSource="{Binding AllAccessories}"
+                                          SelectedItem="{Binding SelectedMountingVariation}"
+                                          DisplayMemberPath="Code"
+                                          IsTextSearchEnabled="True"
+                                          TextSearch.TextPath="Code"
+                                          IsEditable="True"
+                                          Width="150"
+                                          VerticalAlignment="Center">
+                                </ComboBox>
+                            </StackPanel>
+                            <Button Style="{StaticResource ButtonIconCircular}"
+                                    hc:IconElement.Geometry="{StaticResource AddGeometry}"
+                                    Foreground="{DynamicResource SuccessBrush}"
+                                    Command="{Binding AddMountingVariationCommand}"
+                                    CommandParameter="{Binding SelectedMountingVariation}"
+                                    VerticalAlignment="Bottom"
+                                    Margin="15,0"
+                                    ToolTip="{StaticResource lngAdd}" />
+                        </StackPanel>
+                    </StackPanel>
+                    <!--#endregion-->
+
+                    <!--#endregion-->
+                </DockPanel>
+            </TabItem>
+            <!--#endregion-->
+            <!--#region G. Dimensions Tab Item -->
+            <TabItem Header="{StaticResource lngDimensions}"
+                     Style="{StaticResource CTabItemStyle}">
+                <StackPanel x:Name="DimensionsStackPanel"
+                            Style="{StaticResource TabItemContainerStackPanel}">
+
+                    <!--#region ListBox with Title -->
+                    <StackPanel VerticalAlignment="Center">
+                        <DockPanel>
+                            <cc:Icon ToolTip="{StaticResource lngDimensions}"
+                                     Style="{StaticResource CInfoTooltipIcon}" />
+                            <TextBlock x:Name="DimensionsTextBlock"
+                                       Style="{StaticResource TitleTextBlockStyle}"
+                                       Text="{StaticResource lngDimensions}">
+                            </TextBlock>
+                        </DockPanel>
+                        <ListBox ItemsSource="{Binding SelectedDimensions}"
+                                 MinWidth="300"
+                                 Width="auto">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <DockPanel LastChildFill="True">
+                                        <Button Style="{StaticResource ButtonIconCircular.Small}"
+                                                Foreground="{DynamicResource DangerBrush}"
+                                                hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
+                                                hc:IconElement.Height="8"
+                                                BorderBrush="{DynamicResource DangerBrush}"
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor} , Path=DataContext.RemoveDimensionCommand}"
+                                                CommandParameter="{Binding .}" />
+                                        <TextBlock Text="{Binding Trait.Trait , Converter={StaticResource LocalizedStringConverter}}"
+                                                   VerticalAlignment="Center"
+                                                   TextAlignment="Center"
+                                                   Margin="20,0"
+                                                   Width="200" />
+                                        <hc:Divider Orientation="Vertical"
+                                                    LineStroke="{DynamicResource PrimaryBrush}" />
+                                        <TextBlock Text="{Binding Value, StringFormat={}{0:0} mm}"
+                                                   VerticalAlignment="Center"
+                                                   TextAlignment="Right"
+                                                   Width="80" />
+                                    </DockPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                    <!--#endregion-->
+
+                    <!--#region ComboBox with Add Button -->
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Margin="20,0,0,0">
+                        <StackPanel>
+                            <DockPanel>
+                                <cc:Icon  ToolTip="{StaticResource lngNewDimensionTooltip}"
+                                          Style="{StaticResource CInfoTooltipIcon}" />
+                                <TextBlock  x:Name="AddDimensionTextBlock"
+                                            Style="{StaticResource TitleTextBlockStyle}"
+                                            Text="{StaticResource lngNewDimension}">
+                                </TextBlock>
+                            </DockPanel>
+                            <ComboBox  x:Name="AllDimensionsComboBox"
+                                       ItemsSource="{Binding DimensionsTraits}"
+                                       SelectedItem="{Binding SelectedDimension}"
+                                       Width="150"
+                                       Margin="0,0,0,20"
+                                       VerticalAlignment="Center">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Trait, Converter={StaticResource LocalizedStringConverter}}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            <DockPanel>
+                                <cc:Icon  ToolTip="{StaticResource lngNewDimensionValueTooltip}"
+                                          Style="{StaticResource CInfoTooltipIcon}" />
+                                <TextBlock  x:Name="AddDimensionValueTextBlock"
+                                            Style="{StaticResource TitleTextBlockStyle}"
+                                            Text="{StaticResource lngNewDimensionValue}">
+                                </TextBlock>
+                            </DockPanel>
+                            <TextBox  Text="{Binding SelectedDimensionValue}"
+                                      MaxLength="5"
+                                      BorderBrush="{DynamicResource SecondaryRegionBrush}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior  Precision="0"
+                                                                    InputMode="DigitInput"
+                                                                    JustPositivDecimalInput="True" />
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <Button  Style="{StaticResource ButtonIconCircular}"
+                                 hc:IconElement.Geometry="{StaticResource AddGeometry}"
+                                 Foreground="{DynamicResource SuccessBrush}"
+                                 Command="{Binding AddDimensionCommand}"
+                                 VerticalAlignment="Center"
+                                 Margin="30,0"
+                                 ToolTip="{StaticResource lngAdd}" />
+                    </StackPanel>
+                    <!--#endregion-->
+                </StackPanel>
+
+            </TabItem>
+            <!--#endregion-->
+            <!--#region H. Prices Tab Item -->
+            <TabItem Header="{StaticResource lngPrices}"
+                     Style="{StaticResource CTabItemStyle}">
+                <StackPanel x:Name="PricesStackPanel"
+                            Style="{StaticResource TabItemContainerStackPanel}">
+
+                    <!--#region ComboBox Controls with Add Button -->
+                    <DockPanel HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Margin="20,0">
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel>
+                                <!--#region Price Trait ComboBox -->
+                                <DockPanel>
+                                    <cc:Icon ToolTip="{StaticResource lngNewPriceTooltip}"
+                                             Style="{StaticResource CInfoTooltipIcon}" />
+                                    <TextBlock x:Name="AddPriceTextBlock"
+                                               Style="{StaticResource TitleTextBlockStyle}"
+                                               Text="{StaticResource lngNewPrice}">
+                                    </TextBlock>
+                                </DockPanel>
+                                <hc:ComboBox x:Name="AllPricesComboBox"
+                                          ItemsSource="{Binding PriceTraits}"
+                                          SelectedItem="{Binding SelectedPrice}"
+                                          Width="200"
+                                          Margin="0,0,0,20"
+                                          VerticalAlignment="Center"
+                                             hc:InfoElement.ShowClearButton="True">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Trait, Converter={StaticResource LocalizedStringConverter}}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </hc:ComboBox>
+                                <!--#endregion-->
+                                <!--#region Price Value TextBox -->
+                                <DockPanel>
+                                    <cc:Icon ToolTip="{StaticResource lngNewPriceValueTooltip}"
+                                             Style="{StaticResource CInfoTooltipIcon}" />
+                                    <TextBlock x:Name="AddPriceValueTextBlock"
+                                               Style="{StaticResource TitleTextBlockStyle}"
+                                               Text="{StaticResource lngNewPriceValue}">
+                                    </TextBlock>
+                                </DockPanel>
+                                <TextBox Text="{Binding SelectedPriceValue}"
+                                         MaxLength="5"
+                                         BorderBrush="{DynamicResource SecondaryRegionBrush}">
+                                    <i:Interaction.Behaviors>
+                                        <b:TextBoxNumericInputBehavior Precision="2"
+                                                                       InputMode="DecimalInput"
+                                                                       JustPositivDecimalInput="True" />
+                                    </i:Interaction.Behaviors>
+                                </TextBox>
+                                <!--#endregion-->
+                            </StackPanel>
+                            <StackPanel Margin="10,0,0,0">
+                                <!--#region Referes To Group ComboBox -->
+                                <DockPanel>
+                                    <cc:Icon ToolTip="{StaticResource lngRefersToFinishGroupTooltip}"
+                                             Style="{StaticResource CInfoTooltipIcon}" />
+                                    <TextBlock x:Name="RefersToFinishGroupTextBlock"
+                                               Style="{StaticResource TitleTextBlockStyle}"
+                                               Text="{StaticResource lngRefersToFinishGroup}">
+                                    </TextBlock>
+                                </DockPanel>
+                                <hc:ComboBox x:Name="RefersToFinishGroupComboBox"
+                                          ItemsSource="{Binding PriceInfoAvailableGroups}"
+                                          SelectedItem="{Binding SelectedPriceInfoFinishGroup}"
+                                          Width="210"
+                                          Margin="0,0,0,20"
+                                          VerticalAlignment="Center"
+                                          hc:InfoElement.ShowClearButton="True">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Name, Converter={StaticResource LocalizedStringConverter}}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </hc:ComboBox>
+                                <!--#endregion-->
+                                <!--#region Referes To Finish ComboBox -->
+                                <DockPanel>
+                                    <cc:Icon ToolTip="{StaticResource lngRefersToFinishTooltip}"
+                                             Style="{StaticResource CInfoTooltipIcon}" />
+                                    <TextBlock x:Name="RefersToFinishTextBlock"
+                                               Style="{StaticResource TitleTextBlockStyle}"
+                                               Text="{StaticResource lngRefersToFinish}">
+                                    </TextBlock>
+                                </DockPanel>
+                                <hc:ComboBox x:Name="RefersToFinishComboBox"
+                                          ItemsSource="{Binding PriceInfoAvailableFinishes}"
+                                          SelectedItem="{Binding SelectedPriceInfoFinish}"
+                                          Width="210"
+                                          Margin="0,0,0,20"
+                                          VerticalAlignment="Center"
+                                          hc:InfoElement.ShowClearButton="True">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Trait, Converter={StaticResource LocalizedStringConverter}}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </hc:ComboBox>
+                                <!--#endregion-->
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                            <Button Style="{StaticResource ButtonIconCircular}"
+                                    hc:IconElement.Geometry="{StaticResource AddGeometry}"
+                                    Foreground="{DynamicResource SuccessBrush}"
+                                    Command="{Binding AddPriceInfoCommand}"
+                                    VerticalAlignment="Center"
+                                    Margin="10,0,0,0"
+                                    ToolTip="{StaticResource lngAdd}" />
+                        </StackPanel>
+                    </DockPanel>
+                    <!--#endregion-->
+
+                    <!--#region ListBox with Title -->
+                    <StackPanel VerticalAlignment="Center">
+                        <DockPanel>
+                            <cc:Icon ToolTip="{StaticResource lngPricesTooltip}"
+                                     Style="{StaticResource CInfoTooltipIcon}" />
+                            <TextBlock x:Name="PricesTextBlock"
+                                       Style="{StaticResource TitleTextBlockStyle}"
+                                       Text="{StaticResource lngPrices}">
+                            </TextBlock>
+                        </DockPanel>
+                        <ListBox ItemsSource="{Binding PricesInfo}"
+                                 MinWidth="450"
+                                 MinHeight="190"
+                                 Width="auto">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <DockPanel LastChildFill="True">
+                                        <Button Style="{StaticResource ButtonIconCircular.Small}"
+                                                Foreground="{DynamicResource DangerBrush}"
+                                                hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
+                                                hc:IconElement.Height="8"
+                                                BorderBrush="{DynamicResource DangerBrush}"
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor} , Path=DataContext.RemovePriceInfoCommand}"
+                                                CommandParameter="{Binding .}" />
+                                        <TextBlock Text="{Binding PriceTrait.Trait , Converter={StaticResource LocalizedStringConverter}}"
+                                                   VerticalAlignment="Center"
+                                                   TextAlignment="Center"
+                                                   Margin="20,0"
+                                                   Width="150" />
+                                        <TextBlock Text="{Binding PriceInfoRefersToName , Converter={StaticResource LocalizedStringConverter}}"
+                                                   VerticalAlignment="Center"
+                                                   TextAlignment="Center"
+                                                   Width="150" />
+                                        <hc:Divider Orientation="Vertical"
+                                                    LineStroke="{DynamicResource PrimaryBrush}" Margin="0,0"/>
+                                        <TextBlock Text="{Binding PriceValue, StringFormat={}{0:0.00} €}"
+                                                   VerticalAlignment="Center"
+                                                   TextAlignment="Right"
+                                                   Width="80" />
+                                    </DockPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                    <!--#endregion-->
+                    
+                </StackPanel>
+
+            </TabItem>
+            <!--#endregion-->
+        </TabControl>
+        <!--#endregion-->
+
+        <!--#region 10.Notes -->
+        <DockPanel Grid.Row="10"
+                   Grid.ColumnSpan="3"
+                   Margin="0"
+                   LastChildFill="True">
+            <TextBlock Text="{StaticResource lngNotes}"
+                       Style="{StaticResource CHeaderTextBlock}"
+                       DockPanel.Dock="Top"
+                       Margin="0,0,0,5" />
+            <TextBox MaxLength="2000"
+                     DockPanel.Dock="Top"
+                     VerticalAlignment="Stretch"
+                     Width="auto"
+                     Height="50"
+                     Padding="5"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto"
+                     TextAlignment="Center"
+                     VerticalContentAlignment="Center"
+                     FontSize="12"
+                     TextWrapping="Wrap"
+                     AcceptsReturn="True"
+                     d:Text="Test Notes"
+                     Text="{Binding BaseDescriptiveEntity.BaseEntity.Notes, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+        </DockPanel>
+        <!--#endregion-->
+
+    </Grid>
+</UserControl>

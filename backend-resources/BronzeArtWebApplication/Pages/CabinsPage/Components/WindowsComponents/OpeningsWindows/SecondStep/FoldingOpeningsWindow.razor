@@ -1,0 +1,44 @@
+﻿@*The Window to Choose a Folding Opening*@
+@namespace BronzeArtWebApplication.Pages.CabinsPage.Components.WindowsComponents.OpeningsWindows.SecondStep
+@using ShowerEnclosuresModelsLibrary.Enums.CabinCategories
+@using static BronzeArtWebApplication.Shared.Helpers.StaticInfoCabins
+@using static BronzeArtWebApplication.Shared.Helpers.StylesStaticInfoCabins
+@inject ILanguageContainerService lc
+@inject AssembleCabinViewModel vm
+
+<StoryContainer Title = "@(lc.Keys["FoldingTypeWindowTitle"])" 
+                @bind-IsVisible = "@(vm.IsWindowVisible[StoryWindow.FoldingOpenings])" 
+                IsNextButtonVisible = "@(false)"
+                IsPreviousButtonVisible = "@(true)"
+                OnPreviousClick = "@(()=> vm.ShowWindow(StoryWindow.OpeningPrimary,StoryWindow.FoldingOpenings))"
+                OnResetClick = "@(()=> vm.ResetViewModel())">
+    <MainContent>
+        <MudGrid Justify="Justify.Center" Spacing="2" Class="px-5 py-5">
+                @foreach (FoldingDoorType foldingType in Enum.GetValues(typeof(FoldingDoorType)))
+                    {
+                     <MudItem sm="12" md="6" lg="4" Class="d-flex justify-center align-center">
+                         <MudButton Variant="Variant.Filled"
+                                    FullWidth="true"
+                                    Style="text-transform:none;height:100%"
+                                    Class="ma-2"
+                                    OnClick = "@(()=> HandleSelection(foldingType))">
+                             <MudContainer Class="d-flex justify-center flex-column ma-1 pa-1" Style="max-width:90%">
+                                 <img src="@(FoldingTypeImagePaths[foldingType])"
+                                      alt="@lc.Keys[FoldingTypeDescKey[foldingType]]"
+                                      class="rounded-lg" />
+                                 <MudText Typo="Typo.subtitle1">
+                                     @lc.Keys[FoldingTypeDescKey[foldingType]]
+                                 </MudText>
+                             </MudContainer>
+                         </MudButton>
+                     </MudItem>   
+                    }
+        </MudGrid>    
+    </MainContent>
+</StoryContainer>
+
+
+
+@code {
+
+}

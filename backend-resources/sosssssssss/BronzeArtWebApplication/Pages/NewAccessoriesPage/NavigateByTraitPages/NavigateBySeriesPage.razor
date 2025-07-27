@@ -1,0 +1,42 @@
+﻿@using BathAccessoriesModelsLibrary;
+@using BathAccessoriesModelsLibrary.Services;
+@using BronzeArtWebApplication.Shared.ViewModels.AccessoriesPageViewModels;
+@using BronzeArtWebApplication.Shared.Layouts;
+@layout AccessoriesLayout
+@inject NavigationManager NavManager
+@inject AccessoriesUrlHelper PhotoHelper
+@inject IAccessoriesMemoryRepository Repo
+
+@if (string.IsNullOrEmpty(SeriesCode))
+{
+    <div class="seriesContainer">
+        @foreach (var series in Repo.TraitsByType[TypeOfTrait.SeriesTrait])
+        {
+            <MudButton OnClick="@(()=> NavManager.NavigateTo($"{RoutesStash.AccessoriesMain}/{TypeOfTrait.SeriesTrait}/{series.Code}"))">
+                <div class="seriesButtonContainer">
+                    <img src="@($"{PhotoHelper.GetMediumPhoto(series.PhotoURL)}")"
+                         class="seriesImage rounded-lg" 
+                         loading="lazy"/>
+                    <MudText Align="@(Align.Center)" Typo="@(Typo.h6)">@(series.Trait)</MudText>
+                </div>
+            </MudButton>
+        }
+    </div>
+}
+else
+{
+    <AccessoriesView Accessories="@(Repo.GetAccessoriesBySeries(SeriesCode))" 
+                     FilterBySecondaryType = "@(true)"
+                     ShowNameCard="@(true)"
+                     ShowDimensionsCard="@(true)" 
+                     ShowSeriesCard="@(true)"
+                     ShowFinishes="@(true)"
+                     FilterByFinishType="@(true)" />
+}
+
+
+@code {
+    [Parameter]
+    public string SeriesCode { get; set; } = string.Empty;
+
+}

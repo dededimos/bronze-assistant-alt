@@ -1,0 +1,187 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.WharehouseModuleView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views"
+             xmlns:huc="clr-namespace:BronzeFactoryApplication.Views.HelperViews"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:b="clr-namespace:BronzeFactoryApplication.Helpers.Behaviours"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:EnumSource="clr-namespace:BronzeFactoryApplication.Helpers.MarkupExtensions"
+             xmlns:galaxy="clr-namespace:GalaxyStockHelper;assembly=GalaxyStockHelper"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=vm:WharehouseModuleViewModel}">
+    <Grid Margin="20,10" HorizontalAlignment="Center">
+        <Grid.Resources>
+            <CollectionViewSource x:Key="WharehouseItemsView"
+                                  Source="{Binding Items}"
+                                  Filter="CollectionViewSource_Filter" />
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <DockPanel HorizontalAlignment="Left"
+                   Grid.Row="0">
+            <Button Foreground="{DynamicResource SecondaryBrush}"
+                    Content="{StaticResource lngRefresh}"
+                    hc:IconElement.Geometry="{StaticResource RefreshGeometry}"
+                    Command="{Binding GetStockCommand}" 
+                    Margin="0,0,10,0"/>
+            <Button Foreground="{DynamicResource SecondaryBrush}"
+                    Content="Codes Have Greek Charachters ?"
+                    hc:IconElement.Geometry="{StaticResource CheckListGeometry}"
+                    Command="{Binding AnyCodeHasGreekCommand}" />
+            <Button Foreground="{DynamicResource SecondaryBrush}"
+                    Content="Transfer Stock to Database"
+                    Margin="10,0"
+                    hc:IconElement.Geometry="{StaticResource TransferGeometry}"
+                    Command="{Binding TransferAccessoriesStockInfoCommand}" />
+        </DockPanel>
+
+        <!-- Filtering Panel -->
+        <Grid Grid.Row="1"
+              Margin="0,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <huc:TasTextBox Grid.Column="1"
+                            TextBoxTitle="{StaticResource lngCodeFilter}"
+                            x:Name="CodeFilterTextBox"
+                            TextBoxTextChanged="FilterTextBox_TextChanged"
+                            Margin="0,0,10,0" />
+
+            <huc:TasTextBox Grid.Column="3"
+                            TextBoxTitle="{StaticResource lngAisleFilter}"
+                            x:Name="AisleFilterTextBox"
+                            TextBoxTextChanged="FilterTextBox_TextChanged"
+                            Margin="0,0,10,0" />
+            <huc:TasTextBox Grid.Column="5"
+                            TextBoxTitle="{StaticResource lngPositionFilter}"
+                            x:Name="PositionFilterTextBox"
+                            TextBoxTextChanged="FilterTextBox_TextChanged"
+                            Margin="0,0,10,0" />
+
+            <Button Grid.Column="6"
+                    Content="{StaticResource lngClearFilters}"
+                    VerticalAlignment="Bottom"
+                    hc:IconElement.Geometry="{StaticResource DeleteFillCircleGeometry}"
+                    hc:IconElement.Height="14"
+                    Foreground="{DynamicResource SecondaryBrush}"
+                    Click="ClearFilters_Click" />
+        </Grid>
+
+        <DataGrid Grid.Row="2"
+                  x:Name="StockDataGrid"
+                  Background="{DynamicResource LightPrimaryBrush}"
+                  ItemsSource="{Binding Source={StaticResource WharehouseItemsView}}"
+                  Style="{StaticResource CDataGridSmall}"
+                  ColumnHeaderStyle="{StaticResource DataGridColumnHeaderStyle.Small}"
+                  MaxHeight="850"
+                  MaxWidth="1200"
+                  VerticalAlignment="Top"
+                  SelectionMode="Single"
+                  HorizontalAlignment="Left"
+                  IsSynchronizedWithCurrentItem="True"
+                  hc:DataGridAttach.ShowRowNumber="True"
+                  CellStyle="{StaticResource DataGridCellStyle.Small}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="{StaticResource lngCode}"
+                                    Binding="{Binding FullCode}" />
+                <DataGridTextColumn Header="{StaticResource lngDescription}"
+                                    MaxWidth="400"
+                                    Binding="{Binding Description}" />
+                <DataGridTextColumn Header="{StaticResource lngQuantity}"
+                                    Binding="{Binding TotalStockWithoutRedunduncies,StringFormat=0}">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader"
+                               BasedOn="{StaticResource DataGridColumnHeaderStyle.Small}">
+                            <Setter Property="HorizontalAlignment"
+                                    Value="Right" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell"
+                               BasedOn="{StaticResource DataGridCellStyle.Small}">
+                            <Setter Property="HorizontalAlignment"
+                                    Value="Stretch" />
+                            <Setter Property="HorizontalContentAlignment"
+                                    Value="Right" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="{StaticResource lngQuantityIncludingMB}"
+                                    Binding="{Binding TotalStock,StringFormat=0}"
+                                    TextBlock.TextAlignment="Right">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader"
+                               BasedOn="{StaticResource DataGridColumnHeaderStyle.Small}">
+                            <Setter Property="HorizontalAlignment"
+                                    Value="Right" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell"
+                               BasedOn="{StaticResource DataGridCellStyle.Small}">
+                            <Setter Property="HorizontalAlignment"
+                                    Value="Stretch" />
+                            <Setter Property="HorizontalContentAlignment"
+                                    Value="Right" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="{StaticResource lngPositions}"
+                                    Binding="{Binding ItemPositionsString}" />
+            </DataGrid.Columns>
+
+            <DataGrid.RowDetailsTemplate>
+                <DataTemplate>
+                    <DataGrid ItemsSource="{Binding StockInfo}"
+                              Style="{StaticResource CDataGridSmall}"
+                              IsSynchronizedWithCurrentItem="True"
+                              SelectionMode="Single"
+                              IsHitTestVisible="False"
+                              SelectedItem="{x:Null}"
+                              hc:DataGridAttach.ShowRowNumber="False"
+                              ColumnHeaderStyle="{StaticResource DataGridColumnHeaderStyle.Small}"
+                              CellStyle="{StaticResource DataGridCellStyle.Small}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="{StaticResource lngPosition}"
+                                                Binding="{Binding Position}" />
+                            <DataGridTextColumn Header="{StaticResource lngAisle}"
+                                                Binding="{Binding Aisle}" />
+                            <DataGridTextColumn Header="{StaticResource lngQuantity}"
+                                                Binding="{Binding Quantity,StringFormat=0}">
+                                <DataGridTextColumn.HeaderStyle>
+                                    <Style TargetType="DataGridColumnHeader"
+                                           BasedOn="{StaticResource DataGridColumnHeaderStyle.Small}">
+                                        <Setter Property="HorizontalAlignment"
+                                                Value="Right" />
+                                    </Style>
+                                </DataGridTextColumn.HeaderStyle>
+                                <DataGridTextColumn.CellStyle>
+                                    <Style TargetType="DataGridCell"
+                                           BasedOn="{StaticResource DataGridCellStyle.Small}">
+                                        <Setter Property="HorizontalAlignment"
+                                                Value="Right" />
+                                    </Style>
+                                </DataGridTextColumn.CellStyle>
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DataTemplate>
+            </DataGrid.RowDetailsTemplate>
+        </DataGrid>
+    </Grid>
+</UserControl>

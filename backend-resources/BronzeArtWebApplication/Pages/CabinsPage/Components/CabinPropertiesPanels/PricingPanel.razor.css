@@ -1,0 +1,8 @@
+﻿#PricingPanelContainer:focus-within {
+    border-color: lightslategray;
+}
+
+#PricingPanelContainer {
+    height: 100%;
+    border: 1px solid lightgray;
+}

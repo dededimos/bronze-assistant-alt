@@ -1,0 +1,259 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.ComponentsUC.CabinPropertiesUserControls.GlassUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:b="clr-namespace:BronzeFactoryApplication.Helpers.Behaviours"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:EnumSource="clr-namespace:BronzeFactoryApplication.Helpers.MarkupExtensions"
+             xmlns:Enums="clr-namespace:ShowerEnclosuresModelsLibrary.Enums;assembly=ShowerEnclosuresModelsLibrary"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels.CabinsViewModels"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=vm:GlassViewModel}"
+             x:Name="GlassUserControl">
+    
+
+    <GroupBox Style="{StaticResource GroupBoxCabinProperties}"
+                  Header="{StaticResource lngGlassProperties}">
+        <GroupBox.Resources>
+            <Style TargetType="cc:Icon" BasedOn="{StaticResource CInfoTooltipIcon}"/>
+        </GroupBox.Resources>
+
+        <StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <StackPanel>
+                    
+                    <!--#region 1.Glass Draw -->
+                    <StackPanel x:Name="GlassDrawStackPanel"
+                                Margin="0,5">
+                        <DockPanel>
+                            <cc:Icon ToolTip="{StaticResource lngGlassDrawTooltip}"/>
+                            <TextBlock x:Name="MinLengthTextBlock" DockPanel.Dock="Left"
+                                       Style="{StaticResource TitleTextBlockStyle}"
+                                       Text="{StaticResource lngGlassDraw}">
+                            </TextBlock>
+                        </DockPanel>
+                        <ComboBox x:Name="GlassDrawComboBox"
+                                  ItemsSource="{Binding Source={EnumSource:BindingSourceEnumValues {x:Type Enums:GlassDrawEnum}}}"
+                                  SelectedItem="{Binding Draw , Mode=TwoWay}"
+                                  IsEnabled="{Binding ElementName=GlassUserControl, Path=AllowDrawEdit}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Converter={StaticResource languageConverter} , TargetNullValue=''}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+                    <!--#endregion-->
+
+                    <!--#region 2.Glass Type -->
+                    <StackPanel x:Name="GlassTypeStackPanel"
+                                Margin="0,5">
+                        <DockPanel>
+                            <cc:Icon ToolTip="{StaticResource lngGlassTypeTooltip}"/>
+                            <TextBlock x:Name="GlassTypeTextBlock" DockPanel.Dock="Left"
+                                       Style="{StaticResource TitleTextBlockStyle}"
+                                       Text="{StaticResource lngGlassType}">
+                            </TextBlock>
+                        </DockPanel>
+                        <ComboBox x:Name="GlassTypeComboBox"
+                                  ItemsSource="{Binding Source={EnumSource:BindingSourceEnumValues {x:Type Enums:GlassTypeEnum}}}"
+                                  SelectedItem="{Binding GlassType , Mode=TwoWay}"
+                                  IsEnabled="{Binding ElementName=GlassUserControl, Path=AllowDrawEdit}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Converter={StaticResource languageConverter} , TargetNullValue=''}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+                    <!--#endregion-->
+
+                    <!--#region 3.Glass Thickness -->
+                    <StackPanel x:Name="GlassThicknessStackPanel"
+                                Margin="0,5">
+                        <DockPanel>
+                            <cc:Icon ToolTip="{StaticResource lngGlassThicknessGlassTooltip}"/>
+                            <TextBlock x:Name="GlassThicknessTextBlock" DockPanel.Dock="Left"
+                                       Style="{StaticResource TitleTextBlockStyle}"
+                                       Text="{StaticResource lngGlassThicknessGlass}">
+                            </TextBlock>
+                        </DockPanel>
+                        <ComboBox x:Name="GlassThicknessComboBox"
+                                  ItemsSource="{Binding Source={EnumSource:BindingSourceEnumValues {x:Type Enums:GlassThicknessEnum}}}"
+                                  SelectedItem="{Binding Thickness , Mode=TwoWay}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Converter={StaticResource languageConverter} , TargetNullValue=''}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+                    <!--#endregion-->
+
+                    <!--#region 4.Glass Finish -->
+                    <StackPanel x:Name="GlassFinishStackPanel"
+                                                Margin="0,5">
+                        <DockPanel>
+                            <cc:Icon ToolTip="{StaticResource lngGlassFinishTooltip}"/>
+                            <TextBlock x:Name="GlassFinishTextBlock" DockPanel.Dock="Left"
+                                                       Style="{StaticResource TitleTextBlockStyle}"
+                                                       Text="{StaticResource lngGlassFinish}">
+                            </TextBlock>
+                        </DockPanel>
+                        <ComboBox x:Name="GlassFinishComboBox"
+                                                  ItemsSource="{Binding Source={EnumSource:BindingSourceEnumValues {x:Type Enums:GlassFinishEnum}}}"
+                                                  SelectedItem="{Binding Finish , Mode=TwoWay}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Converter={StaticResource languageConverter} , TargetNullValue=''}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+                    <!--#endregion-->
+                    
+                </StackPanel>
+
+                <hc:Divider Style="{StaticResource VerticalDivider}"/>
+
+                <StackPanel>
+
+                    <!--#region 5. GlassLength -->
+                    <StackPanel x:Name="GlassLengthStackPanel"
+                                    Margin="0,5">
+                        <DockPanel>
+                            <cc:Icon ToolTip="{StaticResource lngGlassLengthTooltip}"/>
+                            <TextBlock x:Name="GlassLengthTextBlock"
+                                           Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="{StaticResource lngGlassLength}">
+                            </TextBlock>
+                        </DockPanel>
+                        <TextBox x:Name="GlassLengthTextBox" d:Text="1000"
+                                     Text="{Binding Length ,Mode=TwoWay , TargetNullValue=''}">
+                            <i:Interaction.Behaviors>
+                                <b:TextBoxNumericInputBehavior Precision="0" 
+                                                       InputMode="DigitInput"
+                                                       JustPositivDecimalInput="True"/>
+                            </i:Interaction.Behaviors>
+                        </TextBox>
+                    </StackPanel>
+                    <!--#endregion-->
+
+                    <!--#region 6. GlassHeight -->
+                    <StackPanel x:Name="GlassHeightStackPanel"
+                                    Margin="0,5">
+                        <DockPanel>
+                            <cc:Icon ToolTip="{StaticResource lngGlassHeightTooltip}"/>
+                            <TextBlock x:Name="GlassHeightTextBlock"
+                                           Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="{StaticResource lngGlassHeight}">
+                            </TextBlock>
+                        </DockPanel>
+                        <TextBox x:Name="GlassHeightTextBox" d:Text="1000"
+                                     Text="{Binding Height ,Mode=TwoWay , TargetNullValue=''}">
+                            <i:Interaction.Behaviors>
+                                <b:TextBoxNumericInputBehavior Precision="0" 
+                                                       InputMode="DigitInput"
+                                                       JustPositivDecimalInput="True"/>
+                            </i:Interaction.Behaviors>
+                        </TextBox>
+                    </StackPanel>
+                    <!--#endregion-->
+
+                    <!--#region 7. CornerRadiusTopRight -->
+                    <StackPanel x:Name="CornerRadiusTopRightStackPanel"
+                                    Margin="0,5">
+                        <DockPanel>
+                            <cc:Icon ToolTip="{StaticResource lngGlassCornerRadiusTopRightTooltip}"/>
+                            <TextBlock x:Name="CornerRadiusTopRightTextBlock"
+                                           Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="{StaticResource lngGlassCornerRadiusTopRight}">
+                            </TextBlock>
+                        </DockPanel>
+                        <TextBox x:Name="CornerRadiusTopRightTextBox" d:Text="1000"
+                                     Text="{Binding CornerRadiusTopRight ,Mode=TwoWay , TargetNullValue=''}">
+                            <i:Interaction.Behaviors>
+                                <b:TextBoxNumericInputBehavior Precision="0" 
+                                                       InputMode="DigitInput"
+                                                       JustPositivDecimalInput="True"/>
+                            </i:Interaction.Behaviors>
+                        </TextBox>
+                    </StackPanel>
+                    <!--#endregion-->
+
+                    <!--#region 8. CornerRadiusTopLeft -->
+                    <StackPanel x:Name="CornerRadiusTopLeftStackPanel"
+                                    Margin="0,5">
+                        <DockPanel>
+                            <cc:Icon ToolTip="{StaticResource lngGlassCornerRadiusTopLeftTooltip}"/>
+                            <TextBlock x:Name="CornerRadiusTopLeftTextBlock"
+                                           Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="{StaticResource lngGlassCornerRadiusTopLeft}">
+                            </TextBlock>
+                        </DockPanel>
+                        <TextBox x:Name="CornerRadiusTopLeftTextBox" d:Text="1000"
+                                     Text="{Binding CornerRadiusTopLeft ,Mode=TwoWay , TargetNullValue=''}">
+                            <i:Interaction.Behaviors>
+                                <b:TextBoxNumericInputBehavior Precision="0" 
+                                                       InputMode="DigitInput"
+                                                       JustPositivDecimalInput="True"/>
+                            </i:Interaction.Behaviors>
+                        </TextBox>
+                    </StackPanel>
+                    <!--#endregion-->
+
+                </StackPanel>
+            </StackPanel>
+
+            <!--#region 9. StepLengthGlass -->
+            <StackPanel x:Name="StepLengthGlassStackPanel"
+                            HorizontalAlignment="Center"
+                            Margin="0,5">
+                <DockPanel>
+                    <cc:Icon ToolTip="{StaticResource lngGlassStepLengthTooltip}"/>
+                    <TextBlock x:Name="StepLengthGlassTextBlock"
+                                           Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="{StaticResource lngGlassStepLength}">
+                    </TextBlock>
+                </DockPanel>
+                <TextBox x:Name="StepLengthGlassTextBox" d:Text="1000"
+                                     Text="{Binding StepLength ,Mode=TwoWay , TargetNullValue=''}">
+                    <i:Interaction.Behaviors>
+                        <b:TextBoxNumericInputBehavior Precision="0" 
+                                                       InputMode="DigitInput"
+                                                       JustPositivDecimalInput="True"/>
+                    </i:Interaction.Behaviors>
+                </TextBox>
+            </StackPanel>
+            <!--#endregion-->
+
+            <!--#region 10. StepHeightGlass -->
+            <StackPanel x:Name="StepHeightGlassStackPanel"
+                            Margin="0,5" 
+                            HorizontalAlignment="Center">
+                <DockPanel>
+                    <cc:Icon ToolTip="{StaticResource lngGlassStepHeightTooltip}"/>
+                    <TextBlock x:Name="StepHeightGlassTextBlock"
+                                           Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="{StaticResource lngGlassStepHeight}">
+                    </TextBlock>
+                </DockPanel>
+                <TextBox x:Name="StepHeightGlassTextBox" d:Text="1000"
+                                     Text="{Binding StepHeight ,Mode=TwoWay , TargetNullValue=''}">
+                    <i:Interaction.Behaviors>
+                        <b:TextBoxNumericInputBehavior Precision="0" 
+                                                       InputMode="DigitInput"
+                                                       JustPositivDecimalInput="True"/>
+                    </i:Interaction.Behaviors>
+                </TextBox>
+            </StackPanel>
+            <!--#endregion-->
+
+        </StackPanel>
+
+    </GroupBox>
+
+</UserControl>

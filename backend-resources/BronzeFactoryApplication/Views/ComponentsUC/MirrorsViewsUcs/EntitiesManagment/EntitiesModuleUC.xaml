@@ -1,0 +1,386 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.EntitiesManagment.EntitiesModuleUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.EntitiesManagment"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels.MirrorsViewModels"
+             xmlns:baseVm="clr-namespace:BronzeFactoryApplication.ViewModels"
+             xmlns:vwDatagrids="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.EntitiesManagment.EntitiesDataGridsUCs"
+             mc:Ignorable="d"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             d:DataContext="{d:DesignInstance Type=vm:MirrorsEntitiesManagmentViewModel}">
+    <Grid x:Name="ControlMainGrid">
+        <!--#region Main Menu When No Manager is Selected -->
+        <UniformGrid x:Name="SelectManagerGrid"
+                     Columns="2"
+                     Visibility="{Binding NoManagerActive, Converter={StaticResource Boolean2VisibilityConverter}}"
+                     d:Visibility="Collapsed">
+            <UniformGrid.Resources>
+                <Style TargetType="Button"
+                       BasedOn="{StaticResource ButtonDefault}">
+                    <Setter Property="Margin"
+                            Value="20" />
+                    <Setter Property="MinHeight"
+                            Value="90" />
+                    <Setter Property="MinWidth"
+                            Value="300" />
+                    <Setter Property="HorizontalAlignment"
+                            Value="Stretch" />
+                    <Setter Property="Foreground"
+                            Value="{DynamicResource SecondaryBrush}" />
+                    <Setter Property="FontSize"
+                            Value="20" />
+                    <Setter Property="Command"
+                            Value="{Binding SelectManagerCommand}" />
+                </Style>
+            </UniformGrid.Resources>
+            <Button Content="{StaticResource ConstraintsManagerType}"
+                    CommandParameter="{x:Static vm:EntitiesManagerType.ConstraintsManagerType}"
+                    hc:IconElement.Geometry="{StaticResource ConstraintsIconGeometry}"
+                    hc:IconElement.Width="30">
+            </Button>
+            <Button Content="{StaticResource SupportsManagerType}"
+                    hc:IconElement.Geometry="{StaticResource SupportIconGeometry}"
+                    hc:IconElement.Width="30"
+                    CommandParameter="{x:Static vm:EntitiesManagerType.SupportsManagerType}" />
+            <Button Content="{StaticResource SandblastsManagerType}"
+                    hc:IconElement.Geometry="{StaticResource SandblastIconGeometry}"
+                    hc:IconElement.Width="20"
+                    CommandParameter="{x:Static vm:EntitiesManagerType.SandblastsManagerType}" />
+            <Button Content="{StaticResource LightElementsManagerType}"
+                    hc:IconElement.Geometry="{StaticResource LightIconGeometry}"
+                    hc:IconElement.Width="20"
+                    CommandParameter="{x:Static vm:EntitiesManagerType.LightElementsManagerType}" />
+            <Button Content="{StaticResource ModulesManagerType}"
+                    hc:IconElement.Geometry="{StaticResource ModuleIconGeometry}"
+                    hc:IconElement.Width="20"
+                    CommandParameter="{x:Static vm:EntitiesManagerType.ModulesManagerType}" />
+            <Button Content="{StaticResource SeriesManagerType}"
+                    hc:IconElement.Geometry="{StaticResource SeriesIconGeometry}"
+                    hc:IconElement.Width="20"
+                    CommandParameter="{x:Static vm:EntitiesManagerType.SeriesManagerType}" />
+            <Button Content="{StaticResource PositionsManagerType}"
+                    hc:IconElement.Geometry="{StaticResource PositionIconGeometry}"
+                    hc:IconElement.Width="25"
+                    CommandParameter="{x:Static vm:EntitiesManagerType.PositionsManagerType}" />
+            <Button Content="{StaticResource CustomElementsManagerType}"
+                    hc:IconElement.Geometry="{StaticResource CustomElementsIconGeometry}"
+                    hc:IconElement.Width="25"
+                    CommandParameter="{x:Static vm:EntitiesManagerType.CustomElementsManagerType}" />
+            <Button Content="{StaticResource MirrorFinishElementsManagerType}"
+                    hc:IconElement.Geometry="{StaticResource ColorPalleteGeometry}"
+                    hc:IconElement.Width="25"
+                    CommandParameter="{x:Static vm:EntitiesManagerType.MirrorFinishElementsManagerType}" />
+            <Button Content="{StaticResource CustomMirrorTraitsManagerType}"
+                    hc:IconElement.Geometry="{StaticResource CustomElementsIconGeometry}"
+                    hc:IconElement.Width="25"
+                    CommandParameter="{x:Static vm:EntitiesManagerType.CustomMirrorTraitsManagerType}" />
+            <Button Content="{StaticResource MirrorApplicationOptionsManagerType}"
+                    hc:IconElement.Geometry="{StaticResource MirrorOptionsGeometry}"
+                    hc:IconElement.Width="25"
+                    CommandParameter="{x:Static vm:EntitiesManagerType.MirrorApplicationOptionsManagerType}" />
+        </UniformGrid>
+        <!--#endregion-->
+        <!--#region Rest Views -->
+        <Grid Visibility="{Binding NoManagerActive, Converter={StaticResource Boolean2VisibilityReConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!--#region Navigation ToolBar -->
+            <hc:UniformSpacingPanel Grid.Row="0"
+                                    HorizontalAlignment="Center"
+                                    ItemHorizontalAlignment="Center"
+                                    ChildWrapping="Wrap"
+                                    VerticalAlignment="Top"
+                                    Margin="0,0,0,20"
+                                    Spacing="10">
+                <hc:UniformSpacingPanel.Resources>
+                    <Style TargetType="Button"
+                           BasedOn="{StaticResource ButtonDefault}">
+                        <Setter Property="Padding"
+                                Value="5" />
+                        <Setter Property="Height"
+                                Value="35" />
+                        <Setter Property="MinWidth"
+                                Value="165" />
+                        <Setter Property="Foreground"
+                                Value="{DynamicResource SecondaryBrush}" />
+                        <Setter Property="Command"
+                                Value="{Binding SelectManagerCommand}" />
+                    </Style>
+                </hc:UniformSpacingPanel.Resources>
+                <Button CommandParameter="{x:Static vm:EntitiesManagerType.NoneManagerType}"
+                        Content="{StaticResource lngReturn}"
+                        hc:IconElement.Geometry="{StaticResource ReturnIconGeometry}" />
+                <Button Content="{StaticResource ConstraintsManagerType}"
+                        CommandParameter="{x:Static vm:EntitiesManagerType.ConstraintsManagerType}"
+                        hc:IconElement.Geometry="{StaticResource ConstraintsIconGeometry}">
+                </Button>
+                <Button Content="{StaticResource SupportsManagerType}"
+                        hc:IconElement.Geometry="{StaticResource SupportIconGeometry}"
+                        hc:IconElement.Width="30"
+                        CommandParameter="{x:Static vm:EntitiesManagerType.SupportsManagerType}" />
+                <Button Content="{StaticResource SandblastsManagerType}"
+                        hc:IconElement.Geometry="{StaticResource SandblastIconGeometry}"
+                        hc:IconElement.Width="20"
+                        CommandParameter="{x:Static vm:EntitiesManagerType.SandblastsManagerType}" />
+                <Button Content="{StaticResource LightElementsManagerType}"
+                        hc:IconElement.Geometry="{StaticResource LightIconGeometry}"
+                        hc:IconElement.Width="20"
+                        CommandParameter="{x:Static vm:EntitiesManagerType.LightElementsManagerType}" />
+                <Button Content="{StaticResource ModulesManagerType}"
+                        hc:IconElement.Geometry="{StaticResource ModuleIconGeometry}"
+                        hc:IconElement.Width="20"
+                        CommandParameter="{x:Static vm:EntitiesManagerType.ModulesManagerType}" />
+                <Button Content="{StaticResource SeriesManagerType}"
+                        hc:IconElement.Geometry="{StaticResource SeriesIconGeometry}"
+                        hc:IconElement.Width="20"
+                        CommandParameter="{x:Static vm:EntitiesManagerType.SeriesManagerType}" />
+                <Button Content="{StaticResource PositionsManagerType}"
+                        hc:IconElement.Geometry="{StaticResource PositionIconGeometry}"
+                        hc:IconElement.Width="25"
+                        CommandParameter="{x:Static vm:EntitiesManagerType.PositionsManagerType}" />
+                <Button Content="{StaticResource CustomElementsManagerType}"
+                        hc:IconElement.Geometry="{StaticResource CustomElementsIconGeometry}"
+                        hc:IconElement.Width="25"
+                        CommandParameter="{x:Static vm:EntitiesManagerType.CustomElementsManagerType}" />
+                <Button Content="{StaticResource MirrorFinishElementsManagerType}"
+                        hc:IconElement.Geometry="{StaticResource ColorPalleteGeometry}"
+                        hc:IconElement.Width="25"
+                        DockPanel.Dock="Top"
+                        CommandParameter="{x:Static vm:EntitiesManagerType.MirrorFinishElementsManagerType}" />
+                <Button Content="{StaticResource CustomMirrorTraitsManagerType}"
+                        hc:IconElement.Geometry="{StaticResource CustomElementsIconGeometry}"
+                        hc:IconElement.Width="25"
+                        DockPanel.Dock="Bottom"
+                        CommandParameter="{x:Static vm:EntitiesManagerType.CustomMirrorTraitsManagerType}" />
+                <Button Content="{StaticResource MirrorApplicationOptionsManagerType}"
+                        hc:IconElement.Geometry="{StaticResource MirrorOptionsGeometry}"
+                        hc:IconElement.Width="25"
+                        DockPanel.Dock="Bottom"
+                        CommandParameter="{x:Static vm:EntitiesManagerType.MirrorApplicationOptionsManagerType}" />
+            </hc:UniformSpacingPanel>
+            <!--#endregion-->
+
+            <!--#region Entity View -->
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="30" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!--#region ToolBar Datagrid -->
+                <DockPanel Grid.Row="0"
+                           Grid.Column="0"
+                           DataContext="{Binding SelectedManager}"
+                           d:DataContext="{d:DesignInstance Type=vm:BaseEntityRepoManagerViewModel}">
+                    <DockPanel.Resources>
+                        <Style TargetType="Button"
+                               BasedOn="{StaticResource ButtonDefault}">
+                            <Setter Property="Foreground"
+                                    Value="{DynamicResource SecondaryBrush}" />
+                            <Setter Property="Margin"
+                                    Value="0,0,5,0" />
+                            <Setter Property="hc:BorderElement.CornerRadius"
+                                    Value="5,5,0,0" />
+                        </Style>
+                    </DockPanel.Resources>
+                    <Button Command="{Binding ReloadEntitiesCommand}"
+                            hc:IconElement.Geometry="{StaticResource DownloadGeometry}"
+                            Content="{StaticResource lngReDownload}"
+                            ToolTip="{StaticResource lngReDownloadTooltip}" />
+                    <TextBlock Text="{Binding Title}"
+                               Style="{StaticResource CHeaderTextBlock}" 
+                               HorizontalAlignment="Right"
+                               Margin="0,0,40,0"/>
+                </DockPanel>
+                <!--#endregion-->
+
+                <!--#region DataGrids View -->
+                <Border Grid.Row="2"
+                        Grid.Column="0"
+                        BorderThickness="2"
+                        BorderBrush="{DynamicResource BorderBrush}"
+                        CornerRadius="0,20,20,20"
+                        MinWidth="350">
+                    <ContentControl Content="{Binding SelectedManager}"
+                                    Grid.Row="2"
+                                    Grid.Column="0">
+                        <ContentControl.Resources>
+                            <!--#region Constraints -->
+                            <DataTemplate DataType="{x:Type vm:ConstraintsRepoManagerViewModel}">
+                                <vwDatagrids:MirrorConstraintsRepoDatagridView />
+                            </DataTemplate>
+                            <!--#endregion-->
+                            <!--#region Sandblasts -->
+                            <DataTemplate DataType="{x:Type vm:MirrorSandblastsRepoManagerViewModel}">
+                                <vwDatagrids:MirrorSandblastRepoDataGridView />
+                            </DataTemplate>
+                            <!--#endregion-->
+                            <!--#region Supports -->
+                            <DataTemplate DataType="{x:Type vm:MirrorSupportsRepoManagerViewModel}">
+                                <vwDatagrids:MirrorSupportRepoDataGridView />
+                            </DataTemplate>
+                            <!--#endregion-->
+                            <!--#region Modules -->
+                            <DataTemplate DataType="{x:Type vm:MirrorModulesRepoManagerViewModel}">
+                                <vwDatagrids:MirrorModulesRepoDataGridView />
+                            </DataTemplate>
+                            <!--#endregion-->
+                            <!--#region Positions -->
+                            <DataTemplate DataType="{x:Type vm:MirrorPositionsRepoManagerViewModel}">
+                                <vwDatagrids:PositionInstructionsRepoDataGridView />
+                            </DataTemplate>
+                            <!--#endregion-->
+                            <!--#region Lights -->
+                            <DataTemplate DataType="{x:Type vm:MirrorLightElementsRepoManagerViewModel}">
+                                <vwDatagrids:MirrorLightsRepoDatagridView />
+                            </DataTemplate>
+                            <!--#endregion-->
+                            <!--#region Custom Elements -->
+                            <DataTemplate DataType="{x:Type vm:CustomMirrorElementsRepoManagerViewModel}">
+                                <vwDatagrids:MirrorCustomElementsRepoDataGridView />
+                            </DataTemplate>
+                            <!--#endregion-->
+                            <!--#region Finish Traits -->
+                            <DataTemplate DataType="{x:Type vm:MirrorFinishesRepoManagerViewModel}">
+                                <vwDatagrids:MirrorFinishRepoDatagridView />
+                            </DataTemplate>
+                            <!--#endregion-->
+                            <!--#region Custom Traits -->
+                            <DataTemplate DataType="{x:Type vm:MirrorCustomTraitsRepoManagerViewModel}">
+                                <vwDatagrids:MirrorCustomTraitRepoDataGridView />
+                            </DataTemplate>
+                            <!--#endregion-->
+                            <!--#region Series -->
+                            <DataTemplate DataType="{x:Type vm:MirrorSeriesRepoManagerViewModel}">
+                                <vwDatagrids:MirrorSeriesRepoDatagridView />
+                            </DataTemplate>
+                            <!--#endregion-->
+                            <!--#region MirrorApplicationOptions -->
+                            <DataTemplate DataType="{x:Type vm:MirrorAplicationOptionsRepoManagerViewModel}">
+                                <vwDatagrids:MirrorApplicationOptionsDataGridView />
+                            </DataTemplate>
+                            <!--#endregion-->
+                        </ContentControl.Resources>
+                    </ContentControl>
+                </Border>
+                <!--#endregion-->
+
+                <!--#region ToolBar EntityEdit -->
+                <DockPanel LastChildFill="True"
+                           DataContext="{Binding SelectedManager}"
+                           d:DataContext="{d:DesignInstance Type=vm:BaseEntityRepoManagerViewModel}"
+                           Grid.Row="0"
+                           Grid.Column="2">
+                    <DockPanel.Resources>
+                        <Style TargetType="Button"
+                               BasedOn="{StaticResource ButtonDefault}">
+                            <Setter Property="Foreground"
+                                    Value="{DynamicResource SecondaryBrush}" />
+                            <Setter Property="Margin"
+                                    Value="0,0,5,0" />
+                            <Setter Property="hc:BorderElement.CornerRadius"
+                                    Value="5,5,0,0" />
+                        </Style>
+                    </DockPanel.Resources>
+
+                    <Button Command="{Binding SaveEntityCommand}"
+                            hc:IconElement.Geometry="{StaticResource SaveGeometry}"
+                            Content="{StaticResource lngSave}"
+                            IsEnabled="{Binding EntityEditor.HasUnsavedChanges}" />
+                    <Button Command="{Binding CreateNewEntityCommand}"
+                            hc:IconElement.Geometry="{StaticResource AddGeometry}"
+                            Content="{StaticResource lngNewEntity}"
+                            ToolTip="{StaticResource lngNewEntityTooltip}"
+                            DockPanel.Dock="Left"
+                            IsEnabled="True">
+                        <Button.Resources>
+                            <Style TargetType="Button"
+                                   BasedOn="{StaticResource ButtonDefault}">
+                                <Setter Property="Foreground"
+                                        Value="{DynamicResource SecondaryBrush}" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsNewEntity}"
+                                                 Value="True">
+                                        <Setter Property="Foreground"
+                                                Value="{DynamicResource SuccessBrush}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+
+                    <Button Command="{Binding DeleteEntityCommand}"
+                            hc:IconElement.Geometry="{StaticResource DeleteFillCircleGeometry}"
+                            Foreground="{DynamicResource DangerBrush}"
+                            Content="{StaticResource lngDeleteEntity}"
+                            ToolTip="{StaticResource lngDeleteEntityTooltip}"
+                            DockPanel.Dock="Right"
+                            Margin="0"
+                            IsEnabled="{Binding IsNewEntity , Converter={StaticResource Boolean2BooleanReConverter}}" />
+                    <Button Command="{Binding EntityEditor.FullUndoCommand}"
+                            hc:IconElement.Geometry="{StaticResource UndoGeometry}"
+                            Foreground="{DynamicResource DangerBrush}"
+                            Content="{StaticResource lngFullUndo}"
+                            ToolTip="{StaticResource lngFullUndoTooltip}"
+                            DockPanel.Dock="Right" />
+
+                    <DockPanel LastChildFill="False"
+                               HorizontalAlignment="Center">
+                        <Button Command="{Binding EntityEditor.UndoCommand}"
+                                hc:IconElement.Geometry="{StaticResource UndoIconGeometry}"
+                                Content="{StaticResource lngUndo}" />
+                        <Button Command="{Binding EntityEditor.RedoCommand}"
+                                hc:IconElement.Geometry="{StaticResource RedoIconGeometry}"
+                                Content="{StaticResource lngRedo}" />
+                    </DockPanel>
+                </DockPanel>
+                <!--#endregion-->
+
+                <!--#region Edit Controls -->
+                <Border Grid.Row="2"
+                        Grid.Column="2"
+                        BorderBrush="{DynamicResource BorderBrush}"
+                        BorderThickness="2"
+                        Padding="10"
+                        CornerRadius="0,0,20,20">
+                    <DockPanel DataContext="{Binding SelectedManager}"
+                               d:DataContext="{d:DesignInstance Type=vm:BaseEntityRepoManagerViewModel}">
+                        <ContentControl Content="{Binding .}"
+                                        DockPanel.Dock="Bottom">
+                            <ContentControl.Resources>
+                                <DataTemplate DataType="{x:Type vm:MirrorModulesRepoManagerViewModel}">
+                                    <Button Content="{StaticResource lngMirrorPositionOptions}"
+                                            hc:IconElement.Geometry="{StaticResource PositionIconGeometry}"
+                                            Command="{Binding EditPositionOptionsCommand}"
+                                            Visibility="{Binding IsPositionable, Converter={StaticResource Boolean2VisibilityConverter}}" />
+                                </DataTemplate>
+                                <DataTemplate DataType="{x:Type baseVm:BaseViewModel}" />
+                            </ContentControl.Resources>
+                        </ContentControl>
+                        <local:EntitiesEditViewUC DataContext="{Binding EntityEditor}"
+                                                  HorizontalAlignment="Stretch"
+                                                  DockPanel.Dock="Top" />
+                    </DockPanel>
+                </Border>
+                <!--#endregion-->
+            </Grid>
+            <!--#endregion-->
+        </Grid>
+        <!--#endregion-->
+    </Grid>
+</UserControl>

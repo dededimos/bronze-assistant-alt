@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>warnings</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.11.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CommonHelpers\CommonHelpers.csproj" />
+    <ProjectReference Include="..\CommonInterfacesBronze\CommonInterfacesBronze.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,24 @@
+﻿@namespace BronzeArtWebApplication.Pages.CabinsPage.Components
+@inject ILanguageContainerService lc
+
+<MudTextField T="string"
+                  @bind-Value="@(typedText)"
+                  Label="@lc.Keys["EnterCabinCode"]"
+                  Variant="@(TextBoxVariant)"
+                  MaxLength="13"
+                  Class="@(Class)"
+                  Style="@(Style)"
+                  Immediate="@(true)"
+                  Margin="@(Margin.Dense)"
+                  Error="@(!isCodeValid)"
+                  ErrorText="@(errorText)"
+                  AdornmentIcon="@(Icons.Material.Filled.SubdirectoryArrowLeft)"
+                  Adornment="@(Adornment.End)"
+                  OnAdornmentClick="@(() => TranslateCode())"
+                  Mask="@(mask)"
+                  HelperText="@($"{lc.Keys["Format"]}:{mask.Mask} -- {lc.Keys["OnlyDigitsAndEnglish"]}")">
+</MudTextField>
+
+@code {
+    
+}

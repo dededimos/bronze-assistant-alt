@@ -1,0 +1,1294 @@
+#GeneralStrings
+New : Nuovo
+CompleteView: Vista Completa
+Models : Modelli
+Extras : Aggiuntivi
+ViewNeedsLogIn : Devi essere Connesso per vedere questa pagina
+TaskCancelled : Il compito è stato annullato
+Generating... : Generando...
+Request : Richiesta
+RegisterMachine : Macchina a Registri
+MachineAddress : Indirizzo Macchina
+Print : Stampa
+PrintSaveOffer : Stampa/Salva offerta
+PrintSaveOfferFirefoxNo : Stampa/Salva offerta (Non Supporta Firefox)
+Included : Incluso
+YouHaveTo : Si deve
+PleaseChooseShape : Scegli la forma dello specchio
+PleaseChooseDimensions : Inserisci le dimensioni dello specchio
+PleaseChooseLight : Scegli il tipo di luce (con/senza)
+Dimensions : Dimensioni
+LengthxHeight: (LxA)
+Range: Gamma
+Tollerance : Tolleranza
+Restart : Ricomincia
+Resume : Riprendere
+Glass : Vetro
+Type : Tipo
+Thickness : Spessore
+Finish : Finitura
+GlassFinish : Tipo di Vetro
+OfGlass: di Vetro
+AdditionalOptions : Opzioni Aggiuntive
+CabinSide : Lato Doccia
+Tempered: Temperato
+Selected : Selezionati
+Without : Sensa
+Draw : Disegno
+Pricing : Opzioni-Prezzo
+Rules : Regole
+NominalDimension : Dimensione Nominale
+Opening : Apertura
+Wheels : Ruote
+PrintsBestIn: Stampa Meglio supportata da
+Diagonal : Diagonale
+Photo : Foto
+PhotoAbbreviated: Foto
+Mirrors : Specchi
+Showers : Cabina Doccia
+Accessories : Accessori
+Demo : (Demo)
+Options : Opzioni
+Edit : Modificare
+Format : Formato
+οr : o
+Choices : Scelte
+Properties : Caratteristiche
+Link : Link
+Delete : Elimina
+Empty : Vuoto
+Busy : Occupato
+Available : Disponibili
+Search : Ricerca
+Column : Colonna
+Columns : Colonne
+Images : Immagini
+UnderConstruction : In Costruzione
+SectionStillUnderConstruction : Questa sezione è ancora in costruzione. Riprova dal 18-07.
+RetrievingAccessories : Recupero degli accessori
+Loading : Caricamento
+or: o
+Filters : Filtri
+ResetFilters : Resettare i filtri
+HeightLetter : A
+ClickToCheckNews : Novita sulla versione
+Retrying: Reprova...
+FailedToRetrieve: Impossibile recuperare...
+CheckConnection: Controlla Connessione
+CustomizedDimension: Personalizzata
+Frame : Telaio
+PricesAreNew : I prezzi automatici nelle dimensioni personalizzate hanno più regole applicate, se ritieni che qualcosa non va, contattaci
+PricesAreNotBinding : I prezzi visualizzati non sono vincolanti e possono variare senza preavviso
+CustomDimensionIrregular : Il prezzo delle dimensioni personalizzate viene calcolato con un moltiplicatore (15%,25% e.t.c.) nonché , i mq della struttura e il prezzo di catalogo di base del modello più vicino
+Notes : Appunti
+NotAvailable : N/A
+CalculationsInfo : Informazioni calcoli
+ItemModifiedNotAvailable: L'elemento è stato modificato o non è più disponibile
+Retrieve : Recuperare
+Save : Salva
+SavingFile...: Salvataggio del File...
+FileSaved : File Salvato
+SaveSuccess: Salvataggio Completato con Successo
+SaveFailed: Salvataggio non riuscito
+OnlyDigitsAndEnglish : Cifre-Caratteri Latini
+SaveAsExcelFile : Salva come file Excel (.xlsx)
+PhotoUrl : Photo Url
+AppliedRules : Regole Prezzo
+
+#Authentication Page strings
+LoggingIn : Autenticazione in corso...
+CompletingLogin : Completamento dell'autenticazione...
+LogInFailed : Autenticazione fallita
+LoggingOut : Stai per essere disconnesso...
+CompletingLogout : Completamento della disconnessione...
+LogoutSucceded : Disconnessione riuscita
+BackToHome : Torna all'inizio
+LogoutFailed : Logout non riuscito
+
+#Page Titles
+IndexPageTitle : Bronze Art Application
+AssembleCabinPageTitle : Cabina Doccia - BronzeApp
+AssembleMirrorPageTitle : Specchio personalizzato - BronzeApp
+AccessoriesSelectionPageTitle : Accessori da bagno - BronzeApp
+MirrorDrawPageTitle : Disegno di specchio
+VersionNotesPageTitle : Note sulla versione
+
+#NewsTooltip
+NewsDialogTitle: Versioni - Notizie
+NewsTitle100 : Ver. 1.00
+CabinSectionReady: 1.Cabine personalizzate o di dimensioni fisse
+CapsuleMirrorReady: 2.Specchi a forma di capsula con o senza luce
+FramedLightMirrorsWithoutSandblast: 3.Specchi rettangolari illuminati con cornice SENZA sabbiatura
+BetterLooksReady: 4.Modifiche estetiche (generali e per schermi più piccoli)
+NewsTitle101 : Ver. 1.01
+EllipseMirrorReady: 1.Specchi a forma di ellisse con o senza luce
+LinkItemsReady: 2.Possibilità di creare collegamenti per specchi/cabine create
+BetterLooksReady2: 3.Piccoli cambiamenti estetici
+NewsTitle102103 : Ver. 1.02 & 1.03
+BathtubPanelsReady: 1.Aggiunti pannelli della vasca da bagno
+NewsTitle104105106 : Ver. 1.04 & 1.05 & 1.06
+InvalidFlagBug: 1.L'applicazione ora dovrebbe essere eseguita anche su browser protetti (agente Sophos e.t.c.)
+CabinPricingComing : 2.Prezzi Cabin (da ??-07)
+AccessoriesComing : 3.Accessory (da 18-07)
+NewsTitle107abc : Ver. 1.07a-1.07b-1.07c
+SaveCabinSynthesis : 1.Le selezioni della cabina ora possono essere salvate e riselezionate in un secondo momento
+NewsTitle108 : Ver. 1.08
+AccessoriesDemoNews : 1.Versione demo dell'applicazione per accessori da bagno
+NewsTitle109 : Ver. 1.09 & 1.10
+CabinsPricing : 1.Il prezzo all'ingrosso delle cabine è ora disponibile, richiedi il tuo codice (Catalogo 2023)
+CabinsPricing2 : Prezzi per tutte le personalizzazioni - Finiture - Parti selezionate
+CabinsOptions : 2.Opzioni dinamiche selezionabili
+CabinsOptions2 : Maniglie - Profili - Telaio - Cerniere e.t.c.
+BugFixes109 : 3.Varie correzioni di bug e piccoli miglioramenti
+NewsTitle111 : Ver. 1.11 & 1.12
+NotesBoxAdded : 1.Note Box aggiunto alle quotazioni per specchi e cabina
+CabinPricingFixes : 2.Correzioni dei prezzi nei modelli personalizzati WS-9C-VF-VS-V4
+IrregularThicknessPricing : 3.Prezzi per spessori 6/8mm , 8/10mm , 10mm 
+BugFixes111 : 4.Varie correzioni di bug e piccoli miglioramenti (Registro completo nelle Applicazione Versioni)
+NewsTitle113 : Ver. 1.13
+BugFixes113 : 1.Varie correzioni di bug (Registro completo nelle Applicazione Versioni)
+NewsTitle200 : Ver. 2.00 14-11-2023
+A2001 : 1.Aggiunto un nuovo menu Accessori.
+A2002 : 2.Aggiunte nuove funzionalità ,Cestino delle quotazioni ,Regole di Prezzatura, Prezzi personalizzati, Quotazioni e Ordini stampabili.
+A2003 : 3.Introdotto la navigazione Serie-Tipo-Finitura per una migliore esplorazione dei prodotti.
+A2004 : 4.Aggiunte schede di base degli articoli e scheda dettagliata degli accessori per le informazioni sui prodotti.
+A2005 : 5.Implementata casella di ricerca per Codice/Descrizioni/Caratteristica.
+A2006 : 6.Aggiunte visualizzazioni Griglia, Tabella negli accessori per diverse opzioni di visualizzazione.
+A2007 : 7.Inclusi prezzi degli accessori e finiture per articolo con la funzione Hover - Select.
+A2008 : 8.Aggiunte schede e modelli stampabili degli accessori per comodità.
+A2009 : 9.Aggiunta la dimensionatura degli accessori e la foto dimensionale per colore degli accessori per una visualizzazione dettagliata del prodotto.
+A20010 : 10.Aggiornato il colore del tema.
+A20011 : 11.Implementate animazioni delle pagine e migliorato il routing per un'esperienza utente più fluida.
+A20012 : 12.Migliorata la separazione del footer dal contenuto principale.
+A20013 : 13.Risolti i problemi della barra di scorrimento nell'app e nella pagina indice.
+A20014 : 14.Migliorata l'interfaccia utente con Menu laterali, Toolbar e vari Dialoghi per un'esperienza più intuitiva.
+NewsTitle201206 : Ver. 2.01-2.07 / 14-03-2025
+A2012061 : 1.Varie correzioni di bug (Registro completo nelle Applicazione Versioni)
+NewsTitle208 : Ver. 2.08-2.11 / 24-03-2025
+A2081: 1. Dimensioni Aggiuntive degli Specchi aggiunte a tutti i Modelli di Catalogo
+A2082: 2. Aggiunta la possibilità di creare Specchi Circolari con cornice (dimensioni 50-60-70-80-90-100-110-120)
+A2083: 3. Eliminati i Colori di Finitura Elettrolitica per gli Specchi
+A2084: 4. Varie Correzioni Aggiuntive (vedi Versioni dell'Applicazione)
+NewsTitle212 : Ver. 2.12-2.14 / 10-04-2025
+A2121 : 1. Aggiunti nuovi modelli e forme di specchi
+A2122 : 2. Aggiunte opzioni aggiuntive per l'illuminazione
+A2123 : 3. Aggiunte ulteriori Schermi Media
+A2124 : 4. Varie correzioni aggiuntive (vedi Versioni dell'Applicazione)
+
+#CreateLink Tooltip
+CreateLinkInformation : Copia un collegamento per la selezione corrente
+LinkCreation : Copia collegamento di selezione
+LinkCopiedToClipboard: Link copiato negli Appunti
+PassMirrorFromLink : Specchio dal collegamento creato
+PassSynthesisCabinFromLink : Sintesi cabina doccia creata da collegamento
+InvalidLinkCouldNotGenerateMirror: Il collegamento dell'indirizzo fornito non era corretto
+InvalidLinkCouldNotGenerateCabin: Il collegamento dell'indirizzo fornito non era corretto
+InvalidLinkCouldNotGenerateQuery : Il collegamento dell'indirizzo fornito non era corretto
+CouldNotCopyLinkToClipboard : Impossibile creare il collegamento
+
+#Main Menu
+AppMenuButton: Menù
+ThemeButton: Tema
+LogIn : Accedere
+LogOut : Disconnettersi
+Home : Home
+
+#NavMenu
+NavCaption: Menù
+NavChooseHome: Inizio
+NavChooseApp: Scegli App
+NavChooseAppCabin: Cabina Doccia App
+NavChooseAppMirror: Specchi App
+NavChooseAppAccessories : Accessori App
+NavContact: Contattaci
+NavVersion : Applicazione Versioni
+NavManage : Gestisci Opzioni
+
+#MessageBox Messages
+SomethingWentWrongReset: Qualcosa è andato storto , La selezione è stata ripristinata
+Error: Errore
+AnApplicationWideErrorOccured : Si è verificato un errore, riavviare l'applicazione aggiornando la pagina
+
+#Printing Page Strings
+DrawingsAreIndicative: -I Disegni sono indicativi e il Layout effettivo potrebbe differire
+
+#Main Body Strings
+MainButton: Specchio Personalizzato
+MainFieldsetLegend: Mirror - Proprietà
+Reset: Resettare
+MirrorShape: Forma dello specchio
+MirrorLight: Leggero
+Length: Lunghezza
+Height: Altezza
+Diameter: Diametro
+DimensionsHelperText: A partire da 40-220cm
+cm : cm
+Support: Appoggiare
+LineNo: Νο
+LineNoMin: Νο
+Code: SKU
+Description: Descrizione
+FullDescription : Descrizione Completa
+ExtendedDescription : Descrizione Estesa
+RetailPrice : Prezzo Catal.
+NetPrice : Prezzo Netto
+FinalPrice : Prezzo Finale
+Price: Prezzo
+PlusVat : +iva
+WhereApplicable : ove applicabile
+UndefinedLength : Lunghezza indefinita
+UndefinedHeight : Altezza indefinita
+UndefinedDiameter : Diametro indefinito
+Total : Totale
+VAT : Iva
+FinalTotal : Totale Finale
+TotalWithVat : Totale con Iva
+ClickToObserveDraw : Fare clic per osservare il disegno
+EnterCodeToGetMirror : Inserire SKU
+
+#AssembleMirrorStateBox - Mode Selector Box
+CurrentState: Stato Attuale
+GuestState: Ospite
+RetailState: Vendita al dettaglio
+WholesaleState: Vendita all'ingrosso
+PressToOpenOptionsTooltip: Aprire le Opzioni
+
+#FogTouchOptions Enum Descriptions
+WithAutonomusTouch : Interruttore tattile autonomo
+WithAutonomusTouchEco : Interruttore tattile autonomo Eco
+
+#MirrorShape Enum Descriptions
+RectangularMirror: Specchio Rettangolare
+CircularMirror: Specchio Circolare
+CapsuleMirror: Specchio Capsula
+EllipseMirror: Specchio Ellittico
+SpecialMirror: Specchio Speciale
+StoneNSMirror : Specchio Pietra
+PebbleNDMirror : Specchio Ciottolo
+CircleSegmentMirror : Specchio Segmento di Cerchio
+CircleSegment2Mirror : Specchio Segmento di Cerchio 2
+
+#MirrorSeries Enum Descriptions
+SeriesCustom : Specchio Personalizzato
+SeriesH7 : Hotel H7
+SeriesH8 : Eco H8
+SeriesX6 : Lugano X6
+SeriesX4 : Quattro X4
+Series6000 : Crystal 6000
+SeriesM3 : San Remo M3
+SeriesN9 : Diagonios N9
+SeriesN6 : Loop N6
+SeriesN7 : Totem N7
+SeriesA7 : Lunar A7
+SeriesA9 : Fairmont A9
+SeriesM8 : Series M8
+SeriesND : Pebble ND
+SeriesNC : Capsule NC
+SeriesNL : Ellipse NL
+SeriesP8 : Genesis P8
+SeriesP9 : Isavella P9
+SeriesR7 : Premium Hotel R7
+SeriesR9 : Premium Diagonios R9
+SeriesNS : Stone NS
+SeriesN1 : Round1000 N1
+SeriesN2 : Round2000 N2
+SeriesEL : Riviera Single EL
+SeriesES : Riviera Double ES
+SeriesIM : Rettangolare Personalizzato con Luce
+SeriesIA : Rettangolare Personalizzato Semplice
+SeriesN9Custom : Circolare Personalizzato con Luce
+SeriesNA : Circolare Personalizzato Semplice
+SeriesNCCustom : Capsula Personalizzato con Luce
+SeriesIC : Capsula Personalizzato Semplice
+SeriesNLCustom : Ellisse Personalizzato con Luce
+SeriesIL : Ellisse Personalizzato Semplice
+
+# Mirror Light Enum Descriptions
+WithoutLight: Senza Luce
+Warm: Calda
+Cold: Fredda
+DayLight: Diurna
+WarmCold: Calda-Fredda
+WarmColdDay: Diurna-Calda-Fredda
+DayCOB : Luce diurna COB
+WarmCOB : Calda COB
+ColdCOB : Fredda COB
+WarmColdDayCOB : Diurna-Calda-Fredda COB
+Day16W : Diurna 16W
+Warm16W : Calda 16W
+Cold16W : Fredda 16W
+WarmColdDay16W : Diurna-Calda-Fredda 16W
+
+WithoutLightFullDescription : Senza Luce
+WarmFullDescription : Luce Calda 3000K
+ColdFullDescription : Luce Fredda 6000K
+DayLightFullDescription : Luce Diurna 4000K
+WarmColdFullDescription : Doppia Luce Calda-Fredda
+WarmColdDayFullDescription : Tripla luce calda-fredda-diurna
+DayCOBFullDescription : Luce Diurna COB/Dotless
+WarmCOBFullDescription : Luce Calda COB/Dotless
+ColdCOBFullDescription : Luce Fredda COB/Dotless
+WarmColdDayCOBFullDescription : Tripla Luce COB/Dotless C/F/D
+Day16WFullDescription : Luce Diurna 16Watt
+Warm16WFullDescription : Luce Calda 16Watt
+Cold16WFullDescription : Luce Fredda 16Watt
+WarmColdDay16WFullDescription : Tripla Luce 16Watt C/F/D
+
+#Sandblast Enum Description Keys
+SandblastH7: Senza sabbiatura
+SandblastH8: Progettazione H8
+SandblastX6: Design X6
+SandblastX4: Progettazione X4
+Sandblast6000: Progettazione 6000
+SandblastM3: Progettazione M3
+SandblastN9: Senza sabbiatura
+SandblastN6: Progettazione N6
+
+#MirrorOptions Enum Descriptions
+OptionBlueTooth: Il dispositivo Bluetooth
+OptionsClock: Orologio
+OptionsDimmer: Varialuce
+OptionsDisplay19: Display 19
+OptionsDisplay20: Display 20
+OptionsDisplay11: DisplayFM 11
+OptionsFog16W: Antinebbia 16Watt
+OptionsFog24W: Antinebbia 24Watt
+OptionsFog55W: Antinebbia 55Watt
+OptionsIPLid: Coperchio chiuso
+OptionsRoundedCorners: Spigoli arrotondati
+OptionsSensor: Interruttore sensore
+OptionsTouch: Interruttore a sfioramento
+OptionsTouchFog: Touch (antinebbia)
+OptionsZoom: Ingrandimento x3
+OptionsZoomLed: Ingrandimento con la luce
+OptionsZoomLedTouch: Luce magnifyer autonomus
+OptionsBackLightSealedChannel : Retroilluminazione nascosta con canale
+OptionsFrontLightSealedChannel : Illuminazione frontale nascosta con canale
+OptionsSmartAntiFog : Antinebbia intelligente (con timer)
+OptionsSingleTopLightedPlexiglass : Plexiglass illuminato singolo (dall'alto)
+OptionsDoubleTopBottomLightedPlexiglass : Plexiglass illuminato doppio (alto e basso)
+OptionsEcoTouch : Touch Eco 60min(antinebbia)
+OptionsScreen11b : DisplayFM 11 Nero
+OptionsLamp : Lampada
+OptionsLightAluminumChannel : Canale di illuminazione in metallo
+
+#Supports Enum Description Keys
+WithoutSupport: Senza
+DoubleSupport: Doppio Sap.
+PerimetricalSupport: Perimetrale Sap.
+FrameSupport: Cornice visibile
+FrontSmallSupport: Piccoli supporti frontali
+
+#Support Finish Type Enum Description
+PaintedFinish : Finitura Anodizzata
+ElectroplatedFinish : Finitura Elettrolitica
+SimpleFinish : Finitura Semplice
+Anodized : Αnodizzato
+Electroplated : Elettrolitico
+
+#SupportPainted Finishes Enum Description Keys
+BlackAnodized : Nero Mat
+BronzeAnodized : Bronzo Mat
+ChromeAnodized : Cromo Mat
+CopperAnodized : Rame Mat
+GoldAnodized : Oro Mat
+GraphiteAnodized : Grafite Mat
+RalColor : Colore RAL    
+SilverAnodized : Argento
+AnodizeNotDefined : Finitura Anodizzata non definita
+
+#Support Electroplated Finish Enum Description Keys
+BronzeBrushedElectroplated : Bronzo Spazzolato
+BronzeMirrorElectroplated : Bronzo Lucido
+CopperBrushedElectroplated : Rame Spazzolato
+CopperMirrorElectroplated : Rame Lucido
+SimilarGoldBrushedElectroplated : Oro Simile Spazzolato
+SimilarGoldMirrorElectroplated : Oro Simile Lucido
+GraphiteBrushedElectroplated : Grafite Spazzolato
+GraphiteMirrorElectroplated : Grafite Lucido
+NickelBrushedElectroplated : Nichel Spazzolato
+NickelMirrorElectroplated : Nichel Lucido
+RealGoldBrushedElectroplated : Vero oro Spazzolato
+RealGoldMirrorElectroplated : Vero oro Lucido
+RoseGoldMirrorElectroplated : Oro rosa Lucido
+RoseGoldBrushedElectroplated : Oro rosa Spazzolato
+ElectroplatingNotDefined : Finitura Εlettrolitica non definita
+
+#Dialog Strings
+DialogActionButtonFinish : Fine
+DialogActionButtonClose : Chiudere
+DialogActionButtonBack: Indietro
+DialogActionButtonNext: Prossimo
+DialogActionButtonSaveAndClose : Salva e Chiudi
+DialogActionButtonCloseWithoutSave : Chiudi (senza salvare)
+DialogOk: Ok
+DialogCancel: Annulla
+DialogYes: Si
+DialogNo: 'No'
+DialogConfirm : Conferma
+DialogSubmit : Invia
+
+#AssembleMirrorPageOptions Dialog
+DialogAssembleMirrorOptionsTitle: Opzioni Generali
+RetailModeOptions : Opzioni modalità vendita al dettaglio
+Multiplier : Moltiplicatore
+MultiplierHelpText1 : Moltiplicatore prezzo di catalogo (es. 100.00 =>
+MultiplierHelpText2 : Tutti i prezzi di catalogo vengono moltiplicati per questo numero
+MaxRetailDiscount : Sconto massimo
+MaxRetailDiscountHelpText : Lo Sconto Massimo Applicabile alle Offerte in Modalità Retail
+MinRetailDiscount : Sconto minimo
+MinRetailDiscountHelpText : Lo Sconto Minimo alle Offerte in Modalità Retail
+RetailTheme : Theme Retail
+RetailThemeHelpText : Definisce i parametri per il tema della modalità Retail
+
+#Ready Dialog
+DialogFixedSizeMirror : Specchi da Catalogo
+DialogReadyTitle : Catalogo Modelli
+DialogReadySelectDrawCaption: Seleziona un Modello dalla lista
+NoMirrorsFound: "Nessuno specchio corrisponde ai tuoi criteri"
+NoMirrorsFoundDescription: "Non siamo riusciti a trovare specchi che corrispondano alle impostazioni dei filtri attuali. Prova a modificare i filtri o la ricerca."
+SearchTips: "Prova questi suggerimenti"
+SearchTip1: "Rimuovi o modifica uno o più filtri"
+SearchTip2: "Prova un termine di ricerca più generico"
+SearchTip3: "Controlla se ci sono errori di ortografia nella tua ricerca"
+SearchTip4: "Prova a cercare per codice prodotto o dimensioni"
+ClearAllFilters: "Cancella tutti i filtri"
+
+#Shape Dialog
+DialogShapeTitle: Scegli Forma
+
+#Light Dialog
+DialogLightTitle: Scegli Luce
+CommonLights : Luci comuni
+AdditionalLights : Luci Aggiuntive
+
+#Dimensions Dialog
+DialogDimensionsTitle: Immettere le quote
+FixedDimensionsLegend : Dimensioni Fisse
+
+#Supports Dialog
+DialogSupportsTitle: Scegli Supporto
+
+#FrameFinish Dialog
+DialogFrameFinishTitle : Scegli finitura del telaio
+PleaseChooseFinishType : Si prega di scegliere il tipo di finitura
+
+#Sandblast Dialog
+DialogSandblastTitle: Scegli Sandblast
+
+#Touch Buttons Dialog
+DialogTouchTitle: Scegli l'interruttore della luce
+DialogTouchFieldsetLegend: Interruttori
+DialogTouchTouchCaption: Interruttore touch on/off
+DialogTouchDimmerCaption: Interruttore dimmer Touch
+DialogTouchSensorCaption: Interruttore sensore di luce
+CannotChangeOptionForThisMirror : Questa opzione non può essere modificata per lo specchio corrente
+
+#Fogs Dialog
+DialogFogTitle: Scegli Antinebbia
+DialogFogFieldsetLegend: Tamponi Antinebbia
+DialogFog16Caption: 16Watt - 29x29cm
+DialogFog24Caption: 24Watt - 29x41cm
+DialogFog55Caption: 55Watt - 51x51cm
+DialogFogTouchCaption : Interruttore di funzionamento
+
+#Magnifyers Dialog
+DialogMagnifyerTitle: Scegli Magnifyer
+DialogMagnifyerFieldsetLegend: Ingrandimenti
+DialogMagnifyerZoomCaption: Ingrandimento x3
+DialogMagnifyerZoomLedCaption: Ingrandimento con la luce
+DialogMagnifyerZoomLedTouchCaption: Luce magnifyer autonomus
+
+#Screen Dialog
+DialogScreenTitle: Scegli Media
+DialogScreenFieldsetLegend: Schermi/Media
+DialogScreenTimeCaption: Orologio-Temprature
+DialogScreenBluetoothCaption: MediaPlayer-Bluetooth
+DialogScreenDisplay11Caption: Radio-MediaPlayer-Orologio-Temprature
+DialogScreenDisplay11BlackCaption : Radio-MediaPlayer-Orologio-Temprature-Dimmer
+DialogScreenDisplay19Caption: Tempo di sincronizzazione meteo di grandi dimensioni
+DialogScreenDisplay20Caption: Tempo di sincronizzazione meteo piccolo
+
+#Various Options Dialog
+DialogVariousTitle: Scegli gli extra
+DialogVariousFieldsetLegend: Extra
+DialogVariousLid: Coperchio posteriore a specchio
+DialogVariousRounding: Bordi sfilettati
+
+#Mirror Descriptions
+Rectangular : Rettangolare
+Circular : Circolare
+Capsule : Capsula
+Ellipse : Εllisse
+Special : Speciale
+Mirror : Specchio
+WithLight : con Luce
+Light : Luce
+WithoutLed : sensa Luce
+WithSandblast : Con sabbiatura
+WithoutSandblast : Sensa sabbiatura
+StoneNS : Pietra
+PebbleND : Ciottolo
+CircleSegment : Segmento di Cerchio
+CircleSegment2 : Segmento di Cerchio(2)
+
+#DiscountBox Strings
+Discount : Sconto
+
+#Validation Error Messages
+ShapeNotSelected : Non hai selezionato la forma
+LengthNotSelected : Lunghezza specchio non selezionata
+MirrorLengthWithin : La lunghezza dello specchio deve essere
+DimensionsNotSet : Dimensioni non impostate
+
+HeightNotSelected : Altezza specchio non selezionata
+MirrorHeightWithin : L'altezza dello specchio deve essere
+
+DiameterNotSelected : Diametro specchio non selezionato
+MirrorDiameterWithin : Il diametro dello specchio deve essere
+
+SandblastNotSelected : Sabbiatura a specchio non selezionata
+SupportNotSelected : Supporto a specchio non selezionato
+LightNotSelected : Specchio con/senza luce non selezionato
+FrameFinishTypeNotSelected : Finitura Cornice non selezionata
+PaintFinishNotSelected : Finitura telaio anodizzato non selezionata
+ElectroplatedFinishNotSelected : Finitura telaio elettrolitico non selezionata
+MaxDimensionsWithVisibleFrame : Le dimensioni massime con cornice visibile sono
+SandblastObligatoryWithLightFrame : Gli Specchi Con Cornice e Luce devono SEMPRE avere una Sabbiatura
+CannotCreateFramedCapsule : L'Applicazione non può ancora creare Specchi Capsula con Cornice
+CannotCreateFramedEllipse : L'Applicazione non può ancora creare Specchi Ellittici con Cornice
+CapsuleCannotHaveSandblast : Specchio Capsula non può avere sabbiatura
+EllipseCannotHaveSandblast : Specchio Ellittico non può avere sabbiatura
+PremiumMirrorsCannotHaveLightsLessThan16W : Per gli specchi Premium, la luce non può essere inferiore a 16W
+
+#Validation Error Codes Messages
+LightWithDoubleSupport : Aggiunto supporto perimetrale. Gli specchi illuminati devono avere una cornice perimetrale o visibile
+LightWithFrontSupport : Aggiunto supporto perimetrale. Gli specchi illuminati devono avere una cornice perimetrale o visibile
+LightWithoutSupport : Aggiunto supporto perimetrale. Gli specchi illuminati devono avere una cornice perimetrale o visibile
+
+LightWithRounding : Arrotondamento rimosso. Non è possibile eseguire l'arrotondamento quando è selezionata la cornice visibile
+
+SimpleRectangularWithSandblast : Design sabbiato rimosso. Gli specchi semplici sono senza sabbiatura illuminata
+SimpleCircularWithSandblast : Design sabbiato rimosso. Gli specchi semplici sono senza sabbiatura illuminata
+
+SimpleWithTouch : Interruttore tattile rimosso. Gli specchi semplici non hanno interruttori della luce
+SimpleWithDimmer : Interruttore dimmer rimosso. Gli specchi semplici non hanno interruttori della luce
+SimpleWithSensor : Sensore rimosso. Gli specchi semplici non hanno interruttori della luce
+
+SimpleWithMagnifyer : Lente d'ingrandimento rimossa. Lo specchio necessita di supporto perimetrale o cornice per selezionare una lente d'ingrandimento
+SimpleWithMagnifyerLed : Lente d'ingrandimento con luce rimossa. Lo specchio selezionato è senza luce
+SimpleWithMagnifyerLedTouch : Lente d'ingrandimento con luce rimossa. Lo specchio selezionato è senza luce
+
+SimpleWithLid : Coperchio rimosso. Solo le Cornici Perimetrali o Visibili possono avere un Coperchio
+SimpleWithRounding : Arrotondamento rimosso. Non è possibile eseguire l'arrotondamento quando è selezionata la cornice visibile
+
+SimpleWithFog16 : Antinebbia rimosso. Il supporto dello specchio dovrebbe essere una cornice perimetrale o visibile o un supporto doppio per selezionare questa opzione
+SimpleWithFog24 : Antinebbia rimosso. Il supporto dello specchio dovrebbe essere una cornice perimetrale o visibile o un supporto doppio per selezionare questa opzione
+SimpleWithFog55 : Antinebbia rimosso. Il supporto dello specchio dovrebbe essere una cornice perimetrale o visibile o un supporto doppio per selezionare questa opzione
+SimpleWithFogSwitch : Interruttore autonomo (antinebbia) rimosso. Gli specchi semplici non possono avere interruttori
+
+SimpleWithClock : Orologio rimosso. I mirror semplici non possono avere dispositivi multimediali
+SimpleWithBluetooth : Bluetooth rimosso. I mirror semplici non possono avere dispositivi multimediali
+SimpleWithDisplay11 : Display11 rimosso. I mirror semplici non possono avere dispositivi multimediali
+SimpleWithDisplay19 : Display19 rimosso. I mirror semplici non possono avere dispositivi multimediali
+SimpleWithDisplay20 : Display20 rimosso. I mirror semplici non possono avere dispositivi multimediali
+
+SimpleCircularCapsulePerimetrical : Sostegno Perimetrale rimoso per i Specchi Circolari/Capsule/Ellissi
+
+CircularWithFrame : Specchi Circolari con Cornice Visibile Disponibili solo nelle Dimensioni  40,50,60,70,80,90,100,110,120cm
+CircularWithFrameNoLightSandblastN9 :  Specchio Circolare con Cornice non può avere alcun tipo di Sabbiatura
+CircularWithFrameWithLightSandblastN6 : Specchio Circolare con Luce e Cornice è disponibile SOLO CON Sabbiatura Perimetrale
+FinishTypeWithoutFrame : Finitura cornice rimossa. Hai cambiato il supporto a supporto non visibile
+
+#CodeTextValiation Error Messages
+InvalidLengthInput: Lunghezza prevista >4 caratteri
+InvalidCodeInput : Il codice fornito non è valido
+
+#Draw Page
+FrontDraw : Disegno frontale
+RearDraw : Disegno indietro
+ShowBoundaryButton : Mostra confine , di Opzioni specchio
+SideDraw : Disegno laterale
+
+#Collision Messages
+ChangeExtrasOrDimensions : Si prega di rimuovere uno specchio extra o aumentare le dimensioni dello specchio
+SelectedExtrasAreOutOfBounds : Gli extra selezionati non possono stare sullo specchio, per ulteriori informazioni, vedere il sorteggio
+MagnifyerDraw : Magnifyer
+MagnifyerSandblastDraw: Magnifyer
+TouchDraw : Touch
+TouchFogDraw : Touch
+DimmerDraw : Dimmer
+SensorDraw : Sensor
+Fog16WDraw : Antinebbia
+Fog24WDraw : Antinebbia
+Fog55Draw : Antinebbia
+Display11Draw : Display11
+Display19Draw : Display19
+Display20Draw : Display20
+ClockDraw : Clock
+GlassDraw : Mirror
+VisibleFrameDraw : Frame
+PerimetricalSupportDraw : Perim.Support
+DoubleSupportDraw : Double Support
+SingleSupportDraw : Single Support
+SandbastDraw : Sandblast
+ExtrasAreaDraw : Area disponibile dello specchio
+NotAvailableSpaceFor : Spazio non disponibile per
+
+#MessageBox Messages
+MirrorNotCompleteMessage : Le opzioni selezionate per lo specchio sono incomplete o non possibili
+MirrorNotCompleteTitle : Specchio incompleto
+MirrorDrawNotAvailableMessage : (In Costruzione) I disegni per questa serie non sono ancora disponibili nell'Applicazione
+MirrorDrawNotAvailableTitle : Disegno Non Disponibile
+
+
+
+
+
+
+#CABINS PAGE
+
+#Selection Starting Buttons Grid
+CreateCabin: Doccia Personalizzata
+CabinCatalogueModels: Modelli di Catalogo
+EnterCabinCode: Inserire SKU
+
+#OpeningDialog
+OpeningsWindowTitle: Αpertura
+
+#SlidingTypeDialog
+SlidingTypeWindowTitle: Scorrevole
+
+#FoldingTypeDialog
+FoldingTypeWindowTitle: Scegli Porta
+
+#StandardDoorTypeDialog
+StandardDoorWindowTitle: Scegli Porta
+
+#DoorOnPanelTypeDialog
+DoorOnPanelWindowTitle: Scegli Porta
+
+#FixedPanelTypeDialog
+FixedPanelWindowTitle: Scegli Pannello
+
+#CabinSeriesDialog
+SeriesWindowTitle: Serie
+
+#CabinPanelWindow
+CabinPanelWindowTitle : Modello Selezionato
+SelectionsNeedCorrection : Italian Selezioni che necessitano di correzione
+CabinDrawNotAvailable : Disegno non disponibile per il modello selezionato
+
+#Choose Model Dialog
+DialogChooseB6000Title : Scegli il Μodello
+DialogChooseInox304Title : Scegli il Μodello
+DialogChooseHotel8000Title: Scegli il Μodello
+DialogChooseNiagara6000Title: Scegli il Μodello
+DialogChooseFreeTitle : Scegli il Μodello
+WindowChooseModelTitle : Scegli il Μodello
+
+#Choose CabinDrawNumber
+DialogChooseDrawNumber : Scegli il Disegno
+
+#Cabin Dimensions Panel
+DialogSetCabinDimensionsTitle : Imposta Dimensioni
+FlipDraw: Capovolgere il disegno
+CatalogueDimensions: Dimensioni del catalogo
+
+#Tooltips Dimensions Panel
+9CHeightOnly1850: L'altezza per questo modello può essere solo 1850 mm
+
+
+#SetCabin StepDimensions Dialog
+DialogSetStepDimensionsTitle : Dimensioni Taglio(gradino)
+SideCannotHaveStep: Questo Lato non può avere un taglio di tipo -gradino-
+
+#SetCabinGlassPropertiesDialog
+GlassPropertiesDialogTitle: Scegli Vetro
+
+#Openings Enum Descriptions
+FixedPanels: Pannelli Fissi
+SlidingOpening: Porte Scorrevoli
+StandardDoorOpening: Porte Standard
+DoorOnPanelOpening : Porte su Pannello
+FoldingDoorOpening: Porte a Soffietto
+BathtubPanels : Pannelli Vasca
+
+#SlidingType Enum Descriptions
+SingleSliding: Porta Scorrevole Singola
+SingleSlidingSidePanel: Porta Scorrevole Singola con Pannello Laterale
+SingleSliding2SidePanels : Porta Scorrevole , 2 Pannelli Laterali
+DoubleSliding: Doppie Porte Scorrevoli
+DoubleSlidingSidePanel: Doppie Porte Scorrevoli con Pannello Laterale
+DoubleSliding2SidePanels: Doppie Porte Scorrevoli ,2 Pannelli Laterali
+CornerSliding: Porte Scorrevoli ad Angolo
+CornerSlidingSidePanel : Porte Scorrevoli ad Angolo con Pannello Laterale
+SemicircularSliding: Porte Scorrevoli Semicircolari
+SemicircularSlidingSidePanel : Porte Scorrevoli Semicircolari con Pannello Laterale
+
+#FoldingType Enum Descriptions
+SingleDoor44 : Porta a Soffietto
+SingleDoorSidePanel45 : Porta a Soffietto - Pannello laterale
+DoubleDoorCorner46 : Porta a Soffietto Doppia ad Angolo
+SingleDoorStraightPanel47 : Porta a Soffietto - Pannello extra
+DoubleDoorStraight48 : Porta a Soffietto Doppia
+
+#StandardDoorType Enum Descriptions
+Door3151 : Porta Singola
+DoorSidePanel3252 : Porta con Pannello Laterale
+DoubleCornerDoor3353 : Porta ad angolo Doppia
+DoorStraightPanel3859 : Porta - Pannello extra
+DoubleDoor4161 : Doppia Porta
+
+#DoorOnPanel Enum Descriptions
+Door34 : Porta Singola
+DoorSidePanel35 : Porta con Pannello Laterale
+DoubleCornerDoor37 : Porta ad angolo Doppia
+DoorStraightPanel40 : Porta - Pannello extra
+DoubleDoor43 : Doppia Porta
+
+#FixedTypePanel Enum Descriptions
+WallPanel : Pannello a Parete
+FreeStandingPanel : Pannello Libero
+PanelWithFlipper81 : Panello e Porta Piccola
+DoubleWallPanel82 : Disegno 82
+DoubleAngularPanel84 : Disegno 84
+DoublePanel85 : Disegno 85
+TriplePanel88 : Disegno 88
+
+#Cabin Series Enum Descriptions
+Bronze6000 : Bronze 6000
+Inox304 : Inox 304
+Smart : Smart Free
+Niagara6000 : Niagara 6000
+Hotel8000 : Hotel 8000
+Free : Free
+
+#Cabin Model Enum Descriptions
+Model9A : Scorrevole ad angolo 9A
+Model9S : Porta Scorrevole 9S
+Model94 : Doppie Porte Scorrevoli 94
+Model9F : Pannello Laterale 9F
+Model9B : Porta a Bilico 9B
+ModelW : Pannello Fisso W
+ModelHB : Porta su Pannello HB
+ModelNP : Porta Pieghevole NP
+ModelVS : Porta Scorrevole VS
+ModelVF : Pannello Laterale VF
+ModelV4 : Doppie Porte Scorrevoli V4
+ModelVA : Scorrevole ad angolo VA
+ModelWS : Porta Scorrevole WS
+ModelE : Pannello Libero E
+ModelWFlipper : Lato Ribaltabile FL
+ModelDB : Porta DB
+ModelNB : Porta NB
+ModelNV : Pannello Mobile per vasca NV
+ModelMV : Pannello Mobile per vasca MV
+ModelNV2 : Pannello Mobile per vasca NV2
+Model6WA : Pannello con lato Ribaltabile 6WA
+Model9C : Scorrevole Semicircolare 9C
+Model8W40 : Pannello Fisso per vasca
+ModelGlassContainer : Vetro di ricambio
+ModelQB : Porta QB
+ModelQP : Porta Pieghevole QP
+
+#CabinFinishEnum Descriptions
+Polished: Cromo
+Brushed : Argento
+BlackMat : Nero
+WhiteMat : Bianco
+Bronze : Bronzo
+BrushedGold : Oro spazzolato
+Gold : Oro
+Copper : Rame
+SpecialColor : Colore Speciale
+NotSet : Non definito
+
+#CabinThicknessesEnum Descriptions
+Thick5mm : 5mm
+Thick6mm : 6mm
+Thick8mm : 8mm
+Thick10mm : 10mm
+ThickTenplex10mm : Tenplex 10mm
+Thick6mm8mm : 6-8mm
+Thick8mm10mm : 8-10mm
+
+#GlassFinishEnum Descriptions
+Transparent : Trasparente
+Satin : Satinato
+Serigraphy : Serigrafia
+Fume : Fume
+Frosted : Glassato
+SpecialFinish : Speciale
+
+#CabinDrawNumber Enum Descriptions
+DrawNone: Non disponibile
+Draw9S: Porta Scorrevole 9S
+Draw9S9F: Scorrevole 9S - Pan.Laterale 9F
+Draw9S9F9F : Scorrevole 9S -Pan.Laterali 9F
+Draw94 : Porte Scorrevoli 94
+Draw949F : Porte Scorrevoli 94 - Pan.Laterale 9F
+Draw949F9F : Porte Scorrevoli 94 - Pan.Laterali 9F
+Draw9A : Scor.Angolare 9A
+Draw9A9F : Scor.Angolare 9A - Pan.Laterale 9F
+Draw9C : Semicircolare 9C
+Draw9C9F : Semicircolare 9C - Pan.Laterale 9F
+Draw9B : Porta 9B
+Draw9B9F : Porta 9B - Pan. Laterale 9F
+Draw9B9F9F : Porta 9B - Pan.Laterali 9G
+DrawVS : Porta Scorrevole VS
+DrawVSVF : Porta Scorrevole VS - Pan.Laterale VF
+DrawV4 : Porte Scorrevoli V4
+DrawV4VF : Porte Scorrevoli V4 - Pan.Laterale VF
+DrawVA : Scor.Angolare VA
+DrawWS : Scorrevole WS
+DrawNP44 : Disegno 44
+Draw2CornerNP46 : Disegno 46
+Draw2StraightNP48 : Disegno 48
+DrawCornerNP6W45 : Disegno 45
+DrawStraightNP6W47 : Disegno 47
+DrawNB31 : Disegno 31
+DrawCornerNB6W32 : Disegno 32
+Draw2CornerNB33 : Disegno 33
+DrawStraightNB6W38 : Disegno 38
+Draw2StraightNB41 : Disegno 41
+DrawDB51 : Disegno 51
+DrawCornerDB8W52 : Disegno 52
+Draw2CornerDB53 : Disegno 53
+DrawStraightDB8W59 : Disegno 59
+Draw2StraightDB61 : Disegno 61
+DrawHB34 : Disegno 34
+DrawCornerHB8W35 : Disegno 35
+Draw2CornerHB37 : Disegno 37
+DrawStraightHB8W40 : Disegno 40
+Draw2StraightHB43 : Disegno 43
+Draw8W : Panello Fisso W
+DrawE : Panello Libero E
+Draw8WFlipper81 : Pannello W e Porta Piccola FL
+Draw2Corner8W82 : Disegno No82
+Draw1Corner8W84 : Disegno No84
+Draw2Straight8W85 : Disegno No85
+Draw2CornerStraight8W88 : Disegno No88
+Draw8W40 : Pannello Fisso
+DrawMV2 : Doppio Pannello Pieghevole - Cerniere
+DrawNV2 : Doppio Pannello Pieghevole - Alluminio
+DrawNV : Pannello Mobile Singolo
+DrawQP44 : Disegno 44
+Draw2CornerQP46 : Disegno 46Q
+Draw2StraightQP48 : Disegno 48Q
+DrawCornerQP6W45 : Disegno 45Q
+DrawStraightQP6W47 : Disegno 47Q
+DrawQB31 : Disegno 31Q
+DrawCornerQB6W32 : Disegno 32Q
+Draw2CornerQB33 : Disegno 33Q
+DrawStraightQB6W38 : Disegno 38Q
+Draw2StraightQB41 : Disegno 41Q
+
+#DimensionMeasureNames
+9ALength1 : Lato Scorr.1
+9SLength1 : Porta Scorr.
+94Length1 : Porte Scorr.
+9FLength1 : Pan.Laterale
+9BLength1 : Porta
+WLength1  : Pan.Fisso
+HBLength1 : Porta HB
+NPLength1 : Porta Piegh.
+VSLength1 : Porta Scorr.
+VFLength1 : Pan.Laterale
+V4Length1 : Porte Scorr.
+VALength1 : Lato Scorr.
+WSLength1 : Porta Scorr.
+ELength1  : Pan.Libero
+WFlipperLength1 : Porta piccola
+DBLength1 : Porta
+NBLength1 : Porta
+NVLength1 : Porta
+MVLength1 : Porta
+NV2Length1 : Porta
+6WALength1 : Porta
+9CLength1 : Lato Semic.
+8W40Length1  : Pan.Fisso
+
+9ALength2 : Lato Scorr.2
+9SLength2 : N/A
+94Length2 : N/A
+9FLength2 : Pan.Laterale
+9BLength2 : N/A
+WLength2  : Pan.Fisso2
+HBLength2 : Porta HB 2
+NPLength2 : Porta Piegh.2
+VSLength2 : N/A
+VFLength2 : Pan.Laterale
+V4Length2 : N/A
+VALength2 : Lato Scorr.2
+WSLength2 : N/A
+ELength2  : Pan.Libero
+WFlipperLength2 : Porta piccola
+DBLength2 : Porta2
+NBLength2 : Porta2
+NVLength2 : Porta2
+MVLength2 : Porta2
+NV2Length2 : Porta2
+6WALength2 : Porta2
+9CLength2 : Lato Semic.2
+8W40Length2  : N/A
+
+9ALength3 : N/A
+9SLength3 : N/A
+94Length3 : N/A
+9FLength3 : Pan.Laterale2
+9BLength3 : N/A
+WLength3  : Pan.Fisso3
+HBLength3 : N/A
+NPLength3 : N/A
+VSLength3 : N/A
+VFLength3 : N/A
+V4Length3 : N/A
+VALength3 : N/A
+WSLength3 : N/A
+ELength3  : Pan.Libero2
+WFlipperLength3 : Porta piccola2
+DBLength3 : N/A
+NBLength3 : N/A
+NVLength3 : N/A
+MVLength3 : N/A
+NV2Length3 : N/A
+6WALength3 : N/A
+9CLength3 : N/A
+8W40Length3  : N/A
+StepLength : Gradino Lung.
+StepHeight : Gradino Alt.
+
+#CabinExtraType Enum Descriptions
+StepCut : Taglio (gradino)
+SafeKids : SafeKids
+BronzeClean : BronzeClean
+StepCutFullDesc : Il vetro assumerà la forma di un -Gradino- in uno dei suoi bordi
+SafeKidsFullDesc : Il vetro non si disperde in caso di rottura
+BronzeCleanFullDesc : Protezione dai sali, pulizia più facile, (superficie idrofobica)
+GlassTreatments : Trattamenti del vetro
+
+#Cabin & Mirrors & Accessories PricingRules Names Keys
+AppliedDiscountRules: Calcoli
+SpecialDimensionCalculations: Calcoli prezzo aggiunto
+IrregularThicknessCalculations : Calcoli vetro spes.
+CalculatedPrice : Totale calcolato
+BronzeCleanRule: BronzeClean Prezzo
+CabinBasePriceRule: Prezzo Base
+CabinFinishPriceRule: Prezzo Finitura
+CabinSpecialDimensionRule: Speciale Dimens.Dif.
+IrregularGlassThicknessRule : Vetro Spesore sp.
+ClientDiscountPriceRule: Sconto di Base
+DiscountPriceRule: Sconto di Base
+CabinExtraDiscountRule: Sconto extra
+SafeKidsPriceRule: SafeKids Prezzo
+StepCutPriceRule: Prezzo Base
+CabinExceededSQMRule : Grande Dimensione
+ExtraHingePriceRule : Gran.Dimens.Cerniere
+CabinPartPricingRule : Prezzo Base parte
+IncreasePriceRule : Aumento al dettaglio
+CustomMirrorPriceRule : Personaliz.Specchio Base
+CatalogueMirrorPriceRule : Specchio da Catalogo
+SandblastPriceRule : Prezzo Base Sabbiatura
+LightingPriceRule : Prezzo Base Luce
+MirrorSupportPriceRule : Prezzo Base Supporto
+MirrorExtraPriceRule : Prezzo Base Opzione
+CapsuleMirrorPriceRule : Elaborazione Capsula
+CircularMirrorPriceRule : Elaborazione Circolare
+EllipseMirrorPriceRule : Elaborazione Ellisse
+SecondaryDiscountRule : Sconto Secondario
+TertiaryDiscountRule : Sconto Terziario
+AccessoryBasePriceRule: Prezzo Catalogo
+CustomStartingPriceRule : Prezzo Iniziale Personalizzato
+ExtraDiscountRule : Sconto Agg.
+
+#CalculationsDescriptors
+OriginalPrice : Prezzo Base
+IncreaseFactor: Agg.Fattore
+OriginalSQM : Base m²
+CurrentSQM : Attuali m²
+OriginalPricePerSQM : Base Prezzo/m²
+CurrentPricePerSQM : Attuale Prezzo/m²
+CurrentPrice : Prezzo attuale
+MinimumPrice : Prezzo Min
+AddedPrice : Costo aggiunto
+FixedGlass : Vetro fisso Dim.
+CabinSQM : Cabina m²
+TotalSQM : Totale m²
+PremiumPerSQM : Costo aggiunto/m²
+
+#Cabins Validation ErrorCodes
+InvalidCabinModel: Il modello non è selezionato
+InvalidCabinMetalFinish: La finitura in metallo selezionata non è disponibile per questo modello
+InvalidCabinThickness: Lo spessore del vetro selezionato non è disponibile per questo modello
+CurrentDimensionsNeedBiggerThickness : Le dimensioni selezionate richiedono uno spessore del vetro maggiore
+InvalidCabinGlassFinish: La finitura del vetro selezionata non è disponibile per questo modello
+InvalidCabinLength: Selected Length is out of Range for this Model
+InvalidCabinHeight: L'altezza selezionata non rientra nell'intervallo per questo modello
+MissingStepDimension: L'altezza o la lunghezza del taglio a gradino non sono selezionate
+StepHeightLessThanMinimum: L'altezza di taglio a gradino selezionata è troppo bassa
+StepDimensionsExceedCabin: Le dimensioni del taglio a gradino selezionate superano le dimensioni della cabina
+9BWithoutFixedCannotHaveStep: Per la lunghezza selezionata (il modello avrà una sola porta) il taglio a gradino non è disponibile
+CannotHaveStep: Il modello selezionato non può avere un taglio a gradino
+Cabin9CSerigraphyOutOfRangeLength: Il vetro non trasparente è disponibile per questa configurazione solo per le dimensioni del catalogo
+Cabin9CStepWithoutTransparentGlass: Il taglio a gradino è disponibile solo per vetro trasparente per il modello selezionato
+SafeKidsCannotBeAppliedOnSatinGlass: La protezione Safekids non può essere applicata su vetro satinato/glassato
+WithoutHandleError: Il modello selezionato non può essere senza maniglia
+WithoutCloserError : Modello selezionato Non può essere senza chiusura
+CloseProfileWithoutHandle: I modelli con profilo chiuso non possono essere senza maniglia
+WithoutMiddleHinge : Modello selezionato Non può essere senza meccanismo di rotazione intermedio
+PerimetricalFrameWithRounding : Le strutture con cornice perimetrale non possono avere vetri arrotondati
+
+#CabinDirection Enum Keys
+CabinDirectionUndefined : Qualsiasi direzione (Sinistra-Destra)
+CabinDirectionLeftSided : Direzione Sinistra
+CabinDirectionRightSided : Direzione Destra
+
+#CabinExtraOptions Selections
+Handles : Maniglie
+BottomFixer : Fissaggio inferiore
+MiddleHinge : Meccanismo intermedio
+Closure : Chiusura magnetica
+WallFixer : Fissaggio a parete
+PerimetricalFrameSelection : Cornice perimetrale
+
+#Saved-Recents Component
+RecentSynthesis: Recenti
+SavedSynthesis: Salvati
+FailedLoadingRecents: Caricamento delle selezioni recenti non riuscito
+FailedLoadingSaved : Caricamento delle selezioni salvati non riuscito
+SavedListEmpty : Le selezioni salvate sono vuote
+RecentsListEmpty : Le selezioni recenti sono vuote
+CabinSynthesisFromRecentTable : Sintesi cabina doccia creata da recenti/salvati
+ErrorGeneratingSynthesisFromRecentTable : Impossibile generare la sintesi della cabina dai recenti/salvati
+SaveSynthesisTooltip: Salva selezione su recenti
+SaveSynthesisButton : Salva selezione
+FailedToSaveCabinSelection : Salva selezione fallito...
+SavedSelectionAlreadyExists : La selezione è già stata salvata...
+CabinSelectionSaved : La selezione è stata salvata nei recenti
+RecentsSavedButton : Recenti/Salvati
+
+#Tooltips
+HeavyDutyPackingTooltip: Imballaggio Resistente
+Wheels8x8Tooltip1 : Doppie Ruote
+Wheels8x8Tooltip2 : Supporto a due fori
+Wheels8x8Tooltip3 : Struttura interna in metallo
+Wheels8x8Tooltip4 : Cuscinetti Inox304
+ReversibleTooltip : Questa doccia è reversibile
+MadeInGreeceTooltip : Prodotto in Grecia
+
+#Print Templates Keys
+PerimetricalAluminium : Cornice Perimetrale
+HandleGuide : Maniglia e Guida
+SupportBar : Supporto
+SupportBarHeavyDuty : Supporto Robusto
+TwoSupportBars : Supporti
+FloorAluminium : Profilo nel Fondo
+PerimetricalFrame : Profilo perimetrale
+AdjustmentProfile : Profilo di Regolazione
+HeavyDutyProfile : Profilo Robusto
+Clamps : Supporti
+GlassClamps : Supporti in Mezzo
+Hinges : Meccanismi di rotazione
+InΒetweenHinges : Meccanismi in Mezzo
+InΒetweenHingeAluminium : Meccanismo in Mezzo
+HeavyDutyHinges : Meccanismi Robusti
+HeavyDutyMechanism : Meccanismo Robusto
+AluminiumHinge : Meccanismo di rotazione Robusto
+HiddenMagnetClosure : Magnete coperto
+MagnetClosure : Chiusura magnetica
+BumperClosure: Chiusura Paraurti
+
+#CabinPartTypeEnum
+Undefined: Undefined
+GenericPart : Componente
+Handle : Maniglia
+Hinge: Cerniera
+Profile: Profilo
+MagnetProfile: Profilo magnetico
+HingeProfile: Profilo cerniera
+FloorStopper: Supporto nel Fondo
+BarSupport: Barra di supporto
+SmallSupport: Piccolo supporto
+Strip : Striscia da Vetro
+AnglePart: Parte angolare
+WallRotationMechanism : Meccanismo di Rotazione
+
+#CabinHandleTypeEnum
+SingleHandle: Maniglia Singola
+DoubleHandle: Maniglia Doppia
+SingleKnob: Manopola Singola
+DoubleKnob: Doppia Manopola
+HandleKnob: Maniglia-Manopola
+
+#CabinStripTypeEnum
+PolycarbonicMagnet: Striscia magnetica
+PolycarbonicBumper: Striscia di arresto
+
+#Material Type Enum
+MaterialAluminium: Alluminio
+MaterialInox304: Inox304
+MaterialInox316: Inox316
+MaterialInox430: Inox430
+MaterialBrass: Ottone
+MaterialZink: Ζinco
+MaterialAbs: Abs
+MaterialPlastic: Plastica
+MaterialMetallic: Metallico
+MaterialPolycarbonic: Policarbonato
+Other: Altro
+
+#Accessories Selection Page
+NavigateBySeries : Serie di Accessori
+NavigateByType : Tipi di accessori
+NavigateAll : Tutti gli accessori
+AvailableFinishes : Finiture disponibili
+DownloadPdfSheet : Scarica Scheda Tecnica
+SheetNotAvailable : Scheda tecnica non disponibile
+SeeMore : Vedi altro
+
+#CabinCodeValidationErrors
+EmptyCabinCode : Codice cabina vuoto
+CodeLessThan2Chars : Codice con meno di due cifre
+WrongModelCode : Codice modello non valido (cifre 1-2)
+WrongLength: Lunghezza non valida (cifre 3-4)
+OnlyDashAllowed5 : Solo '-' (cifra 5)
+WrongFinishCode: Finitura non valida (cifra 6)
+WrongGlassFinishCode : Finitura del vetro non valida (cifra 7)
+OnlyDashAllowed8 : Solo '-' (cifra 8)
+WrongHeight : Altezza non valida (cifre 9-10)
+Wrong11Digit : Cifra 11 non valida
+Wrong12Digit : Cifra 12	non valida
+Wrong13Digit : Cifra 13	non valida
+CodeAbove13Chars : Codice non Valido > 13 cifre
+CodeGenerationFailed : Generazione doccia dal codice non riuscita
+CabinFromCodeGeneration: Codice generato Doccia riuscita
+UnrecognizedCabin : Cabina non riconosciuta
+InvalidCabinCode : Codice non riconosciuto
+
+#AccessoryCardDialog
+DownloadImage : Scarica immagine
+PleaseLoginToDownload: Si prega di accedere per scaricare
+
+#TEST TRANSLATIONS
+SelectOption : Selezionare l'opzione
+
+#Accessories Strings
+CodeFilter : Filtro codice
+ViewOptions : Opzioni Vista
+FilterOptions : Filtro
+AccessoriesGroupsFilter : Filtri
+All: Tutto
+Finishes : Finiture
+NoResultsFound : Nessun Risultato
+ArticleNo: Articolo
+Series : Serie
+SelectedFinishPref: Selezionata
+AccessorySheet: Scheda Accessorio
+LoadMore: Carica Altri
+RemainingItems : Articoli Rimanenti
+PrintItemSheet : Scheda articolo
+Photos : Foto
+
+#Basket Page Strings
+RemoveBasketItem : Rimuovi Articolo
+RemoveBasketItemMessage: Desidera rimuovere questo articolo?
+InitialPrice: Prezzo Iniziale
+Initial1Price: Prezzo
+Initial2Price: Initiale
+MainDiscount: Scotno Base
+SecondaryDiscount : Sconto Secondario
+TertiaryDiscount : Sconto Terziario
+TotalDiscount : Sconto Totale
+NetPricePerPiece : Prezzo Neto / pz
+TotalNetPrice : Prezzo Neto Totale
+TotalNetPriceWithVat : Prezzo Totale con IVA
+Info: Informazioni
+Discounts : Sconti
+AddToQuoteBasket : Aggiungi al Carrello
+QuoteBasket: Carello Preventivi
+SeeMoreDetails : Più dettagli
+QuoteBasketIsEmpty: Il tuo Carrello Preventivi è attualmente vuoto. 
+PleaseAddProductsToBasket: Si prega di aggiungere alcuni prodotti per procedere con la creazione di un preventivo.
+Quantity: Quantita
+AccessoryAddSuccess: Aggiunto al Carrello
+Pcs: Pz
+pcs: pz
+pc: pz
+CataloguePriceMin : Di Catalogo
+CustomPriceMin : Custom
+FirstDisc : 1o
+SecondDisc : 2o
+ThirdDisc : 3o
+Add: Aggiungi
+RestoreCataloguePrice: Ripristina il prezzo del catalogo
+RestoreDiscountsToDefaults: Ripristina Sconti ai Valori Predefiniti
+DefaultDiscountsMin : Defaults
+CustomDiscountsMin : Custom
+ManualDiscount : Sconto Manuale
+RulesDiscount : Sconto Regole
+OverwriteBasket : Esiste già una voce con lo stesso nome del preventivo del cestino. Vuoi sovrascriverlo?
+BasketSaveError : Si è verificato un errore durante il salvataggio del cestino. Si prega di riprovare.
+BasketRetrievalError : Si è verificato un errore durante il recupero dell'elenco dei cestini salvati. Si prega di riprovare.
+SavedBaskets : Preventivi Salvati
+SaveBasket : Salva Preventivo
+ThereAreNoSavedBaskets : Non ci sono preventivi salvati da visualizzare
+BasketName : Preventivo Nome
+InputName : Inserire il nome
+Date : Data
+BasketItemsQuantity : Quantità Totale
+BasketRestored: Preventivo Ripristinato
+RetrieveBasket : Carica preventivo
+DeleteBasketQuestion : Sei sicuro di voler eliminare questo preventivo?
+ClearBasket : Svuota il preventivo
+ExceptionRulesEnabled : Regole attive
+ExceptionRulesDisabled : Regole disattivate
+
+UneditablePricesRulesActive : Regole Attive. Disattivale per la Modifica.
+AcceptChanges: Conferma
+ScrapChanges: Annulla
+Quote: Offerta
+ImagesEnabled: Immagini Abilitate
+ImagesDisabled: Immagini Disabilitate
+WithoutExtraDiscounts : Sensa Sconto
+SheetsIncludedInQuote : I fogli tecnici sono allegati al preventivo
+SheetsNotIncludedInQuote : Senza allegato di fogli tecnici
+ClearDiscountsQuestion : Sei sicuro di voler rimuovere tutti gli sconti dagli articoli nella Tabella al Dettaglio?
+ClearRetailDiscounts : Elimina Sconti al Dettaglio
+DisablesRules : Disattiva le Regole di Prezzo per tutti gli articoli della tabella
+SetsCataloguePrice : Imposta il Prezzo di Catalogo per tutti gli articoli della tabella
+ClearsDiscounts : Azzera gli Sconti su tutti gli articoli della tabella (0%)
+DoYouWantToContinue: Vuoi continuare?
+RevertsPricingToDefault : Ripristina Prezzi, Sconti e Regole ai Valori Predefiniti
+AdditionalDiscount : Sconto Aggiuntivo
+AdditionalDiscountMin : Sconto Agg.
+RemoveLine : Rimuovi Riga
+EditLine : Modifica Riga
+ApplySelectedDiscountToAllItems : Applica lo sconto selezionato a tutti gli articoli
+OtherOptions : Altre opzioni
+SelectedOptionsAreEmptyPrompt : Non sono stati selezionati Set di Regole. Selezionare prima un Set di Regole.
+ApplyNewOptions : Applica le Regole Selezionate
+ApplyNewOptionsQuestion1 : Vuoi cambiare le regole di sconto? A Regole =>
+ApplyNewOptionsQuestion2 : -------- MODIFICHE --------
+ApplyNewOptionsQuestion3 : 1. Prezzi iniziali per gli articoli soggetti alle regole all'ingrosso
+ApplyNewOptionsQuestion4 : 2. Sconti per gli articoli soggetti alle regole all'ingrosso
+ApplyNewOptionsQuestion5 : 3. Prezzi iniziali per gli articoli con prezzi di catalogo al dettaglio
+ApplyNewOptionsQuestion6 : 4. Prezzi finali per tutti gli articoli all'ingrosso e al dettaglio.
+SelectRuleSets : Selezione - Regole di Prezzo
+SelectedRules : Regole Selezionate  
+QuoteNotes : Offerta Appunti
+AutoPriceOff : Auto Prezzo Off
+AutoPriceOn : Auto Prezzo On
+Others : Altre
+AddAccessoriesByCode: Aggiungi prodotti per SKU
+PleaseSelectAnAccessoryFirstPrompt : Nessun accessorio è stato selezionato. Si prega di selezionarne uno prima di procedere.
+NewTryMe : Nuovo! Prova mi!
+CannotDisplayThisPageinSmallScreens : La gestione del carrello è disponibile solo su schermi più grandi.
+MoreOptions : Altre Opzioni
+CopyTable : Copia Tabella
+TableCopied : Tabella Copiata
+CloseEditsBeforeCopyMessage : Si prega di chiudere eventuali modifiche aperte nelle righe prima di procedere con la copia della tabella
+AllAccessoriesReport : Rapporto Accessori
+ReportGenerated : Rapporto Generato
+CreatingFilterableTable... : Creazione di Tabella Filtrabile...
+CreatingPriceables... : Creazione di Elementi Prezzabili...

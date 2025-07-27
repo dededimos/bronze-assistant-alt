@@ -1,0 +1,121 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.MirrorObjectsViews.MirrorModulesViews.ResistancePadModuleInfoViewUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.MirrorObjectsViews.MirrorModulesViews"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels.MirrorsViewModels.ModulesViewModels"
+             xmlns:vw="clr-namespace:BronzeFactoryApplication.Views.HelperViews"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:mirrElements="clr-namespace:MirrorsLib.MirrorElements;assembly=MirrorsLib"
+             xmlns:globalCommands="clr-namespace:BronzeFactoryApplication.Helpers"
+             xmlns:EnumSource="clr-namespace:BronzeFactoryApplication.Helpers.MarkupExtensions"
+             xmlns:mirrorEnum="clr-namespace:MirrorsLib.Enums;assembly=MirrorsLib"
+             xmlns:shapes="clr-namespace:ShapesLibrary.ShapeInfoModels;assembly=ShapesLibrary"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=vm:ResistancePadModuleEditorViewModel}">
+    <Grid>
+        <hc:UniformSpacingPanel Spacing="20"
+                                ChildWrapping="Wrap">
+            <vw:TasNumericTextBox Text="{Binding Watt}"
+                                  TextBoxTitle="{StaticResource lngPowerableWatt}"
+                                  IconTooltip="{StaticResource lngPowerableWattTooltip}"
+                                  Precision="0"
+                                  JustPositiveInput="True"
+                                  InputMode="DigitInput"
+                                  MaxLength="4" />
+            <vw:TasNumericTextBox Text="{Binding MinDistanceFromSupport}"
+                                  TextBoxTitle="{StaticResource lngPositionableMinDistanceFromSupport}"
+                                  IconTooltip="{StaticResource lngPositionableMinDistanceFromSupportTooltip}"
+                                  Precision="0"
+                                  JustPositiveInput="True"
+                                  InputMode="DigitInput"
+                                  MaxLength="4" />
+            <vw:TasNumericTextBox Text="{Binding MinDistanceFromSandblast}"
+                                  TextBoxTitle="{StaticResource lngPositionableMinDistanceFromSandblast}"
+                                  IconTooltip="{StaticResource lngPositionableMinDistanceFromSandblastTooltip}"
+                                  Precision="0"
+                                  JustPositiveInput="True"
+                                  InputMode="DigitInput"
+                                  MaxLength="4" />
+            <vw:TasNumericTextBox Text="{Binding MinDistanceFromOtherModules}"
+                                  TextBoxTitle="{StaticResource lngPositionableMinDistanceFromOtherModules}"
+                                  IconTooltip="{StaticResource lngPositionableMinDistanceFromOtherModulesTooltip}"
+                                  Precision="0"
+                                  JustPositiveInput="True"
+                                  InputMode="DigitInput"
+                                  MaxLength="4" />
+            <CheckBox Content="{StaticResource lngNeedsTouchButton}"
+                      ToolTip="{StaticResource lngNeedsTouchButtonTooltip}"
+                      IsChecked="{Binding NeedsTouchButton}" />
+
+            <hc:UniformSpacingPanel Spacing="20" ItemVerticalAlignment="Center">
+                <DockPanel>
+                    <vw:TasComboBox ItemsSource="{Binding AcceptedShapeTypes}"
+                                    ComboBoxTitle="{StaticResource lngShape}"
+                                    IconToolTip="{StaticResource lngShape}"
+                                    SelectedItem="{Binding SelectedDemisterShapeType}"
+                                    DockPanel.Dock="Top"
+                                    Margin="0,0,0,10">
+                        <vw:TasComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding . , Converter={StaticResource languageConverter}}" />
+                            </DataTemplate>
+                        </vw:TasComboBox.ItemTemplate>
+                    </vw:TasComboBox>
+                    <Button Command="{Binding EditResistancePadDimensionsCommand}"
+                            CommandParameter="{Binding DemisterDimensions}"
+                            ToolTip="{StaticResource lngDemisterDimensionsTooltip}"
+                            FontSize="12"
+                            Height="auto"
+                            BorderBrush="{DynamicResource SecondaryBorderBrush}"
+                            BorderThickness="1">
+                        <DockPanel>
+                            <TextBlock DockPanel.Dock="Top"
+                                       TextAlignment="Center">
+                            <Run Text="{StaticResource lngDemisterDimensions}" />
+                            <Run Text="(" />
+                            <Run Text="{Binding DemisterDimensions.ShapeType,Converter={StaticResource languageConverter},Mode=OneWay}" />
+                            <Run Text=")" />
+                            </TextBlock>
+                            <ContentControl Content="{Binding DemisterDimensions}">
+                                <ContentControl.Resources>
+                                    <DataTemplate DataType="{x:Type shapes:RectangleInfo}">
+                                        <TextBlock TextAlignment="Center"
+                                                   Margin="0,3,0,0">
+                                        <Run Text="{Binding Length, Mode=OneWay}" />
+                                        <Run Text=" x " />
+                                        <Run Text=" h" />
+                                        <Run Text="{Binding Height, Mode=OneWay}" />
+                                        <Run Text="mm" />
+                                        </TextBlock>
+                                    </DataTemplate>
+                                    <DataTemplate DataType="{x:Type shapes:CircleInfo}">
+                                        <TextBlock TextAlignment="Center"
+                                                   Margin="0,3,0,0">
+                                        <Run Text="{StaticResource lngDiameter}" />
+                                        <Run Text=": Φ" />
+                                        <Run Text="{Binding Diameter, Mode=OneWay}" />
+                                        <Run Text="mm" />
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </ContentControl.Resources>
+                            </ContentControl>
+                        </DockPanel>
+                    </Button>
+                </DockPanel>
+                <Button Command="{Binding EditIPRatingCommand}"
+                        CommandParameter="{Binding IP}"
+                        FontSize="12"
+                        Height="auto"
+                        MinHeight="50"
+                        BorderBrush="{DynamicResource SecondaryBorderBrush}"
+                        BorderThickness="1"
+                        Content="{Binding IP.Rating}"
+                        ToolTip="{StaticResource lngEditIP}">
+                </Button>
+            </hc:UniformSpacingPanel>
+        </hc:UniformSpacingPanel>
+    </Grid>
+</UserControl>

@@ -1,0 +1,87 @@
+﻿@page "/MirrorDrawPage"
+@inject AssembleMirrorViewModel Vm
+@using MirrorsModelsLibrary.DrawsBuilder
+@using MirrorsModelsLibrary.DrawsBuilder.Models
+@using MirrorsModelsLibrary.DrawsBuilder.Models.MeasureObjects
+@inject ILanguageContainerService lc
+
+<PageTitle>@(lc.Keys["MirrorDrawPageTitle"])</PageTitle>
+
+<MudContainer Class="d-flex justify-center align-center flex-column"
+              MaxWidth="@MaxWidth.ExtraExtraLarge">
+    @if (Draw.OutOfBoundsShapesNames.Count > 0)
+    {
+        <MudText Typo="Typo.body1" Align="Align.Center" Color="Color.Primary">
+            @(lc.Keys["ChangeExtrasOrDimensions"])
+        </MudText>
+
+        <MudText Typo="Typo.caption"
+                 Align="Align.Center"
+                 Color="Color.Primary">
+            @(lc.Keys["NotAvailableSpaceFor"]): 
+        </MudText>
+        <MudText Typo="Typo.caption"
+                 Align="Align.Center"
+                 Color="Color.Primary">
+            @foreach (string name in Draw.OutOfBoundsShapesNames)
+            {
+                @lc.Keys[name];
+            }
+        </MudText>
+    }
+    <MudGrid Spacing="5">
+        <MudItem xs="12" sm="12" md="12" lg="6" xl="6" xxl="6">
+            <div class="d-flex flex-column" style="width:100%;height:auto">
+                <MudText Align="@Align.Center" Typo="Typo.h5">@lc.Keys["FrontDraw"]</MudText>
+                <MirrorDrawing Draw="Draw.FrontDraw" 
+                               ContainerBox = "Draw.ContainerBox"
+                               ExtrasBoundary = "Draw.ExtrasBoundaryArea"
+                               SandblastBoundary="Draw.SandblastBoundaryArea"
+                               SupportsBoundary = "Draw.SupportBoundaryArea"
+                               ShowLabeledExtras = "false"
+                               ShowGlassDimensions = "false"
+                               ShowDrawBoundaries = "ShowExtrasBoundary"/>
+            </div>
+        </MudItem>
+        <MudItem xs="12" sm="12" md="12" lg="6" xl="6" xxl="6">
+            <div class="d-flex flex-column" style="width:100%;height:auto">
+                <MudText Align="@Align.Center" Typo="Typo.h5">@lc.Keys["RearDraw"]</MudText>
+                <MirrorDrawing Draw="Draw.RearDraw" 
+                               ContainerBox = "Draw.ContainerBox"
+                               ExtrasBoundary = "Draw.ExtrasBoundaryArea"
+                               SandblastBoundary="Draw.SandblastBoundaryArea"
+                               SupportsBoundary = "Draw.SupportBoundaryArea"
+                               ShowLabeledExtras = "true"
+                               ShowGlassDimensions = "true"
+                               ShowDrawBoundaries = "ShowExtrasBoundary"/>
+            </div>
+        </MudItem>
+    </MudGrid>
+    <MudButton Color="Color.Primary"
+               Variant="Variant.Filled"
+               OnClick="@(()=>ShowHideExtrasBoundary())"
+               Style="text-transform:none">
+        @lc.Keys["ShowBoundaryButton"]
+    </MudButton>
+
+</MudContainer>
+
+
+
+@code {
+
+    [Parameter] public MirrorDraw Draw { get; set; }
+
+    private bool ShowExtrasBoundary;
+
+    private void ShowHideExtrasBoundary()
+    {
+        ShowExtrasBoundary = !ShowExtrasBoundary;
+    }
+
+    protected override void OnParametersSet()
+    {
+        Draw = Vm.Draw;
+    }
+
+}

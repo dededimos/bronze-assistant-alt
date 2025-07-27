@@ -1,0 +1,9 @@
+﻿
+#GlassPropertiesMainContainer:focus-within {
+    border-color: lightslategray;
+}
+
+#GlassPropertiesMainContainer{
+    height:100%;
+    border:1px solid lightgray;
+}

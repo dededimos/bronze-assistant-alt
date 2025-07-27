@@ -1,0 +1,111 @@
+﻿@*Handles Authentication and Authentication View while an authentication Operation is underway or finishes*@
+@page "/authentication/{action}"
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@attribute [AllowAnonymous]
+@inject ILanguageContainerService lc
+
+<RemoteAuthenticatorView Action="@Action">
+    <LoggingIn>
+        <div id="LoaderContainer" >
+            <MudProgressCircular Style="width:100px;height:100px" Class="mb-4"
+                                 Color="@(Color.Primary)"
+                                 Indeterminate="@(true)"/>
+            <MudText Style="font-size:1.5rem">
+                @(lc.Keys["LoggingIn"])
+            </MudText>
+        </div>
+    </LoggingIn>
+
+    <CompletingLoggingIn>
+        <div id="LoaderContainer" >
+            <MudProgressCircular Style="width:100px;height:100px" Class="mb-4"
+                                 Color="@(Color.Primary)"
+                                 Indeterminate="@(true)"/>
+            <MudText Style="font-size:1.5rem">
+                @(lc.Keys["CompletingLogin"])
+            </MudText>
+        </div>
+    </CompletingLoggingIn>
+    
+    <LogInFailed>
+        <div id="LoaderContainer" >
+            @*Progress Not Needed*@
+            <MudButton Class="mb-10" 
+                       Style="font-size:1.5rem" Color="@(Color.Default)"
+                       Href="/" Variant="@(Variant.Filled)">
+                       <div style="width:100%" class="d-flex flex-column justify-center align-center">
+                    <MudIcon Icon="@(Icons.Material.Filled.Home)" Color="@(Color.Primary)" Style="font-size:50px" />
+                           <MudText Style="font-size:1.5rem">@(lc.Keys["BackToHome"])</MudText>
+                       </div>
+            </MudButton>
+                <MudIcon Icon="@(Icons.Material.Filled.Warning)" Color="@(Color.Primary)" Style="font-size:50px" />
+            <MudText Style="font-size:1.5rem">
+                @(lc.Keys["LogInFailed"])
+            </MudText>
+        </div>
+    </LogInFailed>
+    
+    <LogOut>
+        <div id="LoaderContainer" >
+            <MudProgressCircular Style="width:100px;height:100px" Class="mb-4"
+                                 Color="@(Color.Primary)"
+                                 Indeterminate="@(true)"/>
+            <MudText Style="font-size:1.5rem">
+                @(lc.Keys["LoggingOut"])
+            </MudText>
+        </div>
+    </LogOut>
+
+    <CompletingLogOut>
+        <div id="LoaderContainer" >
+            <MudProgressCircular Style="width:100px;height:100px" Class="mb-4"
+                                 Color="@(Color.Primary)"
+                                 Indeterminate="@(true)"/>
+            <MudText Style="font-size:1.5rem">
+                @(lc.Keys["CompletingLogout"])
+            </MudText>
+        </div>
+    </CompletingLogOut>
+
+    <LogOutSucceeded>
+        <div id="LoaderContainer" >
+            @*PROGRESS NOT NEEDED -- NAVIGATION MANAGER NEEDED TO REDIRECT TO HOME*@
+            <MudButton Class="mb-10" 
+                       Style="font-size:1.5rem" Color="@(Color.Default)"
+                       Href="/" Variant="@(Variant.Filled)">
+                       <div style="width:100%" class="d-flex flex-column justify-center align-center">
+                    <MudIcon Icon="@(Icons.Material.Filled.Home)" Color="@(Color.Primary)" Style="font-size:50px" />
+                           <MudText Style="font-size:1.5rem">@(lc.Keys["BackToHome"])</MudText>
+                       </div>
+            </MudButton>
+            <MudIcon Icon="@(Icons.Material.Filled.CloudDone)" Style="font-size:100px" Color="@(Color.Success)"/>
+            <MudText Style="font-size:1.5rem">
+                @(lc.Keys["LogoutSucceded"])
+            </MudText>
+        </div>
+    </LogOutSucceeded>
+
+    <LogOutFailed>
+        <div id="LoaderContainer" >
+            @*PROGRESS NOT NEEDED -- NAVIGATION MANAGER NEEDED TO REDIRECT TO HOME*@
+            <MudButton Class="mb-10" 
+                       Style="font-size:1.5rem" Color="@(Color.Default)"
+                       Href="/" Variant="@(Variant.Filled)">
+                       <div style="width:100%" class="d-flex flex-column justify-center align-center">
+                    <MudIcon Icon="@(Icons.Material.Filled.Home)" Color="@(Color.Primary)" Style="font-size:50px" />
+                           <MudText Style="font-size:1.5rem">@(lc.Keys["BackToHome"])</MudText>
+                       </div>
+            </MudButton>
+                <MudIcon Icon="@(Icons.Material.Filled.Warning)" Color="@(Color.Primary)" Style="font-size:50px" />
+            <MudText Style="font-size:1.5rem">
+                @(lc.Keys["LogoutFailed"])
+            </MudText>
+        </div>
+    </LogOutFailed>
+</RemoteAuthenticatorView>
+
+
+@code{
+    
+}
+

@@ -1,0 +1,417 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.ComponentsUC.EditModelUserControl.EditDefaultListUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:cachedImage="clr-namespace:CachedImage.Core;assembly=CachedImage.Core"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:b="clr-namespace:BronzeFactoryApplication.Helpers.Behaviours"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels.CabinsViewModels.PartsViewModels.DefaultPartsLists"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=vm:EditDefaultPartsViewModel}">
+    <Grid>
+        <Grid.Resources>
+            <Style TargetType="{x:Type cc:Icon}"
+                   BasedOn="{StaticResource CustomIconBaseStyle}">
+                <Setter Property="ToolTipService.Placement"
+                        Value="Top" />
+                <Setter Property="ToolTipService.HorizontalOffset"
+                        Value="-125" />
+                <Setter Property="ToolTipService.InitialShowDelay"
+                        Value="0" />
+                <Setter Property="ToolTipService.ShowOnDisabled"
+                        Value="True" />
+                <Setter Property="Width"
+                        Value="12" />
+                <Setter Property="Margin"
+                        Value="5,0,5,5" />
+                <Setter Property="GeometryData"
+                        Value="{StaticResource InfoGeometry}" />
+                <Setter Property="Fill"
+                        Value="{DynamicResource SecondaryBrush}" />
+                <Setter Property="DockPanel.Dock"
+                        Value="Right" />
+                <Setter Property="IsTabStop"
+                        Value="False" />
+            </Style>
+        </Grid.Resources>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <!--#region 1.Menu To Revise GenericParts -->
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    Margin="0,20,0,0">
+
+            <!--#region ListBox with Selections -->
+            <StackPanel>
+                <TextBlock Text="{StaticResource lngGenericParts}"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,10" />
+                <ListBox ItemsSource="{Binding GenericParts}"
+                         Height="160"
+                         MinWidth="400">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <DockPanel LastChildFill="True"
+                                       ToolTipService.InitialShowDelay="0"
+                                       ToolTipService.BetweenShowDelay="0"
+                                       ToolTipService.Placement="Left"
+                                       ToolTipService.VerticalOffset="-15"
+                                       ToolTipService.HorizontalOffset="-15">
+                                <Button Style="{StaticResource ButtonIconCircular.Small}"
+                                        hc:IconElement.Geometry="{StaticResource DeleteFillCircleGeometry}"
+                                        Foreground="{DynamicResource DangerBrush}"
+                                        Margin="0,0,5,0"
+                                        Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox, Mode=FindAncestor},Path=DataContext.RemoveGenericPartCommand}"
+                                        CommandParameter="{Binding .}" />
+                                <TextBlock Text="{Binding Code}"
+                                           Width="100"
+                                           DockPanel.Dock="Left"
+                                           VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding Description}"
+                                           DockPanel.Dock="Left"
+                                           VerticalAlignment="Center"
+                                           Width="170" />
+                                <TextBlock Text="{Binding Quantity}"
+                                           DockPanel.Dock="Right"
+                                           HorizontalAlignment="Right"
+                                           VerticalAlignment="Center"
+                                           TextAlignment="Right"
+                                           Width="50" />
+                                <DockPanel.ToolTip>
+                                    <StackPanel>
+                                        <TextBlock Text="{StaticResource lngPartPhoto}"
+                                                   HorizontalAlignment="Center"
+                                                   Margin="0,0,0,10" />
+                                        <cachedImage:Image ImageUrl="{Binding PhotoPath}"
+                                                           FailedImage="{StaticResource DefaultNoImage}"
+                                                           MaxWidth="100"
+                                                           MaxHeight="100"
+                                                           Stretch="Uniform" />
+                                    </StackPanel>
+                                </DockPanel.ToolTip>
+                            </DockPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+            <!--#endregion-->
+
+            <!--#region Add to Selection Box -->
+            <StackPanel VerticalAlignment="Top"
+                        Margin="20,10,0,0">
+                <StackPanel Orientation="Vertical">
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource TitleTextBlockStyle}"
+                                   Text="{StaticResource lngSelectPart}" />
+                        <hc:ComboBox MinWidth="250"
+                                     ItemsSource="{Binding AllParts}"
+                                     SelectedItem="{Binding PartToAddToGenerics}"
+                                     ItemTemplateSelector="{StaticResource ComboBoxPartsTemplateSelector}"
+                                     hc:DropDownElement.ConsistentWidth="False"
+                                     IsEditable="True"
+                                     TextSearch.TextPath="Code" />
+                    </StackPanel>
+                    <StackPanel Margin="0,15,0,0"
+                                HorizontalAlignment="Center">
+                        <TextBlock Style="{StaticResource TitleTextBlockStyle}"
+                                   Text="{StaticResource lngQuantity}" />
+                        <TextBox Width="80"
+                                 MaxLength="2"
+                                 Text="{Binding QuantityOfPartToAddToGenerics}">
+                            <i:Interaction.Behaviors>
+                                <b:TextBoxNumericInputBehavior Precision="0"
+                                                               InputMode="DigitInput"
+                                                               JustPositivDecimalInput="True" />
+                            </i:Interaction.Behaviors>
+                        </TextBox>
+                    </StackPanel>
+                    <Button HorizontalAlignment="Center"
+                            Margin="0,20,0,0"
+                            Command="{Binding AddGenericPartCommand}"
+                            Style="{StaticResource ButtonIconCircular}"
+                            hc:IconElement.Geometry="{StaticResource AddGeometry}"
+                            hc:IconElement.Height="13"
+                            Foreground="{DynamicResource SecondaryBrush}" />
+                </StackPanel>
+            </StackPanel>
+            <!--#endregion-->
+
+        </StackPanel>
+        <!--#endregion-->
+
+        <hc:Divider Orientation="Horizontal"
+                    Grid.Row="1"
+                    LineStrokeThickness="1"
+                    LineStroke="{DynamicResource DarkPrimaryBrush}"
+                    Margin="0,10,0,0" />
+
+        <hc:ContextMenuButton Style="{StaticResource ButtonIconCircular.Small}"
+                              hc:IconElement.Geometry="{StaticResource AddGeometry}"
+                              BorderBrush="{DynamicResource SecondaryBrush}"
+                              Foreground="{DynamicResource SecondaryBrush}"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Top"
+                              Grid.Row="1"
+                              Margin="12,33,0,0"
+                              Panel.ZIndex="2">
+            <hc:ContextMenuButton.Menu>
+                <ContextMenu ItemsSource="{Binding AllSpots}">
+                    <ContextMenu.ItemContainerStyle>
+                        <Style TargetType="{x:Type MenuItem}">
+                            <Setter Property="Header"
+                                    Value="{Binding .,Converter={StaticResource languageConverter}}" />
+                            <Setter Property="Command"
+                                    Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}} ,Path=DataContext.AddPartSpotDefaultCommand}" />
+                            <Setter Property="CommandParameter"
+                                    Value="{Binding .}" />
+                            <Setter Property="Foreground"
+                                    Value="{DynamicResource PrimaryTextBrush}" />
+                        </Style>
+                    </ContextMenu.ItemContainerStyle>
+                </ContextMenu>
+            </hc:ContextMenuButton.Menu>
+        </hc:ContextMenuButton>
+
+        <!--#region 2. DataGrid with All The Spots and their Selected Default Part -->
+        <!--Here User Selects something to Edit it in the Menu underneath-->
+        <StackPanel Grid.Row="1"
+                    Margin="0,20,0,0">
+            <DataGrid ItemsSource="{Binding Defaults,Mode=OneWay}"
+                      hc:DataGridAttach.ShowRowNumber="True"
+                      HorizontalAlignment="Center"
+                      IsReadOnly="True"
+                      SelectedItem="{Binding SelectedDefault}"
+                      Width="680"
+                      FontSize="12"
+                      Height="340"
+                      Style="{StaticResource CDataGridSmall}"
+                      Background="{DynamicResource RegionBrush}"
+                      Margin="0"
+                      Padding="20,5"
+                      BorderThickness="0"
+                      MinRowHeight="0"
+                      RowHeight="30">
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow"
+                           BasedOn="{StaticResource SmallDataGridRow}">
+                        <Setter Property="ToolTip">
+                            <Setter.Value>
+                                <StackPanel>
+                                    <TextBlock Text="{StaticResource lngPartPhoto}"
+                                               HorizontalAlignment="Center" />
+                                    <cachedImage:Image ImageUrl="{Binding DefaultPart.PhotoPath}"
+                                                       FailedImage="{StaticResource DefaultNoImage}"
+                                                       MaxWidth="100"
+                                                       MaxHeight="100"
+                                                       Stretch="Uniform"
+                                                       Margin="0,0,0,10" />
+                                </StackPanel>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="ToolTipService.InitialShowDelay"
+                                Value="0" />
+                        <Setter Property="ToolTipService.BetweenShowDelay"
+                                Value="0" />
+                        <Setter Property="ToolTipService.Placement"
+                                Value="Left" />
+                    </Style>
+                </DataGrid.RowStyle>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="{StaticResource lngSpot}"
+                                        Binding="{Binding Spot, Converter={StaticResource languageConverter}}" />
+                    <DataGridTextColumn Header="{StaticResource lngDefaultPart}"
+                                        Binding="{Binding DefaultPart.Code}" />
+                    <DataGridTextColumn Header="{StaticResource lngDescription}"
+                                        Binding="{Binding DefaultPart.Description}" />
+                    <DataGridTextColumn Header="{StaticResource lngQuantity}"
+                                        Binding="{Binding DefaultQuantity}" />
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Style="{StaticResource ButtonIcon.Small}"
+                                        hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
+                                        hc:IconElement.Height="10"
+                                        Foreground="{DynamicResource DangerBrush}"
+                                        Command="{Binding RelativeSource={RelativeSource AncestorType=DataGrid}, Path=DataContext.RemoveSpotDefaultCommand}"
+                                        CommandParameter="{Binding .}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+
+        <!--#endregion-->
+
+        <!--#region 3. Menu To Revise-Edit The Defaults for the Selected Spot -->
+        <StackPanel Grid.Row="2"
+                    Margin="0,20,0,0"
+                    IsEnabled="{Binding IsAnyDefaultSelected}">
+
+            <!--#region A. Title of the SubMenu -->
+
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center">
+                <TextBlock Margin="10,0"
+                           Text="{StaticResource lngSpot}"
+                           Style="{StaticResource CInformativeTextBlock}" />
+                <TextBlock Style="{StaticResource CInformativeTextBlock}"
+                           Text="{Binding SelectedDefault.Spot,Converter={StaticResource languageConverter}}" />
+                <StackPanel Orientation="Horizontal"
+                            Margin="40,0,0,0"
+                            ToolTip="{StaticResource lngIsObligatorySpotTooltip}"
+                            ToolTipService.InitialShowDelay="0"
+                            ToolTipService.Placement="Top"
+                            ToolTipService.HorizontalOffset="-80">
+                    <CheckBox Margin="0,0,0,1"
+                              IsChecked="{Binding SelectedDefault.IsOptional, Mode=TwoWay , Converter={StaticResource Boolean2BooleanReConverter}}" />
+                    <TextBlock Margin="10,0,0,0"
+                               Text="{StaticResource lngIsObligatory}"
+                               Style="{StaticResource CInformativeTextBlock}" />
+                </StackPanel>
+            </StackPanel>
+
+            <!--#endregion-->
+
+            <!--#region B. Combobox to Edit the Default Part of the Spot -->
+            <StackPanel HorizontalAlignment="Center"
+                        Margin="0,10"
+                        Orientation="Horizontal">
+                <StackPanel ToolTip="{StaticResource lngDefaultPartTooltip}"
+                            ToolTipService.Placement="Right"
+                            ToolTipService.InitialShowDelay="0">
+                    <TextBlock x:Name="DefaultPartTextBlock"
+                               Style="{StaticResource TitleTextBlockStyle}"
+                               Text="{StaticResource lngDefaultPart}" />
+                    <hc:ComboBox ItemsSource="{Binding SelectedDefault.SelectableParts}"
+                                 hc:InfoElement.ShowClearButton="{Binding SelectedDefault.IsOptional}"
+                                 HorizontalAlignment="Center"
+                                 MinWidth="400"
+                                 SelectedItem="{Binding SelectedDefault.DefaultPart}"
+                                 ItemTemplateSelector="{StaticResource ComboBoxPartsTemplateSelector}">
+                    </hc:ComboBox>
+                </StackPanel>
+                <!--#region B.Quantity -->
+                <StackPanel Margin="10,0"
+                            ToolTip="{StaticResource lngDefaultQuantityTooltip}"
+                            ToolTipService.Placement="Right"
+                            ToolTipService.InitialShowDelay="0">
+                    <TextBlock x:Name="DefaultQuantityTextBlock"
+                               Style="{StaticResource TitleTextBlockStyle}"
+                               Text="{StaticResource lngDefaultQuantity}" />
+                    <TextBox MaxLength="4"
+                             MinWidth="140"
+                             Text="{Binding SelectedDefault.DefaultQuantity}">
+                        <i:Interaction.Behaviors>
+                            <b:TextBoxNumericInputBehavior Precision="1"
+                                                           JustPositivDecimalInput="True"
+                                                           InputMode="DecimalInput" />
+                        </i:Interaction.Behaviors>
+                    </TextBox>
+                </StackPanel>
+                <!--#endregion-->
+            </StackPanel>
+            <!--#endregion-->
+
+            <!--#region C. Menu to Edit the Selectables of the Spot -->
+            <!--A List Box containing all the Selectables and a button in each row to Remove them-->
+            <!--A Combobox devising a list of Parts , only available to the Selected spot .
+                From which the user can add with a button , more parts to the List of selectable parts-->
+
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        Margin="0,10,0,0">
+                <!--#region ListBox with Selections -->
+                <StackPanel>
+                    <TextBlock Text="{StaticResource lngAvailablePartSelection}"
+                               HorizontalAlignment="Center"
+                               Margin="0,0,0,10" />
+                    <ListBox ItemsSource="{Binding SelectedDefault.SelectableParts}"
+                             Height="150"
+                             Width="350">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <DockPanel LastChildFill="True"
+                                           ToolTipService.InitialShowDelay="0"
+                                           ToolTipService.BetweenShowDelay="0"
+                                           ToolTipService.Placement="Left"
+                                           ToolTipService.VerticalOffset="-15"
+                                           ToolTipService.HorizontalOffset="-15">
+                                    <Button Style="{StaticResource ButtonIconCircular.Small}"
+                                            hc:IconElement.Geometry="{StaticResource DeleteFillCircleGeometry}"
+                                            Foreground="{DynamicResource DangerBrush}"
+                                            Margin="0,0,5,0"
+                                            Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox, Mode=FindAncestor},Path=DataContext.RemovePartFromSelectablesCommand}"
+                                            CommandParameter="{Binding Code}" />
+                                    <TextBlock Text="{Binding Code}"
+                                               Width="100"
+                                               DockPanel.Dock="Left"
+                                               VerticalAlignment="Center" />
+                                    <TextBlock Text="{Binding Description}"
+                                               DockPanel.Dock="Left"
+                                               VerticalAlignment="Center" />
+                                    <DockPanel.ToolTip>
+                                        <StackPanel>
+                                            <TextBlock Text="{StaticResource lngPartPhoto}"
+                                                       HorizontalAlignment="Center"
+                                                       Margin="0,0,0,10" />
+                                            <cachedImage:Image ImageUrl="{Binding PhotoPath}"
+                                                               FailedImage="{StaticResource DefaultNoImage}"
+                                                               MaxWidth="100"
+                                                               MaxHeight="100"
+                                                               Stretch="Uniform" />
+                                        </StackPanel>
+                                    </DockPanel.ToolTip>
+                                </DockPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </StackPanel>
+                <!--#endregion-->
+
+                <!--#region Add to Selection Box -->
+                <StackPanel VerticalAlignment="Top"
+                            Margin="20,30,0,0">
+                    <hc:ComboBox MinWidth="250"
+                                 ItemsSource="{Binding AllPartsToBeSelected}"
+                                 SelectedItem="{Binding PartToAddToSelectables}"
+                                 ItemTemplateSelector="{StaticResource ComboBoxPartsTemplateSelector}"
+                                 hc:DropDownElement.ConsistentWidth="False"
+                                 IsEditable="True"
+                                 TextSearch.TextPath="Code" />
+                    <Button HorizontalAlignment="Center"
+                            Margin="0,20,0,0"
+                            Command="{Binding AddPartToSelectablesCommand}"
+                            Style="{StaticResource ButtonIconCircular}"
+                            hc:IconElement.Geometry="{StaticResource AddGeometry}"
+                            hc:IconElement.Height="13"
+                            Foreground="{DynamicResource SecondaryBrush}" />
+                </StackPanel>
+                <!--#endregion-->
+            </StackPanel>
+        </StackPanel>
+        <!--#endregion-->
+
+        <!--#endregion-->
+
+
+
+
+
+
+
+    </Grid>
+</UserControl>

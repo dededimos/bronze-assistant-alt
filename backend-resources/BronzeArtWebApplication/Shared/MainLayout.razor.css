@@ -1,0 +1,39 @@
+﻿/* Navigation menu styling */
+.modern-nav-menu {
+    padding: 0 12px;
+}
+
+.nav-group {
+    margin-bottom: 12px;
+}
+
+.nav-link {
+    border-radius: 6px;
+    margin-bottom: 4px;
+    transition: all 0.2s ease-in-out;
+}
+
+    .nav-link.active {
+        background-color: rgba(214, 188, 198, 0.5) !important;
+        color: var(--BronzeDarkPink) !important;
+    }
+
+    .nav-link:hover {
+        background-color: rgba(214, 188, 198, 0.2) !important;
+    }
+
+        .nav-link:hover:not(.active) .mud-nav-link-icon,
+        .nav-link:hover:not(.active) .mud-nav-link-text {
+            color: var(--BronzeDarkPink) !important;
+        }
+
+/* Drawer footer styling */
+.drawer-footer {
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: auto;
+    border-top: 1px solid rgba(0,0,0,0.05);
+}

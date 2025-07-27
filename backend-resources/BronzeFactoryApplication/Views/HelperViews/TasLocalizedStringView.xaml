@@ -1,0 +1,68 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.HelperViews.TasLocalizedStringView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.HelperViews"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             mc:Ignorable="d"
+             x:Name="Container">
+    <Button HorizontalAlignment="Stretch"
+            Height="auto" Padding="5,2"
+            HorizontalContentAlignment="Left"
+            hc:BorderElement.CornerRadius="5"
+            BorderBrush="{StaticResource SecondaryBorderBrush}"
+            Command="{Binding ElementName=Container,Path=EditCommand}"
+            CommandParameter="{Binding ElementName=Container,Path=CommandParameter}">
+        <StackPanel Orientation="Horizontal"
+                    x:Name="NameStackPanel">
+            <StackPanel.Resources>
+                <Style TargetType="Button"
+                       BasedOn="{StaticResource ButtonIconCircular.Small}"
+                       x:Key="EditButton">
+                    <Setter Property="Foreground"
+                            Value="{DynamicResource SecondaryBrush}" />
+                    <Setter Property="hc:IconElement.Geometry"
+                            Value="{StaticResource EditGeometry}" />
+                    <Setter Property="BorderBrush"
+                            Value="{DynamicResource SecondaryBrush}" />
+                    <Setter Property="BorderThickness"
+                            Value="1" />
+                    <Setter Property="Margin"
+                            Value="0,3,5,3" />
+                    <Setter Property="ToolTip"
+                            Value="{StaticResource lngEdit}" />
+                    <Setter Property="ToolTip.Placement"
+                            Value="Left" />
+                    <Setter Property="ToolTip.VerticalOffset"
+                            Value="-15" />
+                    <Setter Property="ToolTipService.InitialShowDelay"
+                            Value="0" />
+                </Style>
+                <Style TargetType="TextBlock"
+                       BasedOn="{StaticResource TextBlockBaseStyle}"
+                       x:Key="PropertyNameTextBlock">
+                    <Setter Property="TextAlignment"
+                            Value="Left" />
+                </Style>
+            </StackPanel.Resources>
+            <Button Style="{StaticResource EditButton}"
+                    Command="{Binding ElementName=Container,Path=EditCommand}"
+                    CommandParameter="{Binding ElementName=Container,Path=CommandParameter}" />
+            <TextBlock Text="{Binding ElementName=Container,Path=PropertyName}"
+                       TextTrimming="CharacterEllipsis"
+                       Style="{StaticResource PropertyNameTextBlock}"
+                       Width="{Binding ElementName=Container,Path=PropertyNameTextBlockWidth}"
+                       MaxWidth="{Binding ElementName=Container,Path=PropertyNameMaxWidth}" />
+            <TextBlock Text=" : "
+                       VerticalAlignment="Center" />
+            <TextBlock Text="{Binding ElementName=Container,Path=LocalizedString,Converter={StaticResource LocalizedStringMinifiedConverter}}"
+                       d:Text="SOME MINIFIED TRANSLATION SOME MINIFIED TRANSLATION SOME MINIFIED TRANSLATION SOME MINIFIED TRANSLATION"
+                       TextTrimming="CharacterEllipsis"
+                       VerticalAlignment="Center"
+                       MaxWidth="{Binding ElementName=Container,Path=TranslatedTextMaxWidth}" />
+        </StackPanel>
+    </Button>
+
+</UserControl>

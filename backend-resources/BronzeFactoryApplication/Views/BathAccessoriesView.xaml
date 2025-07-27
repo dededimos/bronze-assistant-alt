@@ -1,0 +1,253 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.BathAccessoriesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels"
+             xmlns:vma="clr-namespace:BronzeFactoryApplication.ViewModels.AccessoriesViewModels"
+             xmlns:vwAccessories="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.BathAccessoriesViews"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=vm:AccessoriesModuleViewModel}">
+    <Grid Margin="20,10"
+          x:Name="MainGrid">
+        <Grid.Resources>
+            <CollectionViewSource x:Key="BathAccessoriesViewSource"
+                                  Source="{Binding AccessoriesEntitiesVm.BathAccessories}"
+                                  Filter="CollectionViewSource_Filter" />
+            <Style x:Key="LoadDBItemButton"
+                   TargetType="Button"
+                   BasedOn="{StaticResource ButtonDefault}">
+                <Setter Property="Width"
+                        Value="30" />
+                <Setter Property="Height"
+                        Value="30" />
+                <Setter Property="Margin"
+                        Value="10,5" />
+                <Setter Property="hc:BorderElement.CornerRadius"
+                        Value="15" />
+                <Setter Property="Foreground"
+                        Value="{DynamicResource SecondaryBrush}" />
+                <Setter Property="hc:IconElement.Geometry"
+                        Value="{StaticResource DownloadGeometry}" />
+            </Style>
+        </Grid.Resources>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="740" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <!--#region ALL ROWS AND COLUMNS . Progress Circle -->
+        <Border Panel.ZIndex="5"
+                Grid.Column="0"
+                Grid.Row="0"
+                Grid.RowSpan="3"
+                Grid.ColumnSpan="2"
+                Background="{DynamicResource RegionBrush}"
+                Opacity="0.9"
+                Visibility="{Binding AccessoriesEntitiesVm.IsBusy, Converter={StaticResource Boolean2VisibilityConverter}}"
+                d:Visibility="Collapsed">
+            <StackPanel Margin="20"
+                        VerticalAlignment="Center">
+                <hc:CircleProgressBar IsIndeterminate="True" />
+                <TextBlock Text="Loading Items..."
+                           Foreground="{DynamicResource PrimaryBrush}"
+                           HorizontalAlignment="Center"
+                           Margin="0,10"
+                           FontSize="20"
+                           Padding="20,0,0,0" />
+            </StackPanel>
+        </Border>
+        <!--#endregion-->
+
+        <!--#region (0,0) . Load Accessories Title and Button -->
+        <DockPanel Grid.Row="0"
+                   Grid.Column="0"
+                   Margin="20,0"
+                   LastChildFill="False">
+            <Button Style="{StaticResource LoadDBItemButton}"
+                    Command="{Binding AccessoriesEntitiesVm.RetrieveAccessoriesCommand}"
+                    ToolTip="{StaticResource lngRetrive}" />
+            <TextBlock Text="{StaticResource lngAccessories}"
+                       Style="{StaticResource CHeaderTextBlock}" />
+            <Button hc:IconElement.Geometry="{StaticResource ExportDatabaseGeometry}"
+                    Foreground="{DynamicResource SecondaryBrush}"
+                    Content="Export to Xml/Json"
+                    DockPanel.Dock="Right"
+                    VerticalAlignment="Bottom"
+                    Margin="10,0,0,0"
+                    ToolTip="Export Accessories Database to XML or JSON File"
+                    Command="{Binding AccessoriesEntitiesVm.OpenExportToJsonXmlCommand}" />
+            <Button hc:IconElement.Geometry="{StaticResource EditGeometry}"
+                    DockPanel.Dock="Right"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Bottom"
+                    ToolTip="Open Edit Options for Traits and TraitClasses"
+                    Foreground="{DynamicResource SecondaryBrush}"
+                    Content="{StaticResource lngEditTraitClasses}"
+                    Command="{Binding AccessoriesEntitiesVm.OpenEditTraitClassesCommand}"
+                    IsEnabled="{Binding AccessoriesEntitiesVm.IsCacheDirty , Converter={StaticResource Boolean2BooleanReConverter}}" />
+            <Button hc:IconElement.Geometry="{StaticResource AccountDetailsGeometry}"
+                    Foreground="{DynamicResource SecondaryBrush}"
+                    Content="{StaticResource lngEditUsers}"
+                    DockPanel.Dock="Right"
+                    VerticalAlignment="Bottom"
+                    Margin="10,0,0,0"
+                    ToolTip="Edit Users Options"
+                    Command="{Binding AccessoriesEntitiesVm.OpenUserInfoModalCommand}" />
+            <Button hc:IconElement.Geometry="{StaticResource BuildGeometry}"
+                    Foreground="{DynamicResource SecondaryBrush}"
+                    DockPanel.Dock="Right"
+                    VerticalAlignment="Bottom"
+                    Margin="10,0,0,0"
+                    ToolTip="Build Accessories"
+                    Command="{Binding CreateLabelsCommand}" IsEnabled="False"/>
+        </DockPanel>
+        <!--#endregion-->
+
+        <!--#region (1,0) . Accessories DataGrid -->
+        <DataGrid ItemsSource="{Binding Source={StaticResource BathAccessoriesViewSource}}"
+                  Style="{StaticResource CDataGrid}"
+                  SelectedItem="{Binding AccessoriesEntitiesVm.SelectedEntity}"
+                  CellStyle="{StaticResource CenteredDataGridCellSmall}"
+                  ColumnHeaderStyle="{StaticResource CenteredDataGridColumnHeaderSmall}"
+                  HorizontalAlignment="Stretch"
+                  EnableRowVirtualization="True"
+                  Grid.Row="1"
+                  Grid.Column="0"
+                  hc:DataGridAttach.ShowRowNumber="True"
+                  MaxHeight="750"
+                  Padding="20,20,20,0"
+                  Margin="20,0"
+                  BorderThickness="4"
+                  VerticalAlignment="Top">
+            <DataGrid.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel />
+                </ItemsPanelTemplate>
+            </DataGrid.ItemsPanel>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="{StaticResource lngIsOnlineStatus}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Text"
+                                                Value="{StaticResource lngOffline}" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsOnline}"
+                                                         Value="True">
+                                                <Setter Property="Text"
+                                                        Value="{StaticResource lngOnline}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="{StaticResource lngCode}"
+                                    Binding="{Binding Code}" />
+                <DataGridTextColumn Header="{StaticResource lngName}"
+                                    Binding="{Binding Name,Converter={StaticResource LocalizedStringConverter}}" />
+                <DataGridTextColumn Header="{StaticResource lngNotes}"
+                                    Binding="{Binding Notes}"
+                                    MaxWidth="205" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <!--#endregion-->
+
+        <!--#region (2,0) .Filters -->
+        <StackPanel Grid.Row="2"
+                    Grid.Column="0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    Margin="0,20">
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center">
+                <TextBlock Style="{StaticResource CHeaderTextBlock}"
+                           Text="{StaticResource lngFilters}" />
+                <Button Style="{StaticResource ButtonIcon}"
+                        hc:IconElement.Geometry="{StaticResource DeleteFillCircleGeometry}"
+                        Foreground="{DynamicResource SecondaryBrush}"
+                        Click="ClearFiltersClick" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal"
+                        Margin="0,10">
+                <StackPanel Margin="5,0">
+                    <TextBlock Style="{StaticResource TitleTextBlockStyle}"
+                               Text="{StaticResource lngCode}" />
+                    <TextBox x:Name="CodeFilterTextBox"
+                             Width="200"
+                             KeyDown="CodeFilterTextBox_KeyDown" />
+                </StackPanel>
+                <Button Style="{StaticResource ButtonIcon}"
+                        hc:IconElement.Geometry="{StaticResource SearchGeometry}"
+                        Foreground="{DynamicResource SecondaryBrush}"
+                        Click="ApplyFilters"
+                        VerticalAlignment="Bottom" />
+                <Button Command="{Binding AccessoriesEntitiesVm.FindInvalidEntitiesCommand}"
+                        Content="Find Invalid Entities"
+                        hc:IconElement.Geometry="{StaticResource ClockGeometry}"
+                        Foreground="{DynamicResource SecondaryBrush}"
+                        Margin="30,22,0,0" />
+            </StackPanel>
+        </StackPanel>
+        <!--#endregion-->
+
+        <!--#region (0,1) . Accessory Under EditTitle -->
+        <DockPanel Grid.Row="0"
+                   Grid.Column="1"
+                   LastChildFill="False">
+            <!--#region Save Button -->
+            <Button Style="{StaticResource SaveButton}"
+                    IsEnabled="{Binding AccessoriesEntitiesVm.CanSaveAccessory}"
+                    Command="{Binding AccessoriesEntitiesVm.SaveAccessoryCommand}"
+                    VerticalAlignment="Bottom"
+                    Height="30"
+                    Margin="0,0,10,0" />
+            <!--#endregion-->
+            <!--#region New Accessory Button -->
+            <Button Content="{StaticResource lngNewAccessory}"
+                    hc:IconElement.Geometry="{StaticResource AddGeometry}"
+                    Foreground="{DynamicResource SecondaryBrush}"
+                    Command="{Binding AccessoriesEntitiesVm.AddNewAccessoryCommand}"
+                    IsEnabled="{Binding AccessoriesEntitiesVm.IsCacheDirty,Converter={StaticResource Boolean2BooleanReConverter}}"
+                    VerticalAlignment="Bottom"
+                    Height="30" />
+            <!--#endregion-->
+
+            <!--#region Delete Accessory Button -->
+            <Button Content="{StaticResource lngDeleteAccessory}"
+                    hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
+                    Foreground="{DynamicResource DangerBrush}"
+                    Command="{Binding AccessoriesEntitiesVm.DeleteAccessoryCommand}"
+                    IsEnabled="{Binding AccessoriesEntitiesVm.CanDeleteAccessory}"
+                    VerticalAlignment="Bottom"
+                    Height="30"
+                    DockPanel.Dock="Right" />
+            <!--#endregion-->
+
+        </DockPanel>
+        <!--#endregion-->
+
+        <!--#region (1-2 , 1) Accessory Under Edit -->
+        <vwAccessories:BathAccessoryEntityView Grid.Row="1"
+                                               Grid.RowSpan="2"
+                                               Grid.Column="1"
+                                               DataContext="{Binding AccessoriesEntitiesVm.AccessoryUnderEdit}"
+                                               BorderBrush="{DynamicResource BorderBrush}"
+                                               BorderThickness="4"
+                                               Padding="10"
+                                               IsEnabled="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor}, Path=DataContext.AccessoriesEntitiesVm.CanEditAccessory}" />
+        <!--#endregion-->
+
+    </Grid>
+</UserControl>

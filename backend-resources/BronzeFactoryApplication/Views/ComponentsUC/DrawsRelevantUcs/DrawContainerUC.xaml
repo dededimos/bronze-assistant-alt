@@ -1,0 +1,133 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.ComponentsUC.DrawsRelevantUcs.DrawContainerUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.DrawsRelevantUcs"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels.ComponentsUCViewModels.DrawsViewModels"
+             xmlns:dr="clr-namespace:SVGDrawingLibrary.Models;assembly=SVGDrawingLibrary"
+             xmlns:drawingVm="clr-namespace:BronzeFactoryApplication.ViewModels.DrawingsViewModels"
+             mc:Ignorable="d"
+             x:Name="DrawUC">
+    <Viewbox x:Name="DrawViewBox"
+             Width="auto"
+             MaxWidth="{Binding ElementName=DrawUC, Path=ViewBoxMaxWidth}"
+             Height="auto"
+             MaxHeight="{Binding ElementName=DrawUC, Path=ViewBoxMaxHeight}">
+        <ContentControl Content="{Binding .}"
+                        d:DataContext="{d:DesignInstance Type=vm:GlassDrawViewModel, IsDesignTimeCreatable=True}">
+            <ContentControl.Resources>
+
+                <!--#region 1. Glass Draw DataTemplate -->
+                <DataTemplate DataType="{x:Type vm:GlassDrawViewModel}">
+                    <Grid>
+                        <!--#region Glass Path -->
+                        <Path Fill="{Binding GlassPerimeter.Fill, Converter={StaticResource StringToBrushConverter}}"
+                              Stroke="{Binding GlassPerimeter.Stroke , Converter={StaticResource StringToBrushConverter}}"
+                              Panel.ZIndex="{Binding GlassPerimeter.LayerNo}"
+                              Opacity="{Binding GlassPerimeter.Opacity , Converter={StaticResource StringToDoubleConverter}}"
+                              StrokeDashArray="{Binding GlassPerimeter.StrokeDashArray , Converter={StaticResource StringToDoubleCollectionConverter}}"
+                              Visibility="{Binding IsGlassValid, Converter={StaticResource Boolean2VisibilityConverter}}">
+                            <Path.Data>
+                                <!--Exclude the Clipped Part of the Perimeter if its there-->
+                                <CombinedGeometry Geometry2="{Binding GlassPerimeter.ClipPathDataString , Converter={StaticResource StringToGeometryConverter}}"
+                                                  GeometryCombineMode="Exclude">
+                                    <CombinedGeometry.Geometry1>
+                                        <GeometryGroup FillRule="EvenOdd"
+                                                       Children="{Binding Draws , Converter={StaticResource DrawShapesToGeometryGroupConverter}}" />
+                                    </CombinedGeometry.Geometry1>
+                                </CombinedGeometry>
+                            </Path.Data>
+                        </Path>
+                        <!--#endregion-->
+                        <!--#region Dimensions Path -->
+                        <Path Stroke="{Binding RelativeSource={RelativeSource AncestorType=local:DrawContainerUC}, Path=DimensionsFillStroke}"
+                              Fill="{Binding RelativeSource={RelativeSource AncestorType=local:DrawContainerUC}, Path=DimensionsFillStroke}"
+                              StrokeThickness="1"
+                              Panel.ZIndex="5000"
+                              Visibility="{Binding IsGlassValid, Converter={StaticResource Boolean2VisibilityConverter}}">
+                            <Path.Data>
+                                <GeometryGroup>
+                                    <GeometryGroup FillRule="EvenOdd"
+                                                   Children="{Binding Dimensions , Converter={StaticResource DrawShapesToGeometryGroupConverter}}" />
+                                    <GeometryGroup FillRule="EvenOdd"
+                                                   Children="{Binding Dimensions , Converter={StaticResource DimensionLineDrawToAnchoredTextCoverter}}" />
+                                </GeometryGroup>
+                            </Path.Data>
+                        </Path>
+                        <!--#endregion-->
+                        <TextBox Visibility="{Binding IsGlassValid, Converter={StaticResource Boolean2VisibilityReConverter}}"
+                                 VerticalAlignment="Center"
+                                 HorizontalAlignment="Center"
+                                 VerticalContentAlignment="Center"
+                                 HorizontalContentAlignment="Center"
+                                 TextWrapping="Wrap"
+                                 MaxLength="300"
+                                 MaxHeight="400"
+                                 FontSize="12"
+                                 FontStyle="Italic"
+                                 IsReadOnly="True"
+                                 Foreground="{DynamicResource DangerBrush}"
+                                 Text="{Binding ErrorsText}" />
+                    </Grid>
+                </DataTemplate>
+                <!--#endregion-->
+
+                <!--#region 2.Synthesis Draw DataTemplate -->
+                <DataTemplate DataType="{x:Type vm:SynthesisDrawViewModel}">
+                    <ItemsControl ItemsSource="{Binding FrontShapes}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <Grid />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="{x:Type dr:DrawShape}">
+                                <Path Fill="{Binding Fill, Converter={StaticResource StringToBrushConverter}}"
+                                      Stroke="{Binding Stroke , Converter={StaticResource StringToBrushConverter}}"
+                                      Panel.ZIndex="{Binding LayerNo}"
+                                      Opacity="{Binding Opacity , Converter={StaticResource StringToDoubleConverter}}"
+                                      Data="{Binding ShapePathDataString ,Converter={StaticResource StringToGeometryConverter}}">
+
+                                </Path>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </DataTemplate>
+                <!--#endregion-->
+
+                <DataTemplate DataType="{x:Type drawingVm:DrawingViewModel}">
+                    <Grid Margin="50">
+                        <Path Fill="{Binding PresentationOptions.Fill, Converter={StaticResource StringToBrushConverter}}"
+                              Stroke="{Binding PresentationOptions.Stroke , Converter={StaticResource StringToBrushConverter}}"
+                              StrokeThickness="{Binding PresentationOptions.StrokeThickness}"
+                              StrokeLineJoin="Round"
+                              Opacity="{Binding PresentationOptions.Opacity}"
+                              Data="{Binding PathData,Converter={StaticResource StringToGeometryConverter},Mode=OneWay}">
+                        </Path>
+                        <ItemsControl ItemsSource="{Binding Dimensions}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <Grid />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="{x:Type drawingVm:DrawingViewModel}">
+                                    <Path Fill="{Binding PresentationOptions.Fill, Converter={StaticResource StringToBrushConverter}}"
+                                          Stroke="{Binding PresentationOptions.Stroke , Converter={StaticResource StringToBrushConverter}}"
+                                          StrokeThickness="{Binding PresentationOptions.StrokeThickness}"
+                                          StrokeLineJoin="Round"
+                                          Opacity="{Binding PresentationOptions.Opacity}"
+                                          Data="{Binding PathData,Converter={StaticResource StringToGeometryConverter},Mode=OneWay}">
+                                    </Path>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Grid>
+                </DataTemplate>
+
+            </ContentControl.Resources> 
+        </ContentControl>
+    </Viewbox>
+</UserControl>

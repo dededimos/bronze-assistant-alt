@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.11.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BathAccessoriesModelsLibrary\BathAccessoriesModelsLibrary.csproj" />
+    <ProjectReference Include="..\CommonHelpers\CommonHelpers.csproj" />
+    <ProjectReference Include="..\MirrorsModelsLibrary\MirrorsModelsLibrary.csproj" />
+    <ProjectReference Include="..\ShowerEnclosuresModelsLibrary\ShowerEnclosuresModelsLibrary.csproj" />
+  </ItemGroup>
+</Project>

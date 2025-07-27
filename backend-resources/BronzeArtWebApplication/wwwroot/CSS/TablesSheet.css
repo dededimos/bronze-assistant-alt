@@ -1,0 +1,78 @@
+﻿.centeredText {
+    text-align: center;
+}
+
+.rightText {
+    text-align: right;
+}
+
+.leftText {
+    text-align: left;
+}
+
+.scrollable-table {
+    overflow-x: auto;
+    overflow-y: auto;
+}
+
+.custom-table {
+    border-collapse: collapse;
+    width:100%;
+    position: relative;
+}
+
+.custom-tr:nth-child(odd) {
+    background-color: var(--BackgroundColor);
+}
+
+.custom-tr:nth-child(even) {
+    background-color: var(--BackgroundColor);
+}
+
+.imageContainer-Cell{
+    width:90px;
+    height:90px;
+    margin:auto;
+    padding:5px;
+    border-radius:10px;
+    background-color:white;
+}
+
+.custom-headerCell {
+    background-color:var(--BackgroundColor);
+    color: black;
+    font-size: 0.875rem;
+    font-weight: bold;
+    border-bottom: 2px solid var(--customPrimary);
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    padding: 10px;
+}
+
+.custom-footer {
+    background-color: white;
+    color: black;
+    text-align: right;
+    font-size: 1rem;
+    font-weight: bold;
+    position: sticky;
+    bottom: 0;
+    z-index: 2;
+    border-top: 2px solid var(--customPrimary);
+}
+
+.custom-cell {
+    color: black;
+    vertical-align: middle;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    padding: 10px;
+    border-bottom: 1px solid white;
+}
+
+.cellContainer-centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

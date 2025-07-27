@@ -1,0 +1,188 @@
+﻿@namespace BronzeArtWebApplication.Pages.CabinsPage.Components.TableInfoComponents
+@using ShowerEnclosuresModelsLibrary.Models
+@using static BronzeArtWebApplication.Shared.Helpers.StaticInfoCabins
+@inject ILanguageContainerService lc
+@inject ISnackbar snackbar
+
+    <MudTabs Elevation="2" 
+             Class="@(Class)" 
+             Style="@(Style)" 
+             Color="@(Color.Dark)" 
+             PanelClass="pa-2"
+             Position="@(Position.Left)" 
+             Centered="@(true)" 
+             Border="@(true)" 
+             ApplyEffectsToContainer="@(true)" HideSlider="@(false)" @bind-ActivePanelIndex="@(activePanelIndex)">
+        <MudTabPanel Text="@(lc.Keys["RecentSynthesis"])" Style="@(activePanelIndex is 0 ? tabStyleActive : tabStyleInactive)">
+            @if (isBusy)
+            {
+                <div class="d-flex flex-column align-center justify-center" style="width:100%">
+                            <MudProgressCircular Indeterminate="@(true)" Style="color:white"/>
+                            <MudText Style="color:white">@(lc.Keys["Loading"])</MudText>    
+                </div>
+            }
+            else if (isInErrorRecents)
+            { 
+                <div class="d-flex flex-column align-center justify-center" style="width:100%">
+                            <MudIcon Icon="@(Icons.Material.Filled.WarningAmber)" Color="@(Color.Warning)"/>
+                            <MudText Style="color:white">@(lc.Keys["FailedLoadingRecents"])</MudText>    
+                </div>
+            }
+            else if (IsRecentsEmpty)
+            {
+                <div class="d-flex flex-column align-center justify-center" style="width:100%">
+                            <MudIcon Icon="@(Icons.Material.Filled.SpeakerNotesOff)" Color="@(Color.Info)"/>
+                            <MudText Style="color:white">@(lc.Keys["RecentsListEmpty"])</MudText>
+                </div>
+            }
+            else
+            {
+                <MudTable Items="@(recentSynthesis)" T="CabinSynthesis"
+                          Dense="@(true)" 
+                          ReadOnly="@(true)" 
+                          Hover="@(true)" 
+                          Breakpoint="@(Breakpoint.None)" 
+                          Height="@(TableHeightPX)" 
+                          Style="background-color:inherit"
+                          Class="mx-auto"
+                          CustomHeader="@(true)" OnRowClick="@((e)=>HandleSelection(e))">
+                    <HeaderContent>
+                        <MudTHeadRow Style="background-color:inherit;">
+                            <MudTh><MudText Class="@(textClass)" Typo="@(tablesTypo)" Style="@(headerTextStyle)">-</MudText></MudTh>
+                            <MudTh><MudText Class="@(textClass)" Typo="@(tablesTypo)" Style="@(headerTextStyle)">@(lc.Keys["Code"])</MudText></MudTh>
+                            <MudTh><MudText Class="@(textClass)" Typo="@(tablesTypo)" Style="@(headerTextStyle)">@(lc.Keys["Draw"])</MudText></MudTh>
+                            <MudTh><MudText Class="@(textClass)" Typo="@(tablesTypo)" Style="@(headerTextStyle)">@(lc.Keys["Dimensions"])</MudText></MudTh>
+                        </MudTHeadRow>
+                    </HeaderContent>
+                    <RowTemplate>
+                        <MudTd><MudText Class="@(textClass)" Style="@(cellTextStyle)" Typo="@(tablesTypo)">@(recentSynthesis.IndexOf(context)+1)</MudText></MudTd>
+                        <MudTd>
+                            <div class="d-flex flex-column">
+                                @if (context.Primary is not null)   {<MudText Class="@(textClass)" Style="@(cellTextStyle)" Typo="@(tablesTypo)">@(context.Primary.Code)</MudText>}
+                                @if (context.Secondary is not null) {<MudText Class="@(textClass)" Style="@(cellTextStyle)" Typo="@(tablesTypo)">@(context.Secondary.Code)</MudText>}
+                                @if (context.Tertiary is not null)  {<MudText Class="@(textClass)" Style="@(cellTextStyle)" Typo="@(tablesTypo)">@(context.Tertiary.Code)</MudText>}
+                            </div>
+                        </MudTd>
+                        <MudTd>
+                            @if (lc.Keys[CabinDrawNumberDescKey[context.DrawNo]].Contains('-'))
+                           {
+                               <MudText Style="@(cellTextStyle)" Class="@(textClass)" 
+                                        Typo="@(tablesTypo)">
+                                        @(lc.Keys[CabinDrawNumberDescKey[context.DrawNo]].Split('-')[0].Trim())
+                               </MudText>
+                               <br/>
+                               <MudText Style="@(cellTextStyle)" Class="@(textClass)"
+                                        Typo="@(tablesTypo)">
+                                        @(lc.Keys[CabinDrawNumberDescKey[context.DrawNo]].Split('-')[1].Trim())
+                               </MudText>
+                           }
+                           else
+                           {
+                               <MudText Class="@(textClass)" Style="@(cellTextStyle)" Typo="@(tablesTypo)">@(lc.Keys[CabinDrawNumberDescKey[context.DrawNo]])</MudText>
+                           }
+                            
+                        </MudTd>
+                        <MudTd>
+                            <div class="d-flex flex-row">
+                                @if (context.Primary is not null)   {<MudText Class="@(textClass)" Style="@(cellTextStyle)" Typo="@(tablesTypo)">@($"{context.Primary.NominalLength}")</MudText>}
+                                @if (context.Secondary is not null) {<MudText Class="@(textClass)" Style="@(cellTextStyle)" Typo="@(tablesTypo)">@($"x{context.Secondary.NominalLength}")</MudText>}
+                                @if (context.Tertiary is not null)  {<MudText Class="@(textClass)" Style="@(cellTextStyle)" Typo="@(tablesTypo)">@($"x{context.Tertiary.NominalLength}")</MudText>}
+                                @if (context.Primary is not null)   {<MudText Class="@(textClass)" Style="@(cellTextStyle)" Typo="@(tablesTypo)">@($"x ({lc.Keys["HeightLetter"]}){context.Primary.Height}mm")</MudText>}
+                            </div>
+                        </MudTd>
+                    </RowTemplate>
+                </MudTable>
+            }
+        </MudTabPanel>
+        <MudTabPanel Text="@(lc.Keys["SavedSynthesis"])" Style="@(activePanelIndex is 1 ? tabStyleActive : tabStyleInactive)">
+            @if (isBusy)
+            {
+                <div class="d-flex flex-column align-center justify-center" style="width:100%">
+                            <MudProgressCircular Indeterminate="@(true)" Style="color:white"/>
+                            <MudText Style="color:white">@(lc.Keys["Loading"])</MudText>    
+                </div>
+            }
+            else if (isInErrorSaved)
+            { 
+                <div class="d-flex flex-column align-center justify-center" style="width:100%">
+                            <MudIcon Icon="@(Icons.Material.Filled.WarningAmber)" Color="@(Color.Warning)"/>
+                            <MudText Style="color:white">@(lc.Keys["FailedLoadingSaved"])</MudText>    
+                </div>
+            }
+            else if (IsSavedEmpty)
+            {
+                <div class="d-flex flex-column align-center justify-center" style="width:100%">
+                            <MudIcon Icon="@(Icons.Material.Filled.SpeakerNotesOff)" Color="@(Color.Info)"/>
+                            <MudText Style="color:white">@(lc.Keys["SavedListEmpty"])</MudText>
+                </div>
+            }
+            else
+            {
+                 <MudTable Items="@(savedSynthesis)"
+                          T="@(CabinSynthesis)"
+                          Dense="@(true)" 
+                          ReadOnly="@(true)" 
+                          Hover="@(true)" 
+                          Breakpoint="@(Breakpoint.None)" 
+                          Height="@(TableHeightPX)" 
+                          Style="background-color:inherit"
+                          Class="mx-auto"
+                          CustomHeader="@(true)"
+                          OnRowClick="@((e)=>HandleSelection(e))">
+                    <HeaderContent>
+                        <MudTHeadRow Style="background-color:inherit;">
+                            <MudTh><MudText Class="@(textClass)" Typo="@(tablesTypo)" Style="@(headerTextStyle)">-</MudText></MudTh>
+                            <MudTh><MudText Class="@(textClass)" Typo="@(tablesTypo)" Style="@(headerTextStyle)">@(lc.Keys["Code"])</MudText></MudTh>
+                            <MudTh><MudText Class="@(textClass)" Typo="@(tablesTypo)" Style="@(headerTextStyle)">@(lc.Keys["Draw"])</MudText></MudTh>
+                            <MudTh><MudText Class="@(textClass)" Typo="@(tablesTypo)" Style="@(headerTextStyle)">@(lc.Keys["Dimensions"])</MudText></MudTh>
+                        </MudTHeadRow>
+                    </HeaderContent>
+                    <RowTemplate>
+                        <MudTd><MudText Class="@(textClass)" Style="@(cellTextStyle)" Typo="@(tablesTypo)">@(savedSynthesis.IndexOf(context)+1)</MudText></MudTd>
+                        <MudTd>
+                            <div class="d-flex flex-column">
+                                @if (context.Primary is not null)   {<MudText Class="@(textClass)" Style="@(cellTextStyle)" Typo="@(tablesTypo)">@(context.Primary.Code)</MudText>}
+                                @if (context.Secondary is not null) {<MudText Class="@(textClass)" Style="@(cellTextStyle)" Typo="@(tablesTypo)">@(context.Secondary.Code)</MudText>}
+                                @if (context.Tertiary is not null)  {<MudText Class="@(textClass)" Style="@(cellTextStyle)" Typo="@(tablesTypo)">@(context.Tertiary.Code)</MudText>}
+                            </div>
+                        </MudTd>
+                        <MudTd>
+                            @if (lc.Keys[CabinDrawNumberDescKey[context.DrawNo]].Contains('-'))
+                           {
+                               <MudText Style="@(cellTextStyle)" Class="@(textClass)" 
+                                        Typo="@(tablesTypo)">
+                                        @(lc.Keys[CabinDrawNumberDescKey[context.DrawNo]].Split('-')[0].Trim())
+                               </MudText>
+                               <br/>
+                               <MudText Style="@(cellTextStyle)" Class="@(textClass)"
+                                        Typo="@(tablesTypo)">
+                                        @(lc.Keys[CabinDrawNumberDescKey[context.DrawNo]].Split('-')[1].Trim())
+                               </MudText>
+                           }
+                           else
+                           {
+                               <MudText Class="@(textClass)" Style="@(cellTextStyle)" Typo="@(tablesTypo)">@(lc.Keys[CabinDrawNumberDescKey[context.DrawNo]])</MudText>
+                           }
+                            
+                        </MudTd>
+                        <MudTd>
+                            <div class="d-flex flex-row">
+                                @if (context.Primary is not null)   {<MudText Class="@(textClass)" Style="@(cellTextStyle)" Typo="@(tablesTypo)">@($"{context.Primary.NominalLength}")</MudText>}
+                                @if (context.Secondary is not null) {<MudText Class="@(textClass)" Style="@(cellTextStyle)" Typo="@(tablesTypo)">@($"x{context.Secondary.NominalLength}")</MudText>}
+                                @if (context.Tertiary is not null)  {<MudText Class="@(textClass)" Style="@(cellTextStyle)" Typo="@(tablesTypo)">@($"x{context.Tertiary.NominalLength}")</MudText>}
+                                @if (context.Primary is not null)   {<MudText Class="@(textClass)" Style="@(cellTextStyle)" Typo="@(tablesTypo)">@($"x ({lc.Keys["HeightLetter"]}){context.Primary.Height}mm")</MudText>}
+                            </div>
+                        </MudTd>
+                    </RowTemplate>
+                </MudTable>
+            }
+        </MudTabPanel>
+    </MudTabs>
+
+
+
+
+@code {
+    private string tabStyleActive = "text-transform:none;background-color:var(--customPrimary)";
+    private string tabStyleInactive = "text-transform:none;";
+}

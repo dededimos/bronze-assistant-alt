@@ -1,0 +1,204 @@
+﻿@* The page containing the Elements that get Printed -- Application navigates back once printing is over *@
+@page "/PrintingOffer"
+@using System.Text.RegularExpressions
+@using System.Web
+@layout BlankLayout
+@inject AssembleMirrorViewModel Vm
+@inject IJSRuntime jsRuntime
+@inject ILanguageContainerService lc
+
+@*An Overlay to Cover Rest Elements before printing*@
+<div id="printOverlay">
+    <MudOverlay Class="d-flex flex-start" Style="background-color:white" AutoClose="false" Visible="true">
+        <div style="height:100vh;width:100vw;">
+            <div class="d-flex flex-column justify-center align-center ma-3" style="width:fit-content">
+                <i class="fas fa-print fa-10x"></i>
+                <MudText Typo="@(Typo.body2)">@(lc.Keys["PrintsBestIn"])</MudText>
+                <MudText Typo="@(Typo.body2)">Google Chrome</MudText>
+            </div>
+        </div>
+    </MudOverlay>
+</div>
+
+@*Header Gets printed in each page -- 1px Top Position otherwise a small part is printed to the Previous Page*@
+<header style="width:100%;position:fixed;top:1px" class="d-flex flex-row">
+
+    @if (Vm.Series != null)
+    {
+        <span style="flex-grow:1;border-bottom:5px solid var(--customPrimary)" class="mb-4"></span>
+        <div style="width:150px;" Class="px-5 d-flex align-center">
+            <img src="../Images/Logos/BABlack.png" />
+        </div>
+        <span style="flex-grow:8;border-bottom:5px solid var(--customPrimary)" class="mb-4"></span>
+        <MudPaper Style="background-color:var(--BackgroundColor);flex-grow:0" Elevation="0" Class="px-5 pt-2 pb-2 mx-2">
+            <MudText Style="color:var(--customPrimary)" Typo="Typo.body1">
+                @if (Vm.Series is MirrorSeries.Custom)
+                {
+                    @($"{lc.Keys[MirrorSeriesDescKey[(MirrorSeries)Vm.Series]]}")
+                }
+                else if (Vm.Series is not null)
+                {
+                    @($"{lc.Keys["Series"]} {lc.Keys[MirrorSeriesDescKey[(MirrorSeries)Vm.Series]]}")
+                }
+                else
+                {
+                    @($"{lc.Keys["Series"]} - ???? ")
+                }
+            </MudText>
+        </MudPaper>
+        <span style="flex-grow:1;border-bottom:5px solid var(--customPrimary)" class="mb-4"></span>
+    }
+</header>
+
+<MudPaper Elevation="0"
+          Outlined="false"
+          Class="d-flex flex-column align-center justify-center pt-15"
+          Style="background-color: transparent; flex: 1 1 auto">
+    <MudPaper Elevation="0"
+              Outlined="false"
+              Class="d-flex flex-row justify-space-between" Style="width:100%">
+        <img src="@Vm.GetSelectedMirrorPhotoPath()"
+             alt="@Vm.GetAltSelectedMirrorPhotoPath()"
+             class="rounded-lg"
+             style="max-height:30vh;" />
+        <div class="d-flex flex-column rounded-lg ml-2" style="border:1px solid var(--BackgroundColor)">
+            <div style="background-color:var(--BackgroundColor)" class="rounded-t-lg">
+                <MudText Typo="@(Typo.body1)" Color="@(Color.Dark)" Align="@(Align.Center)">
+                    @(lc.Keys["Options"])
+                </MudText>
+            </div>
+            <MudPaper Class="d-flex flex-wrap justify-center"
+                      Elevation="0"
+                      Outlined="false"
+                      Style="background-color:transparent">
+                @if (Vm.Light != null)
+                {
+                    <MudPaper Elevation="0"
+                              Outlined="false"
+                              Class="ma-1 pa-1"
+                              Style="background-color:transparent">
+                        <img src="@(LightImagePaths[(MirrorLight)Vm.Light])"
+                             style="max-height:70px" />
+                    </MudPaper>
+                }
+                @foreach (string photoPath in Vm.GetSelectedOptionsPhotoPath())
+                {
+                    <MudPaper Elevation="0" Outlined="false" Class="ma-1 pa-1" Style="background-color:transparent">
+                        <img src="@photoPath" style="max-height:70px" />
+                    </MudPaper>
+                }
+                @if (Vm.Support != null & Vm.Shape != null)
+                {
+                    <MudPaper Elevation="0"
+                              Outlined="false"
+                              Class="ma-1 pa-1"
+                              Style="background-color:transparent">
+                        <img src="@(SupportImagePaths[((MirrorSupport)Vm.Support,(MirrorShape)Vm.Shape)])"
+                             style="max-height:70px;border:1px solid black;border-radius:5px;padding:5px;" />
+                    </MudPaper>
+                }
+                @if (Vm.FinishType == SupportFinishType.Painted && Vm.PaintFinish != null)
+                {
+                    <MudPaper Elevation="0"
+                              Outlined="false"
+                              Class="ma-1 pa-1"
+                              Style="background-color:transparent">
+                        <img src="@(PaintFinishPaths[(SupportPaintFinish)Vm.PaintFinish])"
+                             style="max-height:70px;" />
+                    </MudPaper>
+                }
+                else if (Vm.FinishType == SupportFinishType.Electroplated && Vm.ElectroplatedFinish != null)
+                {
+                    <MudPaper Elevation="0"
+                              Outlined="false"
+                              Class="ma-1 pa-1"
+                              Style="background-color:transparent">
+                        <img src="@(ElectroplatingFinishPaths[(SupportElectroplatedFinish)Vm.ElectroplatedFinish])"
+                             style="max-height:70px;" />
+                    </MudPaper>
+                }
+            </MudPaper>
+        </div>
+    </MudPaper>
+    <hr style="width:100%;height:1px;border-width:0px;color:lightgray;background-color:lightgray;margin-top:10px;margin-bottom:10px" />
+    <MudGrid>
+        <MudItem xs="12" Style="width:100%">
+            <MudPaper Class="ma-2 d-flex flex-column align-center justify-center"
+                      Elevation="0"
+                      Outlined="false"
+                      Style="background-color:lightgray">
+                <MirrorPricingTable Priceables="@(Vm.GetPriceables())" WithPrintStyle="@(true)" />
+            </MudPaper>
+            @if (string.IsNullOrWhiteSpace(Vm.NotesText) is false)
+            {
+                <div class="ml-2" style="font-style:italic">
+                    @*Captures the new Lines e.t.c. and replaces them with html elements to keep formating the same - Thanks StackOverflow!*@
+                    @((MarkupString)Regex.Replace(
+                        HttpUtility.HtmlEncode($"{lc.Keys["Notes"]}: {Vm.NotesText}"), "\r?\n|\r", "<br />"))
+                </div>
+            }
+        </MudItem>
+    </MudGrid>
+
+    <div style="width:100%;position:fixed;bottom:0px" class="mt-auto d-flex flex-row">
+        <span style="flex-grow:8;border-bottom:5px solid var(--customPrimary)" class="mb-4"></span>
+        <BrandLogo Style="width:150px" Class="px-5 d-flex align-center" IsVisibleBronzeLogoRetail="@(false)" />
+        <span style="flex-grow:1;border-bottom:5px solid var(--customPrimary)" class="mb-4"></span>
+    </div>
+</MudPaper>
+
+@*NEXT PAGE - GENERATE DRAWS ONLY FOR THOSE FOUR SHAPES AND NOT FOR THE GENESIS AND ISAVELLA LINES*@
+
+@if (Vm.Shape is MirrorShape.Rectangular or MirrorShape.Circular or MirrorShape.Ellipse or MirrorShape.Capsule && Vm.Series is not MirrorSeries.P8 and not MirrorSeries.P9 and not MirrorSeries.ES and not MirrorSeries.EL)
+{
+    <div class="d-flex flex-column align-center justify-center" style="width:100%;height:45vh;page-break-before:always;">
+        <MudText Align="@Align.Center" Typo="Typo.h5" Class="mt-11">@lc.Keys["FrontDraw"]</MudText>
+        <MirrorDrawing Draw="Vm.Draw.FrontDraw"
+                       ContainerBox="Vm.Draw.ContainerBox"
+                       ExtrasBoundary="Vm.Draw.ExtrasBoundaryArea"
+                       SandblastBoundary="Vm.Draw.SandblastBoundaryArea"
+                       SupportsBoundary="Vm.Draw.SupportBoundaryArea"
+                       ShowLabeledExtras="false"
+                       ShowGlassDimensions="false"
+                       ShowDrawBoundaries="false" />
+    </div>
+
+    <div class="d-flex flex-column align-center justify-center" style="width:100%;height:45vh;">
+        <MudText Align="@Align.Center" Typo="Typo.h5">@lc.Keys["RearDraw"]</MudText>
+        <MirrorDrawing Draw="Vm.Draw.RearDraw"
+                       ContainerBox="Vm.Draw.ContainerBox"
+                       ExtrasBoundary="Vm.Draw.ExtrasBoundaryArea"
+                       SandblastBoundary="Vm.Draw.SandblastBoundaryArea"
+                       SupportsBoundary="Vm.Draw.SupportBoundaryArea"
+                       ShowLabeledExtras="true"
+                       ShowGlassDimensions="true"
+                       ShowDrawBoundaries="false" />
+    </div>
+    @*Indicative Draws and Page Bottom Logo*@
+    <div style="width:100%;" class="d-flex justify-center mb-2">
+        <MudText Typo="Typo.caption">
+            @lc.Keys["DrawingsAreIndicative"]
+        </MudText>
+    </div>
+}
+
+
+
+@code {
+
+    /// <summary>
+    /// Opens the Print Dialog immediately after rendering the page
+    /// </summary>
+    /// <param name="firstRender"></param>
+    protected override void OnAfterRender(bool firstRender)
+    {
+        Task.Run(() =>
+        {
+            jsRuntime.InvokeVoidAsync("printPage");
+        });
+    }
+
+    //Notes :
+    //Class: "page-break-before:always" is Used in the Draw div so that draws are placed in a new page each time we print
+    //height:50vh : is Used in the Draw Divs so that each gains half the height of the page
+}

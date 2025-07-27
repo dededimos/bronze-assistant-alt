@@ -1,0 +1,347 @@
+﻿@*The Panel Containing Controls and Displaying Information about a Cabin*@
+@namespace BronzeArtWebApplication.Pages.CabinsPage.Components.WindowsComponents
+@using BronzeArtWebApplication.Pages.CabinsPage.Components.DrawComponents
+@using BronzeArtWebApplication.Components.SVGComponents
+@using ShowerEnclosuresModelsLibrary.Enums
+@using ShowerEnclosuresModelsLibrary.Models
+@using ShowerEnclosuresModelsLibrary.Enums.CabinCategories
+@using static BronzeArtWebApplication.Shared.Helpers.StaticInfoCabins
+@using static BronzeArtWebApplication.Shared.Helpers.StylesStaticInfoCabins
+@inject ILanguageContainerService lc
+@inject AssembleCabinViewModel vm
+@inject BronzeUser user
+@inject NavigationManager navigationManager
+@inject ILocalStorageService storage
+
+<StoryContainer IsTitleBoxVisible="@(true)"
+                Title="@(lc.Keys["CabinPanelWindowTitle"])"
+                IsNextButtonVisible="@(false)"
+                IsPreviousButtonVisible="@(true)"
+                OnPreviousClick="(()=> vm.ShowWindow(vm.PreviousWindow,StoryWindow.CabinPanel))"
+                OnResetClick="@(()=> vm.ResetViewModel())"
+                @bind-IsVisible="@(vm.IsWindowVisible[StoryWindow.CabinPanel])">
+    <MainContent>
+        <MudGrid Spacing="5" Class="px-5 py-5">
+            <MudItem xs="12" sm="12" md="12" lg="6" xl="6" xxl="6">
+                <PanelContainer Class="pa-2 mud-elevation-4" TitleStyle="position:relative">
+                    <TitleContent>
+                        <div class="d-flex flex-column">
+                            <div class="d-flex d-sm-none" style="height:35px"></div>
+                            <MudText Typo="@(Typo.h5)" Style="font-weight:700" Align="Align.Center" Color="@(Color.Dark)">@(lc.Keys[CabinDrawNumberDescKey[vm.SelectedCabinDraw]])</MudText>
+                            </div>
+                            <div style="position:absolute;right:5px;top:0px"
+                             class="rounded-lg justify-center align-center">
+                                <MudTooltip Placement="@(Placement.Top)">
+                                    <TooltipContent>
+                                        @(lc.Keys["Photo"])
+                                </TooltipContent>
+                                <ChildContent>
+                                    <MudIconButton Icon="fa-solid fa-camera" Color="@(Color.Dark)" Variant="@(isPhotoActive ? Variant.Filled : Variant.Outlined)"
+                                                   OnClick="@(()=> {isPhotoActive = true;isDrawActive = false;StateHasChanged();})" />
+                                </ChildContent>
+                            </MudTooltip>
+                        </div>
+                        <div style="position:absolute;right:50px;top:0px;"
+                             class="rounded-lg justify-center align-center">
+                            @*d-none d-sm-none d-md-flex (If we want this only for md and upper screens)*@
+                            <MudTooltip Placement="@(Placement.Top)">
+                                <TooltipContent>
+                                    @(lc.Keys["Draw"])
+                                </TooltipContent>
+                                <ChildContent>
+                                    <MudIconButton Icon="fa-solid fa-compass-drafting" Color="@(Color.Dark)" Variant="@(isDrawActive ? Variant.Filled : Variant.Outlined)"
+                                                   OnClick="@(()=> {isPhotoActive = false;isDrawActive = true;StateHasChanged();})" />
+                                </ChildContent>
+                            </MudTooltip>
+                        </div>
+                    </TitleContent>
+                    <Content>
+                        <div class="d-flex flex-column">
+                            @if (isDrawActive)
+                            {
+                                @*Needs width 100% in SVG Element otherwise in rerenders the total size is that of the ViewBoxAspectRatio*@
+                                <CabinDrawSVG Synthesis="@(vm.Synthesis)" ShowErrorOnMissingDraw="@(true)"
+                                          Style="width:100%;max-height:500px" />
+                            }
+                            else
+                            {
+                                <img src="@(CabinDrawNumberImagePath[vm.SelectedCabinDraw])" class="rounded-lg mx-auto noselect" />
+                            }
+                            <CabinInfoTable Synthesis="@(vm.Synthesis)" />
+                            <div class="d-flex flex-wrap mt-2 mx-auto justify-center align-center">
+                                @if (vm.PrimaryCabin?.Extras.Any(e => e.ExtraType == CabinExtraType.StepCut) is true)
+                                {
+                                    <MudTooltip>
+                                        <ChildContent>
+                                            <div class="IconContainer">
+                                                <img class="iconImg" src="@(CabinExtraImagePath[CabinExtraType.StepCut])" />
+                                            </div>
+                                        </ChildContent>
+                                        <TooltipContent>
+                                            @(lc.Keys["StepCutFullDesc"])
+                                        </TooltipContent>
+                                    </MudTooltip>
+                                }
+                                @if (vm.PrimaryCabin?.HasBronzeClean is true)
+                                {
+                                    <MudTooltip>
+                                        <ChildContent>
+                                            <div class="IconContainer">
+                                                <img class="iconImg" src="@(CabinExtraImagePath[CabinExtraType.BronzeClean])" />
+                                            </div>
+                                        </ChildContent>
+                                        <TooltipContent>
+                                            @(lc.Keys["BronzeCleanFullDesc"])
+                                        </TooltipContent>
+                                    </MudTooltip>
+                                }
+                                @if (vm.PrimaryCabin?.HasSafeKids is true)
+                                {
+                                    <MudTooltip>
+                                        <ChildContent>
+                                            <div class="IconContainer">
+                                                <img class="iconImg" src="@(CabinExtraImagePath[CabinExtraType.SafeKids])" />
+                                            </div>
+                                        </ChildContent>
+                                        <TooltipContent>
+                                            @(lc.Keys["SafeKidsFullDesc"])
+                                        </TooltipContent>
+                                    </MudTooltip>
+                                }
+                                <MudTooltip>
+                                    <ChildContent>
+                                        <div class="IconContainer">
+                                            <img class="iconImg" src="../Images/CabinImages/CabinExtras/Packing.png" />
+                                        </div>
+                                    </ChildContent>
+                                    <TooltipContent>
+                                        @(lc.Keys["HeavyDutyPackingTooltip"])
+                                    </TooltipContent>
+                                </MudTooltip>
+                                @if (vm.Synthesis.IsReversible)
+                                {
+                                    <MudTooltip>
+                                        <ChildContent>
+                                            <div class="IconContainer">
+                                                <img class="iconImg" src="../Images/CabinImages/CabinExtras/Reversible.jpg" />
+                                            </div>
+                                        </ChildContent>
+                                        <TooltipContent>
+                                            @(lc.Keys["ReversibleTooltip"])
+                                        </TooltipContent>
+                                    </MudTooltip>
+                                }
+                                @if (vm.PrimaryCabin.Series is CabinSeries.Bronze6000 && vm.PrimaryCabin.Model is not CabinModelEnum.Model9B)
+                                {
+                                    <MudTooltip>
+                                        <ChildContent>
+                                            <div class="IconContainer">
+                                                <img class="iconImg" src="../Images/CabinImages/CabinExtras/Wheels8x8.png" />
+                                            </div>
+                                        </ChildContent>
+                                        <TooltipContent>
+
+                                            <div class="d-flex flex-column">
+                                                <MudText Typo="@(Typo.subtitle2)" Align="@(Align.Center)">
+                                                    @($"{lc.Keys["Wheels"]} 8x8")
+                                                </MudText>
+                                                <MudDivider />
+                                                <MudText Typo="@(Typo.caption)" Align="@(Align.Left)">
+                                                    @($"1. {lc.Keys["Wheels8x8Tooltip1"]}")
+                                                </MudText>
+                                                <MudText Typo="@(Typo.caption)" Align="@(Align.Left)">
+                                                    @($"2. {lc.Keys["Wheels8x8Tooltip2"]}")
+                                                </MudText>
+                                                <MudText Typo="@(Typo.caption)" Align="@(Align.Left)">
+                                                    @($"3. {lc.Keys["Wheels8x8Tooltip3"]}")
+                                                </MudText>
+                                                <MudText Typo="@(Typo.caption)" Align="@(Align.Left)">
+                                                    @($"4. {lc.Keys["Wheels8x8Tooltip4"]}")
+                                                </MudText>
+                                            </div>
+                                        </TooltipContent>
+                                    </MudTooltip>
+                                }
+                                <MudTooltip>
+                                    <ChildContent>
+                                        <div class="IconContainer">
+                                            <img class="iconImg" src="../Images/CabinImages/CabinExtras/MadeInGreece.png" />
+                                        </div>
+                                    </ChildContent>
+                                    <TooltipContent>
+                                        @(lc.Keys["MadeInGreeceTooltip"])
+                                    </TooltipContent>
+                                </MudTooltip>
+                            </div>
+                        </div>
+                    </Content>
+                </PanelContainer>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="12" lg="6" xl="6" xxl="6" Class="d-flex justify-center align-start">
+                <MudGrid Justify="Justify.Center" Spacing="2">
+                    <MudItem xs="12" sm="12" md="12" lg="12" xl="12" xxl="12">
+                        <DimensionsPanel />
+                    </MudItem>
+                    <MudItem xs="12" sm="12" md="6" lg="6" xl="6" xxl="6">
+                        <GlassPropertiesPanel />
+                    </MudItem>
+                    <MudItem xs="12" sm="12" md="6" lg="6" xl="6" xxl="6">
+                        <MetalFinishPanel />
+                    </MudItem>
+                    <MudItem xs="12" sm="12" md="12" lg="12" xl="12" xxl="12">
+                        <CabinExtraOptionsPanel />
+                    </MudItem>
+                    @if (user.IsPricingVisible)
+                    {
+                        @if (user.SelectedAppMode != BronzeAppMode.Guest && user.SelectedRetailTheme != RetailModeTheme.Lakiotis)
+                        {
+                            <MudItem xs="12" sm="12" md="12" lg="12" xl="12" xxl="12">
+                                <PricingPanel />
+                            </MudItem>
+                        }
+                    }
+                </MudGrid>
+
+            </MudItem>
+            @if (IsValidSelection())
+            {
+                <MudItem xs="12" sm="12" md="12" lg="12" xl="12" xxl="12">
+                    <div class="d-flex flex-column">
+                        @if (user.IsPricingVisible && !user.IsWhiteLabeled)
+                        {
+                            <div class="mx-auto">
+                                <MudTooltip Class="pa-4">
+                                    <TooltipContent>
+                                        <MudText Align="@(Align.Left)">@($"1.{lc.Keys["PricesAreNew"]}")</MudText>
+                                        <MudText Align="@(Align.Left)">@($"2.{lc.Keys["CustomDimensionIrregular"]}")</MudText>
+                                        <MudText Align="@(Align.Left)">@($"3.{lc.Keys["PricesAreNotBinding"]}")</MudText>
+                                    </TooltipContent>
+                                    <ChildContent>
+                                            <MudIcon Icon="@(Icons.Material.Outlined.Info)" Color="@(Color.Primary)" />
+                                    </ChildContent>
+                                </MudTooltip>
+                            </div>
+                        }
+
+                        <CabinsPricingTable />
+
+                        @*Notes and Buttons*@
+                        <MudGrid Justify="@(Justify.Center)">
+                            <MudItem xs="12" sm="12" md="12" lg="6" xl="6" xxl="6">
+                                <MudTextField T="string" Style="width:100%"
+                                    Variant="@(Variant.Outlined)" 
+                                    @bind-Text="@(vm.NotesText)" 
+                                    Label="@(lc.Keys["Notes"])" 
+                                    Margin="@(Margin.Dense)" Class="my-5"
+                                    Lines="4" Clearable="@(true)"/>
+                            </MudItem>
+                            <MudItem xs="12" sm="12" md="12" lg="6" xl="6" xxl="6">
+                                <div class="d-flex flex-column">
+                                    <div class="d-flex flex-row justify-center align-center py-5">
+                                        <MudTooltip>
+                                            <TooltipContent>
+                                                @lc.Keys["PrintSaveOffer"]
+                                            </TooltipContent>
+                                            <ChildContent>
+                                                <MudButton StartIcon="fas fa-print"
+                                                       Class="mud-elevation-2 justify-center align-center" IconClass="ma-0"
+                                                               Color="@(Color.Primary)"
+                                                       Variant="@(Variant.Outlined)" Style="text-transform:none"
+                                                       OnClick="@(()=> PrintpageAsync())">
+                                                    <div class="d-none d-sm-flex ml-2">@lc.Keys["PrintSaveOffer"]</div>
+                                                </MudButton>
+                                            </ChildContent>
+                                        </MudTooltip>
+                                            <div style="width:50px;height:1px;border-bottom:1px solid var(--customPrimary)" class="ma-2" />
+                                        <MudTooltip>
+                                            <TooltipContent>
+                                                @lc.Keys["CreateLinkInformation"]
+                                            </TooltipContent>
+                                            <ChildContent>
+                                                <MudButton StartIcon="@(Icons.Material.Filled.Share)"
+                                                       Class="mud-elevation-2 justify-center align-center" IconClass="ma-0"
+                                                               Color="@(Color.Primary)"
+                                                       Variant="@(Variant.Outlined)"
+                                                       Style="text-transform:none"
+                                                       OnClick="@(()=> CopyLinkToClipboardAsync())">
+                                                    <div class="d-none d-sm-flex ml-2">@lc.Keys["LinkCreation"]</div>
+                                                </MudButton>
+                                            </ChildContent>
+                                        </MudTooltip>
+                                    </div>
+                                    <div class="d-flex flex-row justify-center align-center">
+                                        <MudTooltip RootClass="d-none d-lg-flex">
+                                            <TooltipContent>
+                                                @lc.Keys["CopyTable"]
+                                            </TooltipContent>
+                                            <ChildContent>
+                                                <MudButton StartIcon="@(Icons.Material.Filled.ContentCopy)"
+                                                           Class="mud-elevation-2 justify-center align-center" IconClass="ma-0"
+                                                           Color="@(Color.Primary)"
+                                                           Variant="@(Variant.Outlined)"
+                                                           Style="text-transform:none"
+                                                           OnClick="@(()=> CopyTable())">
+                                                    <div class="d-none d-sm-flex ml-2">@lc.Keys["CopyTable"]</div>
+                                                </MudButton>
+                                            </ChildContent>
+                                        </MudTooltip>
+                                        <div style="width:50px;height:1px;border-bottom:1px solid var(--customPrimary)" class="ma-2 d-none d-lg-flex" />
+                                        <MudTooltip RootClass="d-none d-lg-flex">
+                                            <TooltipContent>
+                                                @lc.Keys["SaveSynthesisTooltip"]
+                                            </TooltipContent>
+                                            <ChildContent>
+                                                <MudButton StartIcon="@(Icons.Material.Filled.Save)"
+                                                       Class="mud-elevation-2 justify-center align-center" IconClass="ma-0"
+                                                               Color="@(Color.Primary)"
+                                                       Variant="@(Variant.Outlined)"
+                                                       Style="text-transform:none"
+                                                       OnClick="@(()=> SaveSynthesisToRecentsAsync("SavedSynthesis",true))">
+                                                    <div class="d-none d-sm-flex ml-2">@lc.Keys["SaveSynthesisButton"]</div>
+                                                </MudButton>
+                                            </ChildContent>
+                                        </MudTooltip>
+                                    </div>
+                                </div>
+                            </MudItem>
+                        </MudGrid>
+                    </div>
+                </MudItem>
+            }
+            else
+            {
+                <MudItem xs="12" sm="12" md="12" lg="12" xl="12" xxl="12">
+                    <MudPaper Elevation="4" Style="width:100%;background-color:rgba(255,0,0,0.1);" Class="pa-5 d-flex flex-column">
+                        <div class="ma-auto">
+                            <MudText Style="text-decoration:underline" Color="@(Color.Primary)" Align="@(Align.Center)" Typo="@(Typo.subtitle1)" Class="mb-2">
+                                @(lc.Keys["SelectionsNeedCorrection"])
+                            </MudText>
+                            @foreach ((string, string) errorSet in validationErrorCodes)
+                            {
+                                <MudText Color="@(Color.Primary)" Typo="@(Typo.subtitle1)" Align=@(Align.Left)>
+                                    @($"{validationErrorCodes.IndexOf(errorSet) + 1}.{lc.Keys[errorSet.Item1]} : {lc.Keys[errorSet.Item2]}")
+                                </MudText>
+                            }
+                        </div>
+                    </MudPaper>
+                </MudItem>
+            }
+        </MudGrid>
+    </MainContent>
+</StoryContainer>
+
+@*Pseudo Element to Have Pictures ready for Loading Otherwise they are not Printed on First Try to Print*@
+<div style="display:none">
+    @*Current Cabin Image to be printed*@
+    <img src="@(CabinDrawNumberImagePath[vm.SelectedCabinDraw])" class="rounded-lg mx-auto noselect" />
+    @*Preload all photos of the parts table so they can be printed *@
+    <CabinPartsPhotoTable Synthesis="vm.Synthesis" />
+    @*LOGOS NEEDED FOR QUOTE*@
+    <BronzeArtLogoSVG />
+    <BrandLogo IsVisibleBronzeLogoRetail="@(false)" />
+</div>
+
+@code {
+
+}

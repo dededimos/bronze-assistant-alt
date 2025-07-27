@@ -1,0 +1,22 @@
+﻿@page {
+    size: A4;
+    margin: 8mm 8mm 8mm 8mm
+}
+
+.imgPropertiesContainer {
+    display: flex;
+    flex-direction: row;
+    align-items:center;
+}
+.imgContainer{
+    width:400px;
+    height:400px;
+}
+.dimensionsTableContainer{
+
+}
+.propertiesTableContainer{
+
+}
+
+

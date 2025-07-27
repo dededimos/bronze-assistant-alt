@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Fonts\calibri.ttf" />
+    <None Remove="Fonts\calibrib.ttf" />
+    <None Remove="Fonts\calibrii.ttf" />
+    <None Remove="Fonts\calibril.ttf" />
+    <None Remove="Fonts\calibrili.ttf" />
+    <None Remove="Fonts\calibriz.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Fonts\calibri.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fonts\calibrib.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fonts\calibrii.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fonts\calibril.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fonts\calibrili.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fonts\calibriz.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="ClosedXML" Version="0.104.2" />
+  </ItemGroup>
+</Project>

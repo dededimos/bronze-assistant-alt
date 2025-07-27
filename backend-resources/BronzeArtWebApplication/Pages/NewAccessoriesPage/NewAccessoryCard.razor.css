@@ -1,0 +1,154 @@
+﻿.accessoryCardDiv {
+    width: 310px;
+    height: 340px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 25px 20px;
+    border-bottom: 3px solid var(--BackgroundColor);
+    transition: border-bottom-color 1s ease;
+    position: relative;
+}
+
+    .accessoryCardDiv:hover {
+        border-bottom: 3px solid var(--customPrimary);
+        /*change z to persist hover from selecting near elements*/
+        z-index:2;
+    }
+
+        .accessoryCardDiv:hover .dimensionsContainer {
+            display: flex;
+            max-width:100%;
+            flex-direction: column;
+            justify-content: center;
+            align-items:center;
+        }
+
+        .accessoryCardDiv:hover .finishesContainer, finishesContainer:hover {
+            display: flex;
+            position: absolute;
+            top: 100%;
+            left: 0;
+        }
+        .accessoryCardDiv:hover .interactionsContainer {
+            display: flex;
+            gap: 5px;
+            flex-direction: column;
+            justify-content: center;
+            align-items: start;
+            position: absolute;
+            top: 0%;
+            left: 0%;
+            margin-top: 5px;
+            margin-left: 5px;
+            z-index: 3;
+        }
+.interactionsContainer {
+    display: none;
+    animation: opacityTransition 0.5s ease;
+}
+.mainImageContainer{
+    width:320px;
+    height:220px;
+    padding:35px;
+}
+
+.bottomContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.bottomTextContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    width: 100%;
+}
+
+.bottomPriceContainer {
+    display: flex;
+    flex-direction:column;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+    width: 80px;
+    border: 1px solid var(--BackgroundColor);
+    padding: 10px;
+    margin : 0px 0px 0px 0px;
+    border-radius: 10px;
+    font-size:small;
+    font-weight: bold;
+}
+
+.bottomPriceStockContainer{
+    display: flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
+.bottomStockContainer {
+    
+    white-space: nowrap;
+    font-size: smaller;
+    font-weight:normal;
+    display:flex;
+    justify-content:flex-start;
+}
+
+.dimensionsContainer {
+    display: none;
+}
+
+.dimensionContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    object-fit: contain;
+    width: 70px;
+}
+
+
+.dimensionImage {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
+.finishContainer {
+    margin-right: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    padding:4px;
+    border:1px solid transparent;
+    animation : opacityTransition 0.5s ease;
+    transition : border-color ease 0.5s;
+}
+
+    .finishContainer:hover{
+        border:1px solid var(--customPrimary);
+        border-radius:5px;
+    }
+
+.finishesContainer {
+    display: none;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    width: 100%;
+    /*give padding to bootom to persist hover*/
+    padding: 10px 0px 20px 0px;
+}
+
+.finishImage {
+    width: 40px;
+    height: 40px;
+    object-fit: scale-down;
+    display: block;
+}

@@ -1,0 +1,51 @@
+﻿@using BathAccessoriesModelsLibrary;
+@using BathAccessoriesModelsLibrary.Services;
+@inject ILanguageContainerService Lc
+
+<div class="onlyPrinting">
+    <header class="printPageHeader" style="@(HideHeader ? "display:none;" : "")">
+        <span class="bigLineDivider"/>
+        <div class="headerColoredBox">
+            @($"{Lc.Keys["AccessorySheet"]} - {Accessory.GetSpecificCode(SelectedFinish.Finish.Code)}")
+        </div>
+        <span class="smallLineDivider" />
+    </header>
+    <div class="printingContentContainer">
+        <div class="imgPropertiesContainer">
+
+            <div class="imgContainer">
+                <AccessoryImagePresenter 
+                    PhotoSize="@(PhotoSize.Small)"
+                    Accessory="@(Accessory)"
+                    ShownAccessoryFinishCode="@(SelectedFinish.Finish.Code)" />
+            </div>
+            <div class="dimensionsTableContainer">
+                <AccessoryDimensionsTable 
+                    Accessory="@(Accessory)" 
+                    SelectedFinish="@(SelectedFinish)"/>
+            </div>
+        </div>
+        <div class="propertiesTableContainer">
+                <AccessoryPropertiesTable 
+                    Accessory="@(Accessory)" 
+                    SelectedFinish="@(SelectedFinish)"/>
+        </div>
+    </div>
+    <footer class="printPageFooter" style="@(HideFooter ? "display:none" : "")">
+        <span class="bigLineDivider" />
+        <img class="footerLogoImage" src="../Images/Logos/BABlack.png" />
+        <span class="smallLineDivider" />
+    </footer>
+
+</div>
+
+@code {
+    [Parameter]
+    public BathroomAccessory Accessory { get; set; }
+    [Parameter]
+    public AccessoryFinish SelectedFinish { get; set; }
+    [Parameter]
+    public bool HideFooter { get; set; }
+    [Parameter]
+    public bool HideHeader { get; set; }
+}

@@ -1,0 +1,1119 @@
+﻿@using BathAccessoriesModelsLibrary.AccessoriesUserOptions;
+@using BathAccessoriesModelsLibrary.Services;
+@using BathAccessoriesModelsLibrary;
+@using BronzeArtWebApplication.Components.PrintTemplates
+@using BronzeArtWebApplication.Components.UniversalComponents
+@using BronzeArtWebApplication.Shared.Layouts;
+@using BronzeArtWebApplication.Shared.ReportModels
+@using BronzeArtWebApplication.Shared.Services;
+@using BronzeArtWebApplication.Shared.Services.OtherServices
+@using BronzeArtWebApplication.Shared.Services.SaveToStorageServices;
+@using BronzeArtWebApplication.Shared.ViewModels.AccessoriesPageViewModels;
+@using BronzeRulesPricelistLibrary.Models.Priceables.AccessoriesPriceables;
+@using BronzeArtWebApplication.Pages.NewAccessoriesPage.VariousComponents;
+@using System.Globalization;
+@using BronzeRulesPricelistLibrary;
+
+@layout AccessoriesLayout
+@inject BasketViewModel Basket
+@inject BronzeUser user
+@inject AccessoriesUrlHelper photosHelper
+@inject ILanguageContainerService Lc
+@inject IAccessoriesMemoryRepository Repo
+@inject IMessageService message
+@inject ISnackbar snackbar
+@inject NavigationManager navManager
+@inject BasketSaveService saveService
+@inject JSCallService Js
+@inject BasketItemWholesaleQuoteTemplate wholesaleReport
+@inject BasketItemRetailQuoteTemplate retailReport
+@inject BasketItemGuestQuoteTemplate guestReport
+@inject AccessoryPriceableReportTemplate priceableReport
+@page "/Accessories/QuoteBasket"
+
+
+
+<QuotePrintTemplate IncludePriceTable="@(true)" IncludeSheets="@(includeSheetsInQuote)"/>
+<LocalProgressIndicator 
+    IsBusy="@(isBusy)" 
+    Progress="@(taskProgress)" 
+    ShowPercentage="@(true)" 
+    ShowStepsCompletion="@(true)"
+    ShowCancelButton="@(true)"
+    CancelButtonClick="@(()=> CancelRunningTask())"/>
+<div class="basketEmptyContainer doNotPrint d-flex d-sm-none">
+            <span class="basketEmptyText">@(Lc.Keys["CannotDisplayThisPageinSmallScreens"])</span>
+            <MudIcon Icon="@(Icons.Material.Outlined.Warning)" Size="@(Size.Large)" Color="@(Color.Warning)" Style="font-size:4rem" />
+</div>
+
+<div class="quoteBasketContainer doNotPrint d-none d-sm-flex">
+    @if (Basket.ItemsCount == 0)
+    {
+        <div class="basketEmptyContainer">
+            <div class="toolsContainer">
+                <MudTooltip Placement="@(Placement.Top)" Arrow=@(true)>
+                    <ChildContent>
+                        <MudIconButton Color="@(Color.Primary)"
+                                       Icon="@(Icons.Material.Filled.Download)"
+                                       Size="@(Size.Large)"
+                                       OnClick="@(()=> message.OpenSavedBasketsDialogAsync())" />
+                    </ChildContent>
+                    <TooltipContent>
+                        @(Lc.Keys["RetrieveBasket"])
+                    </TooltipContent>
+                </MudTooltip>
+                <MudTooltip Placement="@(Placement.Left)" Arrow=@(true) Class="pl-5">
+                    <ChildContent>
+                        <MudToggleIconButton @bind-Toggled="@(_drawerOpen)"
+                                             ToggledIcon="@(Icons.Material.Filled.CloseFullscreen)"
+                                             Icon="@(Icons.Material.Filled.MenuOpen)"
+                                             Color="@(Color.Primary)"
+                                             ToggledColor="@(Color.Default)"
+                                             Size="@(Size.Large)" ToggledSize="@(Size.Large)" />
+                    </ChildContent>
+                    <TooltipContent>
+                        @(Lc.Keys["More Options"])
+                    </TooltipContent>
+                </MudTooltip>
+            </div>
+            <span class="basketEmptyText">@(Lc.Keys["QuoteBasketIsEmpty"])<br />@(Lc.Keys["PleaseAddProductsToBasket"])</span>
+            <MudIcon Icon="@(Icons.Material.Outlined.RemoveShoppingCart)" Size="@(Size.Large)" Color="@(Color.Primary)" Style="font-size:5rem" />
+        </div>
+    }
+    else
+    {
+        <div class="quoteTableContainer scrollable-table">
+            <MudOverlay Absolute=@(true)
+                        @bind-Visible="@(isOverlayOpen)"
+                        @bind-Visible:after="@(ScrapChangesIfOverlayAlreadyClosed)"
+                        AutoClose="@(false)"
+                        LightBackground="@(true)"
+                        ZIndex="9">
+            </MudOverlay>
+            <table id="basketTable" class="quoteTable">
+                <thead>
+                    <tr>
+                        <th class="headerCell toolboxHeader" colspan="@(Basket.PricesEnabled ? 11 : 6)">
+                            <div class="toolsContainer">
+                                <div class="toolsSubContainer1">
+                                    <MudTooltip Placement="@(Placement.Top)" Arrow=@(true)>
+                                    <ChildContent>
+                                        <MudIconButton Icon="@(Icons.Material.Filled.Save)"
+                                                       OnClick="@(()=> SaveCurrentBasket())"
+                                                       Size="@(Size.Medium)"
+                                                       Color="@(Color.Primary)" />
+                                    </ChildContent>
+                                    <TooltipContent>
+                                        @(Lc.Keys["SaveBasket"])
+                                    </TooltipContent>
+                                </MudTooltip>
+                                    <MudTooltip Placement="@(Placement.Top)" Arrow=@(true)>
+                                    <ChildContent>
+                                        <MudIconButton Icon="@(Icons.Material.Filled.Download)"
+                                                       OnClick="@(()=> message.OpenSavedBasketsDialogAsync())"
+                                                       Size="@(Size.Medium)"
+                                                       Color="@(Color.Primary)" />
+                                    </ChildContent>
+                                    <TooltipContent>
+                                        @(Lc.Keys["RetrieveBasket"])
+
+                                    </TooltipContent>
+                                </MudTooltip>
+                                <MudTooltip Placement="@(Placement.Top)" Arrow=@(true)>
+                                    <ChildContent>
+                                        <MudIconButton Icon="@(Icons.Material.Filled.ContentCopy)"
+                                                       OnClick="@(()=> CopyTableToClipBoard())"
+                                                       Size="@(Size.Medium)"
+                                                       Color="@(Color.Primary)" />
+                                    </ChildContent>
+                                    <TooltipContent>
+                                            @(Lc.Keys["CopyTable"])
+                                    </TooltipContent>
+                                </MudTooltip>
+                                    <MudTooltip Placement="@(Placement.Top)" Arrow=@(true)>
+                                        <ChildContent>
+                                            <MudIconButton Icon="@(Icons.Custom.FileFormats.FileExcel)"
+                                                           OnClick="@(()=> GenerateExcelReport())"
+                                                           Size="@(Size.Medium)"
+                                                           Color="@(Color.Primary)" />
+                                        </ChildContent>
+                                        <TooltipContent>
+                                            @(Lc.Keys["SaveAsExcelFile"])
+                                        </TooltipContent>
+                                    </MudTooltip>
+                                <MudTooltip Placement="@(Placement.Top)" Arrow=@(true)>
+                                    <ChildContent>
+                                        <MudIconButton Icon="@(Icons.Material.Filled.Print)"
+                                                       OnClick="@(()=> Js.PrintCurrentPage())"
+                                                       Size="@(Size.Medium)"
+                                                       Color="@(Color.Primary)" />
+                                    </ChildContent>
+                                    <TooltipContent>
+                                            @(Lc.Keys["PrintSaveOfferFirefoxNo"])
+                                    </TooltipContent>
+                                </MudTooltip>
+                                </div>
+                                <div class="toolsSubContainer2">
+                                    @if(user.SelectedAppMode == BronzeAppMode.Retail && Basket.PricesEnabled)
+                                    {
+                                        <MudTooltip Placement="@(Placement.Top)" Arrow=@(true)>
+                                            <ChildContent>
+                                                <MudIconButton Icon="@(Icons.Material.Outlined.MoneyOff)"
+                                                               OnClick="@(()=> ClearRetailDiscounts())"
+                                                               Size="@(Size.Medium)"
+                                                               Color="@(Color.Primary)" />
+                                            </ChildContent>
+                                            <TooltipContent>
+                                                @(Lc.Keys["ClearRetailDiscounts"])
+                                            </TooltipContent>
+                                        </MudTooltip>
+                                    }
+                                    @if(user.SelectedAppMode == BronzeAppMode.Wholesale && user.IsPowerUser)
+                                    
+                                    {
+                                        <MudTooltip Placement="@(Placement.Top)" Arrow=@(true)>
+                                            <ChildContent>
+                                                <MudIconButton Icon="@(Icons.Material.Filled.NotificationsOff)"
+                                                               OnClick="@(()=> DisableRulesClearDiscSetCatPrice())"
+                                                               Size="@(Size.Medium)"
+                                                               Color="@(Color.Warning)" />
+                                            </ChildContent>
+                                            <TooltipContent>
+                                                @($"1.{Lc.Keys["DisablesRules"]}")
+                                                <br/>
+                                                @($"2.{Lc.Keys["SetsCataloguePrice"]}")
+                                                <br/>
+                                                @($"3.{Lc.Keys["ClearsDiscounts"]}")
+                                            </TooltipContent>
+                                        </MudTooltip>
+                                        <MudTooltip Placement="@(Placement.Top)" Arrow=@(true)>
+                                            <ChildContent>
+                                                <MudIconButton Icon="@(Icons.Material.Outlined.Sync)"
+                                                               OnClick="@(()=> RevertsPricingToDefaultsWholesale())"
+                                                               Size="@(Size.Medium)"
+                                                               Color="@(Color.Primary)" />
+                                            </ChildContent>
+                                            <TooltipContent>
+                                                @(Lc.Keys["RevertsPricingToDefault"])
+                                            </TooltipContent>
+                                        </MudTooltip>
+                                        <MudTooltip>
+                                            <ChildContent>
+                                                <div class="selectedRulesTextContainer">
+                                                    @(Lc.Keys["SelectedRules"])
+                                                    <br/>
+                                                    @(Basket.CurrentlySelectedOptions.DescriptionInfo.Name)
+                                                </div>
+                                            </ChildContent>
+                                            <TooltipContent>
+                                                <AccessoriesOptionsTablePresenter Options="@(Basket.CurrentlySelectedOptions)"/>
+                                            </TooltipContent>
+                                        </MudTooltip>
+                                    }
+                                </div>
+                                <div class="toolsSubContainer3">
+                                    <MudTooltip Placement="@(Placement.Top)" Arrow=@(true)>
+                                        <ChildContent>
+                                            <MudToggleIconButton @bind-Toggled="@(includeSheetsInQuote)"
+                                                                 ToggledIcon="@(Icons.Material.Filled.SnippetFolder)"
+                                                                 Icon="@(Icons.Material.Filled.FolderOff)"
+                                                                 Color="@(Color.Default)"
+                                                                 ToggledColor="@(Color.Primary)"
+                                                                 Size="@(Size.Medium)" ToggledSize="@(Size.Medium)" />
+                                        </ChildContent>
+                                        <TooltipContent>
+                                            @(includeSheetsInQuote ? Lc.Keys["SheetsIncludedInQuote"] : Lc.Keys["SheetsNotIncludedInQuote"])
+                                        </TooltipContent>
+                                    </MudTooltip>
+                                    <MudTooltip Placement="@(Placement.Top)" Arrow=@(true)>
+                                        <ChildContent>
+                                            <MudToggleIconButton @bind-Toggled="@(imagesDisabled)"
+                                                                 ToggledIcon="@(Icons.Material.Filled.ImageNotSupported)"
+                                                                 Icon="@(Icons.Material.Filled.Image)"
+                                                                 Color="@(Color.Primary)"
+                                                                 ToggledColor="@(Color.Default)"
+                                                                 Size="@(Size.Medium)" ToggledSize="@(Size.Medium)" />
+                                        </ChildContent>
+                                        <TooltipContent>
+                                            @(imagesDisabled ? Lc.Keys["ImagesDisabled"] : Lc.Keys["ImagesEnabled"])
+                                        </TooltipContent>
+                                    </MudTooltip>
+                                    <MudTooltip Placement="@(Placement.Top)" Arrow=@(true)>
+                                        <ChildContent>
+                                            <MudIconButton Icon="@(Icons.Material.Filled.Delete)"
+                                                           OnClick="@(()=> DeleteBasket())"
+                                                           Size="@(Size.Medium)"
+                                                           Color="@(Color.Primary)" />
+                                        </ChildContent>
+                                        <TooltipContent>
+                                            @(Lc.Keys["ClearBasket"])
+                                        </TooltipContent>
+                                    </MudTooltip>
+                                    <MudTooltip Placement="@(Placement.Left)" Arrow=@(true) Class="pl-5">
+                                        <ChildContent>
+                                            <MudToggleIconButton @bind-Toggled="@(_drawerOpen)"
+                                                                 ToggledIcon="@(Icons.Material.Filled.CloseFullscreen)"
+                                                                 Icon="@(Icons.Material.Filled.MenuOpen)"
+                                                                 Color="@(Color.Primary)"
+                                                                 ToggledColor="@(Color.Default)"
+                                                                 Size="@(Size.Medium)" ToggledSize="@(Size.Medium)" />
+                                        </ChildContent>
+                                        <TooltipContent>
+                                            @(Lc.Keys["More Options"])
+                                        </TooltipContent>
+                                    </MudTooltip>
+                                </div>
+                            </div>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th class="headerCell maxWidthSmallCell">-</th>
+                        <th class="headerCell centeredText maxWidthSmallCell">@(Lc.Keys["LineNoMin"])</th>
+                        <th class="headerCell centeredText">@(imagesDisabled ? "" : Lc.Keys["Photo"])</th>
+                        <th class="headerCell leftText">@(Lc.Keys["Code"])</th>
+                        <th class="headerCell leftText">@(Lc.Keys["Description"])</th>
+                        <th class="headerCell centeredText">@(Lc.Keys["Quantity"])</th>
+                        @if (Basket.PricesEnabled)
+                        {
+                            <th class="headerCell centeredText" style="max-width:80px">@(Lc.Keys["Initial1Price"])<br />@(Lc.Keys["Initial2Price"])</th>
+                            <th class="headerCell">@(Lc.Keys["Discount"])</th>
+                            <th class="headerCell centeredText">
+                                @if (user.SelectedAppMode == BronzeAppMode.Retail)
+                                {
+                                    @(Lc.Keys["FinalPrice"])
+                                }
+                                else
+                                {
+                                    @(Lc.Keys["NetPrice"])
+                                    <br/>
+                                    @($"({Lc.Keys["PlusVat"]}*)")
+                                }
+                                <br/>
+                                @($"({Lc.Keys["pc"]})")
+                            </th>
+                            <th class="headerCell centeredText">
+                                @if (user.SelectedAppMode == BronzeAppMode.Retail)
+                                {
+                                    @(Lc.Keys["FinalPrice"])
+                                }
+                                else
+                                {
+                                    @(Lc.Keys["NetPrice"])
+                                    <br/>
+                                    @($"({Lc.Keys["PlusVat"]}*)")
+                                }
+                                <br/>
+                                @(Lc.Keys["Total"])
+                            </th>
+                            <th class="headerCell">
+                                <div class="cellContainer-centered">
+                                    <MudTooltip Placement="@(Placement.Left)">
+                                        <ChildContent>
+                                            <MudIcon Icon="@(Icons.Material.Filled.Info)" Size="@(Size.Small)" Color="@(Color.Primary)" />
+                                        </ChildContent>
+                                        <TooltipContent>
+                                            @(Lc.Keys["CalculationsInfo"])
+                                        </TooltipContent>
+                                    </MudTooltip>
+                                </div>
+                            </th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Basket.Products)
+                    {
+                        @if (item == Basket.ItemUnderEdit)
+                        {
+                            <tr class="trAboveOverlay">
+                                <td id="editRemoveLineCell" class="cell centeredText maxWidthSmallCell">
+                                    <MudIconButton Icon="@(Icons.Material.Filled.RemoveCircleOutline)"
+                                                   Color="@(Color.Error)"
+                                                   Size="@(Size.Small)"
+                                                   OnClick="@(()=> RemoveOnUserConfirm(item))" />
+                                </td>
+                                <td id="editLineNoCell" class="cell centeredText maxWidthSmallCell">@(Basket.Products.IndexOf(item) + 1)</td>
+                                <td id="editimageCell" class="cell">
+                                    <div class="imageContainer cursorPointer"
+                                    @onclick="@(()=> navManager.NavigateTo($"{RoutesStash.DetailedAccessoryCard}?{RoutesStash.CodeParamName}={((AccessoryPriceable)item.Priceable).Product.Code}&{RoutesStash.FinishParamName}={((AccessoryPriceable)item.Priceable).SelectedFinish.Finish.Code}"))">
+                                        <AccessoryImagePresenter PhotoSize="@(PhotoSize.Thumbnail)"
+                                                                 ShownAccessoryFinishCode="@(((AccessoryPriceable)item.Priceable).SelectedFinish.Finish.Code)"
+                                                                 Accessory="@(((AccessoryPriceable)item.Priceable).Product)" />
+                                    </div>
+                                </td>
+                                <td id="editCodeDescriptionQuantityCell" colspan="3" class="cell">
+                                    <div class="codeDescriptionQtyEditContainer">
+                                        <div class="codeDescriptionEditContainer">
+                                            <MudTextField @bind-Value="@(item.OveriddenCode)"
+                                                          Margin="@(editTemplateMargin)"
+                                                          Variant="@(editTemplateVariant)"
+                                                          Label="@(Lc.Keys["Code"])"
+                                                          Style="font-size:0.875rem"
+                                                          MaxLength="20"
+                                                          Class="mb-2"
+                                                          Adornment="@(Adornment.End)"
+                                                          AdornmentIcon="@(Icons.Material.Filled.Sync)"
+                                                          Disabled="@(!user.IsPowerUser)"
+                                                          OnAdornmentClick="@(()=> item.RevertCodeToDefault())" />
+                                            <MudTextField @bind-Value="@(item.OveriddenDescription)"
+                                                          Margin="@(editTemplateMargin)"
+                                                          Variant="@(editTemplateVariant)"
+                                                          MaxLength="60"
+                                                          Label="@(Lc.Keys["Description"])" Style="font-size:0.875rem"
+                                                          Adornment="@(Adornment.End)"
+                                                          AdornmentIcon="@(Icons.Material.Filled.Sync)"
+                                                          Disabled="@(!user.IsPowerUser)"
+                                                          OnAdornmentClick="@(()=> item.RevertDescriptionToDefault())" />
+                                        </div>
+                                        <div class="quantityEditContainer">
+                                            <MudNumericField T="decimal"
+                                            @bind-Value="@(item.Quantity)"
+                                                             Max="100000"
+                                                             Min="1"
+                                                             Label="@(Lc.Keys["Quantity"])"
+                                                             Margin="@(editTemplateMargin)"
+                                                             Variant="@(editTemplateVariant)"
+                                                             AdornmentText="@(Lc.Keys["pcs"])"
+                                                             Adornment="@(Adornment.End)"
+                                                             MaxLength="6"
+                                                             Pattern="[0-9]"
+                                                             Format="0"
+                                                             Style="font-size:0.875rem" />
+                                        </div>
+                                    </div>
+                                </td>
+                                @if (Basket.PricesEnabled)
+                                {
+                                    <td id="editPriceDiscountCell" colspan="2" class="cell rightText">
+                                        @if (user.SelectedAppMode == BronzeAppMode.Wholesale && !item.AreExceptionRulesDisabled)
+                                        {
+                                            <MudTooltip>
+                                                <ChildContent>
+                                                    <div class="priceDiscountsContainer">
+                                                        <div class="ruleSumsContainer">
+                                                            @if (item.Priceable.GetAppliedValueRulesOnly().Count() == 1)
+                                                            {
+                                                                <div class="initialPriceEditControl" style="max-width:180px;">
+                                                                    <MudNumericField T="decimal"
+                                                                                     Value="@(item.Priceable.StartingPrice)"
+                                                                                     Label="@(Lc.Keys["InitialPrice"])"
+                                                                                     HelperText="@(Lc.Keys[item.Priceable.GetAppliedValueRulesOnly().FirstOrDefault()?.RuleName ?? "????"])"
+                                                                                     Margin="@(editTemplateMargin)"
+                                                                                     Variant="@(editTemplateVariant)"
+                                                                                     AdornmentText="€"
+                                                                                     Adornment="@(Adornment.End)"
+                                                                                     MaxLength="6"
+                                                                                     Disabled="@(true)"
+                                                                                     Format="0.00"
+                                                                                     Style="font-size:0.875rem" />
+                                                                </div>
+                                                            }
+                                                            else if (item.Priceable.GetAppliedValueRulesOnly().Count() == 0)
+                                                            {
+                                                                <div class="initialPriceEditControl" style="max-width:180px;">
+                                                                    <MudNumericField T="decimal"
+                                                                                     Value="@(item.Priceable.StartingPrice)"
+                                                                                     Label="@(Lc.Keys["InitialPrice"])"
+                                                                                     HelperText="@("RulesNotPresent")"
+                                                                                     Margin="@(editTemplateMargin)"
+                                                                                     Variant="@(editTemplateVariant)"
+                                                                                     AdornmentText="€"
+                                                                                     Adornment="@(Adornment.End)"
+                                                                                     MaxLength="6"
+                                                                                     Format="0.00"
+                                                                                     Disabled="@(true)"
+                                                                                     Style="font-size:0.875rem" />
+                                                                </div>
+                                                            }
+                                                            else
+                                                            {
+                                                                <table class="ruleSumsTable">
+
+                                                                    @foreach (var rule in item.Priceable.GetAppliedValueRulesOnly().ToList())
+                                                                    {
+                                                                        <tr>
+                                                                            <td class="smallInfoCell">
+                                                                                @(Lc.Keys[rule.RuleName])
+                                                                            </td>
+                                                                            <td class="smallInfoCell">
+                                                                                @(rule.RuleApplicationDescription)
+                                                                            </td>
+                                                                        </tr>
+                                                                    }
+                                                                    <tr>
+                                                                        <td class="smallInfoCell">
+                                                                            @(Lc.Keys["InitialPrice"])
+                                                                        </td>
+                                                                        <td class="smallInfoCell">
+                                                                            @($"{item.Priceable.StartingPrice:0.00€}")
+                                                                        </td>
+                                                                    </tr>
+
+                                                                </table>
+                                                            }
+                                                            @if (user.IsPowerUser)
+                                                            {
+                                                                <div id="extraDiscountContainer" class="initialPriceEditControl">
+                                                                    <MudNumericField T="decimal"
+                                                                    @bind-Value="@(item.AdditionalDiscountPercentRules)"
+                                                                                     Max="100"
+                                                                                     Min="0"
+                                                                                     Label="@(Lc.Keys["AdditionalDiscountMin"])"
+                                                                                     HelperText="@(Lc.Keys["AdditionalDiscount"])"
+                                                                                     Margin="@(editTemplateMargin)"
+                                                                                     Variant="@(editTemplateVariant)"
+                                                                                     AdornmentText="%"
+                                                                                     Adornment="@(Adornment.End)"
+                                                                                     MaxLength="5"
+                                                                                     Format="0.00"
+                                                                                     Style="font-size:0.875rem" />
+                                                                </div>
+                                                            }
+                                                        </div>
+                                                        <div class="ruleSumsContainer">
+                                                            @if (item.Priceable.GetAppliedPercentRulesOnly().Count() is 0 or 1)
+                                                            {
+                                                                <div class="totalDiscountEditControl" style="margin-top:21px">
+                                                                    <MudNumericField T="decimal"
+                                                                                     Value="@(item.Priceable.GetTotalDiscountPercent())"
+                                                                                     Label="@(Lc.Keys["TotalDiscount"])"
+                                                                                     HelperText="@(Lc.Keys[item.Priceable.GetAppliedPercentRulesOnly().FirstOrDefault()?.RuleName ?? "WithoutExtraDiscounts"])"
+                                                                                     Margin="@(editTemplateMargin)"
+                                                                                     Variant="@(editTemplateVariant)"
+                                                                                     AdornmentText="%"
+                                                                                     Adornment="@(Adornment.End)"
+                                                                                     MaxLength="5"
+                                                                                     Format="0.00"
+                                                                                     Disabled="@(true)"
+                                                                                     Style="font-size:0.875rem" />
+                                                                </div>
+                                                            }
+                                                            else
+                                                            {
+                                                                <table class="ruleSumsTable">
+                                                                    @foreach (var rule in item.Priceable.GetAppliedPercentRulesOnly().ToList())
+                                                                    {
+                                                                        <tr>
+                                                                            <td class="smallInfoCell">
+                                                                                @(Lc.Keys[rule.RuleName])
+                                                                            </td>
+                                                                            <td class="smallInfoCell">
+                                                                                @(rule.RuleApplicationDescription)
+                                                                            </td>
+                                                                        </tr>
+                                                                    }
+                                                                    <tr>
+                                                                        <td class="smallInfoCell">
+                                                                            @(Lc.Keys["TotalDiscount"])
+                                                                        </td>
+                                                                        <td class="smallInfoCell">
+                                                                            @($"{-item.Priceable.GetTotalDiscountPercent():0.00}%")
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </ChildContent>
+                                                <TooltipContent>
+                                                    @(Lc.Keys["UneditablePricesRulesActive"])
+                                                </TooltipContent>
+                                            </MudTooltip>
+                                        }
+                                        else if (user.SelectedAppMode == BronzeAppMode.Wholesale)
+                                        {
+                                            <div class="priceDiscountsContainer">
+                                                <div class="initialPriceEditControl">
+                                                    <MudNumericField T="decimal"
+                                                    @bind-Value="@(item.CustomizedPrice)"
+                                                                     Max="999999"
+                                                                     Min="0"
+                                                                     Label="@(Lc.Keys["InitialPrice"])"
+                                                                     HelperText="@(item.IsCataloguePrice ? Lc.Keys["CataloguePriceMin"] : Lc.Keys["CustomPriceMin"])"
+                                                                     Margin="@(editTemplateMargin)"
+                                                                     Variant="@(editTemplateVariant)"
+                                                                     AdornmentText="€"
+                                                                     Adornment="@(Adornment.End)"
+                                                                     MaxLength="6"
+                                                                     Format="0.00"
+                                                                     Style="font-size:0.875rem" />
+                                                </div>
+                                                <div class="editPriceSwitchContainer">
+                                                    <MudTooltip>
+                                                        <ChildContent>
+                                                            <MudIconButton Size="@(Size.Small)"
+                                                                           Icon="@(Icons.Material.Filled.Sync)"
+                                                                           OnClick="@(()=> item.RevertStartingPriceToDefault())"
+                                                                           Disabled="@(!item.AreExceptionRulesDisabled)" />
+                                                        </ChildContent>
+                                                        <TooltipContent>
+                                                            @(Lc.Keys["RestoreCataloguePrice"])
+                                                        </TooltipContent>
+                                                    </MudTooltip>
+                                                </div>
+                                                <div class="discountBoxesContainer">
+                                                    <div class="totalDiscountContainer">
+                                                        <div class="totalDiscountEditControl">
+                                                            <MudNumericField T="decimal"
+                                                            @bind-Value="@(item.TotalManualDiscountPercent)"
+                                                                             Max="100"
+                                                                             Min="0"
+                                                                             Label="@(Lc.Keys["ManualDiscount"])"
+                                                                             Margin="@(editTemplateMargin)"
+                                                                             Variant="@(editTemplateVariant)"
+                                                                             AdornmentText="%"
+                                                                             Adornment="@(Adornment.End)"
+                                                                             MaxLength="5"
+                                                                             Format="0.00"
+                                                                             Style="font-size:0.875rem" />
+                                                        </div>
+                                                        <div class="editDiscountSwitchContainer">
+                                                            <MudTooltip>
+                                                                <ChildContent>
+                                                                    <MudIconButton Size="@(Size.Small)"
+                                                                                   Icon="@(Icons.Material.Filled.Sync)"
+                                                                                   OnClick="@(()=> item.RevertDiscountsToDefaults())" />
+                                                                </ChildContent>
+                                                                <TooltipContent>
+                                                                    @(Lc.Keys["RestoreDiscountsToDefaults"])
+                                                                </TooltipContent>
+                                                            </MudTooltip>
+                                                        </div>
+                                                    </div>
+                                                    <div class="subDiscountsContainer">
+                                                        <div class="subDiscountContainer">
+                                                            <MudNumericField T="decimal"
+                                                            @bind-Value="@(item.PrimaryDiscountPercent)"
+                                                                             Max="100"
+                                                                             Min="0"
+                                                                             Label="@(Lc.Keys["FirstDisc"])"
+                                                                             Margin="@(editTemplateMargin)"
+                                                                             Variant="@(editTemplateVariant)"
+                                                                             MaxLength="5"
+                                                                             HideSpinButtons="@(true)"
+                                                                             Format="0"
+                                                                             Style="font-size:0.875rem" />
+                                                        </div>
+                                                        <div class="subDiscountContainer">
+                                                            <MudNumericField T="decimal"
+                                                            @bind-Value="@(item.SecondaryDiscountPercent)"
+                                                                             Max="100"
+                                                                             Min="0"
+                                                                             Label="@(Lc.Keys["SecondDisc"])"
+                                                                             Margin="@(editTemplateMargin)"
+                                                                             Variant="@(editTemplateVariant)"
+                                                                             MaxLength="5"
+                                                                             HideSpinButtons="@(true)"
+                                                                             Format="0"
+                                                                             Style="font-size:0.875rem" />
+                                                        </div>
+                                                        <div class="subDiscountContainer">
+                                                            <MudNumericField T="decimal"
+                                                            @bind-Value="@(item.TertiaryDiscountPercent)"
+                                                                             Max="100"
+                                                                             Min="0"
+                                                                             Label="@(Lc.Keys["ThirdDisc"])"
+                                                                             Margin="@(editTemplateMargin)"
+                                                                             Variant="@(editTemplateVariant)"
+                                                                             MaxLength="5"
+                                                                             HideSpinButtons="@(true)"
+                                                                             Format="0"
+                                                                             Style="font-size:0.875rem" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                        else if (user.SelectedAppMode == BronzeAppMode.Retail)
+                                        {
+                                            <div class="priceDiscountsContainer">
+                                                <div class="initialPriceEditControl">
+                                                    <MudNumericField T="decimal"
+                                                                     @bind-Value="@(item.RetailCustomizedPrice)"
+                                                                     Max="999999"
+                                                                     Min="0"
+                                                                     Label="@(Lc.Keys["RetailPrice"])"
+                                                                     HelperText="@(item.IsRetailPriceCatalogue ? Lc.Keys["CataloguePriceMin"] : Lc.Keys["CustomPriceMin"])"
+                                                                     Margin="@(editTemplateMargin)"
+                                                                     Variant="@(editTemplateVariant)"
+                                                                     AdornmentText="€"
+                                                                     Adornment="@(Adornment.End)"
+                                                                     MaxLength="6"
+                                                                     Format="0.00"
+                                                                     Disabled="@(!user.IsPowerUser)"
+                                                                     Style="font-size:0.875rem" />
+                                                </div>
+                                                <div class="editPriceSwitchContainer">
+                                                    <MudTooltip>
+                                                        <ChildContent>
+                                                            <MudIconButton Size="@(Size.Small)"
+                                                                           Icon="@(Icons.Material.Filled.Sync)"
+                                                                           OnClick="@(()=> item.RevertRetailStartingPriceToDefault())"
+                                                                           Disabled="@(!user.IsPowerUser)" />
+                                                        </ChildContent>
+                                                        <TooltipContent>
+                                                            @(Lc.Keys["RestoreCataloguePrice"])
+                                                        </TooltipContent>
+                                                    </MudTooltip>
+                                                </div>
+                                                <div class="discountBoxesContainer">
+                                                    <div class="totalDiscountContainer">
+                                                        <div class="totalDiscountEditControl">
+                                                            <MudNumericField T="decimal"
+                                                                             @bind-Value="@(item.RetailDiscountPercent)"
+                                                                             Max="100"
+                                                                             Min="0"
+                                                                             Label="@(Lc.Keys["Discount"])"
+                                                                             Margin="@(editTemplateMargin)"
+                                                                             Variant="@(editTemplateVariant)"
+                                                                             AdornmentText="%"
+                                                                             Adornment="@(Adornment.End)"
+                                                                             MaxLength="5"
+                                                                             Format="0.00"
+                                                                             Style="font-size:0.875rem" />
+                                                        </div>
+                                                        <div class="editDiscountSwitchContainer">
+                                                            <MudTooltip>
+                                                                <ChildContent>
+                                                                    <MudIconButton Size="@(Size.Small)"
+                                                                                   Icon="@(Icons.Material.Filled.Sync)"
+                                                                                   OnClick="@(()=> item.RetailDiscountPercent = 0)" />
+                                                                </ChildContent>
+                                                                <TooltipContent>
+                                                                    @(Lc.Keys["RestoreDiscountsToDefaults"])
+                                                                </TooltipContent>
+                                                            </MudTooltip>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </td>
+                                    <td id="editNetPriceCell" class="cell rightText">@string.Format(CultureInfo.InvariantCulture, "{0:N2}€", user.SelectedAppMode == BronzeAppMode.Retail ? item.RetailPriceable.GetNetPrice() : item.Priceable.GetNetPrice())</td>
+                                    <td id="editTotalNetCell" class="cell rightText">@string.Format(CultureInfo.InvariantCulture, "{0:N2}€", user.SelectedAppMode == BronzeAppMode.Retail ? item.RetailPriceable.GetTotalQuantityNetPrice() : item.Priceable.GetTotalQuantityNetPrice())</td>
+                                    <td id="editInfoCell" class="cell">
+                                        <div class="infoIconContainer">
+                                            <MudTooltip Placement="@(Placement.Left)">
+                                                <ChildContent>
+                                                    <MudIcon Icon="@(Icons.Material.Outlined.Info)" Color="@(Color.Primary)" Size="@(Size.Small)" />
+                                                </ChildContent>
+                                                <TooltipContent>
+                                                    <table style="border:none">
+                                                        @if(user.SelectedAppMode == BronzeAppMode.Wholesale)
+                                                        {
+                                                            @foreach (var rule in item.Priceable.AppliedRules)
+                                                            {
+                                                                <tr style="color:lightgreen;background-color:transparent;">
+                                                                    <td>@(Lc.Keys[rule.RuleName])</td>
+                                                                    <td>@(rule.RuleApplicationDescription)</td>
+                                                                </tr>
+                                                            }
+                                                        }
+                                                        else if(user.SelectedAppMode == BronzeAppMode.Retail)
+                                                        {
+                                                            @foreach (var rule in item.RetailPriceable.AppliedRules)
+                                                            {
+                                                            <tr style="color:lightgreen;background-color:transparent;">
+                                                                <td>@(Lc.Keys[rule.RuleName])</td>
+                                                                <td>@(rule.RuleApplicationDescription)</td>
+                                                            </tr>
+                                                            }
+                                                        }
+                                                    </table>
+                                                </TooltipContent>
+                                            </MudTooltip>
+                                        </div>
+                                    </td>
+                                }
+                            </tr>
+                            <tr class="informationAddtionalTr">
+                                <td colspan="11" class="informationSingleRowCell">
+                                    <div class="rulesContainer">
+                                        @if (Basket.PricesEnabled && user.IsPowerUser && user.SelectedAppMode == BronzeAppMode.Wholesale)
+                                        {
+                                            <MudButton StartIcon="@(item.AreExceptionRulesDisabled ? Icons.Material.Filled.NotificationsOff :Icons.Material.Filled.Notifications)"
+                                                       Size="@(Size.Small)"
+                                                       Color="@(item.AreExceptionRulesDisabled ? Color.Error : Color.Primary)"
+                                                       Variant="@(Variant.Outlined)"
+                                                       Style="text-transform:none"
+                                                       OnClick="@(()=> item.AreExceptionRulesDisabled = !item.AreExceptionRulesDisabled)">
+                                                @(item.AreExceptionRulesDisabled ? Lc.Keys["ExceptionRulesDisabled"] : Lc.Keys["ExceptionRulesEnabled"])
+                                            </MudButton>
+                                            <div class="rulesContainerText"></div>
+                                        }
+                                        <div style="margin-auto">
+                                            <MudTooltip>
+                                                <ChildContent>
+                                                    <MudIconButton Class="ml-4"
+                                                                   Icon="@(Icons.Material.Filled.Check)"
+                                                                   Color="@(Color.Success)"
+                                                                   OnClick="@(()=> SaveEditsAndClose())"
+                                                                   Size="@(Size.Small)" />
+                                                </ChildContent>
+                                                <TooltipContent>
+                                                    @(Lc.Keys["AcceptChanges"])
+                                                </TooltipContent>
+                                            </MudTooltip>
+                                            <MudTooltip>
+                                                <ChildContent>
+                                                    <MudIconButton Class="ml-4"
+                                                                   Icon="@(Icons.Material.Filled.Cancel)"
+                                                                   Color="@(Color.Error)"
+                                                                   Size="@(Size.Small)"
+                                                                   OnClick="@(()=> RevertEditsAndClose())" />
+                                                </ChildContent>
+                                                <TooltipContent>
+                                                    @(Lc.Keys["ScrapChanges"])
+                                                </TooltipContent>
+                                            </MudTooltip>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr class="darkenBackgroundHover" @ondblclick="@(()=> SetEditItem(item))">
+                                <td id="RemoveLineCell" class="cell centeredText maxWidthSmallCell">
+                                    <MudTooltip>
+                                        <ChildContent>
+                                            <MudIconButton Icon="@(Icons.Material.Filled.RemoveCircleOutline)"
+                                                   Color="@(Color.Error)"
+                                                   Size="@(Size.Small)"
+                                                   OnClick="@(()=> RemoveOnUserConfirm(item))" />
+                                        </ChildContent>
+                                        <TooltipContent>
+                                            @(Lc.Keys["RemoveLine"])
+                                        </TooltipContent>
+                                    </MudTooltip>
+                                    <MudTooltip>
+                                        <ChildContent>
+                                            <MudIconButton Icon="@(Icons.Material.Filled.Edit)"
+                                                   Color="@(Color.Primary)"
+                                                   Size="@(Size.Small)"
+                                                   OnClick="@(()=> SetEditItem(item))" />
+                                        </ChildContent>
+                                        <TooltipContent>
+                                            @(Lc.Keys["EditLine"])
+                                        </TooltipContent>
+                                    </MudTooltip>
+                                </td>
+                                <td id="LineNoCell" class="cell centeredText maxWidthSmallCell">@(Basket.Products.IndexOf(item) + 1)</td>
+                                <td id="ImageCell" class="cell">
+                                    @if (!imagesDisabled)
+                                    {
+                                        <div class="imageContainer cursorPointer"
+                                        @onclick="@(()=> navManager.NavigateTo($"{RoutesStash.DetailedAccessoryCard}?{RoutesStash.CodeParamName}={((AccessoryPriceable)item.Priceable).Product.Code}&{RoutesStash.FinishParamName}={((AccessoryPriceable)item.Priceable).SelectedFinish.Finish.Code}"))">
+                                            <AccessoryImagePresenter PhotoSize="@(PhotoSize.Thumbnail)"
+                                                                     ShownAccessoryFinishCode="@(((AccessoryPriceable)item.Priceable).SelectedFinish.Finish.Code)"
+                                                                     Accessory="@(((AccessoryPriceable)item.Priceable).Product)" 
+                                                                     OtherSizeToLoadHidden="@(PhotoSize.Small)"/>
+                                        </div>
+                                    }
+                                </td>
+                                <td id="CodeCell" class="cell leftText">@item.OveriddenCode</td>
+                                <td id="DescriptionCell" class="cell leftText">@item.OveriddenDescription</td>
+                                <td id="QuantityCell" class="cell centeredText">@item.Quantity</td>
+                                @if (Basket.PricesEnabled)
+                                {
+                                    <td id="StartingPriceCell" class="cell rightText" style="max-width:80px">@string.Format(CultureInfo.InvariantCulture, "{0:N2}€", user.SelectedAppMode == BronzeAppMode.Retail ? item.RetailPriceable.StartingPrice : item.Priceable.StartingPrice)</td>
+                                    <td id="TotalDiscountCell" class="cell centeredText">@(user.SelectedAppMode == BronzeAppMode.Retail ? $"{item.RetailPriceable.GetTotalDiscountPercent():0.00}%" : $"{item.Priceable.GetTotalDiscountPercent():0.00}%")</td>
+                                    <td id="NetPriceCell" class="cell rightText">@string.Format(CultureInfo.InvariantCulture, "{0:N2}€", user.SelectedAppMode == BronzeAppMode.Retail ? item.RetailPriceable.GetNetPrice() : item.Priceable.GetNetPrice())</td>
+                                    <td id="TotalNetCell" class="cell rightText">@string.Format(CultureInfo.InvariantCulture, "{0:N2}€", user.SelectedAppMode == BronzeAppMode.Retail ? item.RetailPriceable.GetTotalQuantityNetPrice() : item.Priceable.GetTotalQuantityNetPrice())</td>
+                                    <td id="InfoCell" class="cell">
+                                        <div class="cellContainer-centered">
+                                            <MudTooltip Placement="@(Placement.Left)">
+                                                <ChildContent>
+                                                    <MudIcon Icon="@(Icons.Material.Outlined.Info)" Color="@(Color.Primary)" Size="@(Size.Small)" />
+                                                </ChildContent>
+                                                <TooltipContent>
+                                                    <table style="border:none">
+                                                        @if(user.SelectedAppMode == BronzeAppMode.Retail)
+                                                        {
+                                                            @foreach (var rule in item.RetailPriceable.AppliedRules)
+                                                            {
+                                                                <tr style="color:lightgreen;background-color:transparent;">
+                                                                    <td>@(Lc.Keys[rule.RuleName])</td>
+                                                                    <td>@(rule.RuleApplicationDescription)</td>
+                                                                </tr>
+                                                            }
+                                                        }
+                                                        else if(user.SelectedAppMode == BronzeAppMode.Wholesale)
+                                                        {
+                                                            @foreach (var rule in item.Priceable.AppliedRules)
+                                                            {
+                                                                <tr style="color:lightgreen;background-color:transparent;">
+                                                                    <td>@(Lc.Keys[rule.RuleName])</td>
+                                                                    <td>@(rule.RuleApplicationDescription)</td>
+                                                                </tr>
+                                                            }
+                                                        }
+                                                    </table>
+                                                </TooltipContent>
+                                            </MudTooltip>
+                                        </div>
+                                    </td>
+                                }
+                            </tr>
+                            @*Checkmark Row*@
+                            @if (Basket.Products.IndexOf(item) == indexOfJustSavedEditedLine)
+                            {
+                                <tr>
+                                <td colspan="@(Basket.PricesEnabled ? "11" : "6")">
+                                    <div class="checkmark-wrapper" style="margin:auto">
+                                        <span class="checkmark"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            }
+                            @*X-Checkmark Row*@
+                            @if (Basket.Products.IndexOf(item) == indexOfJustScrappedEditedLine)
+                            {
+                                <tr>
+                                    <td colspan="@(Basket.PricesEnabled ? "11" : "6")">
+                                        <div class="x-wrapper" style="margin:auto">
+                                            <span class="x-checkmark-left"></span>
+                                            <span class="x-checkmark-right"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="@(Basket.PricesEnabled ? "8" : "3")" class="footertd" style="position:relative">
+                            <div class="coverRollBorder" />
+                        </td>
+                        <td colspan="3" class="footertd rightText">
+                            <table class="sumsTable">
+                                <tr>
+                                    <td class="leftText">@($"{Lc.Keys["Quantity"]}")</td>
+                                    <td>:</td>
+                                    <td>@($"{Basket.Products.Sum(p => p.Quantity)}{Lc.Keys["pcs"]}")</td>
+                                </tr>
+                                @if (Basket.PricesEnabled)
+                                {
+                                    <tr>
+                                        <td class="leftText">@(Lc.Keys["Total"])</td>
+                                        <td>:</td>
+                                        <td>@(string.Format(CultureInfo.InvariantCulture, "{0:N2}€", user.SelectedAppMode == BronzeAppMode.Retail ? Basket.TotalRetailNet : Basket.TotalNet))</td>
+                                    </tr>
+                                }
+                                @if (Basket.IsVatEnabled)
+                                {
+                                    <tr>
+                                        <td class="leftText" style="white-space:nowrap">@($"{Lc.Keys["VAT"]} ({(user.VatFactor - 1) * 100:0}%)")</td>
+                                        <td>:</td>
+                                        <td>@(string.Format(CultureInfo.InvariantCulture, "{0:N2}€", user.SelectedAppMode == BronzeAppMode.Retail ? Basket.TotalRetailWithVat - Basket.TotalRetailNet : Basket.TotalWithVat - Basket.TotalNet))</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="leftText" style="white-space:nowrap">@(Lc.Keys["FinalTotal"])</td>
+                                        <td>:</td>
+                                        <td>@(string.Format(CultureInfo.InvariantCulture, "{0:N2}€", user.SelectedAppMode == BronzeAppMode.Retail ? Basket.TotalRetailWithVat : Basket.TotalWithVat))</td>
+                                    </tr>
+                                }
+                                else if (!Basket.IsVatEnabled && Basket.PricesEnabled)
+                                {
+                                    <tr class="rightText" style="white-space:nowrap">
+                                        <td colspan="3" style="font-style:italic;font-weight:normal">@($"*{Lc.Keys["WhereApplicable"]}")</td>
+                                    </tr>
+                                }
+                            </table>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    }
+    <div class="moreToolsContainer" style="@(_drawerOpen ? "width:320px" :"width:0px;")">
+            <div class="moreToolsTitle">
+                @(Lc.Keys["OtherOptions"])
+                <MudIconButton Icon="@(Icons.Material.Rounded.Close)" OnClick="@(()=> _drawerOpen = !_drawerOpen)"
+                               Color="@(Color.Primary)"
+                               Size="@(Size.Small)"
+                               Style="@(!_drawerOpen ? "display:none" : "")"/>
+            </div>
+
+            <div class="optionContainer">
+                <div class="optionContainerText">
+                    @(Lc.Keys["AddAccessoriesByCode"])
+                </div>
+                <div class="addByCodeContainer">
+                    <MudAutocomplete T="BathroomAccessory" @ref="@(searchByCodeComplete)"
+                                     Label="@(Lc.Keys["Code"])"
+                                     SearchFunc="@((searchText,cancelToken) => Repo.SearchAccessoriesCodesAsync(searchText))"
+                                     ToStringFunc="@(i=> i.Code)"
+                                     Margin="@(Margin.Dense)"
+                                     MaxHeight="400"
+                                     ResetValueOnEmptyText="@(true)"
+                                     CoerceText="@(true)"
+                                     MaxItems="10" 
+                                     Dense=@(true)
+                                     Clearable="@(true)"
+                                     AdornmentIcon="@(Icons.Material.Outlined.Search)"
+                                     AdornmentColor="@(Color.Primary)"
+                                     Variant="@(Variant.Outlined)"
+                                     Immediate="@(true)"
+                                     DebounceInterval="300" 
+                                     ValueChanged = "@(async (v)=> {await AddAccessoryFromSearch(v);} )"
+                                     Class="mr-0 ml-0">
+                        <NoItemsTemplate>
+                            <div class="d-flex flex-column justify-center align-center my-3" style="text-align:center">
+                                <MudIcon Class="mb-2"
+                                         Size="@(Size.Large)"
+                                         Icon="@(Icons.Material.Outlined.HourglassEmpty)"
+                                         Color="@(Color.Dark)" />
+                                <span style="width:100%;text-align:center">@(Lc.Keys["NoResultsFound"])</span>
+                                </div>
+                            </NoItemsTemplate>
+                            <ItemTemplate>
+                                <div class="accSearchContainer">
+                                    <div class="accSearchTextContainer">
+                                        @(context.Code)
+                                    <br />
+                                    @(context.PrimaryType.Trait)
+                                    <br />
+                                    @(context.Series.Trait)
+                                </div>
+                                <img src="@($"{photosHelper.GetThumbnail(context.MainPhotoUrl)}")"
+                                     class="searchItemImage accessoryImage noselect" />
+                            </div>
+                        </ItemTemplate>
+                    </MudAutocomplete>
+                </div>
+            </div>
+            
+            @if(Basket.PricesEnabled &&(user.SelectedAppMode == BronzeAppMode.Retail || user.IsPowerUser))
+            {
+                <div class="optionContainer">
+                    <div class="optionContainerText">
+                            @(Lc.Keys["AdditionalDiscount"])
+                    </div>
+                    <div class="toolDiscountsContainer">
+                        <DiscountInputBox AreDiscountBoxesHorizontal="@(false)"
+                                      AreLabelsOnControl="@(true)" @bind-CombinedDiscount="@(extraToolsTotalDiscount)"
+                                      MarginDiv="0"
+                                      PaddingDiv="0"/>
+                        <MudTooltip RootClass="ma-auto" Placement="@(Placement.Left)">
+                            <ChildContent>
+                                <MudIconButton Size="@(Size.Medium)"
+                                               Icon="@(Icons.Material.Filled.Percent)"
+                                               OnClick="@(()=> ApplyDiscountToAllItems())"
+                                               Color="@(Color.Primary)" />
+                            </ChildContent>
+                            <TooltipContent>
+                                @(Lc.Keys["ApplySelectedDiscountToAllItems"])
+                            </TooltipContent>
+                        </MudTooltip>
+                    </div>
+                </div>
+            }
+            @if(Basket.PricesEnabled && user.IsPowerUser)
+            {
+                <div class="optionContainer">
+                    <div class="optionContainerText">
+                        @(Lc.Keys["SelectRuleSets"])
+                    </div>
+                    <div class="searchOptionsContainer">
+                        <MudAutocomplete T="UserAccessoriesOptions"
+                                         Label="@(Lc.Keys["Rules"])"
+                                         SearchFunc="@((searchText,CancelToken) => Basket.SearchUserAccessoriesOptions(searchText))"
+                                         ToStringFunc="@(i=> i.DescriptionInfo.Name)"
+                                         Margin="@(Margin.Dense)"
+                                         MaxHeight="400"
+                                         ResetValueOnEmptyText="@(true)"
+                                         MaxItems="50"
+                                         Dense=@(true)
+                                         Clearable="@(true)"
+                                         AdornmentIcon="@(Icons.Material.Outlined.ArrowDropDown)"
+                                         AdornmentColor="@(Color.Primary)"
+                                         Variant="@(Variant.Outlined)"
+                                         Immediate="@(true)"
+                                         DebounceInterval="150"
+                        @bind-Value="@(foundFromSearch)"
+                                         Class="mr-0 ml-0">
+                            <NoItemsTemplate>
+                                <div class="d-flex flex-column justify-center align-center my-3">
+                                    <MudIcon Class="mb-2"
+                                             Size="@(Size.Large)"
+                                             Icon="@(Icons.Material.Outlined.HourglassEmpty)"
+                                             Color="@(Color.Dark)" />
+                                    <MudText Typo="@(Typo.caption)">@(Lc.Keys["NoResultsFound"])</MudText>
+                                    </div>
+                                </NoItemsTemplate>
+                                <ItemTemplate>
+                                    <MudTooltip Placement="@(Placement.Left)" RootStyle="width:100%;">
+                                        <ChildContent>
+                                            @(context.DescriptionInfo.Name)
+                                    </ChildContent>
+
+                                    <TooltipContent>
+                                        <AccessoriesOptionsTablePresenter Options="@(context)"/>
+                                    </TooltipContent>
+                                </MudTooltip>
+                            </ItemTemplate>
+                        </MudAutocomplete>
+                        <MudTooltip RootClass="ma-auto" Placement="@(Placement.Left)">
+                            <ChildContent>
+                                <MudIconButton Icon="@(Icons.Material.Filled.PublishedWithChanges)"
+                                               OnClick="@(()=> ApplyNewAccessoriesOptions())"
+                                               Color="@(Color.Primary)"
+                                               Size="@(Size.Medium)" />
+                            </ChildContent>
+                            <TooltipContent>
+                                @(Lc.Keys["ApplyNewOptions"])
+                            </TooltipContent>
+                        </MudTooltip>
+                    </div>
+                </div>
+            }
+            <div class="optionContainer">
+                <div class="optionContainerText">
+                    @(Lc.Keys["QuoteNotes"])
+                </div>
+                <div class="notesContainer">
+                    <MudTextField @bind-Value="@(Basket.CurrentBasketNotes)" 
+                                  Variant="@(Variant.Outlined)"
+                                  Label="@(Lc.Keys["Notes"])"
+                                  Margin="@(Margin.Dense)"
+                                  Lines="5"
+                                  MaxLength="200"
+                                  Clearable=@(true)
+                                  Adornment="@(Adornment.End)"
+                                  AdornmentIcon="@(Icons.Material.Outlined.Notes)"
+                                  AdornmentColor="@(Color.Primary)"/>
+                </div>
+            </div>
+            @if (Basket.PricesEnabled && user.IsPowerUser)
+            {
+                <div class="optionContainer">
+                    <div class="searchOptionsContainer">
+                        <MudButton Size="@(Size.Medium)"
+                                   StartIcon="@(Icons.Custom.FileFormats.FileExcel)"
+                                   OnClick="@(()=> GenerateExcelReportALLAccessories())"
+                                   Variant="@(Variant.Outlined)"
+                                   IconColor="@(Color.Primary)"
+                                   Style="text-transform:none">
+                            @(Lc.Keys["AllAccessoriesReport"])
+                        </MudButton>
+                    </div>
+                </div>
+            }
+            @*
+            <div class="optionContainer">
+                <div class="optionContainerText">
+                    @(Lc.Keys["Others"])
+                </div>
+                <div class="otherButtonsContainer">
+                    
+                </div>
+            </div>
+            *@
+        </div>
+</div>
+
+
+
+

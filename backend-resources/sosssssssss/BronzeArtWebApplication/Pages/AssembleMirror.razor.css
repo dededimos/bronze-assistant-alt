@@ -1,0 +1,35 @@
+﻿/*The breakPoints where the Grid Changes -- Invert gradient and change min-height*/
+.mainWindowContainer {
+    background: linear-gradient(45deg,silver 0%,var(--BackgroundColor) 25%,gainsboro 50%,whitesmoke 75%,white 100%);
+}
+
+
+@media (max-width:1280px) {
+    .mainWindowContainer {
+        background: linear-gradient(45deg,silver 0%,var(--BackgroundColor) 25%,gainsboro 50%,whitesmoke 75%,white 100%);
+    }
+}
+
+@media (max-width:960px) {
+    .mainWindowContainer {
+        background: linear-gradient(135deg,silver 0%,var(--BackgroundColor) 25%,gainsboro 50%,whitesmoke 75%,white 100%);
+    }
+}
+
+@media (max-width:600px) {
+    .mainWindowContainer {
+        background: linear-gradient(135deg,silver 0%,var(--BackgroundColor) 25%,gainsboro 50%,whitesmoke 75%,white 100%);
+    }
+}
+
+.mirrorButton{
+    
+}
+
+    .mirrorButton:hover .mirrorButton-Icon {
+        transform: translateY(-10px);
+    }
+
+.mirrorButton-Icon {
+    transition: all ease 0.3s;
+}

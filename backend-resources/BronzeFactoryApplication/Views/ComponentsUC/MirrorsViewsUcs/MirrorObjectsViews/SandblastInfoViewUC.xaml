@@ -1,0 +1,239 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.MirrorObjectsViews.SandblastInfoViewUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.MirrorObjectsViews"
+             xmlns:vmBase="clr-namespace:BronzeFactoryApplication.ViewModels.HelperViewModels"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels.MirrorsViewModels.SandblastViewModels"
+             xmlns:vw="clr-namespace:BronzeFactoryApplication.Views.HelperViews"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:mirrElements="clr-namespace:MirrorsLib.MirrorElements;assembly=MirrorsLib"
+             xmlns:globalCommands="clr-namespace:BronzeFactoryApplication.Helpers"
+             xmlns:EnumSource="clr-namespace:BronzeFactoryApplication.Helpers.MarkupExtensions"
+             xmlns:mirrorEnum="clr-namespace:MirrorsLib.Enums;assembly=MirrorsLib"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=vm:MirrorSandblastInfoBaseViewModel}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <DockPanel VerticalAlignment="Top"
+                   HorizontalAlignment="Center">
+            <hc:UniformSpacingPanel Spacing="20"
+                                    DockPanel.Dock="Top"
+                                    HorizontalAlignment="Center"
+                                    Margin="0,20,0,0">
+                <vw:TasNumericTextBox Text="{Binding MinDistanceFromSupport}"
+                                      TextBoxTitle="{StaticResource lngPositionableMinDistanceFromSupport}"
+                                      IconTooltip="{StaticResource lngPositionableMinDistanceFromSupportTooltip}"
+                                      Precision="0"
+                                      JustPositiveInput="True"
+                                      InputMode="DigitInput"
+                                      MaxLength="4"
+                                      HorizontalAlignment="Center" />
+                <vw:TasNumericTextBox Text="{Binding MinDistanceFromOtherModules}"
+                                      TextBoxTitle="{StaticResource lngPositionableMinDistanceFromOtherModules}"
+                                      IconTooltip="{StaticResource lngPositionableMinDistanceFromOtherModulesTooltip}"
+                                      Precision="0"
+                                      JustPositiveInput="True"
+                                      InputMode="DigitInput"
+                                      MaxLength="4"
+                                      HorizontalAlignment="Center" />
+                <DockPanel VerticalAlignment="Center">
+                    <CheckBox Content="{StaticResource lngIsModulesBoundary}"
+                              ToolTip="{StaticResource lngIsModulesBoundaryTooltip}"
+                              IsChecked="{Binding IsModulesBoundary}"
+                              DockPanel.Dock="Top"
+                              Margin="0,5" />
+                    <CheckBox Content="{StaticResource lngIsSupportsBoundary}"
+                              ToolTip="{StaticResource lngIsSupportsBoundaryTooltip}"
+                              IsChecked="{Binding IsSupportsBoundary}" />
+                </DockPanel>
+            </hc:UniformSpacingPanel>
+            <vw:TasNumericTextBox Text="{Binding Thickness}"
+                                  TextBoxTitle="{StaticResource lngSandblastThickness}"
+                                  IconTooltip="{StaticResource lngSandblastThicknessTooltip}"
+                                  Precision="0"
+                                  JustPositiveInput="True"
+                                  InputMode="DigitInput"
+                                  MaxLength="4"
+                                  HorizontalAlignment="Center"
+                                  DockPanel.Dock="Top"
+                                  Margin="10,10,10,0" />
+            <ContentControl Content="{Binding .}"
+                            DockPanel.Dock="Bottom"
+                            Margin="0,20,0,0"
+                            HorizontalAlignment="Center">
+                <ContentControl.Resources>
+                    <!--#region Line Sandblast -->
+                    <DataTemplate DataType="{x:Type vm:LineSandblastEditorViewModel}">
+                        <DockPanel>
+                            <CheckBox Content="{StaticResource lngLineSandblastIsVertical}"
+                                      IsChecked="{Binding IsVertical}"
+                                      ToolTip="{StaticResource lngLineSandblastIsVerticalTooltip}"
+                                      Margin="0,10,0,20"
+                                      DockPanel.Dock="Top"
+                                      HorizontalAlignment="Center" />
+                            <hc:UniformSpacingPanel Spacing="20"
+                                                    ChildWrapping="Wrap"
+                                                    DockPanel.Dock="Top">
+                                <vw:TasNumericTextBox Text="{Binding DistanceFromTop, Converter={StaticResource stringToNullableDoubleValueConverter}}"
+                                                      TextBoxTitle="{StaticResource lngLineSandblastDistanceFromTop}"
+                                                      IconTooltip="{StaticResource lngLineSandblastDistanceFromTopTooltip}"
+                                                      Precision="0"
+                                                      JustPositiveInput="True"
+                                                      InputMode="DigitInput"
+                                                      MaxLength="4"
+                                                      ShowClearButton="True" />
+                                <vw:TasNumericTextBox Text="{Binding DistanceFromBottom, Converter={StaticResource stringToNullableDoubleValueConverter}}"
+                                                      TextBoxTitle="{StaticResource lngLineSandblastDistanceFromBottom}"
+                                                      IconTooltip="{StaticResource lngLineSandblastDistanceFromBottomTooltip}"
+                                                      Precision="0"
+                                                      JustPositiveInput="True"
+                                                      InputMode="DigitInput"
+                                                      MaxLength="4"
+                                                      ShowClearButton="True" />
+                                <vw:TasNumericTextBox Text="{Binding DistanceFromLeft, Converter={StaticResource stringToNullableDoubleValueConverter}}"
+                                                      TextBoxTitle="{StaticResource lngLineSandblastDistanceFromLeft}"
+                                                      IconTooltip="{StaticResource lngLineSandblastDistanceFromLeftTooltip}"
+                                                      Precision="0"
+                                                      JustPositiveInput="True"
+                                                      InputMode="DigitInput"
+                                                      MaxLength="4"
+                                                      ShowClearButton="True" />
+                                <vw:TasNumericTextBox Text="{Binding DistanceFromRight, Converter={StaticResource stringToNullableDoubleValueConverter}}"
+                                                      TextBoxTitle="{StaticResource lngLineSandblastDistanceFromRight}"
+                                                      IconTooltip="{StaticResource lngLineSandblastDistanceFromRightTooltip}"
+                                                      Precision="0"
+                                                      JustPositiveInput="True"
+                                                      InputMode="DigitInput"
+                                                      MaxLength="4"
+                                                      ShowClearButton="True" />
+                                <vw:TasNumericTextBox Text="{Binding FixedLength, Converter={StaticResource stringToNullableDoubleValueConverter}}"
+                                                      TextBoxTitle="{StaticResource lngLineSandblastFixedLength}"
+                                                      IconTooltip="{StaticResource lngLineSandblastFixedLengthTooltip}"
+                                                      Precision="0"
+                                                      JustPositiveInput="True"
+                                                      InputMode="DigitInput"
+                                                      MaxLength="4"
+                                                      ShowClearButton="True" />
+                            </hc:UniformSpacingPanel>
+                            <vw:TasNumericTextBox Text="{Binding CornerRadius}"
+                                                  TextBoxTitle="{StaticResource lngCornerRadiusSandblast}"
+                                                  IconTooltip="{StaticResource lngCornerRadiusSandblastTooltip}"
+                                                  Precision="0"
+                                                  JustPositiveInput="True"
+                                                  InputMode="DigitInput"
+                                                  MaxLength="4"
+                                                  DockPanel.Dock="Bottom" 
+                                                  HorizontalAlignment="Center"
+                                                  Margin="0,20,0,0"/>
+                        </DockPanel>
+                    </DataTemplate>
+                    <!--#endregion-->
+                    <!--#region Holed Rectangle Sandblast -->
+                    <DataTemplate DataType="{x:Type vm:HoledRectangleSandblastEditorViewModel}">
+                        <hc:UniformSpacingPanel Spacing="20"
+                                                ChildWrapping="Wrap">
+                            <vw:TasNumericTextBox Text="{Binding EdgeDistance}"
+                                                  TextBoxTitle="{StaticResource lngHoledRectSandblastEdgeDistance}"
+                                                  IconTooltip="{StaticResource lngHoledRectSandblastEdgeDistanceTooltip}"
+                                                  Precision="0"
+                                                  JustPositiveInput="True"
+                                                  InputMode="DigitInput"
+                                                  MaxLength="4" />
+                            <vw:TasNumericTextBox Text="{Binding CornerRadius}"
+                                                  TextBoxTitle="{StaticResource lngCornerRadiusSandblast}"
+                                                  IconTooltip="{StaticResource lngCornerRadiusSandblastTooltip}"
+                                                  Precision="0"
+                                                  JustPositiveInput="True"
+                                                  InputMode="DigitInput"
+                                                  MaxLength="4"
+                                                  IsEnabled="{Binding FollowsRectangleGlassCornerRadius , Converter={StaticResource Boolean2BooleanReConverter}}"/>
+                            <CheckBox Content="{StaticResource lngFollowsRectangleGlassCornerRadius}"
+                                      ToolTip="{StaticResource lngFollowsRectangleGlassCornerRadiusTooltip}"
+                                      IsChecked="{Binding FollowsRectangleGlassCornerRadius}" 
+                                      Margin="0,25,0,0"/>
+                        </hc:UniformSpacingPanel>
+                    </DataTemplate>
+                    <!--#endregion-->
+                    <!--#region Two Line Sandblast -->
+                    <DataTemplate DataType="{x:Type vm:TwoLineSandblastEditorViewModel}">
+                        <hc:UniformSpacingPanel Spacing="20"
+                                                ChildWrapping="Wrap">
+                            <vw:TasNumericTextBox Text="{Binding VerticalEdgeDistance}"
+                                                  TextBoxTitle="{StaticResource lngTwoLineSandblastVerticalEdgeDistance}"
+                                                  IconTooltip="{StaticResource lngTwoLineSandblastVerticalEdgeDistanceTooltip}"
+                                                  Precision="0"
+                                                  JustPositiveInput="True"
+                                                  InputMode="DigitInput"
+                                                  MaxLength="4" />
+                            <vw:TasNumericTextBox Text="{Binding HorizontalEdgeDistance}"
+                                                  TextBoxTitle="{StaticResource lngTwoLineSandblastHorizontalEdgeDistance}"
+                                                  IconTooltip="{StaticResource lngTwoLineSandblastHorizontalEdgeDistanceTooltip}"
+                                                  Precision="0"
+                                                  JustPositiveInput="True"
+                                                  InputMode="DigitInput"
+                                                  MaxLength="4" />
+                            <vw:TasNumericTextBox Text="{Binding CornerRadius}"
+                                                  TextBoxTitle="{StaticResource lngCornerRadiusSandblast}"
+                                                  IconTooltip="{StaticResource lngCornerRadiusSandblastTooltip}"
+                                                  Precision="0"
+                                                  JustPositiveInput="True"
+                                                  InputMode="DigitInput"
+                                                  MaxLength="4"/>
+                            <CheckBox Content="{StaticResource lngTwoLineSandblastIsVertical}"
+                                      IsChecked="{Binding IsVertical}"
+                                      ToolTip="{StaticResource lngTwoLineSandblastIsVerticalTooltip}"
+                                      Margin="0,25,0,0" />
+                        </hc:UniformSpacingPanel>
+                    </DataTemplate>
+                    <!--#endregion-->
+                    <!--#region Circular Sandblast -->
+                    <DataTemplate DataType="{x:Type vm:CircularSandblastEditorViewModel}">
+                        <hc:UniformSpacingPanel Spacing="20"
+                                                ChildWrapping="Wrap">
+                            <vw:TasNumericTextBox Text="{Binding DistanceFromEdge , Converter={StaticResource stringToNullableDoubleValueConverter}}"
+                                                  TextBoxTitle="{StaticResource lngCircularSandblastDistanceFromEdge}"
+                                                  IconTooltip="{StaticResource lngCircularSandblastDistanceFromEdgeTooltip}"
+                                                  Precision="0"
+                                                  JustPositiveInput="True"
+                                                  InputMode="DigitInput"
+                                                  MaxLength="4"
+                                                  ShowClearButton="True" />
+                            <vw:TasNumericTextBox Text="{Binding DistanceFromCenter, Converter={StaticResource stringToNullableDoubleValueConverter}}"
+                                                  TextBoxTitle="{StaticResource lngCircularSandblastDistanceFromCenter}"
+                                                  IconTooltip="{StaticResource lngCircularSandblastDistanceFromCenterTooltip}"
+                                                  Precision="0"
+                                                  JustPositiveInput="True"
+                                                  InputMode="DigitInput"
+                                                  MaxLength="4"
+                                                  ShowClearButton="True" />
+                        </hc:UniformSpacingPanel>
+                    </DataTemplate>
+                    <!--#endregion-->
+                    <!--#region Undefined Sandblast -->
+                    <DataTemplate DataType="{x:Type vm:MirrorSandblastInfoUndefinedViewModel}">
+                        <Grid VerticalAlignment="Stretch"
+                              HorizontalAlignment="Stretch">
+                            <Border CornerRadius="20"
+                                    BorderBrush="{DynamicResource SecondaryBorderBrush}"
+                                    BorderThickness="5"
+                                    Padding="50"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                <TextBlock FontSize="20"
+                                           Text="{StaticResource lngSandblastTypeNotSelected}" />
+                            </Border>
+                        </Grid>
+                    </DataTemplate>
+                    <!--#endregion-->
+                </ContentControl.Resources>
+            </ContentControl>
+        </DockPanel>
+
+    </Grid>
+</UserControl>

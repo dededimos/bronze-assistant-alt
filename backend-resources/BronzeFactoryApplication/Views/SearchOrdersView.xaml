@@ -1,0 +1,1306 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.SearchOrdersView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels"
+             xmlns:vmr="clr-namespace:BronzeFactoryApplication.ViewModels.OrderRelevantViewModels"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:b="clr-namespace:BronzeFactoryApplication.Helpers.Behaviours"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:ts="clr-namespace:BronzeFactoryApplication.Helpers.TemplateSelectors"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:markup="clr-namespace:BronzeFactoryApplication.Helpers.MarkupExtensions"
+             mc:Ignorable="d"
+             x:Name="SearchOrdersUC"
+             d:Width="2000"
+             d:DataContext="{d:DesignInstance Type=vm:OrdersModuleViewModel}">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding InitilizeCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <UserControl.Resources>
+        <!--All Content Controls Have the Filter Viewmodel Passed in their Tag so the Datatemplates Can Bind to the Input
+        The Content Property of the Content Controls is set to the Selected Property (a PropertyInfo Class)
+        The Datatemplate Selectors check the PropertyType of the PropertyInfo and select the desired Datatemplate
+        The Operator is parsed from all the strings returned back to the viewmodel (for the Date and Enum there are no other operators rather than Equal)-->
+
+        <!--#region 11.Datatemplate ConstaintValue1 TextBox -->
+        <DataTemplate x:Key="TextBoxInputFilterDataTemplate1">
+            <hc:TextBox Text="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=Tag.Property1ConstraintValue, UpdateSourceTrigger=PropertyChanged}"
+                        MinWidth="200"
+                        hc:InfoElement.ShowClearButton="True">
+                <TextBox.InputBindings>
+                    <KeyBinding Key="Return"
+                                Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:SearchOrdersView}}, Path=DataContext.QueryGlassesCommand}" />
+                </TextBox.InputBindings>
+            </hc:TextBox>
+        </DataTemplate>
+        <!--#endregion-->
+
+        <!--#region 12.Datatemplate ConstaintValue1 Enum ComboBox -->
+        <DataTemplate x:Key="ComboBoxEnumInputFilterDataTemplate1">
+            <hc:ComboBox ItemsSource="{Binding PropertyType, Converter={StaticResource EnumTypeToEnumValuesConverter}}"
+                         SelectedItem="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=Tag.Property1ConstraintValue}"
+                         IsEditable="False"
+                         hc:InfoElement.ShowClearButton="True">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Converter={StaticResource languageConverter} , TargetNullValue=''}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </hc:ComboBox>
+        </DataTemplate>
+        <!--#endregion-->
+
+        <!--#region 13.Datatemplate ConstaintValue1 Boolean ComboBox -->
+        <DataTemplate x:Key="ComboBoxBooleanInputFilterDataTemplate1">
+            <hc:ComboBox ItemsSource="{Binding Source={markup:BindingSourceBoolValues}}"
+                         SelectedItem="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=Tag.Property1ConstraintValue}"
+                         IsEditable="False"
+                         hc:InfoElement.ShowClearButton="True">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Converter={StaticResource languageConverter} , TargetNullValue=''}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </hc:ComboBox>
+        </DataTemplate>
+        <!--#endregion-->
+
+        <!--#region 14.Datatemplate ConstaintValue1 DatePicker -->
+        <!--The Converter needs to convert to dd-MM-yyyy otherwise the Expression is not evaluated Correctly by the Specification Pattern-->
+        <DataTemplate x:Key="ComboBoxDateInputFilterDataTemplate1">
+            <hc:DatePicker SelectedDate="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=Tag.Property1ConstraintValue , Converter={StaticResource DateTimeToShortStringConverter}}"
+                           hc:InfoElement.ShowClearButton="True"
+                           SelectedDateFormat="Short" />
+        </DataTemplate>
+        <!--#endregion-->
+
+        <!--#region 21.Datatemplate ConstaintValue2 TextBox -->
+        <DataTemplate x:Key="TextBoxInputFilterDataTemplate2">
+            <hc:TextBox Text="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=Tag.Property2ConstraintValue, UpdateSourceTrigger=PropertyChanged}"
+                        MinWidth="200"
+                        hc:InfoElement.ShowClearButton="True">
+                <TextBox.InputBindings>
+                    <KeyBinding Key="Return"
+                                Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:SearchOrdersView}}, Path=DataContext.QueryGlassesCommand}" />
+                </TextBox.InputBindings>
+            </hc:TextBox>
+        </DataTemplate>
+        <!--#endregion-->
+
+        <!--#region 22.Datatemplate ConstaintValue2 Enum ComboBox -->
+        <DataTemplate x:Key="ComboBoxEnumInputFilterDataTemplate2">
+            <hc:ComboBox ItemsSource="{Binding PropertyType, Converter={StaticResource EnumTypeToEnumValuesConverter}}"
+                         SelectedItem="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=Tag.Property2ConstraintValue}"
+                         IsEditable="False"
+                         hc:InfoElement.ShowClearButton="True">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Converter={StaticResource languageConverter} , TargetNullValue=''}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </hc:ComboBox>
+        </DataTemplate>
+        <!--#endregion-->
+
+        <!--#region 23.Datatemplate ConstaintValue2 Boolean ComboBox -->
+        <DataTemplate x:Key="ComboBoxBooleanInputFilterDataTemplate2">
+            <hc:ComboBox ItemsSource="{Binding Source={markup:BindingSourceBoolValues}}"
+                         SelectedItem="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=Tag.Property2ConstraintValue}"
+                         IsEditable="False"
+                         hc:InfoElement.ShowClearButton="True">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Converter={StaticResource languageConverter} , TargetNullValue=''}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </hc:ComboBox>
+        </DataTemplate>
+        <!--#endregion-->
+
+        <!--#region 24.Datatemplate ConstaintValue2 DatePicker -->
+        <DataTemplate x:Key="ComboBoxDateInputFilterDataTemplate2">
+            <hc:DatePicker SelectedDate="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=Tag.Property2ConstraintValue , Converter={StaticResource DateTimeToShortStringConverter}}"
+                           hc:InfoElement.ShowClearButton="True" />
+        </DataTemplate>
+        <!--#endregion-->
+
+        <!--#region 31.Datatemplate ConstaintValue3 TextBox -->
+        <DataTemplate x:Key="TextBoxInputFilterDataTemplate3">
+            <hc:TextBox Text="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=Tag.Property3ConstraintValue, UpdateSourceTrigger=PropertyChanged}"
+                        MinWidth="200"
+                        hc:InfoElement.ShowClearButton="True">
+                <TextBox.InputBindings>
+                    <KeyBinding Key="Return"
+                                Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:SearchOrdersView}}, Path=DataContext.QueryGlassesCommand}" />
+                </TextBox.InputBindings>
+            </hc:TextBox>
+        </DataTemplate>
+        <!--#endregion-->
+
+        <!--#region 32.Datatemplate ConstaintValue3 Enum ComboBox -->
+        <DataTemplate x:Key="ComboBoxEnumInputFilterDataTemplate3">
+            <hc:ComboBox ItemsSource="{Binding PropertyType, Converter={StaticResource EnumTypeToEnumValuesConverter}}"
+                         SelectedItem="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=Tag.Property3ConstraintValue}"
+                         IsEditable="False"
+                         hc:InfoElement.ShowClearButton="True">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Converter={StaticResource languageConverter} , TargetNullValue=''}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </hc:ComboBox>
+        </DataTemplate>
+        <!--#endregion-->
+
+        <!--#region 33.Datatemplate ConstaintValue3 Boolean ComboBox -->
+        <DataTemplate x:Key="ComboBoxBooleanInputFilterDataTemplate3">
+            <hc:ComboBox ItemsSource="{Binding Source={markup:BindingSourceBoolValues}}"
+                         SelectedItem="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=Tag.Property3ConstraintValue}"
+                         IsEditable="False"
+                         hc:InfoElement.ShowClearButton="True">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Converter={StaticResource languageConverter} , TargetNullValue=''}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </hc:ComboBox>
+        </DataTemplate>
+        <!--#endregion-->
+
+        <!--#region 34.Datatemplate ConstaintValue3 DatePicker -->
+        <DataTemplate x:Key="ComboBoxDateInputFilterDataTemplate3">
+            <hc:DatePicker SelectedDate="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=Tag.Property3ConstraintValue , Converter={StaticResource DateTimeToShortStringConverter}}"
+                           hc:InfoElement.ShowClearButton="True" />
+        </DataTemplate>
+        <!--#endregion-->
+
+        <ts:FilterBoxDataTemplateSelector x:Key="FilterInputValueTemplateSelector1"
+                                          TextBoxTemplate="{StaticResource TextBoxInputFilterDataTemplate1}"
+                                          ComboBoxEnumTemplate="{StaticResource ComboBoxEnumInputFilterDataTemplate1}"
+                                          ComboBoxBoolTemplate="{StaticResource ComboBoxBooleanInputFilterDataTemplate1}"
+                                          DatePickerTemplate="{StaticResource ComboBoxDateInputFilterDataTemplate1}" />
+        <ts:FilterBoxDataTemplateSelector x:Key="FilterInputValueTemplateSelector2"
+                                          TextBoxTemplate="{StaticResource TextBoxInputFilterDataTemplate2}"
+                                          ComboBoxEnumTemplate="{StaticResource ComboBoxEnumInputFilterDataTemplate2}"
+                                          ComboBoxBoolTemplate="{StaticResource ComboBoxBooleanInputFilterDataTemplate2}"
+                                          DatePickerTemplate="{StaticResource ComboBoxDateInputFilterDataTemplate2}" />
+        <ts:FilterBoxDataTemplateSelector x:Key="FilterInputValueTemplateSelector3"
+                                          TextBoxTemplate="{StaticResource TextBoxInputFilterDataTemplate3}"
+                                          ComboBoxEnumTemplate="{StaticResource ComboBoxEnumInputFilterDataTemplate3}"
+                                          ComboBoxBoolTemplate="{StaticResource ComboBoxBooleanInputFilterDataTemplate3}"
+                                          DatePickerTemplate="{StaticResource ComboBoxDateInputFilterDataTemplate3}" />
+
+    </UserControl.Resources>
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!--#region 1.BUSY LOADER -->
+        <DockPanel Grid.Row="0"
+                   Grid.RowSpan="3"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="6"
+                   d:Visibility="Collapsed"
+                   Panel.ZIndex="2"
+                   Visibility="{Binding IsBusy, Converter={StaticResource Boolean2VisibilityConverter}}">
+            <DockPanel.Background>
+                <SolidColorBrush Color="{DynamicResource SecondaryRegionColor}"
+                                 Opacity="0.9" />
+            </DockPanel.Background>
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                <hc:LoadingCircle Height="50"
+                                  Width="50" />
+                <TextBlock Text="{Binding BusyPrompt}"
+                           Margin="10"
+                           FontSize="18"
+                           Style="{StaticResource CLoaderTextBlock}" />
+            </StackPanel>
+        </DockPanel>
+        <!--#endregion-->
+
+        <!--#region 2. Search Boxes -->
+
+        <DockPanel HorizontalAlignment="Stretch"
+                   LastChildFill="True"
+                   Margin="0,0">
+
+            <!--#region 1. Search Glasses TextBox -->
+            <GroupBox  Style="{StaticResource GroupBoxCabinProperties}"
+                       DockPanel.Dock="Left"
+                       VerticalAlignment="Top"
+                       Margin="0">
+                <GroupBox.HeaderTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{StaticResource lngSearchGlass}"
+                                       FontSize="16"
+                                       Foreground="{DynamicResource PrimaryTextBrush}"
+                                       VerticalAlignment="Center" />
+                            <Button Style="{StaticResource ButtonIcon}"
+                                    hc:IconElement.Geometry="{StaticResource DeleteFillCircleGeometry}"
+                                    Foreground="{DynamicResource SecondaryBrush}"
+                                    Command="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=DataContext.ResetGlassFiltersCommand}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </GroupBox.HeaderTemplate>
+
+                <!--#region Filters -->
+                <DockPanel>
+                    <Button Style="{StaticResource ButtonIcon}"
+                            hc:IconElement.Geometry="{StaticResource SearchGeometry}"
+                            hc:IconElement.Height="25"
+                            hc:IconElement.Width="25"
+                            Height="auto"
+                            VerticalAlignment="Stretch"
+                            Foreground="{DynamicResource SecondaryBrush}"
+                            Command="{Binding QueryGlassesCommand}"
+                            ToolTip="Execute Query"
+                            DockPanel.Dock="Right"
+                            Margin="10,0,0,0" />
+                    <StackPanel Orientation="Horizontal">
+                        <!--#region I.GLASS FILTER 1 -->
+                        <StackPanel Margin="5,0">
+                            <!--#region A .Selected Filter and Filters Button -->
+                            <DockPanel>
+                                <TextBlock Text="{Binding FilterGlasses.SelectedPropertyToFilter1.Name,Converter={StaticResource languageConverter}}"
+                                           Style="{StaticResource TitleTextBlockStyle}" />
+                                <hc:ContextMenuButton Style="{StaticResource ButtonIcon.Small}"
+                                                      hc:IconElement.Geometry="{StaticResource FilterGeometry}"
+                                                      Foreground="{DynamicResource SecondaryBrush}"
+                                                      HorizontalAlignment="Right">
+                                    <hc:ContextMenuButton.Menu>
+                                        <ContextMenu ItemsSource="{Binding FilterGlasses.AvailableProperties}">
+                                            <ContextMenu.ItemContainerStyle>
+                                                <Style TargetType="{x:Type MenuItem}">
+                                                    <Setter Property="Header"
+                                                            Value="{Binding Name,Converter={StaticResource languageConverter}}" />
+                                                    <Setter Property="Command"
+                                                            Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}} ,Path=DataContext.SelectGlassesFilter1Command}" />
+                                                    <Setter Property="CommandParameter"
+                                                            Value="{Binding}" />
+                                                    <Setter Property="Foreground"
+                                                            Value="{DynamicResource PrimaryTextBrush}" />
+                                                </Style>
+                                            </ContextMenu.ItemContainerStyle>
+                                        </ContextMenu>
+                                    </hc:ContextMenuButton.Menu>
+                                </hc:ContextMenuButton>
+                            </DockPanel>
+                            <!--#endregion-->
+
+                            <!--#region B.Filter Text -->
+                            <ContentControl Content="{Binding FilterGlasses.SelectedPropertyToFilter1}"
+                                            Tag="{Binding FilterGlasses}"
+                                            ContentTemplateSelector="{StaticResource FilterInputValueTemplateSelector1}"
+                                            MinWidth="200">
+                            </ContentControl>
+                            <!--#endregion-->
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region II.GLASS FILTER 2 -->
+                        <StackPanel Margin="5,0">
+                            <!--#region A .Selected Filter and Filters Button -->
+                            <DockPanel>
+                                <TextBlock Text="{Binding FilterGlasses.SelectedPropertyToFilter2.Name,Converter={StaticResource languageConverter}}"
+                                           Style="{StaticResource TitleTextBlockStyle}" />
+                                <hc:ContextMenuButton Style="{StaticResource ButtonIcon.Small}"
+                                                      hc:IconElement.Geometry="{StaticResource FilterGeometry}"
+                                                      Foreground="{DynamicResource SecondaryBrush}"
+                                                      HorizontalAlignment="Right">
+                                    <hc:ContextMenuButton.Menu>
+                                        <ContextMenu ItemsSource="{Binding FilterGlasses.AvailableProperties}">
+                                            <ContextMenu.ItemContainerStyle>
+                                                <Style TargetType="{x:Type MenuItem}">
+                                                    <Setter Property="Header"
+                                                            Value="{Binding Name,Converter={StaticResource languageConverter}}" />
+                                                    <Setter Property="Command"
+                                                            Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}} ,Path=DataContext.SelectGlassesFilter2Command}" />
+                                                    <Setter Property="CommandParameter"
+                                                            Value="{Binding}" />
+                                                    <Setter Property="Foreground"
+                                                            Value="{DynamicResource PrimaryTextBrush}" />
+                                                </Style>
+                                            </ContextMenu.ItemContainerStyle>
+                                        </ContextMenu>
+                                    </hc:ContextMenuButton.Menu>
+                                </hc:ContextMenuButton>
+                            </DockPanel>
+                            <!--#endregion-->
+
+                            <!--#region B.Filter Text -->
+                            <ContentControl Content="{Binding FilterGlasses.SelectedPropertyToFilter2}"
+                                            Tag="{Binding FilterGlasses}"
+                                            ContentTemplateSelector="{StaticResource FilterInputValueTemplateSelector2}"
+                                            MinWidth="200">
+                            </ContentControl>
+                            <!--#endregion-->
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region III.GLASS FILTER 3 -->
+                        <StackPanel Margin="5,0">
+                            <!--#region A .Selected Filter and Filters Button -->
+                            <DockPanel>
+                                <TextBlock Text="{Binding FilterGlasses.SelectedPropertyToFilter3.Name,Converter={StaticResource languageConverter}}"
+                                           Style="{StaticResource TitleTextBlockStyle}" />
+                                <hc:ContextMenuButton Style="{StaticResource ButtonIcon.Small}"
+                                                      hc:IconElement.Geometry="{StaticResource FilterGeometry}"
+                                                      Foreground="{DynamicResource SecondaryBrush}"
+                                                      HorizontalAlignment="Right">
+                                    <hc:ContextMenuButton.Menu>
+                                        <ContextMenu ItemsSource="{Binding FilterGlasses.AvailableProperties}">
+                                            <ContextMenu.ItemContainerStyle>
+                                                <Style TargetType="{x:Type MenuItem}">
+                                                    <Setter Property="Header"
+                                                            Value="{Binding Name,Converter={StaticResource languageConverter}}" />
+                                                    <Setter Property="Command"
+                                                            Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}} ,Path=DataContext.SelectGlassesFilter3Command}" />
+                                                    <Setter Property="CommandParameter"
+                                                            Value="{Binding}" />
+                                                    <Setter Property="Foreground"
+                                                            Value="{DynamicResource PrimaryTextBrush}" />
+                                                </Style>
+                                            </ContextMenu.ItemContainerStyle>
+                                        </ContextMenu>
+                                    </hc:ContextMenuButton.Menu>
+                                </hc:ContextMenuButton>
+                            </DockPanel>
+                            <!--#endregion-->
+
+                            <!--#region B.Filter Text -->
+                            <ContentControl Content="{Binding FilterGlasses.SelectedPropertyToFilter3}"
+                                            Tag="{Binding FilterGlasses}"
+                                            ContentTemplateSelector="{StaticResource FilterInputValueTemplateSelector3}"
+                                            MinWidth="200">
+                            </ContentControl>
+                            <!--#endregion-->
+                        </StackPanel>
+                        <!--#endregion-->
+                    </StackPanel>
+                </DockPanel>
+                <!--#endregion-->
+
+            </GroupBox>
+            <!--#endregion-->
+
+            <!--#region 2. Search Cabins TextBox -->
+            <GroupBox  Style="{StaticResource GroupBoxCabinProperties}"
+                       DockPanel.Dock="Right"
+                       VerticalAlignment="Top"
+                       Margin="0">
+                <GroupBox.HeaderTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{StaticResource lngSearchCabin}"
+                                       FontSize="16"
+                                       Foreground="{DynamicResource PrimaryTextBrush}"
+                                       VerticalAlignment="Center" />
+                            <Button Style="{StaticResource ButtonIcon}"
+                                    hc:IconElement.Geometry="{StaticResource DeleteFillCircleGeometry}"
+                                    Foreground="{DynamicResource SecondaryBrush}"
+                                    Command="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=DataContext.ResetCabinFiltersCommand}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </GroupBox.HeaderTemplate>
+
+                <!--#region Filters -->
+                <DockPanel>
+                    <Button Style="{StaticResource ButtonIcon}"
+                            hc:IconElement.Geometry="{StaticResource SearchGeometry}"
+                            hc:IconElement.Height="25"
+                            hc:IconElement.Width="25"
+                            Height="auto"
+                            VerticalAlignment="Stretch"
+                            Foreground="{DynamicResource SecondaryBrush}"
+                            Command="{Binding QueryCabinsCommand}"
+                            ToolTip="Execute Query"
+                            DockPanel.Dock="Left"
+                            Margin="10,0,0,0" />
+                    <StackPanel Orientation="Horizontal">
+                        <!--#region I.CABIN FILTER 1 -->
+                        <StackPanel Margin="5,0">
+                            <!--#region A .Selected Filter and Filters Button -->
+                            <DockPanel>
+                                <TextBlock Text="{Binding FilterCabins.SelectedPropertyToFilter1.Name,Converter={StaticResource languageConverter}}"
+                                           Style="{StaticResource TitleTextBlockStyle}" />
+                                <hc:ContextMenuButton Style="{StaticResource ButtonIcon.Small}"
+                                                      hc:IconElement.Geometry="{StaticResource FilterGeometry}"
+                                                      Foreground="{DynamicResource SecondaryBrush}"
+                                                      HorizontalAlignment="Right">
+                                    <hc:ContextMenuButton.Menu>
+                                        <ContextMenu ItemsSource="{Binding FilterCabins.AvailableProperties}">
+                                            <ContextMenu.ItemContainerStyle>
+                                                <Style TargetType="{x:Type MenuItem}">
+                                                    <Setter Property="Header"
+                                                            Value="{Binding Name,Converter={StaticResource languageConverter}}" />
+                                                    <Setter Property="Command"
+                                                            Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}} ,Path=DataContext.SelectCabinsFilter1Command}" />
+                                                    <Setter Property="CommandParameter"
+                                                            Value="{Binding}" />
+                                                    <Setter Property="Foreground"
+                                                            Value="{DynamicResource PrimaryTextBrush}" />
+                                                </Style>
+                                            </ContextMenu.ItemContainerStyle>
+                                        </ContextMenu>
+                                    </hc:ContextMenuButton.Menu>
+                                </hc:ContextMenuButton>
+                            </DockPanel>
+                            <!--#endregion-->
+
+                            <!--#region B.Filter Text -->
+                            <ContentControl Content="{Binding FilterCabins.SelectedPropertyToFilter1}"
+                                            Tag="{Binding FilterCabins}"
+                                            ContentTemplateSelector="{StaticResource FilterInputValueTemplateSelector1}"
+                                            MinWidth="200">
+                            </ContentControl>
+                            <!--#endregion-->
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region II.CABINS FILTER 2 -->
+                        <StackPanel Margin="5,0">
+                            <!--#region A .Selected Filter and Filters Button -->
+                            <DockPanel>
+                                <TextBlock Text="{Binding FilterCabins.SelectedPropertyToFilter2.Name,Converter={StaticResource languageConverter}}"
+                                           Style="{StaticResource TitleTextBlockStyle}" />
+                                <hc:ContextMenuButton Style="{StaticResource ButtonIcon.Small}"
+                                                      hc:IconElement.Geometry="{StaticResource FilterGeometry}"
+                                                      Foreground="{DynamicResource SecondaryBrush}"
+                                                      HorizontalAlignment="Right">
+                                    <hc:ContextMenuButton.Menu>
+                                        <ContextMenu ItemsSource="{Binding FilterCabins.AvailableProperties}">
+                                            <ContextMenu.ItemContainerStyle>
+                                                <Style TargetType="{x:Type MenuItem}">
+                                                    <Setter Property="Header"
+                                                            Value="{Binding Name,Converter={StaticResource languageConverter}}" />
+                                                    <Setter Property="Command"
+                                                            Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}} ,Path=DataContext.SelectCabinsFilter2Command}" />
+                                                    <Setter Property="CommandParameter"
+                                                            Value="{Binding}" />
+                                                    <Setter Property="Foreground"
+                                                            Value="{DynamicResource PrimaryTextBrush}" />
+                                                </Style>
+                                            </ContextMenu.ItemContainerStyle>
+                                        </ContextMenu>
+                                    </hc:ContextMenuButton.Menu>
+                                </hc:ContextMenuButton>
+                            </DockPanel>
+                            <!--#endregion-->
+
+                            <!--#region B.Filter Text -->
+                            <ContentControl Content="{Binding FilterCabins.SelectedPropertyToFilter2}"
+                                            Tag="{Binding FilterCabins}"
+                                            ContentTemplateSelector="{StaticResource FilterInputValueTemplateSelector2}"
+                                            MinWidth="200">
+                            </ContentControl>
+                            <!--#endregion-->
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region III.CABINS FILTER 3 -->
+                        <StackPanel Margin="5,0">
+                            <!--#region A .Selected Filter and Filters Button -->
+                            <DockPanel>
+                                <TextBlock Text="{Binding FilterCabins.SelectedPropertyToFilter3.Name,Converter={StaticResource languageConverter}}"
+                                           Style="{StaticResource TitleTextBlockStyle}" />
+                                <hc:ContextMenuButton Style="{StaticResource ButtonIcon.Small}"
+                                                      hc:IconElement.Geometry="{StaticResource FilterGeometry}"
+                                                      Foreground="{DynamicResource SecondaryBrush}"
+                                                      HorizontalAlignment="Right">
+                                    <hc:ContextMenuButton.Menu>
+                                        <ContextMenu ItemsSource="{Binding FilterCabins.AvailableProperties}">
+                                            <ContextMenu.ItemContainerStyle>
+                                                <Style TargetType="{x:Type MenuItem}">
+                                                    <Setter Property="Header"
+                                                            Value="{Binding Name,Converter={StaticResource languageConverter}}" />
+                                                    <Setter Property="Command"
+                                                            Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}} ,Path=DataContext.SelectCabinsFilter3Command}" />
+                                                    <Setter Property="CommandParameter"
+                                                            Value="{Binding}" />
+                                                    <Setter Property="Foreground"
+                                                            Value="{DynamicResource PrimaryTextBrush}" />
+                                                </Style>
+                                            </ContextMenu.ItemContainerStyle>
+                                        </ContextMenu>
+                                    </hc:ContextMenuButton.Menu>
+                                </hc:ContextMenuButton>
+                            </DockPanel>
+                            <!--#endregion-->
+
+                            <!--#region B.Filter Text -->
+                            <ContentControl Content="{Binding FilterCabins.SelectedPropertyToFilter3}"
+                                            Tag="{Binding FilterCabins}"
+                                            ContentTemplateSelector="{StaticResource FilterInputValueTemplateSelector3}"
+                                            MinWidth="200">
+                            </ContentControl>
+                            <!--#endregion-->
+                        </StackPanel>
+                        <!--#endregion-->
+                    </StackPanel>
+                </DockPanel>
+                <!--#endregion-->
+
+            </GroupBox>
+            <!--#endregion-->
+
+            <!--#region 3.Orders ComboBox And DateFilters -->
+            <StackPanel>
+
+                <!--#region A. Orders ComboBox -->
+                <StackPanel HorizontalAlignment="Center"
+                            Margin="10,0,0,10">
+                    <DockPanel LastChildFill="False">
+
+                        <TextBlock Text="{StaticResource lngSearchByOrderId}"
+                                   Style="{StaticResource TitleTextBlockStyle}"
+                                   DockPanel.Dock="Left" />
+
+                        <!--#region 1. Open Retrival Options Button -->
+
+                        <Button Style="{StaticResource ButtonIcon.Small}"
+                                hc:IconElement.Geometry="{StaticResource RightGeometry}"
+                                hc:IconElement.Height="10"
+                                DockPanel.Dock="Right"
+                                Foreground="{DynamicResource SecondaryBrush}"
+                                Click="OpenSmallSettings_Click"
+                                Padding="2"
+                                MouseEnter="Button_MouseEnter"
+                                MouseLeave="Button_MouseLeave"
+                                ToolTip="Refresh Settings">
+                        </Button>
+
+                        <!--#endregion-->
+
+                        <!--#region 2 .Load Small Orders Button -->
+
+                        <Button Style="{StaticResource ButtonIcon.Small}"
+                                hc:IconElement.Geometry="{StaticResource RotateRightGeometry}"
+                                hc:IconElement.Height="10"
+                                DockPanel.Dock="Right"
+                                Foreground="{DynamicResource SecondaryBrush}"
+                                Command="{Binding LoadSmallOrdersCommand}"
+                                ToolTip="Refresh Orders List">
+                        </Button>
+
+                        <!--#endregion-->
+
+                        <!--#region 3. Popup Orders Combobox Settings -->
+
+                        <Popup AllowsTransparency="True"
+                               Placement="Right"
+                               x:Name="SmallOrdersSettingsPopup"
+                               HorizontalOffset="10"
+                               VerticalOffset="0"
+                               PopupAnimation="Fade"
+                               StaysOpen="False">
+                            <Border Background="{DynamicResource SecondaryRegionBrush}"
+                                    BorderBrush="{DynamicResource BorderBrush}"
+                                    CornerRadius="15"
+                                    BorderThickness="2"
+                                    UseLayoutRounding="True"
+                                    Padding="10"
+                                    Margin="10">
+                                <Border.Effect>
+                                    <DropShadowEffect BlurRadius="10"
+                                                      ShadowDepth="10"
+                                                      Color="Black"
+                                                      Opacity="0.5" />
+                                </Border.Effect>
+                                <StackPanel>
+                                    <StackPanel>
+                                        <DockPanel>
+                                            <TextBlock Style="{StaticResource TitleTextBlockStyle}"
+                                                       Text="{StaticResource lngMaxResults}"
+                                                       Margin="5,0,10,5"
+                                                       DockPanel.Dock="Left" />
+                                            <cc:Icon Style="{StaticResource CInfoTooltipIcon}"
+                                                     ToolTip="{StaticResource lngMaxResultsSmallOrdersTooltip}"
+                                                     DockPanel.Dock="Right" />
+                                        </DockPanel>
+                                        <TextBox Text="{Binding Settings.MaxResultsGetSmallOrders}"
+                                                 MaxLength="4">
+                                            <i:Interaction.Behaviors>
+                                                <b:TextBoxNumericInputBehavior Precision="0" />
+                                            </i:Interaction.Behaviors>
+                                        </TextBox>
+                                    </StackPanel>
+                                    <Button Content="Defaults"
+                                            Margin="0,15,0,0"
+                                            FontSize="9"
+                                            Padding="5"
+                                            Foreground="{DynamicResource SecondaryBrush}"
+                                            Command="{Binding SmallOrdersRestoreDefaultsCommand}" />
+                                </StackPanel>
+                            </Border>
+                        </Popup>
+
+                        <!--#endregion-->
+
+                    </DockPanel>
+
+                    <!--#region Small Orders ComboBox -->
+
+                    <ComboBox ItemsSource="{Binding GlassOrdersSmall}"
+                              SelectedItem="{Binding SelectedOrder}"
+                              MinWidth="350"
+                              Padding="20"
+                              MaxDropDownHeight="700">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border CornerRadius="20"
+                                        Padding="10"
+                                        BorderBrush="{DynamicResource SecondaryBorderBrush}"
+                                        BorderThickness="2"
+                                        ToolTipService.Placement="Right"
+                                        ToolTipService.InitialShowDelay="0"
+                                        ToolTipService.BetweenShowDelay="0"
+                                        ToolTipService.HorizontalOffset="10"
+                                        ToolTipService.VerticalOffset="-25">
+                                    <Border.ToolTip>
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding OrderId}"
+                                                       HorizontalAlignment="Center"
+                                                       TextAlignment="Center"
+                                                       Margin="10"
+                                                       FontSize="16" />
+
+                                            <Grid ShowGridLines="True">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition />
+                                                    <RowDefinition />
+                                                    <RowDefinition />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Text="{StaticResource lngGlasses}"
+                                                           Grid.Row="0"
+                                                           Grid.Column="0"
+                                                           Margin="10"
+                                                           MinWidth="60"
+                                                           HorizontalAlignment="Center"
+                                                           TextAlignment="Center" />
+                                                <TextBlock Text="{Binding GlassesCount}"
+                                                           Grid.Row="1"
+                                                           Grid.Column="0"
+                                                           HorizontalAlignment="Center"
+                                                           Margin="10" />
+                                                <TextBlock Text="{StaticResource lngCabins}"
+                                                           Grid.Row="0"
+                                                           Grid.Column="1"
+                                                           Margin="10"
+                                                           MinWidth="60"
+                                                           HorizontalAlignment="Center"
+                                                           TextAlignment="Center" />
+                                                <TextBlock Text="{Binding GlassesCount}"
+                                                           Grid.Row="1"
+                                                           Grid.Column="1"
+                                                           HorizontalAlignment="Center"
+                                                           Margin="10" />
+                                                <TextBlock Text="{StaticResource lngOrders}"
+                                                           Grid.Row="0"
+                                                           Grid.Column="2"
+                                                           Margin="10"
+                                                           MinWidth="60"
+                                                           HorizontalAlignment="Center"
+                                                           TextAlignment="Center" />
+                                                <TextBlock Text="{Binding PA0Count}"
+                                                           Grid.Row="1"
+                                                           Grid.Column="2"
+                                                           HorizontalAlignment="Center"
+                                                           Margin="10" />
+                                            </Grid>
+
+                                            <TextBlock Text="{Binding Status, Converter={StaticResource languageConverter}}"
+                                                       HorizontalAlignment="Center"
+                                                       TextAlignment="Center"
+                                                       Margin="10" />
+                                        </StackPanel>
+                                    </Border.ToolTip>
+                                    <DockPanel Width="300"
+                                               HorizontalAlignment="Center">
+                                        <TextBlock Text="{Binding Created , StringFormat=dd-MM-yyyy}"
+                                                   HorizontalAlignment="Right"
+                                                   DockPanel.Dock="Right"
+                                                   FontSize="20" />
+                                        <TextBlock Text="/"
+                                                   DockPanel.Dock="Right"
+                                                   Margin="0,0,20,0"
+                                                   FontSize="20" />
+                                        <TextBlock Text="{Binding OrderId}"
+                                                   HorizontalAlignment="Left"
+                                                   TextAlignment="Right"
+                                                   DockPanel.Dock="Left"
+                                                   Margin="0,0,40,0"
+                                                   MinWidth="50"
+                                                   FontSize="20" />
+                                    </DockPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding GetSelectedOrderCommand}"
+                                                       CommandParameter="{Binding SelectedOrder}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>
+
+                    <!--#endregion-->
+
+                </StackPanel>
+                <!--#endregion-->
+
+                <!--#region B. Date Filters -->
+                <StackPanel HorizontalAlignment="Center"
+                            Margin="0,0,0,-90">
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center">
+                        <StackPanel Margin="10,0">
+                            <DockPanel HorizontalAlignment="Left">
+                                <TextBlock Text="{StaticResource lngDateGreaterOrEqual}"
+                                           Style="{StaticResource TitleTextBlockStyle}" />
+                            </DockPanel>
+                            <hc:DatePicker Width="140"
+                                           SelectedDate="{Binding FromFilterDate, UpdateSourceTrigger=PropertyChanged}"
+                                           SelectedDateFormat="Short" />
+                        </StackPanel>
+                        <StackPanel Margin="10,0">
+                            <DockPanel HorizontalAlignment="Right">
+                                <TextBlock Text="{StaticResource lngDateLessOrEqual}"
+                                           Style="{StaticResource TitleTextBlockStyle}" />
+                            </DockPanel>
+                            <hc:DatePicker Width="140"
+                                           SelectedDate="{Binding ToFilterDate,UpdateSourceTrigger=PropertyChanged}"
+                                           SelectedDateFormat="Short" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!--#region Preconstrucrted Filters -->
+                    <StackPanel HorizontalAlignment="Center"
+                                Margin="0,10,0,0">
+                        <hc:ButtonGroup>
+                            <Button Content="{StaticResource lng7Days}"
+                                    Foreground="{DynamicResource SecondaryBrush}"
+                                    Command="{Binding SetDateFiltersCommand}"
+                                    CommandParameter="7" />
+                            <Button Content="{StaticResource lng15Days}"
+                                    Foreground="{DynamicResource SecondaryBrush}"
+                                    Command="{Binding SetDateFiltersCommand}"
+                                    CommandParameter="15" />
+                            <Button Content="{StaticResource lng30Days}"
+                                    Foreground="{DynamicResource SecondaryBrush}"
+                                    Command="{Binding SetDateFiltersCommand}"
+                                    CommandParameter="30" />
+                        </hc:ButtonGroup>
+                        <hc:ButtonGroup>
+                            <Button Content="{StaticResource lng2Months}"
+                                    Foreground="{DynamicResource SecondaryBrush}"
+                                    Command="{Binding SetDateFiltersCommand}"
+                                    CommandParameter="60" />
+                            <Button Content="{StaticResource lng3Months}"
+                                    Foreground="{DynamicResource SecondaryBrush}"
+                                    Command="{Binding SetDateFiltersCommand}"
+                                    CommandParameter="90" />
+                            <Button Content="{StaticResource lng6Months}"
+                                    Foreground="{DynamicResource SecondaryBrush}"
+                                    Command="{Binding SetDateFiltersCommand}"
+                                    CommandParameter="180" />
+                            <Button Content="{StaticResource lngYear}"
+                                    Foreground="{DynamicResource SecondaryBrush}"
+                                    Command="{Binding SetDateFiltersCommand}"
+                                    CommandParameter="365" />
+                        </hc:ButtonGroup>
+                    </StackPanel>
+                    <!--#endregion-->
+
+                    <Button Content="{StaticResource lngBringOnlyPending}"
+                            Margin="0,20,0,0" 
+                            Command="{Binding GetPendingGlassesCommand}"/>
+                </StackPanel>
+                <!--#endregion-->
+
+            </StackPanel>
+            <!--#endregion-->
+
+        </DockPanel>
+
+        <!--#endregion-->
+
+        <!--#region 3. Items DataGrids -->
+
+        <DockPanel x:Name="DataGridsDockPanel"
+                   Grid.Row="2"
+                   LastChildFill="False">
+            <DockPanel.Resources>
+
+                <!--#region 1.Glasses Collection View Source -->
+                <CollectionViewSource x:Key="GlassRowsViewSource"
+                                      Source="{Binding GlassRowsQuery}">
+                    <CollectionViewSource.GroupDescriptions>
+                        <PropertyGroupDescription PropertyName="CabinRowKey" />
+                    </CollectionViewSource.GroupDescriptions>
+                </CollectionViewSource>
+                <!--#endregion-->
+
+                <!--#region 2.Cabins Collection View Source -->
+                <CollectionViewSource x:Key="CabinRowsViewSource"
+                                      Source="{Binding CabinRowsQuery}">
+                    <CollectionViewSource.GroupDescriptions>
+                        <PropertyGroupDescription PropertyName="SynthesisKey" />
+                    </CollectionViewSource.GroupDescriptions>
+                </CollectionViewSource>
+                <!--#endregion-->
+
+                <Style TargetType="DataGridColumnHeader"
+                       BasedOn="{StaticResource DataGridColumnHeaderStyle}">
+                    <Setter Property="HorizontalAlignment"
+                            Value="Center" />
+                </Style>
+            </DockPanel.Resources>
+
+            <!--#region 1. Glasses Datagrid -->
+
+            <StackPanel DockPanel.Dock="Left">
+
+                <!--#region Title and ToolBar -->
+
+                <Grid>
+                    <DockPanel HorizontalAlignment="Stretch"
+                               Margin="10,0,60,0"
+                               LastChildFill="False">
+                        <TextBlock Style="{StaticResource CHeaderTextBlock}"
+                                   Text="{StaticResource lngGlasses}"
+                                   DockPanel.Dock="Left" />
+                        <Button Style="{StaticResource ButtonIcon}"
+                                hc:IconElement.Geometry="{StaticResource ExcelGeometry}"
+                                Foreground="{DynamicResource SecondaryBrush}"
+                                DockPanel.Dock="Left"
+                                Margin="10,0,0,0"
+                                ToolTip="{StaticResource lngSaveListToXls}"
+                                ToolTipService.InitialShowDelay="0"
+                                ToolTipService.Placement="Top" 
+                                ToolTipService.HorizontalOffset="-45"
+                                Command="{Binding SaveGlassListToExcelCommand}"/>
+                        <TextBlock Style="{StaticResource CHeaderTextBlock}"
+                                   Text="{Binding SelectedGlassRow.Draw ,Converter={StaticResource languageConverter}}"
+                                   Margin="10,0"
+                                   DockPanel.Dock="Right" />
+                        <TextBlock Style="{StaticResource CHeaderTextBlock}"
+                                   Text="{StaticResource lngDraw}"
+                                   DockPanel.Dock="Right" />
+                    </DockPanel>
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Right">
+                        <Border BorderBrush="{DynamicResource BorderBrush}"
+                                BorderThickness="1"
+                                HorizontalAlignment="Right"
+                                Padding="5">
+                            <ToggleButton x:Name="GlassesLinkToCabinsToggleButton"
+                                          VerticalAlignment="Center"
+                                          Style="{StaticResource LinkUnlinkToggleButton}"
+                                          IsChecked="{Binding MatchGlassRowToCabin}" />
+                        </Border>
+                        <Border BorderBrush="{DynamicResource BorderBrush}"
+                                BorderThickness="1"
+                                HorizontalAlignment="Right"
+                                Padding="5">
+                            <ToggleButton x:Name="GlassesGroupingToggleButton"
+                                          VerticalAlignment="Center"
+                                          IsChecked="{Binding AreGlassesGrouped}"
+                                          Style="{StaticResource GroupingToggleButton}"
+                                          Checked="GlassesGroupingToggleButton_Checked"
+                                          Unchecked="GlassesGroupingToggleButton_Unchecked" />
+                        </Border>
+                    </StackPanel>
+                </Grid>
+
+                <!--#endregion-->
+
+                <Grid>
+                    <Border Panel.ZIndex="10"
+                            Visibility="{Binding IsGlassesBusy , Converter={StaticResource Boolean2VisibilityConverter}}"
+                            d:Visibility="Collapsed">
+                        <Border.Background>
+                            <SolidColorBrush Color="Black"
+                                             Opacity="0.6" />
+                        </Border.Background>
+                        <hc:LoadingCircle Height="100"
+                                          Width="100"
+                                          DotDiameter="7" />
+                    </Border>
+                    <DataGrid Name="GlassRowsDataGrid"
+                              Background="{DynamicResource LightPrimaryBrush}"
+                              ItemsSource="{Binding Source={StaticResource GlassRowsViewSource}}"
+                              SelectedItem="{Binding SelectedGlassRow}"
+                              Style="{StaticResource CDataGrid}"
+                              HorizontalAlignment="Center"
+                              IsSynchronizedWithCurrentItem="True"
+                              MaxHeight="650"
+                              MinWidth="720"
+                              EnableRowVirtualization="True"
+                              CellStyle="{StaticResource CCenteredDatagridCell}"
+                              SelectionChanged="GlassRowsDataGrid_SelectionChanged">
+                        <!--Virtualize Results otherwise its a nightmare ...-->
+                        <DataGrid.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel />
+                            </ItemsPanelTemplate>
+                        </DataGrid.ItemsPanel>
+
+
+                        <!--#region B. GroupStyle -->
+                        <DataGrid.GroupStyle>
+                            <GroupStyle>
+                                <GroupStyle.ContainerStyle>
+                                    <Style TargetType="{x:Type GroupItem}">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate>
+                                                    <StackPanel Orientation="Horizontal"
+                                                                Margin="0,5">
+                                                        <ItemsPresenter />
+                                                    </StackPanel>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </GroupStyle.ContainerStyle>
+                            </GroupStyle>
+                        </DataGrid.GroupStyle>
+                        <!--#endregion-->
+
+                        <!--#region D.DataGrid Glass Columns -->
+
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="{StaticResource lngOrderIdAbbreviation}"
+                                                Binding="{Binding OrderId}" />
+                            <DataGridTextColumn Header="{StaticResource lngPA0Number}"
+                                                Binding="{Binding ReferencePA0}" />
+                            <DataGridTemplateColumn Header="{StaticResource lngDraw}" SortMemberPath="Draw">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Draw, Converter={StaticResource languageConverter}}" />
+                                            <TextBlock Text="{Binding SpecialDrawString, TargetNullValue=''}" />
+                                            <TextBlock Text="{Binding SpecialDrawNumber, TargetNullValue=''}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="{StaticResource lngLength}"
+                                                Binding="{Binding Length}" />
+                            <DataGridTextColumn Header="{StaticResource lngHeight}"
+                                                Binding="{Binding Height}" />
+                            <DataGridTextColumn Header="{StaticResource lngThickness}"
+                                                Binding="{Binding GlassThickness, Converter={StaticResource languageConverter}}" />
+                            <DataGridTextColumn Header="{StaticResource lngType}"
+                                                Binding="{Binding GlassType, Converter={StaticResource languageConverter}}" />
+                            <DataGridCheckBoxColumn HeaderTemplate="{StaticResource DatagridStepCutHeaderTemplate}"
+                                                    Binding="{Binding HasStep ,Mode=OneWay}" />
+                            <DataGridTemplateColumn HeaderTemplate="{StaticResource DatagridNotesHeaderTemplate}">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <cc:Icon ToolTip="{Binding Notes}"
+                                                 ToolTipService.ShowOnDisabled="False"
+                                                 ToolTipService.Placement="Top"
+                                                 ToolTipService.HorizontalOffset="0"
+                                                 ToolTipService.BetweenShowDelay="0">
+                                            <cc:Icon.Style>
+                                                <Style TargetType="cc:Icon"
+                                                       BasedOn="{StaticResource CInfoTooltipIcon}">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Notes}"
+                                                                     Value="">
+                                                            <Setter Property="Opacity"
+                                                                    Value="0.3" />
+                                                            <Setter Property="IsEnabled"
+                                                                    Value="False" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </cc:Icon.Style>
+                                        </cc:Icon>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="{StaticResource lngReceipt}">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate DataType="{x:Type vmr:GlassOrderRowViewModel}">
+                                        <DockPanel HorizontalAlignment="Stretch"
+                                                   Width="95"
+                                                   LastChildFill="True">
+                                            <CheckBox Margin="10,0"
+                                                      VerticalAlignment="Center" DockPanel.Dock="Right"
+                                                      IsChecked="{Binding IsFilled , Mode=OneWay}">
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="Click">
+                                                        <i:InvokeCommandAction Command="{Binding DataContext.FillUnfillGlassRowCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                                               CommandParameter="{Binding .}" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </CheckBox>
+                                            <Button Command="{Binding DataContext.OpenEditQuantityModalCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                    CommandParameter="{Binding .}"
+                                                    DockPanel.Dock="Left"
+                                                    HorizontalAlignment="Center">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding FilledQuantity}" />
+                                                    <TextBlock Text=" / " />
+                                                    <TextBlock Text="{Binding Quantity}" />
+                                                </StackPanel>
+                                            </Button>
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+
+                        <!--#endregion-->
+
+                    </DataGrid>
+                </Grid>
+
+                <!--#region Ε. Glasses Pager -->
+                <DockPanel Margin="5"
+                           Visibility="{Binding IsGlassesPagerVisible, Converter={StaticResource Boolean2VisibilityConverter}}">
+                    <StackPanel Orientation="Horizontal"
+                                DockPanel.Dock="Left">
+                        <TextBlock Text="{StaticResource lngPage}" />
+                        <TextBlock Text=" : " />
+                        <TextBlock Text="{Binding PageOfCurrentGlassesQuery}" />
+                        <TextBlock Text=" / " />
+                        <TextBlock Text="{Binding PagesOfCurrentGlassQuery}" />
+                    </StackPanel>
+                    <Button Content="{StaticResource lngNextPage}"
+                            Command="{Binding LoadNextGlassPageCommand}"
+                            Foreground="{DynamicResource SecondaryBrush}"
+                            IsEnabled="{Binding HasMorePagesGlassQuery}"
+                            DockPanel.Dock="Right"
+                            HorizontalAlignment="Right" />
+                    <Button Content="{StaticResource lngPreviousPage}"
+                            Command="{Binding LoadPreviousGlassPageCommand}"
+                            Foreground="{DynamicResource SecondaryBrush}"
+                            IsEnabled="{Binding HasPreviousPageGlassQuery}"
+                            DockPanel.Dock="Right"
+                            Margin="10,0"
+                            HorizontalAlignment="Right" />
+                </DockPanel>
+                <!--#endregion-->
+
+            </StackPanel>
+            <!--#endregion-->
+
+            <!--#region 2. Cabins Datagrid -->
+
+            <StackPanel DockPanel.Dock="Right">
+
+                <!--#region A. Title and ToolBar -->
+
+                <Grid>
+                    <DockPanel HorizontalAlignment="Stretch"
+                               LastChildFill="False"
+                               Margin="10,0,60,0">
+                        <TextBlock Style="{StaticResource CHeaderTextBlock}"
+                                   Text="{StaticResource lngCabins}"
+                                   DockPanel.Dock="Left" />
+                        <Button Style="{StaticResource ButtonIcon}"
+                                hc:IconElement.Geometry="{StaticResource ExcelGeometry}"
+                                Foreground="{DynamicResource SecondaryBrush}"
+                                DockPanel.Dock="Left"
+                                Margin="10,0,0,0"
+                                ToolTip="{StaticResource lngSaveListToXls}"
+                                ToolTipService.InitialShowDelay="0"
+                                ToolTipService.Placement="Top"
+                                ToolTipService.HorizontalOffset="-45"
+                                Command="{Binding SaveCabinsListToExcelCommand}" />
+                        <TextBlock Style="{StaticResource CHeaderTextBlock}"
+                                   Text="{Binding SelectedCabinRow.OrderedCabin.Code}"
+                                   Margin="10,0"
+                                   DockPanel.Dock="Right" />
+                    </DockPanel>
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Right">
+                        <Border BorderBrush="{DynamicResource BorderBrush}"
+                                BorderThickness="1"
+                                HorizontalAlignment="Right"
+                                Padding="5">
+                            <ToggleButton x:Name="CabinsLinkToGlassesToggleButton"
+                                          VerticalAlignment="Center"
+                                          Style="{StaticResource LinkUnlinkToggleButton}"
+                                          IsChecked="{Binding MatchCabinRowToGlass}" />
+                        </Border>
+                        <Border BorderBrush="{DynamicResource BorderBrush}"
+                                BorderThickness="1"
+                                HorizontalAlignment="Right"
+                                Padding="5">
+                            <ToggleButton x:Name="CabinsGroupingToggleButton"
+                                          VerticalAlignment="Center"
+                                          Style="{StaticResource GroupingToggleButton}"
+                                          IsChecked="{Binding AreCabinsGrouped}"
+                                          Checked="CabinsGroupingToggleButton_Checked"
+                                          Unchecked="CabinsGroupingToggleButton_Unchecked" />
+                        </Border>
+                    </StackPanel>
+                </Grid>
+
+                <!--#endregion-->
+
+                <Grid>
+                    <Border Panel.ZIndex="10"
+                            Visibility="{Binding IsCabinsBusy , Converter={StaticResource Boolean2VisibilityConverter}}"
+                            d:Visibility="Collapsed">
+                        <Border.Background>
+                            <SolidColorBrush Color="Black"
+                                             Opacity="0.6" />
+                        </Border.Background>
+                        <hc:LoadingCircle Height="100"
+                                          Width="100"
+                                          DotDiameter="7" />
+                    </Border>
+                    <DataGrid x:Name="CabinRowsDataGrid"
+                              Background="{DynamicResource LightPrimaryBrush}"
+                              ItemsSource="{Binding Source={StaticResource CabinRowsViewSource}}"
+                              SelectedItem="{Binding SelectedCabinRow, Mode=TwoWay}"
+                              Style="{StaticResource CDataGrid}"
+                              MaxHeight="650"
+                              MinWidth="720"
+                              VerticalAlignment="Top"
+                              SelectionMode="Single"
+                              HorizontalAlignment="Center"
+                              EnableRowVirtualization="True"
+                              CellStyle="{StaticResource CCenteredDatagridCell}"
+                              IsSynchronizedWithCurrentItem="True"
+                              SelectionChanged="CabinRowsDataGrid_SelectionChanged">
+                        <!--Virtualize Results otherwise its a nightmare ...-->
+                        <DataGrid.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel />
+                            </ItemsPanelTemplate>
+                        </DataGrid.ItemsPanel>
+
+                        <!--#region A. GroupStyle -->
+                        <DataGrid.GroupStyle>
+                            <GroupStyle>
+                                <GroupStyle.ContainerStyle>
+                                    <Style TargetType="{x:Type GroupItem}">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate>
+                                                    <StackPanel Orientation="Horizontal"
+                                                                Margin="0,5">
+                                                        <ItemsPresenter />
+                                                    </StackPanel>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </GroupStyle.ContainerStyle>
+                            </GroupStyle>
+                        </DataGrid.GroupStyle>
+                        <!--#endregion-->
+
+                        <!--#region C.Columns -->
+
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="{StaticResource lngOrderIdAbbreviation}"
+                                                Binding="{Binding OrderId}" />
+                            <DataGridTextColumn Header="{StaticResource lngPA0Number}"
+                                                Binding="{Binding ReferencePA0}" />
+                            <DataGridTextColumn Header="{StaticResource lngCode}"
+                                                Binding="{Binding OrderedCabin.Code}" />
+                            <DataGridTextColumn Header="{StaticResource lngDraw}"
+                                                Binding="{Binding OrderedCabin.IsPartOfDraw , Converter={StaticResource languageConverter}}" />
+                            <DataGridTextColumn Header="{StaticResource lngLength}"
+                                                Binding="{Binding OrderedCabin.NominalLength}" />
+                            <DataGridTextColumn Header="{StaticResource lngHeight}"
+                                                Binding="{Binding OrderedCabin.Height}" />
+                            <DataGridTextColumn Header="{StaticResource lngThickness}"
+                                                Binding="{Binding OrderedCabin.Thicknesses , Converter={StaticResource languageConverter}}" />
+                            <DataGridCheckBoxColumn HeaderTemplate="{StaticResource DatagridStepCutHeaderTemplate}"
+                                                    Binding="{Binding OrderedCabin.HasStep ,Mode=OneWay}" />
+                            <DataGridTemplateColumn HeaderTemplate="{StaticResource DatagridNotesHeaderTemplate}">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <cc:Icon ToolTip="{Binding Notes}"
+                                                 ToolTipService.ShowOnDisabled="False"
+                                                 ToolTipService.Placement="Top"
+                                                 ToolTipService.HorizontalOffset="0"
+                                                 ToolTipService.BetweenShowDelay="0">
+                                            <cc:Icon.Style>
+                                                <Style TargetType="cc:Icon"
+                                                       BasedOn="{StaticResource CInfoTooltipIcon}">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Notes}"
+                                                                     Value="">
+                                                            <Setter Property="Opacity"
+                                                                    Value="0.3" />
+                                                            <Setter Property="IsEnabled"
+                                                                    Value="False" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </cc:Icon.Style>
+                                        </cc:Icon>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+
+                        <!--#endregion-->
+
+                    </DataGrid>
+                </Grid>
+
+                <!--#region Ε. Cabins Pager -->
+                <DockPanel Margin="5"
+                           Visibility="{Binding IsCabinPagerVisible, Converter={StaticResource Boolean2VisibilityConverter}}">
+                    <StackPanel Orientation="Horizontal"
+                                DockPanel.Dock="Left">
+                        <TextBlock Text="{StaticResource lngPage}" />
+                        <TextBlock Text=" : " />
+                        <TextBlock Text="{Binding PageOfCurrentCabinsQuery}" />
+                        <TextBlock Text=" / " />
+                        <TextBlock Text="{Binding PagesOfCurrentCabinsQuery}" />
+                    </StackPanel>
+                    <Button Content="{StaticResource lngNextPage}"
+                            Command="{Binding LoadNextCabinsPageCommand}"
+                            Foreground="{DynamicResource SecondaryBrush}"
+                            IsEnabled="{Binding HasMorePagesCabinsQuery}"
+                            DockPanel.Dock="Right"
+                            HorizontalAlignment="Right" />
+                    <Button Content="{StaticResource lngPreviousPage}"
+                            Command="{Binding LoadPreviousCabinsPageCommand}"
+                            Foreground="{DynamicResource SecondaryBrush}"
+                            IsEnabled="{Binding HasPreviousPageCabinsQuery}"
+                            DockPanel.Dock="Right"
+                            Margin="10,0"
+                            HorizontalAlignment="Right" />
+                </DockPanel>
+                <!--#endregion-->
+
+            </StackPanel>
+
+            <!--#endregion-->
+
+        </DockPanel>
+
+        <!--#endregion-->
+
+
+
+    </Grid>
+</UserControl>

@@ -1,0 +1,38 @@
+﻿@*The Primary Window Containing the Series Story*@
+@namespace BronzeArtWebApplication.Pages.CabinsPage.Components.WindowsComponents.SeriesWindows
+@using ShowerEnclosuresModelsLibrary.Enums.CabinCategories
+@using static BronzeArtWebApplication.Shared.Helpers.StaticInfoCabins
+@using static BronzeArtWebApplication.Shared.Helpers.StylesStaticInfoCabins
+@inject ILanguageContainerService lc
+@inject AssembleCabinViewModel vm
+
+<StoryContainer Title = "@(lc.Keys["SeriesWindowTitle"])" 
+                @bind-IsVisible = "@(vm.IsWindowVisible[StoryWindow.SeriesPrimary])" 
+                IsNextButtonVisible = "@(false)"
+                IsPreviousButtonVisible = "@(true)"
+                OnPreviousClick = "(()=> vm.ShowWindow(StoryWindow.StartWindow,StoryWindow.SeriesPrimary))"
+                OnResetClick = "@(()=> vm.ResetViewModel())">
+    <MainContent>
+        <MudGrid Justify="Justify.Center" Spacing="2" Class="px-5 py-5">
+                @foreach (CabinSeries series in Enum.GetValues(typeof(CabinSeries)).Cast<CabinSeries>().Where(s=> s!= CabinSeries.UndefinedSeries))
+                    {
+                     <MudItem sm="12" md="12" lg="6" Class="d-flex justify-center align-center">
+                         <MudButton Variant="Variant.Filled"
+                                    FullWidth="true"
+                                    Style="text-transform:none"
+                                    Class="ma-2"
+                                    OnClick = "@(()=> HandleSelection(series))">
+                             <MudContainer Class="d-flex justify-center flex-column ma-1 pa-1" Style="max-width:90%">
+                                 <img src="@(CabinSeriesImagePaths[series])"
+                                      alt="@lc.Keys[CabinSeriesDescKey[series]]"
+                                      class="rounded-lg" />
+                                 <MudText Typo="Typo.subtitle1">
+                                     @lc.Keys[CabinSeriesDescKey[series]]
+                                 </MudText>
+                             </MudContainer>
+                         </MudButton>
+                     </MudItem>   
+                    }
+            </MudGrid>
+    </MainContent>
+</StoryContainer>

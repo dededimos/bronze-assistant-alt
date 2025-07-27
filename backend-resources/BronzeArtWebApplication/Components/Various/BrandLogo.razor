@@ -1,0 +1,39 @@
+﻿@* The Container of the branding logo according to the Apps State*@
+@namespace BronzeArtWebApplication.Components.Various
+@using BronzeArtWebApplication.Components.SVGComponents
+@inject BronzeUser user
+
+@if (user.SelectedAppMode is BronzeAppMode.Retail && user.SelectedRetailTheme is RetailModeTheme.Lakiotis)
+{
+    <div style="@(Style)" class="@(Class)">
+        <LakiotisLogo />
+    </div>
+    @if (IsVisibleBronzeLogoRetail)
+    {
+        <div style="@(StyleBronzeLogo)" class="@(ClassBronzeLogo)">
+            <img src="../Images/Logos/BABlack.png"/>
+        </div>
+    }
+}
+else if (user.SelectedAppMode is BronzeAppMode.Retail && user.SelectedRetailTheme is RetailModeTheme.Papapolitis)
+{
+    <div style="@(Style)" class="@(Class)">
+        <img src="@(BronzeAppThemeInfo.GetRetailThemeLogoPath(RetailModeTheme.Papapolitis))"/>
+    </div>
+    @if (IsVisibleBronzeLogoRetail)
+    {
+        <div style="@(StyleBronzeLogo)" class="@(ClassBronzeLogo)">
+            <img src="../Images/Logos/BABlack.png"/>
+        </div>
+    }
+}
+else
+{
+    <div style="@(Style)" class="@(Class)">
+        <img src="../Images/Logos/BABlack.png"/>
+    </div>
+}
+
+
+
+

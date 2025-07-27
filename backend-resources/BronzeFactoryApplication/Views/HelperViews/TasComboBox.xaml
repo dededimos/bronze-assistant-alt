@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.HelperViews.TasComboBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.HelperViews"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             mc:Ignorable="d"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             x:Name="Container"
+             MinWidth="200"
+             d:Height="auto">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <DockPanel HorizontalAlignment="Stretch"
+                   Grid.Row="0">
+            <cc:Icon ToolTip="{Binding ElementName=Container, Path=IconToolTip}"
+                     Style="{StaticResource CTasInfoTooltipIcon}" />
+            <TextBlock x:Name="AddPriceValueTextBlock"
+                       Style="{StaticResource CTasTitleTextBlockStyle}"
+                       Text="{Binding ElementName=Container , Path=ComboBoxTitle}">
+            </TextBlock>
+        </DockPanel>
+        <hc:ComboBox x:Name="ComboBox"
+                     HorizontalContentAlignment="Stretch"
+                     ItemTemplate="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:TasComboBox}}, Path=ItemTemplate}"
+                     ItemTemplateSelector="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:TasComboBox}},Path=ItemTemplateSelector}"
+                     Height="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:TasComboBox}}, Path=ComboBoxHeight}"
+                     Grid.Row="1"
+                     SelectedValue="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:TasComboBox}} , Path=SelectedValue }"
+                     SelectedItem="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:TasComboBox}}, Path=SelectedItem ,TargetNullValue={x:Null} ,FallbackValue={x:Null}}"
+                     SelectedValuePath="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:TasComboBox}} , Path=SelectedValuePath }"
+                     ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:TasComboBox}}, Path=ItemsSource}"
+                     FontSize="14"
+                     hc:InfoElement.ShowClearButton="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:TasComboBox}}, Path=ShowClearButton}"
+                     ItemsPanel="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:TasComboBox}},Path=ItemsPanel}"
+                     IsEditable="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:TasComboBox}},Path=IsEditable}"
+                     TextSearch.TextPath="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:TasComboBox}},Path=TextSearchPath}"
+                     hc:DropDownElement.ConsistentWidth="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:TasComboBox}},Path=DropDownElementConsistentWidth}"
+                     CaretBrush="{DynamicResource PrimaryTextBrush}">
+        </hc:ComboBox>
+    </Grid>
+</UserControl>

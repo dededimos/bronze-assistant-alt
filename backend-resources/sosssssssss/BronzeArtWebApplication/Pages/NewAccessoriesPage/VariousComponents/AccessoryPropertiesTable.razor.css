@@ -1,0 +1,42 @@
+﻿.propertiesTableContainer {
+    display:flex;
+    flex-direction:column;
+    padding:0px 16px;
+}
+
+.propertiesHeaderContainer {
+    font-size: 1.3rem;
+    text-decoration: underline;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+    margin-bottom:5px;
+}
+
+.tableCellProperty {
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-align: start;
+    align-items: center;
+    max-width:105px;
+}
+.tableCellDivider {
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-align: center;
+    align-items: center;
+    width:20px;
+}
+
+.tableCellValue {
+    font-size: 0.9rem;
+    text-align: start;
+}
+
+.smallSelectedFinishImg {
+    height: 23px;
+    margin-left: 10px;
+    object-fit: scale-down;
+}
+
+

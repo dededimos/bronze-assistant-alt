@@ -1,0 +1,1299 @@
+#GeneralStrings
+New : Νέο
+CompleteView: Πλήρης Προβολή
+Models : Σχέδια
+Shape : Σχήμα
+Extras : Πρόσθετα
+ViewNeedsLogIn : Πρέπει να είστε Συνδεδεμένοι για να δείτε αυτή την Σελίδα
+TaskCancelled : Η Εργάσία Ακυρώθηκε
+Generating... : Δημιουργία...
+Request : Ζήτηση
+RegisterMachine : Καταχώρηση Μηχανήματος
+MachineAddress : Διεύθυνση Μηχανήματος
+Print : Εκτύπωση
+PrintSaveOffer : Εκτύπωση/Αποθήκευση Προσφοράς
+PrintSaveOfferFirefoxNo : Εκτύπωση/Αποθήκευση Προσφοράς (Δεν Υποστιρίζει Firefox)
+Included : Περιλαμβάνεται
+YouHaveTo : Πρέπει να
+PleaseChooseShape : Διαλέξετε Σχήμα Καθρέφτη
+PleaseChooseDimensions : Βάλετε Διαστάσεις Καθρέφτη
+PleaseChooseLight : Διαλέξετε Φωτισμό (Με ή Χωρίς)
+Dimensions : Διαστάσεις
+LengthxHeight: (MxY)
+Range: Εύρος
+Tollerance : Ανοχή
+Restart : Επανεκίνηση
+Resume : Συνέχεια
+Glass : Γυαλί
+Type : Τύπος
+Thickness : Πάχος
+Finish : Φινίρισμα
+GlassFinish : Τύπος Γυαλιού
+OfGlass: Γυαλιού
+AdditionalOptions : Επιπλέον Επιλογές
+CabinSide : Πλευρά Καμπίνας
+Selected : Επιλεγμένα
+Without : Χωρίς
+Draw : Σχέδιο
+Tempered : Ασφαλείας
+Pricing : Τιμολόγιση
+Rules : Κανόνες
+NominalDimension : Ονομαστική Διάσταση
+Opening : Άνοιγμα
+Wheels : Τροχοί
+PrintsBestIn : Ή Εκτύπωση υποστιρίζεται καλύτερα στο
+Diagonal : Διαγωνίου
+Photo : Φωτογραφία
+PhotoAbbreviated: Εικόνα
+Mirrors : Καθρέφτες
+Showers : Καμπίνες
+Accessories : Αξεσουάρ
+Demo : (Demo)
+Options : Επιλογές
+Edit : Επεξεργασία
+Format : Μορφή
+οr : ή
+Choices : Επιλογές
+Properties : Χαρακτηριστικά
+Link : Link
+Delete : Διαγραφή
+Empty : Κενό
+Busy : Απασχολημένο
+Available : Διαθέσιμα
+Search : Αναζήτηση
+Column : Στήλη
+Columns : Στήλες
+Images : Φωτογραφίες
+UnderConstruction : Υπό Κατασκευή
+SectionStillUnderConstruction : Αυτό το τμήμα είναι ακόμα υπό κατασκευή. Δοκιμάστε ξανά από 18-07.
+RetrievingAccessories : Ανάκτηση Αξεσουάρ
+Loading : Ανάκτηση
+or: ή
+Filters : Φίλτρα
+ResetFilters : Καθαρισμός Φίλτρων
+HeightLetter : Υ
+ClickToCheckNews : Κλικ για αλλαγές Έκδοσης
+Retrying: Επανάληψη...
+FailedToRetrieve: Αποτυχία Ανάκτησης...
+CheckConnection: Ελέγξτε τη σύνδεση
+CustomizedDimension: Ειδική Κατασκ.
+Frame : Πλαίσιο
+PricesAreNew : Οι αυτόματες τιμολογίσεις στις ειδικές κατασκευές έχουν πολλαπλούς κανόνες , αν κάτι νομίζεται ότι δεν είναι σωστό παρακαλώ επικοινωνήστε μαζί μας
+PricesAreNotBinding : Οι εμφανιζόμενες τιμές δεν είναι δεσμευτικές και μπορούν να αλλάξουν χωρίς προειδοποίηση
+CustomDimensionIrregular : Οι ειδικές κατασκευές υπολογίζονται με συντελεστή προσαύξησης (15%, 25% κ.λ.π.) βάση τετραγωνικών και της κοντινότερης Βασικής Τιμής Καταλόγου
+Notes : Σημειώσεις
+NotAvailable : N/A
+CalculationsInfo : Πληροφορίες Υπολογισμών
+Retrieve : Ανάκτηση
+Save : Αποθήκευση
+SavingFile...: Αποθήκευση Αρχείου...
+FileSaved : Αρχείο Αποθηκεύτηκε
+SaveSuccess: Επιτυχής Αποθήκευση
+SaveFailed: Αποτυχία αποθήκευσης
+OnlyDigitsAndEnglish : Ψηφία-Λατ.Χαρακτ.
+SaveAsExcelFile : Αποθήκευση σε Αρχείο Excel (.xlsx)
+PhotoUrl : Url Φωτογραφίας
+AppliedRules : Κανόνες Τιμολόγισης
+
+#Authentication Page strings
+LoggingIn : Πραγματοποιείται Σύνδεση...
+CompletingLogin : Ολοκληρώνεται η Σύνδεση...
+LogInFailed : Αποτυχία Σύνδεσης
+LoggingOut : Πραγματοποιείται Αποσύνδεση...
+CompletingLogout : Ολοκληρώνεται η Αποσύνδεση...
+LogoutSucceded : Αποσύνδεση Επιτυχής
+BackToHome : Πίσω στην Αρχική
+LogoutFailed : Αποτυχία Αποσύνδεσης
+
+#Pages Header Content strings
+IndexPageTitle : Bronze Art Application
+AssembleCabinPageTitle : Σύνθεση Καμπίνας - BronzeApp
+AssembleMirrorPageTitle : Σύνθεση Καθρέφτη - BronzeApp
+AccessoriesSelectionPageTitle : Αξεσουάρ Μπάνιου - BronzeApp
+MirrorDrawPageTitle : Σκαρίφιμα Καθρέφτη
+VersionNotesPageTitle : Σημειώσεις Έκδοσης
+ItemModifiedNotAvailable: Το στοιχείο έχει τροποποιηθεί ή δεν είναι πλέον διαθέσιμο
+
+#NewsTooltip
+NewsDialogTitle: Εκδόσεις - Νέα
+NewsTitle100 : Έκδοση 1.00
+CabinSectionReady: 1.Καμπίνες ειδικών διαστάσεων ή καταλόγου
+CapsuleMirrorReady: 2.Καθρέφτες σε σχήμα κάψουλας (με ή χωρίς φωτισμό)
+FramedLightMirrorsWithoutSandblast: 3.Πλαίσιο ΧΩΡΙΣ αμμοβολή σε φωτιζόμενο ορθογωνικό καθρέφτη
+BetterLooksReady: 4.Αισθητικές αλλαγές (γενικές και για μικρές οθόνες)
+NewsTitle101 : Έκδοση 1.01
+EllipseMirrorReady: 1.Καθρέφτες σε σχήμα Έλλειψης-Οβάλ (με ή χωρίς φωτισμό)
+LinkItemsReady: 2.Δυνατότητα Δημιουργίας Συνδέσμων(Links) για όλες τις επιλεγμένες Κατασκευές
+BetterLooksReady2: 3.Μικρές Αισθητικές αλλαγές 
+NewsTitle102103 : Έκδοση 1.02 & 1.03
+BathtubPanelsReady: 1.Προστέθηκαν Πάνελ Μπανιέρας
+NewsTitle104105106 : Έκδοση 1.04 & 1.05 & 1.06
+InvalidFlagBug: 1.Η εφαρμογή εκτελείται και σε Secured Browsers (Sophos Agent κ.λπ.)
+CabinPricingComing : 2.Τιμολογίσεις Καμπίνας(Από ??-07)
+AccessoriesComing : 3.Σελιδα Αξεσουάρ (Από 18-07)
+NewsTitle107abc : Έκδοση 1.07a-1.07b-1.07c
+SaveCabinSynthesis : 1.Μπορείτε πλέον να Αποθηκευσετε τις Κατασκευές Καμπίνας για χρήση αργότερα
+NewsTitle108 : Έκδοση 1.08
+AccessoriesDemoNews : 1.Σε Λειτουργεία Δοκιμαστική Έκδοση για την Εφαρμογή με Αξεσουάρ Μπάνιου
+NewsTitle109 : Έκδοση 1.09 & 1.10
+CabinsPricing : 1.Η Χονδρική Τιμολόγιση είναι πλέον Διαθέσιμη, ζητήστε έκδοση του κωδικού σας (Κατάλογος 2023)
+CabinsPricing2 : Τιμολογίσεις για όλες τις κατασκευές - Φινιρίσματα - Επιλογές Διαμόρφωσης
+CabinsOptions : 2.Νέες Επιλογές Ειδικής Κατασκευής
+CabinsOptions2 : Λαβές - Προφίλ - Πλαίσιο - Μηχανισμοί κ.λ.π.
+BugFixes109 : 3.Διάφορες Διορθώσεις μικροαλλαγές (βλ.Notes)
+NewsTitle111 : Ver. 1.11 & 1.12
+NotesBoxAdded : 1.Σημειώσεις μπορούν να προστεθούν στις προσφορές και ζητήσεις Καμπίνας/Καθρέφτη.
+CabinPricingFixes : 2.Διορθώσεις τιμοδότισης σε Καμπίνες ειδικής Κατασκευής WS-9C-VF-VS-V4
+IrregularThicknessPricing : 3.Τιμοδότηση για πάχη 6/8mm , 8/10mm , 10mm 
+BugFixes111 : 4.Διάφορες Διορθώσεις μικροαλλαγές (βλ. Application Εκδόσεις)
+NewsTitle113 : Ver. 1.13
+BugFixes113 : 1.Πολλαπλές Διορθώσεις (βλ. Application Εκδόσεις)
+NewsTitle200 : Ver. 2.00 14-11-2023
+A2001: 1.Προστέθηκε νέο μενού αξεσουάρ.
+A2002: 2.Προστέθηκαν νέες λειτουργίες καλάθι προσφορών, κανόνες τιμολόγησης, εξατομικευμένες τιμές, εκτυπώσιμες προσφορές και παραγγελίες
+A2003: 3.Εισήχθη πλοήγηση με βάση τη σειρά, τον τύπο και το φινίρισμα των προϊόντων.
+A2004: 4.Προστέθηκαν κάρτες βασικών προϊόντων και λεπτομερής κάρτα αξεσουάρ.
+A2005: 5.Αναζήτηση ειδών βάση Περιγραφής Κωδικού κλπ.
+A2006: 6.Προστέθηκαν προβολές πλέγματος ή πίνακα
+A2007: 7.Συμπεριλήφθηκαν τιμές και φινιρίσματα ανά προϊόν.
+A2008: 8.Προστέθηκαν εκτυπώσιμα φύλλα και πρότυπα αξεσουάρ.
+A2009: 9.Προστέθηκαν διαστάσεις αξεσουάρ και φωτογραφία διάστασης ανά χρώμα
+A20010: 10.Ανανεώθηκε το χρώμα θέματος
+A20011: 11.Εφαρμόστηκαν μετακινήσεις σελίδων και βελτιώθηκε η δρομολόγηση
+A20012: 12.Βελτιώθηκε ο διαχωρισμός του υποσέλιδου από το κύριο περιεχόμενο.
+A20013: 13.Διορθώθηκαν τα προβλήματα γραμμής κύλισης στην εφαρμογή και στην αρχική σελίδα.
+A20014: 14.Ενισχύθηκε η διεπαφή χρήστη με πλευρικά μενού, εργαλειοθήκες και διάφορα διαλόγους για πιο διαισθητική εμπειρία.
+NewsTitle201206 : Ver. 2.01-2.07 / 14-03-2025
+A2012061 : 1.Πολλαπλές Διορθώσεις (βλ. Application Εκδόσεις)
+NewsTitle208 : Ver. 2.08-2.11 / 24-03-2025
+A2081 : 1. Προστέθηκαν Επιπλέον Διαστάσεις Καθρέφτη σε όλα τα Μοντέλα Καταλόγου
+A2082 : 2. Προστεθηκε δυνατότητα δημιουργίας Κυκλικών καθρεφτών με πλαίσιο (διαστάσεις 50-60-70-80-90-100-110-120)
+A2083 : 3. Καταργήθηκαν τα Χρώματα επιμετάλλωσης στους Καθρέφτες
+A2084 : 4. Διάφορες Επιπλέον Διορθώσεις (βλ. Application Εκδόσεις)
+NewsTitle212 : Ver. 2.12-2.14 / 10-04-2025
+A2121 : 1. Προστέθηκαν Επιπλέον Μοντέλα και Σχήματα Καθρέφτη
+A2122 : 2. Προστέθηκαν επιπλέον Επιλογές Φωτισμού
+A2123 : 3. Προστέθηκαν επιπλέον Οθόνη Media
+A2124 : 4. Διάφορες Επιπλέον Διορθώσεις (βλ. Application Εκδόσεις)
+
+#CreateLink Tooltip
+CreateLinkInformation : Αντιγράψτε Σύνδεσμο(Link) για την Επιλεγμένη Κατασκευή
+LinkCreation : Δημιουργία Συνδεσμου
+LinkCopiedToClipboard: Ο Συνδεσμος(Link) Αντιγράφηκε στο Πρόχειρο
+PassMirrorFromLink : Δημιουργήθηκε Καθρέφτης Από Σύνδεσμο(Link)
+PassSynthesisCabinFromLink : Δημιουργήθηκε Κατασκευή Από Σύνδεσμο(Link)
+InvalidLinkCouldNotGenerateMirror: Η Διεύθυνση (Link) δεν ήταν Σωστή
+InvalidLinkCouldNotGenerateCabin: Η Διεύθυνση (Link) δεν ήταν Σωστή
+InvalidLinkCouldNotGenerateQuery : Η Διεύθυνση (Link) δεν ήταν Σωστή
+CouldNotCopyLinkToClipboard : Ο Σύνδεσμος δεν μπόρεσε να δημιουργηθεί
+
+#Main Menu
+AppMenuButton: Μενού
+ThemeButton: Θέμα
+LogIn : Σύνδεση
+LogOut : Αποσύνδεση
+Home : Αρχική
+
+#NavMenu
+NavCaption: Μενού
+NavChooseHome: Αρχική
+NavChooseApp: Επιλογή εφαρμογής
+NavChooseAppCabin: Εφαρμογή Καμπίνες
+NavChooseAppMirror: Εφαρμογή Καθρέφτες
+NavChooseAppAccessories : Εφαρμογή Αξεσουάρ
+NavContact: Επικοινωνήστε
+NavVersion : Application Εκδόσεις
+NavManage : Διαχείριση
+
+#MessageBox - Messages
+SomethingWentWrongReset: Κάποια Λειτουργία Σταμάτησε - Έγινε Επαναφορά των Επιλογών
+Error: Λάθος
+AnApplicationWideErrorOccured : Παρουσιαστηκε Κάποιο Σφάλμα , Παρακαλώ Επανεκινήστε την σελίδα
+
+#Printing Page Strings
+DrawingsAreIndicative: -Τα Σχέδια είναι ενδεικτικά.Η πραγματική διαρρύθμιση ενδέχεται να διαφέρει
+
+#Main Body Strings
+MainButton: Ειδικός Καθρέφτης
+MainFieldsetLegend: Καθρέφτης - Ιδιότητες
+Reset: Επαναφορά
+MirrorShape: Σχήμα Καθρεφτη
+MirrorLight: Φωτισμός
+Length: Μήκος
+Height: Ύψος
+Diameter: Διάμετρος
+DimensionsHelperText: Από 40-220εκ
+cm : cm
+Support : Στήριξη
+LineNo : Αρ.
+LineNoMin: Αρ.
+Code : Κωδικός
+Description : Περιγραφή
+FullDescription : Πλήρης Περιγραφή
+ExtendedDescription : Εκτενής Περιγραφή
+RetailPrice : Τιμή Καταλόγου
+NetPrice : Νέτη Τιμή
+FinalPrice : Τελική Τιμή
+Price : Τιμή
+PlusVat : +φπα
+WhereApplicable : Όπου Υφίσταται
+Total : Σύνολο
+VAT : ΦΠΑ
+FinalTotal : Τελικό Σύνολο
+TotalWithVat : Σύνολο με ΦΠΑ
+UndefinedLength : Απροσδιόριστο Μήκος
+UndefinedHeight : Απροσδιόριστο Ύψος
+UndefinedDiameter : Απροσδιόριστη Διάμετρος
+ClickToObserveDraw : Πατήστε για να δείτε το σχέδιο του Καθρέφτη
+EnterCodeToGetMirror : Εισάγετε Κωδικό
+
+#AssembleMirrorStateBox - Mode Selector Box
+CurrentState: Ενεργή Λειτουργία
+GuestState: Επισκέπτης
+RetailState: Λειτουργία Λιανικής
+WholesaleState: Λειτουργία Χονδρικής
+PressToOpenOptionsTooltip: Πατήστε για Ρυθμίσεις
+
+#FogTouchOptions Enum Descriptions
+WithAutonomusTouch : Αυτόνομος Διακόπτη Αφής
+WithAutonomusTouchEco : Αυτόνομος Διακόπτη Αφής Eco
+
+#MirrorShape Enum Descriptions
+RectangularMirror: Καθρέφτης Ορθογωνικός
+CircularMirror: Καθρέφτης Κυκλικός
+CapsuleMirror: Καθρέφτης Κάψουλα
+EllipseMirror: Καθρέφτης Έλλειψη
+SpecialMirror: Ειδικός Καθρέφτης
+StoneNSMirror : Καθρέφτης Πέτρα
+PebbleNDMirror : Καθρέφτης Βότσαλο
+CircleSegmentMirror : Καθρέφτης Τμήμα Κύκλου
+CircleSegment2Mirror : Καθρέφτης Τμήμα Κύκλου 2
+
+#MirrorSeries Enum Descriptions
+SeriesCustom : Ειδική Διάσταση/Κατασκευή
+SeriesH7 : Hotel H7
+SeriesH8 : Eco H8
+SeriesX6 : Lugano X6
+SeriesX4 : Quattro X4
+Series6000 : Crystal 6000
+SeriesM3 : San Remo M3
+SeriesN9 : Diagonios N9
+SeriesN6 : Loop N6
+SeriesN7 : Totem N7
+SeriesA7 : Lunar A7
+SeriesA9 : Fairmont A9
+SeriesM8 : Series M8
+SeriesND : Pebble ND
+SeriesNC : Capsule NC
+SeriesNL : Ellipse NL
+SeriesP8 : Genesis P8
+SeriesP9 : Isavella P9
+SeriesR7 : Premium Hotel R7
+SeriesR9 : Premium Diagonios R9
+SeriesNS : Stone NS
+SeriesN1 : Round1000 N1
+SeriesN2 : Round2000 N2
+SeriesEL : Riviera Single EL
+SeriesES : Riviera Double ES
+SeriesIM : Ειδική Διάστ. Ορθογωνικός με Φωτισμό
+SeriesIA : Ειδική Διάσταση Ορθογωνικός Απλός
+SeriesN9Custom : Ειδική Διάσταση Κυκλικός με Φωτισμό
+SeriesNA : Ειδική Διάσταση Κυκλικός Άπλός
+SeriesNCCustom : Ειδική Διάσταση Κάψουλα με Φωτισμό
+SeriesIC : Ειδική Διάσταση Κάψουλα 
+SeriesNLCustom : Ειδική Διάσταση Έλλειψη με Φωτισμό
+SeriesIL : Ειδική Διάσταση Έλλειψη 
+
+#Light Enum Description Keys
+WithoutLight: Χωρίς φως
+Warm: Θερμό
+Cold: Ψυχρό
+DayLight: Ημέρας
+WarmCold: Θερμό-Ψυχρό
+WarmColdDay: Θερμ-Ψυχρ-Ημερ.
+DayCOB : Ημέρας COB
+WarmCOB : Θερμό COB
+ColdCOB : Ψυχρό COB
+WarmColdDayCOB : Θερ-Ψυχ-Ημ COB
+Day16W : Ημέρας 16W
+Warm16W : Θερμό 16W
+Cold16W : Ψυχρό 16W
+WarmColdDay16W : Θερ-Ψυχ-Ημ 16W
+
+WithoutLightFullDescription : Χωρίς Φωτισμό
+WarmFullDescription : Θερμός Φωτισμός 3000K
+ColdFullDescription : Ψυχρός Φωτισμός 6000K
+DayLightFullDescription : Φωτισμός Ημέρας 4000K
+WarmColdFullDescription : Διπλός Φωτισμός Θερμό-Ψυχρό
+WarmColdDayFullDescription : Τριπλός Φωτισμός Θερμο-Ψυχρό-Ημέρας
+DayCOBFullDescription : Φωτισμός Ημέρας COB/Dotless
+WarmCOBFullDescription : Θερμός Φωτισμός COB/Dotless
+ColdCOBFullDescription : Ψυχρός Φωτισμός COB/Dotless
+WarmColdDayCOBFullDescription : Τριπλός Φωτισμός COB/Dotless Θ/Ψ/Η
+Day16WFullDescription : Φωτισμός Ημέρας 16Watt
+Warm16WFullDescription : Θερμός Φωτισμός 16Watt
+Cold16WFullDescription : Ψυχρός Φωτισμός 16Watt
+WarmColdDay16WFullDescription : Τριπλός Φωτισμός 16Watt Θ/Ψ/Η
+
+#Sandblast Enum Description Keys
+SandblastH7: Χωρίς Αμμοβολή
+SandblastH8: Σχέδιο H8
+SandblastX6: Σχέδιο X6
+SandblastX4: Σχέδιο X4
+Sandblast6000: Σχέδιο 6000
+SandblastM3: Σχέδιο M3
+SandblastN9: Χωρίς Αμμοβολή
+SandblastN6: Σχέδιο N6
+
+#MirrorOptions Enum Descriptions
+OptionBlueTooth: Bluetooth
+OptionsClock: Ρολόι
+OptionsDimmer: Ρεοστάτης
+OptionsDisplay19: Οθόνη19
+OptionsDisplay20: Οθόνη20
+OptionsDisplay11: ΟθόνηFM 11
+OptionsFog16W: Αντιθαμβωτικό 16Watt
+OptionsFog24W: Αντιθαμβωτικό 24Watt
+OptionsFog55W: Αντιθαμβωτικό 55Watt
+OptionsIPLid: Κλειστό καπάκι
+OptionsRoundedCorners: Απαλές Γωνίες
+OptionsSensor: Φωτοκύτταρο
+OptionsTouch: Διακόπτης Αφής
+OptionsTouchFog: Διακόπτης Αντιθαμβωτικού
+OptionsZoom: Μεγεθυντικός x3
+OptionsZoomLed: Μεγεθυντικός με φως
+OptionsZoomLedTouch: Μεγεθυντικός αυτόνομο Φώς
+OptionsBackLightSealedChannel : Kανάλι οπίσθιου κρυφού φωτισμού
+OptionsFrontLightSealedChannel : Κανάλι εμπρός κρυφού φωτισμού
+OptionsSmartAntiFog : Αντιθαμβωτικό Smart (Χρονοδ.)
+OptionsSingleTopLightedPlexiglass : Μονό Φωτιζόμενο Plexiglass
+OptionsDoubleTopBottomLightedPlexiglass : Διπλό Φωτιζόμενο Plexiglass
+OptionsEcoTouch : Διακόπτης Αντιθαμβωτικού Εco (60min)
+OptionsScreen11b : ΟθόνηFM 11 Μαύρη
+OptionsLamp : Απλίκα
+OptionsLightAluminumChannel : Μεταλλικό Κανάλι Φωτισμού
+
+#Support Enum Descriptions
+WithoutSupport : Χωρίς
+DoubleSupport : Διπλή Στηρ.
+PerimetricalSupport : Περιμετρική Στηρ.
+FrameSupport : Εμφανές Πλαίσιο
+FrontSmallSupport : Εμπρός Μικρά Στηρίγματα
+
+#Support Finish Type Enum Description
+PaintedFinish : Φινιρισμα Ανοδίωσης
+ElectroplatedFinish : Φινίρισμα Επιμεταλλώσης
+SimpleFinish : Απλό Φινίρισμα
+Anodized : Ανοδιωμένο
+Electroplated : Επιμεταλλομένο
+
+#SupportPainted Finishes Enum Description Keys
+BlackAnodized : Μαύρο Ματ
+BronzeAnodized : Bronze Ματ
+ChromeAnodized : Χρώμιο Ματ
+CopperAnodized : Copper Ματ
+GoldAnodized : Χρυσό Ματ
+GraphiteAnodized : Graphite Ματ
+RalColor : Χρώμα Ral       
+SilverAnodized : Silver
+AnodizeNotDefined : Φινίρισμα Ανοδίωσης Απροσδιόριστο
+
+#Support Electroplated Finish Enum Description Keys
+BronzeBrushedElectroplated : Ματ Bronze
+BronzeMirrorElectroplated : Γυαλιστερό Bronze
+CopperBrushedElectroplated : Ματ Copper
+CopperMirrorElectroplated : Γυαλιστερό Copper
+SimilarGoldBrushedElectroplated : Gold Similar Ματ
+SimilarGoldMirrorElectroplated : Gold Similar Γυαλιστερό
+GraphiteBrushedElectroplated : Graphite Ματ
+GraphiteMirrorElectroplated : Graphite Γυαλιστερό
+NickelBrushedElectroplated : Nickel Ματ
+NickelMirrorElectroplated : Nickel Γυαλιστερό
+RealGoldBrushedElectroplated : Επίχρυσο Ματ
+RealGoldMirrorElectroplated : Επίχρυσο Γυαλιστερό
+RoseGoldMirrorElectroplated : Rose Gold Γυαλιστερό
+RoseGoldBrushedElectroplated : Rose Gold Ματ
+ElectroplatingNotDefined : Φινίρισμα Επιμετάλλωσης Απροσδιόριστο
+
+#Dialog Items
+DialogActionButtonFinish : Τέλος
+DialogActionButtonClose : Κλείσιμο
+DialogActionButtonBack: Πίσω
+DialogActionButtonNext: Επόμενο
+DialogActionButtonSaveAndClose : Αποθήκευση & Κλείσιμο
+DialogActionButtonCloseWithoutSave : Κλείσιμο (Χωρίς Αποθήκευση)
+DialogOk: Ok
+DialogCancel: Ακύρωση
+DialogYes: Ναι
+DialogNo: Όχι
+DialogConfirm : Επιβεβαίωση
+DialogSubmit : Υποβολή
+
+#AssembleMirrorPageOptions Dialog
+DialogAssembleMirrorOptionsTitle: Γενικές Ρυθμίσεις 
+RetailModeOptions : Ρυθμίσεις Λιανικής Λειτουργίας
+Multiplier : Πολλαπλασιαστής
+MultiplierHelpText1 : Πολλαπλασιαστής Αρχικής Τιμής Καταλόγου (Π.χ. 100.00 =>
+MultiplierHelpText2 : Οι Τιμές Καταλόγου Πολλαπλασιάζονται με αυτό τον αριθμό στην Λιανική Προσφορά
+MaxRetailDiscount : Μεγιστη Έκπτωση
+MaxRetailDiscountHelpText : Η Μέγιστη Έκπτωση που μπορεί να δοθεί στην Προσφορά Λιανικής.
+MinRetailDiscount : Ελάχιστη Έκπτωση
+MinRetailDiscountHelpText : Η Ελάχιστη Έκπτωση στην Προσφορά Λιανικής.
+RetailTheme : Θέμα Λιαν.Λειτ.
+RetailThemeHelpText : Ορίζει το Θέμα για την Λειτουργία Λιανικής
+
+#Ready Dialog
+DialogFixedSizeMirror : Καθρέφτες Καταλόγου
+DialogReadyTitle : Σχέδια Καταλόγου
+DialogReadySelectDrawCaption: Επιλέξτε Σχέδιο Από την Λίστα
+NoMirrorsFound: "Δεν βρέθηκαν καθρέφτες που να ταιριάζουν με τα κριτήριά σας"
+NoMirrorsFoundDescription: "Δεν μπορέσαμε να βρούμε καθρέφτες που να ταιριάζουν με τις τρέχουσες ρυθμίσεις φίλτρων σας. Δοκιμάστε να προσαρμόσετε τα φίλτρα ή το ερώτημα αναζήτησης."
+SearchTips: "Δοκιμάστε αυτές τις συμβουλές"
+SearchTip1: "Αφαιρέστε ή αλλάξτε ένα ή περισσότερα φίλτρα"
+SearchTip2: "Δοκιμάστε έναν πιο γενικό όρο αναζήτησης"
+SearchTip3: "Ελέγξτε για ορθογραφικά λάθη στην αναζήτησή σας"
+SearchTip4: "Δοκιμάστε να αναζητήσετε με κωδικό προϊόντος ή διαστάσεις"
+ClearAllFilters: "Καθαρισμός όλων των φίλτρων"
+
+#Shape Dialog
+DialogShapeTitle: Επιλογή Σχήματος
+
+#Light Dialog
+DialogLightTitle: Επιλογή Φωτισμού
+CommonLights : Βασικός Φωτισμός
+AdditionalLights : Επιπλέον Φωτισμός
+
+#Dimensions Dialog
+DialogDimensionsTitle: Εισαγωγή Διαστάσεων
+FixedDimensionsLegend : Προκαθορισμένες Διαστάσεις
+
+#Supports Dialog
+DialogSupportsTitle : Επιλογή Στήριξης
+
+#FrameFinish Dialog
+DialogFrameFinishTitle : Επιλογή Φινιρίσματος Πλαισίου
+PleaseChooseFinishType : Παρακαλώ Επιλέξτε τύπο Φινιρίσματος
+
+#Sandblast Dialog
+DialogSandblastTitle: Επιλογή Αμμοβολής
+
+#Touch Buttons Dialog
+DialogTouchTitle: Επιλογή Διακόπτη
+DialogTouchFieldsetLegend: Διακόπτες
+DialogTouchTouchCaption: Διακόπτης Αφής On/Off
+DialogTouchDimmerCaption: Διακόπτης Aφής Dimmer
+DialogTouchSensorCaption: Διακόπτης Φωτοκύτταρο
+CannotChangeOptionForThisMirror : Αυτή η επιλογή δεν μπορει να αλλάξει σε αυτόν τον Καθρέφτη
+
+#Fogs Dialog
+DialogFogTitle: Επιλέξτε Αντιθαμβωτικό
+DialogFogFieldsetLegend: Αντιθαμβωτικά
+DialogFog16Caption: 16Watt - 29x29εκ
+DialogFog24Caption: 24Watt - 29x41εκ
+DialogFog55Caption: 55Watt - 51x51εκ
+DialogFogTouchCaption : Διακόπτης Λειτουργίας
+
+#Magnifyers Dialog
+DialogMagnifyerTitle: Επιλογή Μεγενθυτικού
+DialogMagnifyerFieldsetLegend: Μεγενθυτικοί
+DialogMagnifyerZoomCaption: Μεγεθυντικός x3
+DialogMagnifyerZoomLedCaption: Μεγεθυντικός με φως
+DialogMagnifyerZoomLedTouchCaption: Μεγεθυντικός αυτόνομο φως
+
+#Screen Dialog
+DialogScreenTitle: Επιλογή Οθόνης/Media
+DialogScreenFieldsetLegend: Οθόνες/Media
+DialogScreenTimeCaption: Ρολόι-Θερμοκρασία
+DialogScreenBluetoothCaption: Αναπαραγωγή πολυμέσων-Bluetooth
+DialogScreenDisplay11Caption: Ραδιο-MediaPlayer-Ρολόι-Θερμοκρασία
+DialogScreenDisplay11BlackCaption : Ραδιο-MediaPlayer-Ρολόι-Θερμοκρασία-Dimmer
+DialogScreenDisplay19Caption: Οθόνη Μετεο Μεγάλη Καιρός - Ρολόι
+DialogScreenDisplay20Caption: Οθόνη Μετεο Μικρή Καιρός
+
+#Various Options Dialog
+DialogVariousTitle: Επιλογή πρόσθετων
+DialogVariousFieldsetLegend: Πρόσθετα
+DialogVariousLid: Πίσω καπάκι καθρεφτών
+DialogVariousRounding: Απαλές Γωνίες
+
+#Mirror Descriptions
+Rectangular : Ορθογωνικός
+Circular : Κυκλικός
+Capsule : Κάψουλα
+Ellipse : Έλλειψη
+Special : Ειδικός
+Mirror : Καθρέφτης
+WithLight : με Φωτισμό
+Light : Φωτισμός
+WithoutLed : Χωρίς Φωτισμό
+WithSandblast : Με Αμμοβολή
+WithoutSandblast : Χωρίς Αμμοβολή
+StoneNS : Πέτρα
+PebbleND : Βότσαλο
+CircleSegment : Τμήμα Κύκλου
+CircleSegment2 : Τμήμα Κύκλου(2)
+
+#DiscountBox Strings
+Discount : Έκπτωση
+
+#Validation Error Messages
+ShapeNotSelected : Δεν έχετε Επιλέξει Σχήμα
+LengthNotSelected : Δεν Έχετε Επιλέξει Μήκος
+MirrorLengthWithin : Το Μήκος Καθρέπτη Πρέπει να είναι
+DimensionsNotSet : Μη ορισμένες Διαστάσεις
+
+HeightNotSelected : Δεν Έχετε Επιλέξει Ύψος
+MirrorHeightWithin : Το Ύψος Καθρέπτη Πρέπει να είναι
+
+DiameterNotSelected : Δεν Έχετε Επιλέξει Διάμετρο
+MirrorDiameterWithin : Η Διάμετρος Καθρέπτη Πρέπει να είναι
+
+SandblastNotSelected : Δεν Έχετε Επιλέξει Σχέδιο Αμμοβολής
+SupportNotSelected : Δεν Έχετε Επιλέξει Στήριξη/Πλαίσιο
+LightNotSelected : Δεν Έχετε Επιλέξει Φωτισμό/Χωρίς
+FrameFinishTypeNotSelected : Δεν Έχετε Επιλέξει Φινίρισμα Πλαισίου
+PaintFinishNotSelected : Δεν Έχετε Επιλέξει Φινίρισμα Ανοδίωσης Πλαισίου
+ElectroplatedFinishNotSelected : Δεν Έχετε Επιλέξει Φινίρισμα Επιμετάλλωσης Πλαισίου
+MaxDimensionsWithVisibleFrame : Οι Μεγιστες Διαστάσεις με Εμφανές Πλαίσιο είναι
+SandblastObligatoryWithLightFrame : Οι Φωτιζόμενοι Καθρέφτες με Εμφανές Πλαίσιο , Πρέπει Πάντα να έχουν Σχέδιο Αμμοβολής
+CannotCreateFramedCapsule : Το Application Δεν μπορεί να δώσει Κάψουλες με πλαίσιο ακόμη
+CannotCreateFramedEllipse : Το Application Δεν μπορεί να δώσει Ελλείψεις με πλαίσιο ακόμη
+CapsuleCannotHaveSandblast : Ο Καθρέφτης Κάψουλα δεν μπορεί να έχει Σχέδιο Αμμοβολής
+EllipseCannotHaveSandblast : Ο Καθρέφτης Έλλειψη δεν μπορεί να έχει Σχέδιο Αμμοβολής
+PremiumMirrorsCannotHaveLightsLessThan16W : Οι Premium Καθρέφτες δεν μπορούν να έχουν Φωτισμό μικρότερο από 16Watt
+
+#Validation Error Codes Messages
+LightWithDoubleSupport : Περιμετρική Στήριξη Προστέθηκε - Οι Φωτιζόμενοι Καθρέφτες χρειάζονται Περιμετρική Στήριξη ή Εμφανές Πλαίσιο
+LightWithFrontSupport : Περιμετρική Στήριξη Προστέθηκε - Οι Φωτιζόμενοι Καθρέφτες χρειάζονται Περιμετρική Στήριξη ή Εμφανές Πλαίσιο
+LightWithoutSupport : Περιμετρική Στήριξη Προστέθηκε - Οι Φωτιζόμενοι Καθρέφτες χρειάζονται Περιμετρική Στήριξη ή Εμφανές Πλαίσιο
+
+LightWithRounding : Απαλές Γωνίες Αφαιρέθηκε -- Οι Καθρέφτες με πλαίσιο δεν μπορουν να έχουν στρογγυλεμένες Γωνίες
+
+SimpleRectangularWithSandblast : Σχέδιο Αμμοβολής Αφαιρέθηκε - Οι Καθρέφτες Χωρίς Φωτισμό δεν έχουν Σχέδιο Αμμοβολής για Φωτισμό
+SimpleCircularWithSandblast : Σχέδιο Αμμοβολής Αφαιρέθηκε - Οι Καθρέφτες Χωρίς Φωτισμό δεν έχουν Σχέδιο Αμμοβολής για Φωτισμό
+
+SimpleWithTouch : Διακόπτης Αφής Αφαιρέθηκε -- Οι Καθρέφτες Χωρίς Φωτισμό δεν έχουν διακόπτες
+SimpleWithDimmer : Dimmer/Ρεοστάτης  Αφαιρέθηκε -- Οι Καθρέφτες Χωρίς Φωτισμό δεν έχουν διακόπτες
+SimpleWithSensor : Φωτοκύτταρο  Αφαιρέθηκε -- Οι Καθρέφτες Χωρίς Φωτισμό δεν έχουν διακόπτες
+
+SimpleWithMagnifyer : Μεγενθυτικός Αφαιρέθηκε -- Καθρέφτες χωρίς Πίσω στήριξη δεν έχουν Μεγενθυτικό
+SimpleWithMagnifyerLed : Μεγενθυτικός με Φωτισμό Αφαιρέθηκε -- Ο Επιλεγμένος καθρέφτης είναι χωρίς Φωτισμό
+SimpleWithMagnifyerLedTouch : Μεγενθυτικός με Φωτισμό και Αυτόνομο Διακόπτη Αφαιρέθηκε -- Ο Επιλεγμένος καθρέφτης είναι χωρίς Φωτισμό
+
+SimpleWithLid : Καπάκι Αφαιρέθηκε -- Μόνο Καθρέφτες με Περιμετρική Στήριξη ή Εμφανές Πλαίσιο μπορούν να έχουν καπάκι
+SimpleWithRounding : Απαλές Γωνίες Αφαιρέθηκε -- Οι Καθρέφτες με πλαίσιο δεν μπορουν να έχουν στρογγυλεμένες Γωνίες
+
+SimpleWithFog16 : Αντιθαμβωτικό Αφαιρέθηκε -- Καθρέφτες χωρίς Πίσω στήριξη δεν έχουν Αντιθαμβωτικό
+SimpleWithFog24 : Αντιθαμβωτικό Αφαιρέθηκε -- Καθρέφτες χωρίς Πίσω στήριξη δεν έχουν Αντιθαμβωτικό
+SimpleWithFog55 : Αντιθαμβωτικό Αφαιρέθηκε -- Καθρέφτες χωρίς Πίσω στήριξη δεν έχουν Αντιθαμβωτικό
+SimpleWithFogSwitch : Διακόπτης Αντιθαμβωτικού Αφαιρέθηκε - Οι Καθρέφτες Χωρίς Φωτισμό δεν έχουν διακόπτες
+
+SimpleWithClock : Ρολόι Αφαιρέθηκε -- Οι απλοί καθρέφτες δεν έχουν Οθόνες/Media
+SimpleWithBluetooth : Bluetooth Αφαιρέθηκε -- Οι απλοί καθρέφτες δεν έχουν Οθόνες/Media
+SimpleWithDisplay11 : Display11 Αφαιρέθηκε -- Οι απλοί καθρέφτες δεν έχουν Οθόνες/Media
+SimpleWithDisplay19 : Display19 Αφαιρέθηκε -- Οι απλοί καθρέφτες δεν έχουν Οθόνες/Media
+SimpleWithDisplay20 : Display20 Αφαιρέθηκε -- Οι απλοί καθρέφτες δεν έχουν Οθόνες/Media
+
+SimpleCircularCapsulePerimetrical : Περιμετρική Στήριξη Αφαιρέθηκε -- Απλοί Καθρέφτες Έλλειψη/Κάψουλα/Κυκλικοί δεν έχουν Περιμμετρική Στήριξη
+
+CircularWithFrame : Κυκλικός με Εμφανές Πλαίσιο διαθέσιμος μόνο σε Διαστάσεις 40,50,60,70,80,90,100,110,120cm
+CircularWithFrameNoLightSandblastN9 : Ο Απλός κυκλικός καθρέφτης με πλαίσιο δεν επιδέχεται Αμμοβολή
+CircularWithFrameWithLightSandblastN6 : Ο Κυκλικός καθρέφτης με πλαίσιο και Φωτισμό ΠΡΕΠΕΙ να διαθέτει περιμετρική αμμοβολή
+FinishTypeWithoutFrame : Το φινίρισμα Πλαισίου Αφαιρέθηκε -- Αλλάξατε την Στήριξη σε μη Εμφανές Πλαίσιο
+
+#CodeTextValiation Error Messages
+InvalidLengthInput: Αναμενόμενο Μήκος >4 Χαρακτήρες
+InvalidCodeInput : Λάθος Κωδικός Είδους
+
+#Draw Page
+FrontDraw : Μπροστά Όψη
+RearDraw : Πίσω Όψη
+ShowBoundaryButton : Εμφάνισε Όριο Πρόσθετων Καθρέφτη
+SideDraw : Πλάγια Όψη
+
+#Collision Messages
+ChangeExtrasOrDimensions : Παρακαλώ Αφαιρέστε Κάποιο Πρόσθετο ή Μεγαλώστε τις Διαστάσεις του Καθρέφτη
+SelectedExtrasAreOutOfBounds : Τα επιλεγμένα Πρόσθετα δεν χωράνε στον Καθρέφτη - Παρακαλώ Ελέγξτε το Σχέδιο
+MagnifyerDraw : Magnifyer
+MagnifyerSandblastDraw: Magnifyer
+TouchDraw : Touch
+TouchFogDraw : Touch
+DimmerDraw : Dimmer
+SensorDraw : Sensor
+Fog16WDraw : Anti-Fog
+Fog24WDraw : Anti-Fog
+Fog55Draw : Anti-Fog
+Display11Draw : Display11
+Display19Draw : Display19
+Display20Draw : Display20
+ClockDraw : Clock
+GlassDraw : Mirror
+VisibleFrameDraw : Frame
+PerimetricalSupportDraw : Perim.Support
+DoubleSupportDraw : Double Support
+SingleSupportDraw : Single Support
+SandbastDraw : Sandblast
+ExtrasAreaDraw : Διαθέσιμη Επιφάνεια Καθρέφτη
+NotAvailableSpaceFor : Μη Διαθέσιμος Χώρος Για
+
+
+#MessageBox Messages
+MirrorNotCompleteMessage : Οι υποχρεωτικές Επιλογές για τον Καθρέφτη δεν έχουν γίνει ή ο συνδιασμός των επιλογών δεν είναι ευικτός
+MirrorNotCompleteTitle : Ημιτελής Καθρέφτης 
+MirrorDrawNotAvailableMessage : (Yπο-Κατασκευή) Τα σχέδια για αυτή την σειρα δεν είναι ακόμα διαθέσιμα στο Application
+MirrorDrawNotAvailableTitle : Μη Διαθέσιμο Σχέδιο
+
+
+
+
+#CABINS PAGE
+
+#Selection Starting Buttons Grid
+CreateCabin: Ειδική Κατασκευή
+CabinCatalogueModels: Μοντέλα Καταλόγου
+EnterCabinCode: Εισάγετε Κωδικό Καμπίνας
+
+#OpeningDialog
+OpeningsWindowTitle: Επιλογή Ανοίγματος
+
+#SlidingTypeDialog
+SlidingTypeWindowTitle: Επιλογή Συρόμενου
+
+#FoldingTypeDialog
+FoldingTypeWindowTitle: Επιλογή Πόρτας
+
+#StandardDoorTypeDialog
+StandardDoorWindowTitle: Επιλογή Πόρτας
+
+#DoorOnPanelTypeDialog
+DoorOnPanelWindowTitle: Επιλογή Πόρτας
+
+#FixedPanelTypeDialog
+FixedPanelWindowTitle: Επιλογή Σταθερού
+
+#CabinSeriesDialog
+SeriesWindowTitle: Επιλογή Σειράς
+
+#CabinPanelWindow
+CabinPanelWindowTitle : Επιλεγμένη Κατασκευή
+SelectionsNeedCorrection : Επιλογές που Χρειάζονται Διόρθωση
+CabinDrawNotAvailable : Σχέδιο Μη Διαθέσιμο ,για το Επιλεγμένο Μοντέλο
+
+#Choose Model Dialog Title
+DialogChooseB6000Title : Επιλογή Μοντέλου
+DialogChooseInox304Title : Επιλογή Μοντέλου
+DialogChooseHotel8000Title: Επιλογή Μοντέλου
+DialogChooseNiagara6000Title: Επιλογή Μοντέλου
+DialogChooseFreeTitle : Επιλογή Μοντέλου
+WindowChooseModelTitle : Επιλογή Μοντέλου
+
+#Choose CabinDrawNumber
+DialogChooseDrawNumber : Επιλογή Σχεδίου
+
+#Cabin Dimensions Panel
+DialogSetCabinDimensionsTitle : Εισαγωγή Διαστάσεων
+FlipDraw: Αλλάξτε την Φορά
+CatalogueDimensions: Διαστάσεις Καταλόγου
+
+#Tooltips Dimensions Panel
+9CHeightOnly1850: Το ύψος σε αυτό το μοντέλο μπορεί να είναι μόνο 1850mm
+
+#SetCabin StepDimensions Dialog
+DialogSetStepDimensionsTitle : Διαστάσεις Κοψίματος(Σκαλ)
+SideCannotHaveStep: Αυτή η πλευρά δεν επιδέχεται επεξεργασία "Κόψιμο τύπου Σκαλοπάτι"
+
+#SetCabinGlassPropertiesDialog
+GlassPropertiesDialogTitle: Επιλογή Γυαλιού
+
+#Openings Enum Descriptions
+FixedPanels: Σταθερά Πανελ
+SlidingOpening: Συρόμενες Πόρτες
+StandardDoorOpening: Απλές Πόρτες
+DoorOnPanelOpening : Πόρτες σε Σταθερό
+FoldingDoorOpening: Αναδιπλούμενες Πόρτες
+BathtubPanels : Πανελ Μπανιέρας
+
+#SlidingType Enum Descriptions
+SingleSliding: Μονό Συρόμενο
+SingleSlidingSidePanel: Μονό Συρόμενο με Πλαϊνό Σταθερό
+SingleSliding2SidePanels : Μονό Συρόμενο με Διπλό Πλαϊνό Σταθερό
+DoubleSliding: Διπλό Συρόμενο
+DoubleSlidingSidePanel: Διπλό Συρόμενο με Πλαϊνό Σταθερό
+DoubleSliding2SidePanels: Διπλό Συρόμενο με Διπλό Πλαϊνό Σταθερό
+CornerSliding: Γωνιακό Συρόμενο
+CornerSlidingSidePanel : Γωνιακό Συρόμενο με Πλαϊνό Σταθερό
+SemicircularSliding: Ημικυκλικό Συρόμενο
+SemicircularSlidingSidePanel : Ημικυκλικό Συρόμενο με Πλαϊνό Σταθερό
+
+#FoldingType Enum Descriptions
+SingleDoor44 : Αναδιπλούμενη Πόρτα
+SingleDoorSidePanel45 : Αναδιπλουμενη Πόρτα - Πλαϊνό Πάνελ
+DoubleDoorCorner46 : Γωνιακή Διπλή Αναδιπλούμενη Πόρτα
+SingleDoorStraightPanel47 : Αναδιπλούμενη Πόρτα - Επιπλέον Σταθερό
+DoubleDoorStraight48 : Διπλή Αναδιπλούμενη Πόρτα
+
+#StandardDoorType Enum Descriptions
+Door3151 : Μονή Πόρτα
+DoorSidePanel3252 : Πόρτα με Πλαϊνό Πάνελ
+DoubleCornerDoor3353 : Διπλή Γωνιακή Πόρτα
+DoorStraightPanel3859 : Πόρτα - Επιπλέον Σταθερό
+DoubleDoor4161 : Διπλή Πόρτα
+
+#DoorOnPanel Enum Descriptions
+Door34 : Μονή Πόρτα
+DoorSidePanel35 : Πόρτα με Πλαϊνό Πάνελ
+DoubleCornerDoor37 : Διπλή Γωνιακή Πόρτα
+DoorStraightPanel40 : Πόρτα - Επιπλέον Σταθερό
+DoubleDoor43 : Διπλή Πόρτα
+
+#FixedTypePanel Enum Descriptions
+WallPanel : Σταθερό Τοίχου
+FreeStandingPanel : Σταθερό Ελεύθερο
+PanelWithFlipper81 : Σταθερό με Πορτάκι
+DoubleWallPanel82 : Σχέδιο 82
+DoubleAngularPanel84 : Σχέδιο 84
+DoublePanel85 : Σχέδιο 85
+TriplePanel88 : Σχέδιο 88
+
+#Cabin Series Enum Descriptions
+Bronze6000 : Bronze 6000
+Inox304 : Inox 304
+Niagara6000 : Niagara 6000
+Smart : Smart Free
+Hotel8000 : Hotel 8000
+Free : Free
+
+#CabinModelEnum Descriptions
+Model9A : Γωνιακή Συρόμενη 9A
+Model9S : Συρόμενο 9S
+Model94 : Διπλό Συρόμενο 94
+Model9F : Πλαϊνό Πάνελ 9F
+Model9B : Ανοιγόμενη Πόρτα 9B
+ModelW : Σταθερό Πάνελ W
+ModelHB : Πόρτα σε Σταθερό HB
+ModelNP : Αναδιπλούμ. Πόρτα NP
+ModelVS : Συρόμενο VS
+ModelVF : Πλαϊνό Πάνελ VF
+ModelV4 : Διπλό Συρόμενο V4
+ModelVA : Γωνιακό Συρόμενο VA
+ModelWS : Συρόμενο WS
+ModelE : Ελεύθερο Σταθερό E
+ModelWFlipper : Πρόσθετο Πορτάκι Σταθερού FL
+ModelDB : Πόρτα DB
+ModelNB : Πόρτα NB
+ModelNV : Κινητό Μπανιέρας NV
+ModelMV : Κινητό Μπανιέρας MV
+ModelNV2 : Κινητό Μπανιέρας NV2
+Model6WA : Σταθερό με Πορτάκι 6WA
+Model9C : Ημυκικλικό Συρόμενο 9C
+Model8W40 : Σταθερό Μπανιέρας
+ModelGlassContainer : Ανταλακτικό Γυαλί
+ModelQB : Πόρτα QB
+ModelQP : Αναδιπλούμ. Πόρτα QP
+
+#CabinFinishEnum Descriptions
+Polished: Χρωμέ
+Brushed : Ματ
+BlackMat : Μαύρο Ματ
+WhiteMat : Λευκό Ματ
+Bronze : Αντικέ
+BrushedGold : Χρυσό Ματ
+Gold : Χρυσό
+Copper : Copper/Χαλκού
+SpecialColor : Ειδικό Χρώμα
+NotSet : Απροσδιόριστο
+
+#CabinThicknessesEnum Descriptions
+Thick5mm : 5mm
+Thick6mm : 6mm
+Thick8mm : 8mm
+Thick10mm : 10mm
+ThickTenplex10mm : Tenplex 10mm
+Thick6mm8mm : 6-8mm
+Thick8mm10mm : 8-10mm
+
+#GlassFinishEnum Descriptions
+Transparent : Διάφανο
+Satin : Σατινέ
+Serigraphy : Σεριγραφία
+Fume : Φιμέ
+Frosted : Frosted
+SpecialFinish : Ειδικό
+
+#CabinDrawNumber Enum Descriptions
+DrawNone: Μη Διαθέσιμο
+Draw9S: Μονή Συρόμενη 9S
+Draw9S9F: Συρόμενη 9S - Πλαϊνό Πάνελ 9F
+Draw9S9F9F : Συρόμενη 9S - Πλαϊνά Πάνελ 9F
+Draw94 : Διπλή Συρόμενη 94
+Draw949F : Διπλή Συρόμενη 94 - Πλαϊνό Πάνελ 9F
+Draw949F9F : Διπλή Συρόμενη 94 - Πλαϊνά Πάνελ 9F
+Draw9A : Γωνιακής Εισόδου 9A
+Draw9A9F : Γωνιακής 9A - Πλαϊνό Πάνελ 9F
+Draw9C : Ημικυκλική 9C
+Draw9C9F : Ημικυκλική 9C - Πλαϊνό Πάνελ 9F
+Draw9B : Ανοιγόμενη Πόρτα 9B
+Draw9B9F : Ανοιγόμενη 9B - Πλαϊνό Πάνελ 9F
+Draw9B9F9F : Ανοιγόμενη 9B - Πλαϊνά Πάνελ 9F
+DrawVS : Μονή Συρόμενη VS
+DrawVSVF : Συρόμενη VS - Πλαϊνό Πάνελ VF
+DrawV4 : Διπλή Συρόμενη V4
+DrawV4VF : Διπλή Συρόμενη V4 - Πλαϊνό Πάνελ VF
+DrawVA : Γωνιακής Εισόδου VA
+DrawWS : Συρόμενη Αυτόνομη WS
+DrawNP44 : Σχέδιο 44
+Draw2CornerNP46 : Σχέδιο 46
+Draw2StraightNP48 : Σχέδιο 48
+DrawCornerNP6W45 : Σχέδιο 45
+DrawStraightNP6W47 : Σχέδιο 47
+DrawNB31 : Σχέδιο 31
+DrawCornerNB6W32 : Σχέδιο 32
+Draw2CornerNB33 : Σχέδιο 33
+DrawStraightNB6W38 : Σχέδιο 38
+Draw2StraightNB41 : Σχέδιο 41
+DrawDB51 : Σχέδιο 51
+DrawCornerDB8W52 : Σχέδιο 52
+Draw2CornerDB53 : Σχέδιο 53
+DrawStraightDB8W59 : Σχέδιο 59
+Draw2StraightDB61 : Σχέδιο 61
+DrawHB34 : Σχέδιο 34
+DrawCornerHB8W35 : Σχέδιο 35
+Draw2CornerHB37 : Σχέδιο 37
+DrawStraightHB8W40 : Σχέδιο 40
+Draw2StraightHB43 : Σχέδιο 43
+Draw8W : Σταθερό W
+DrawE : Ελεύθερο E
+Draw8WFlipper81 : Σταθερό W με Πορτάκι FL
+Draw2Corner8W82 : Σχέδιο 82
+Draw1Corner8W84 : Σχέδιο 84
+Draw2Straight8W85 : Σχέδιο 85
+Draw2CornerStraight8W88 : Σχέδιο 88
+Draw8W40 : Σταθερό Μπανιέρας
+DrawMV2 : Αναδιπλούμενο Μπανιέρας - Μεντεσέδες
+DrawNV2 : Αναδιπλούμενο Μπανιέρας - Αλουμίνιο
+DrawNV : Κινητό Μπανιέρας
+DrawQP44 : Σχέδιο 44
+Draw2CornerQP46 : Σχέδιο 46Q
+Draw2StraightQP48 : Σχέδιο 48Q
+DrawCornerQP6W45 : Σχέδιο 45Q
+DrawStraightQP6W47 : Σχέδιο 47Q
+DrawQB31 : Σχέδιο 31Q
+DrawCornerQB6W32 : Σχέδιο 32Q
+Draw2CornerQB33 : Σχέδιο 33Q
+DrawStraightQB6W38 : Σχέδιο 38Q
+Draw2StraightQB41 : Σχέδιο 41Q
+
+#DimensionMeasureNames
+9ALength1 : Συρόμ.Πλευρά
+9SLength1 : Συρόμενο
+94Length1 : Συρόμενα
+9FLength1 : Πλαϊνό Πάνελ
+9BLength1 : Πόρτα
+WLength1  : Σταθ.Πάνελ
+HBLength1 : Πόρτα ΗΒ
+NPLength1 : Αναδιπλ.Πόρτα
+VSLength1 : Συρόμενο
+VFLength1 : Πλαϊνό Πάνελ
+V4Length1 : Συρόμενα
+VALength1 : Συρόμ.Πλευρά
+WSLength1 : Συρόμενο
+ELength1  : Ελεύθερο Πάνελ
+WFlipperLength1 : Πορτάκι
+DBLength1 : Πόρτα
+NBLength1 : Πόρτα
+NVLength1 : Πόρτα
+MVLength1 : Πόρτα
+NV2Length1 : Πόρτα
+6WALength1 : Πόρτα
+9CLength1 : Ημικυκλ.Πλευρά
+8W40Length1  : Σταθ.Πάνελ
+
+9ALength2 : Συρόμ.Πλευρά2
+9SLength2 : N/A
+94Length2 : N/A
+9FLength2 : Πλαϊνό Πάνελ
+9BLength2 : N/A
+WLength2  : Σταθ.Πάνελ2
+HBLength2 : Πόρτα ΗΒ-2
+NPLength2 : Αναδιπλ.Πόρτα2
+VSLength2 : N/A
+VFLength2 : Πλαϊνό Πάνελ
+V4Length2 : N/A
+VALength2 : Συρόμ.Πλευρά2
+WSLength2 : N/A
+ELength2  : Ελεύθερο Πάνελ
+WFlipperLength2 : Πορτάκι
+DBLength2 : Πόρτα2
+NBLength2 : Πόρτα2
+NVLength2 : Πόρτα2
+MVLength2 : Πόρτα2
+NV2Length2 : Πόρτα2
+6WALength2 : Πόρτα2
+9CLength2 : Ημικυκλ.Πλευρά2
+8W40Length2  : Ν/Α
+
+9ALength3 : N/A
+9SLength3 : N/A
+94Length3 : N/A
+9FLength3 : Πλαϊνό Πάνελ2
+9BLength3 : N/A
+WLength3  : Σταθ.Πάνελ3
+HBLength3 : N/A
+NPLength3 : N/A
+VSLength3 : N/A
+VFLength3 : N/A
+V4Length3 : N/A
+VALength3 : N/A
+WSLength3 : N/A
+ELength3  : Ελεύθερο Πάνελ2
+WFlipperLength3 : Πορτάκι2
+DBLength3 : N/A
+NBLength3 : N/A
+NVLength3 : N/A
+MVLength3 : N/A
+NV2Length3 : N/A
+6WALength3 : N/A
+9CLength3 : N/A
+8W40Length3  : Ν/Α
+StepLength : Μήκος Σκαλ. 
+StepHeight : Ύψος Σκαλ.
+
+#CabinExtraType Enum Descriptions
+StepCut : Σκαλοπάτι
+SafeKids : SafeKids
+BronzeClean : BronzeClean
+StepCutFullDesc : Επεξεργασία σε Σχήμα Σκαλοπατι
+SafeKidsFullDesc : Το Γυαλί Δεν καταρρέει στην Θραύση
+BronzeCleanFullDesc : Προστασία κατά των αλάτων, Ευκολότερο καθάρισμα, (Υδροφοβική επιφάνεια)
+GlassTreatments : Επεξεργασίες Γυαλιού
+
+#Cabin & Mirrors & Accessories PricingRules Names Keys
+AppliedDiscountRules: Υπολογισμός
+SpecialDimensionCalculations: Υπολογισμός Ειδ.Διαστ.
+IrregularThicknessCalculations : Υπολόγισμός Ειδ.Πάχος
+CalculatedPrice : Σύνολο Υπολογ.
+BronzeCleanRule: BronzeClean Τιμή
+CabinBasePriceRule: Βασική Τιμή Καταλόγου
+CabinFinishPriceRule: Τιμή Φινιρίσματος
+CabinSpecialDimensionRule: Διαφορά Ειδ.Διάστ.
+IrregularGlassThicknessRule : Ειδ.Παχος Γυαλ.
+ClientDiscountPriceRule: Βασική Έκπτωση
+DiscountPriceRule: Βασική Έκπτωση
+CabinExtraDiscountRule: Επιπλέον Έκπτωση
+SafeKidsPriceRule: SafeKids Τιμή
+StepCutPriceRule: Κόψιμο Σκαλοπάτι Τιμή Κατ.
+CabinExceededSQMRule : Μεγάλη Διάσταση
+ExtraHingePriceRule : Μεγάλη Διασ.Μεντεσ.
+CabinPartPricingRule : Βασική Τιμή Εξάρτημα
+IncreasePriceRule : Αύξηση Λιανικής
+CustomMirrorPriceRule : Ειδική Κατασκ.Καθρ.
+CatalogueMirrorPriceRule : Καθρέφτης Καταλόγου
+SandblastPriceRule : Βασική Τιμή Αμμοβολή
+LightingPriceRule : Βασική Τιμή Φωτισμός
+MirrorSupportPriceRule : Βασική Τιμή Στήριξη
+MirrorExtraPriceRule : Βασική Τιμή Πρόσθετο
+CapsuleMirrorPriceRule : Κόψιμο Κάψουλα
+CircularMirrorPriceRule : Κόψιμο Κυκλικός
+EllipseMirrorPriceRule : Κόψιμο Έλλειψη
+SecondaryDiscountRule : 2η Πρόσθετη Έκπτωση
+TertiaryDiscountRule : 3η Πρόσθετη Έκπτωση
+AccessoryBasePriceRule: Τιμή Καταλόγου
+CustomStartingPriceRule : Προσαρμοσμένη Αρχική Τιμή
+ExtraDiscountRule : Επιπλέον Έκπτωση
+
+#CalculationsDescriptors
+OriginalPrice : Βασική Τιμή
+IncreaseFactor: Συντελεστής
+OriginalSQM : Βασικά m²
+CurrentSQM : Τρέχοντα m²
+OriginalPricePerSQM : Βασική Τιμή/m²
+CurrentPricePerSQM : Τρέχουσσα Τιμή/m²
+CurrentPrice : Τρέχουσσα Τιμή
+MinimumPrice : Ελάχιστη Τιμή
+AddedPrice : Επιβάρυνση
+FixedGlass : Σταθ.Γυαλί Διασ.
+CabinSQM : Καμπίνα m²
+TotalSQM : Σύνολο m²
+PremiumPerSQM : Επιβάρυνση/m²
+
+#Cabins Validation ErrorCodes
+InvalidCabinModel: Δεν Έχει Γίνει Επιλογή Μοντέλου
+InvalidCabinMetalFinish: Το Επιλεγμένο Φινίρισμα δεν είναι Διαθέσιμο για αυτό το Μοντέλο
+InvalidCabinThickness: Το Επιλεγμένο Πάχος Γυαλιού δεν είναι διαθέσιμο για αυτό το Μοντέλο
+InvalidCabinGlassFinish: Ο Επιλεγμένος τύπος Γυαλιού δεν είναι διαθέσιμος για αυτό το Μοντέλο
+CurrentDimensionsNeedBiggerThickness : Οι Επιλεγμένες Διαστάσεις Χρειάζονται μεγαλύτερο Πάχος Γυαλιού
+InvalidCabinLength: Το Επιλεγμένο Μήκος είναι εκτός Ορίων για αυτή την Κατασκευή
+InvalidCabinHeight: Το Επιλεγμένο ύψος είναι εκτός ορίων για αυτή την Κατασκευή
+MissingStepDimension: Το Ύψος ή το Μήκος Σκαλοπατιού δεν έχει επιλεγεί
+StepHeightLessThanMinimum: Το Ύψος Σκαλοπατιού είναι μικρότερο από το επιτρεπτό για αυτή την Κατασκευή
+StepDimensionsExceedCabin: Οι Διαστάσεις του Σκαλοπατιού ξεπερνάνε αυτές της Καμπίνας
+9BWithoutFixedCannotHaveStep: Για το Επιλεγμένο Μήκος(Η Κατασκευή έχει μόνο πόρτα) το Σκαλοπάτι δεν είναι διαθέσιμο 
+CannotHaveStep: Η Επιλεγμένη Κατασκευή δεν μπορεί να έχει σκαλοπάτι
+Cabin9CSerigraphyOutOfRangeLength: Τα Μη Διαφανα Κρυσταλλα ειναι Διαθέσιμα σε αυτή την Κατασκευή Μόνο για Βασικές Διαστάσεις
+Cabin9CStepWithoutTransparentGlass: Το Κόψιμο Σκαλοπάτι είναι διαθέσιμο μόνο για Διάφανο Γυαλι σε Αυτή την Κατασκευή
+SafeKidsCannotBeAppliedOnSatinGlass: Η προστασία SafeKids δεν γίνετε σε Σατινέ/Frosted Κρύσταλλα
+WithoutHandleError: Η Επιλεγμένη Κατασκευή δεν είναι διαθέσιμη χωρίς Λαβή
+CloseProfileWithoutHandle: Οι κατασκευές με Μαγνητικό Προφίλ , δεν είναι διαθέσιμες χωρίς λαβή
+WithoutCloserError : Οι Επιλεγμένη Κατασκευή πρέπει να έχει Επιλογή Κλεισίματος
+WithoutMiddleHinge : Η Επιλεγμενη Κατασκευή δεν διατίθετε χωρίς ενδιάμεσο μηχανισμό Αναδίπλωσης
+PerimetricalFrameWithRounding : Οι Κατασκευές με Περιμετρικό Πλαίσιο δεν μπορούν να έχουν άμβλυνση -R-
+
+#CabinDirection Enum Keys
+CabinDirectionUndefined : Οποιαδήποτε Φορά (Αριστ.-Δεξιά)
+CabinDirectionLeftSided : Αριστερή Φορά
+CabinDirectionRightSided : Δεξιά Φορά
+
+#CabinExtraOptions Selections
+Protections : Προστασίες
+Handles : Λαβές
+BottomFixer : Στήριξη Δαπέδου
+MiddleHinge : Ενδιάμεσος Μηχανισμός
+Closure : Μαγνητικό Κλείσιμο
+WallFixer : Στήριξη Τοίχου
+PerimetricalFrameSelection : Περιμετρικό Πλαισιο
+
+#Saved-Recents Component
+RecentSynthesis: Πρόσφατα
+SavedSynthesis: Αποθηκευμένα
+FailedLoadingRecents: Αποτυχία φόρτωσης πρόσφατων κατασκευών
+FailedLoadingSaved : Αποτυχία φόρτωσης αποθηκευμένων κατασκευών
+SavedListEmpty : Η Λίστα με τις αποθηκευμένες κατασκευές είναι κενή
+RecentsListEmpty : Η Λίστα με τις πρόσφατες κατασκευές είναι κενή
+CabinSynthesisFromRecentTable : Δημιουργήθηκε κατασκευή από πρόσφατα/αποθηκευμένα
+ErrorGeneratingSynthesisFromRecentTable : Αποτυχία δημιουργία κατασκευής από πρόσφατα/αποθηκευμένα
+SaveSynthesisTooltip: Αποθήκευση κατασκευής στα Πρόσφατα
+SaveSynthesisButton : Αποθήκευση κατασκευής
+FailedToSaveCabinSelection : H Αποθήκευση της κατασκευής απέτυχε...
+SavedSelectionAlreadyExists : Η Κατασκευή έχει ήδη αποθηκευτεί
+CabinSelectionSaved : Η Κατασκευή Αποθηκευτηκε στα πρόσφατα
+RecentsSavedButton : Πρόσφατα/Αποθηκευμένα
+
+#Tooltips
+HeavyDutyPackingTooltip: Συσκευασία Υψηλής Προστασίας
+Wheels8x8Tooltip1 : Διπλοί Τροχοί
+Wheels8x8Tooltip2 : Διπλής Οπής
+Wheels8x8Tooltip3 : Μεταλλικά Εσωτερικά Ελάσματα
+Wheels8x8Tooltip4 : Ρουλεμάν Inox304
+ReversibleTooltip : Αντιστρέψιμη Κατασκευή
+MadeInGreeceTooltip : Κατασκευάζεται στην Ελλάδα
+
+#Print Templates Keys
+PerimetricalAluminium : Περιμετρικό Πλαίσιο
+HandleGuide : Λαβή & Οδηγός
+SupportBar : Αντηρίδα
+SupportBarHeavyDuty : Αντιρίδα Βαρ.Τύπου
+TwoSupportBars : Αντιρίδες
+FloorAluminium : Προφίλ Δαπέδου
+PerimetricalFrame : Περιμετρικό Προφίλ
+AdjustmentProfile : Προφιλ Προσαρμογής
+HeavyDutyProfile : Προφίλ Στήριξης Βαρέως
+Clamps : Στηρίγματα
+GlassClamps : Ενδιάμεσα Στηρίγματα
+Hinges : Μηχ.Περιστροφής
+InΒetweenHinges : Ενδιάμεσοι Μηχανισμοί
+InΒetweenHingeAluminium : Ενδιάμεσος Μηχ.Αλουμ.
+HeavyDutyHinges : Μηχανισμοί Βαρέως
+HeavyDutyMechanism : Μηχανισμοί Κύλισης Βαρέως
+AluminiumHinge : Μηχανισμός Περιστροφής Βαρέως
+AluminiumHingeMinimal : Μηχανισμός Περιστροφής Τετράγωνος
+HiddenMagnetClosure : Κρυφός Μαγνήτης
+MagnetClosure : Μαγνητικό Κλείσιμο
+BumperClosure: Κλείσιμο με Στοπ
+
+#CabinPartTypeEnum
+Undefined: Μη Ορισμένο
+GenericPart : Εξάρτημα
+Handle : Λαβή
+Hinge: Μεντεσές
+Profile: Προφίλ
+MagnetProfile: Μαγνητικό Προφίλ
+HingeProfile: Μεντεσές Προφίλ
+FloorStopper: Στοπ Δαπέδου
+BarSupport: Αντηρίδα
+SmallSupport: Στήριγμα
+Strip : Πολυκαρβονικό
+AnglePart: Εξάρτημα Γωνίας
+WallRotationMechanism : Μηχ.Περιστροφής Τοίχου
+
+#CabinHandleTypeEnum
+SingleHandle: Μονή Λαβή
+DoubleHandle: Διπλή Λαβή
+SingleKnob: Μονό Πόμολο
+DoubleKnob: Διπλό Πόμολο
+HandleKnob: Λαβή-Πόμολο
+
+#CabinStripTypeEnum
+PolycarbonicMagnet: Πολυκαρβ.Μαγνήτης
+PolycarbonicBumper: Πολυκαρβ.Στοπ
+
+#Material Type Enum
+MaterialAluminium: Αλουμίνιο
+MaterialInox304: Ανοξ.304
+MaterialInox316: Ανοξ.316
+MaterialInox430: Ανοξ.430
+MaterialBrass: Ορείχαλκος
+MaterialZink: Ζινκ
+MaterialAbs: Abs
+MaterialPlastic: Πλαστικό
+MaterialMetallic: Μεταλλικό
+MaterialPolycarbonic: Πολυκαρβονικό
+Other: Άλλο
+
+#Accessories Selection Page
+NavigateBySeries : Σειρές Αξεσουάρ
+NavigateByType : Τύποι Αξεσουάρ
+NavigateAll : Όλα τα Αξεσουάρ
+AvailableFinishes : Διαθέσιμα Φινιρίσματα
+DownloadPdfSheet : Κατεβάστε το Τεχνικό Φύλλο
+SheetNotAvailable : Τεχνικό Φύλλο μη διαθέσιμο
+SeeMore : Δείτε Περισσότερα
+
+#CabinCodeValidationErrors
+EmptyCabinCode : Κωδικός Καμπίνας κενός
+CodeLessThan2Chars : Κωδικός μικρότερος από δύο Ψηφία
+WrongModelCode : Εσφαλμένος Κωδικός Μοντέλου (Ψηφία 1-2)
+WrongLength: Εσφαλμένο Μήκος (Ψηφία 3-4)
+OnlyDashAllowed5 : Μόνο με '-' (Ψηφίο 5)
+WrongFinishCode: Εσφαλμένο Φινίρισμα (Ψηφίο 6)
+WrongGlassFinishCode : Εσφαλμένο Φινίρισμα Γυαλιού (Ψηφίο 7)
+OnlyDashAllowed8 : Μόνο με '-' (Ψηφίο 8)
+WrongHeight : Εσφαλμένο Ύψος (Ψηφία 9-10)
+Wrong11Digit : Μη Αναγνωρίσιμο Ψηφίο 11
+Wrong12Digit : Μη Αναγνωρίσιμο Ψηφίο 12
+Wrong13Digit : Μη Αναγνωρίσιμο Ψηφίο 13
+CodeAbove13Chars : Εσφαλμένος Κωδικός > 13 Ψηφία
+CodeGenerationFailed : Η Δημιουργία καμπίνας Από Κωδικό Απέτυχε
+CabinFromCodeGeneration: Κατασκευή Από Κωδικό Επιτυχής
+UnrecognizedCabin : Μη Αναγνωρίσιμη Κατασκευή
+InvalidCabinCode : Μη Αναγνωρίσιμος Κωδικός Είδους
+
+#AccessoryCardDialog
+DownloadImage : Κατεβάστε την Φωτογραφία
+PleaseLoginToDownload: Για Συνδεδεμένους Χρήστες
+
+
+#TEST TRANSLATIONS
+SelectOption : Επιλογές
+
+#Accessories Strings
+CodeFilter : Φίλτρο Κωδικού
+ViewOptions : Επιλογές Προβολής
+FilterOptions : Φίλτρα
+AccessoriesGroupsFilter : Φίλτρα
+All: Όλα
+Finishes : Φινιρίσματα
+NoResultsFound : Δεν βρέθηκαν αποτελέσματα
+ArticleNo: Κωδικός Είδους
+Series : Σειρά
+SelectedFinishPref: Επιλεγμένο
+AccessorySheet: Φύλλο Είδους
+LoadMore: Φόρτωσε Περισσότερα
+RemainingItems : Εναπομείναντα Είδη
+PrintItemSheet : Φύλλο Είδους
+Photos : Φωτογραφίες
+
+#Basket Page Strings
+RemoveBasketItem : Αφαίρεση Είδους
+RemoveBasketItemMessage: Θα θέλατε να αφαιρέσετε αυτό το αντικείμενο;
+InitialPrice: Αρχική Τιμή
+Initial1Price: Αρχική
+Initial2Price: Τιμή
+MainDiscount: Βασική Έκπτωση
+SecondaryDiscount : 2η Έκπτωση
+TertiaryDiscount : 3η Έκπτωση
+TotalDiscount : Συνολική Έκπτωση
+NetPricePerPiece : Νέτη τιμή / τμχ
+TotalNetPrice : Συνολική Νέτη Τιμή
+TotalNetPriceWithVat : Συνολική Τιμή με ΦΠΑ
+Info: Πληροφορίες
+Discounts : Εκπτώσεις
+AddToQuoteBasket : Πρόσθεσε στο Καλάθι
+QuoteBasket: Καλάθι Προσφοράς
+SeeMoreDetails : Περισσότερες Λεπτομέρειες
+QuoteBasketIsEmpty: Το καλάθι είναι άδειο.
+PleaseAddProductsToBasket: Προσθέστε προϊόντα για να συνεχίσετε με τη ζήτηση.
+Quantity: Ποσότητα
+Pcs: Τμχ
+AccessoryAddSuccess: Προστεθηκε στο Καλάθι
+pcs: τμχ
+pc: τμχ
+CataloguePriceMin : Καταλόγου
+CustomPriceMin : Προσαρμοσμένη
+CustomPrice : 
+FirstDisc : 1η
+SecondDisc : 2η
+ThirdDisc : 3η
+Add: Πρόσθεσε
+RestoreCataloguePrice: Επαναφορά Τιμής Καταλόγου
+RestoreDiscountsToDefaults: Επαναφορά Εκπτώσεων στις Προεπιλεγμένες
+DefaultDiscountsMin : Προεπιλεγμένες Εκπτ.
+CustomDiscountsMin : Προσαρμοσμένες Εκπτ.
+ManualDiscount : Χειροκ.Έκπτωση
+RulesDiscount : Έκπτωση Κανόνες
+OverwriteBasket : Υπάρχει ήδη καταχώρηση με το ίδιο όνομα. Θέλετε να την αντικαταστήσετε;
+BasketSaveError : Παρουσιάστηκε σφάλμα κατά την αποθήκευση του καλαθιού προσφοράς. Παρακαλώ προσπαθήστε ξανά.
+BasketRetrievalError : Παρουσιάστηκε σφάλμα κατά τη λήψη της λίστας των αποθηκευμένων καλαθιών. Παρακαλώ προσπαθήστε ξανά.
+SavedBaskets : Αποθηκευμένες Προσφορές
+SaveBasket : Αποθήκευση Προσφοράς
+ThereAreNoSavedBaskets : Δεν υπάρχουν αποηθηκευμένες Προσφορές.
+BasketName : Όνομα Προσφοράς
+InputName : Εισαγωγή Ονόματος
+Date : Ημερομηνία
+BasketItemsQuantity : Συν.Ποσότητα
+BasketRestored: Η προσφορά Ανακτήθηκε
+RetrieveBasket : Ανάκτηση Προσφοράς
+DeleteBasketQuestion : Είστε βέβαιοι ότι θέλετε να διαγράψετε αυτήν την προσφορά;
+ClearBasket : Καθαρισμός Προσφοράς 
+ExceptionRulesEnabled : Κανόνες Ενεργοί
+ExceptionRulesDisabled : Κανόνες Ανενεργοί
+
+UneditablePricesRulesActive : Κανόνες Ενεργοί.Απενεργοποιήστε τους για Επεξεργασία.
+AcceptChanges: Αποδοχή
+ScrapChanges: Ακύρωση
+Quote: Προσφορά
+ImagesEnabled: Εικόνες Ενεργοποιημένες
+ImagesDisabled: Εικόνες Απενεργοποιημένες
+CatalogueDiscounts : Εκπτώσεις
+WithoutExtraDiscounts : Χωρίς Εκπτώσεις
+SheetsIncludedInQuote : Τα τεχνικά φύλλα επισυναπτόνται στην προσφορά
+SheetsNotIncludedInQuote : Χωρίς Επισύναψη τεχνικών φύλλων
+ClearDiscountsQuestion : Είστε σίγουροι ότι θέλετε να καταργήσετε όλες τις εκπτώσεις από τα προϊόντα στον Πίνακα Λιανικής;
+ClearRetailDiscounts : Απαλοιφή Εκπτώσεων Λιανικής
+DisablesRules : Απενεργοποιει τους κανόνες σε όλα τα είδη του πίνακα
+SetsCataloguePrice : Θέτει Τιμές Καταλόγου σε όλα τα είδη του πίνακα
+ClearsDiscounts : Απαλήφει τις Εκπτώσεις σε όλα τα είδη του πίνακα (0%)
+DoYouWantToContinue: Θέλετε να συνεχίσετε ?
+RevertsPricingToDefault : Επαναφέρει Κανόνες, Τιμές και εκπτώσεις στα προκαθορισμένα
+AdditionalDiscount : Επιπλέον Έκπτωση
+AdditionalDiscountMin : Επιπ.Εκπτ.
+RemoveLine : Διαγραφή Γραμμής
+EditLine : Επεξεργασία Γραμμής
+ApplySelectedDiscountToAllItems : Εφαρμογή επιλεγμένης έκπτωσης σε όλα τα είδη
+OtherOptions : Άλλες Επιλογές
+SelectedOptionsAreEmptyPrompt : Δεν έχετε επιλέξει κανόνες Έκπτωσης . Παρακαλώ επιλέξτε κάποιο Σετ Κανόνων πρώτα.
+ApplyNewOptions : Εφαρμογή Επιλεγμένου Σετ Κανόνων
+ApplyNewOptionsQuestion1 : Θέλετε να αλλάξετε τους κανόνες έκπτωσης ? Σε Κανόνες =>
+ApplyNewOptionsQuestion2 : -------- ΜΕΤΑΒΟΛΕΣ -------- 
+ApplyNewOptionsQuestion3 : 1.Αρχικές τιμές στα είδη που εφαρμόζουν κανόνες στην Χονδρική
+ApplyNewOptionsQuestion4 : 2.Εκπτώσεις στα είδη που εφαρμόζουν κανόνες στην Χονδρική
+ApplyNewOptionsQuestion5 : 3.Οι Αρχικές τιμές στα είδη που έχουν τιμές καταλόγου στην Λιανική
+ApplyNewOptionsQuestion6 : 4.Οι τελικές τιμές σε όλα τα είδη στην Χονδρική και την Λιανική.
+SelectRuleSets : Επιλογή Κανόνων Τιμολόγισης
+SelectedRules : Επιλεγμένοι Κανόνες
+QuoteNotes : Σημειώσεις Προσφοράς
+AutoPriceOff : Απενεργ.Αυτόμ.Τιμής
+AutoPriceOn : Ενεργοπ.Αυτόμ.Τιμής
+Others : Άλλα
+AddAccessoriesByCode: Πρόσθεσε είδη με Κωδικό
+PleaseSelectAnAccessoryFirstPrompt : Δεν έχετε επιλέξει κανένα αξεσουάρ. Παρακαλώ επιλέξτε ένα πρώτα για να συνεχίσετε.
+NewTryMe : Νέο! Δοκίμασέ με!
+CannotDisplayThisPageinSmallScreens : Η διαχείρηση στο καλάθι γίνεται μόνο σε μεγαλύτερες οθόνες
+MoreOptions : Περισσότερες Επιλογές
+CopyTable : Αντιγραφή Πίνακα
+TableCopied : Ο Πίνακας αντιγράφηκε
+CloseEditsBeforeCopyMessage : Παρακαλώ κλείστε την ανοιχτή επεξεργασία γραμμής πριν την αντιγραφή πίνακα
+AllAccessoriesReport : Report Όλα τα Αξεσουάρ
+ReportGenerated : Πίνακας Excel Δημιουργήθηκε
+CreatingFilterableTable... : Δημιουργία Πίνακα Φίλτρων...
+CreatingPriceables... : Δημιουργία Τιμολογήσιμων...
+

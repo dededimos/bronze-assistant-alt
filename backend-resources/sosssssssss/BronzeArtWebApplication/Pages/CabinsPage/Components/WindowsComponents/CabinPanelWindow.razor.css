@@ -1,0 +1,10 @@
+﻿.IconContainer {
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 3px;
+}
+
+.iconImg {
+    max-width: 60px;
+}

@@ -1,0 +1,39 @@
+﻿.seriesContainer{
+    display:flex;
+    flex-direction:row;
+    flex-wrap:wrap;
+    overflow-x:hidden;
+    justify-content:center;
+}
+
+.seriesButtonContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content:center;
+    margin: 15px;
+    border-bottom: 3px solid var(--BackgroundColor);
+    transition: border-color 1s ease;
+}
+    .seriesButtonContainer:hover {
+        transform: scale(1.1);
+        border-bottom : solid 3px var(--customPrimary);
+    }
+
+.seriesImage {
+    object-fit: cover;
+    margin-bottom:10px;
+}
+
+@media (max-width:1200px){
+    .seriesImage{
+        width:307px;
+        height:230px;
+    }
+}
+@media (min-width:1201px){
+    .seriesImage {
+        width: 333px;
+        height: 250px;
+    }
+}

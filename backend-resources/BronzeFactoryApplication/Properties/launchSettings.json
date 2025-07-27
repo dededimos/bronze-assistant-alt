@@ -1,0 +1,10 @@
+{//Creted from the Project=>Properties=>Debug => open dialog and add DOTNET_ENVIRONMENT - Development
+  "profiles": {
+    "BronzeFactoryApplication": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

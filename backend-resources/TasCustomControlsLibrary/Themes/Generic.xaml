@@ -1,0 +1,78 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:TasCustomControlsLibrary.CustomControls"
+    xmlns:system="clr-namespace:System;assembly=mscorlib"
+    xmlns:hc="clr-namespace:HandyControl.Controls;assembly=HandyControl">
+
+    <!--#region A. ICON Styles -->
+    <Style x:Key="CustomIconBaseStyle" TargetType="{x:Type local:Icon}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:Icon}">
+                    <Viewbox>
+                        <Path Data="{TemplateBinding GeometryData}"  
+                              Fill="{TemplateBinding Fill}"
+                              Stroke="{TemplateBinding Stroke}"
+                              StrokeThickness="{TemplateBinding StrokeThickness}"
+                              />
+                    </Viewbox>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--SAME AS THE ABOVE-->
+    <Style TargetType="{x:Type local:Icon}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:Icon}">
+                    <Viewbox>
+                        <Path Data="{TemplateBinding GeometryData}"  
+                              Fill="{TemplateBinding Fill}"
+                              Stroke="{TemplateBinding Stroke}"
+                              StrokeThickness="{TemplateBinding StrokeThickness}"/>
+                    </Viewbox>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--#endregion-->
+
+    <!--#region B. MODAL Styles -->
+    
+    <Style TargetType="{x:Type local:Modal}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:Modal}">
+                    <ControlTemplate.Resources>
+                        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+                    </ControlTemplate.Resources>
+                    <!---OutSide Grid spanning to the entire control Parent-->
+                    <Grid Background="{TemplateBinding Background}"
+                            Visibility="{TemplateBinding IsOpen, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <!---Inner Control Spanning to the Contents Size-->
+                        <Border BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                UseLayoutRounding="True"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+
+                            <ContentControl Content="{TemplateBinding Content}"/>
+                            <!--A Shadow to Appear as if Elevated Window-->
+                            <Border.Effect>
+                                <DropShadowEffect 
+                                      BlurRadius="10" 
+                                      ShadowDepth="10" 
+                                      Color="Black" 
+                                      Opacity="0.8"/>
+                            </Border.Effect>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <!--#endregion-->
+
+</ResourceDictionary>

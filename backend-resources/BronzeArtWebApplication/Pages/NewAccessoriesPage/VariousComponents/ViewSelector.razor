@@ -1,0 +1,42 @@
+﻿@using BronzeArtWebApplication.Shared.ViewModels.AccessoriesPageViewModels;
+
+@inject AccessoriesPageViewModel Vm
+@inject ILanguageContainerService Lc
+
+<div class="displayOptionsContainer d-none d-md-flex">
+    <div class="displayOptionsTextContainer noselect">
+        <MudText Typo="@(Typo.subtitle2)" Align="@(Align.Center)">@(Lc.Keys["ViewOptions"])</MudText>
+    </div>
+        <MudIconButton Icon="@(Icons.Material.Filled.ListAlt)"
+                       Color="@(ViewType == TypeOfView.ListView ? Color.Primary : Color.Dark)"
+                       Size="@(Size.Medium)"
+                       OnClick="@(()=> ChangeViewType(TypeOfView.ListView))" />
+        <MudIconButton Icon="@(Icons.Material.Filled.GridView)"
+                       Color="@(ViewType == TypeOfView.GridView ? Color.Primary : Color.Dark)"
+                       Size="@(Size.Medium)"
+                       OnClick="@(()=> ChangeViewType(TypeOfView.GridView))" />
+        @* <MudIconButton Icon="@(Icons.Material.Filled.DocumentScanner)"
+                       Color="@(ViewType == TypeOfView.CompactView ? Color.Primary : Color.Dark)"
+                       Size="@(Size.Medium)"
+                       OnClick="@(()=> ChangeViewType(TypeOfView.CompactView))" /> *@
+        @* <MudIconButton Icon="@(Icons.Material.Filled.Group)"
+                       Color="@(ViewType == TypeOfView.SecondaryTypeGroupView ? Color.Primary : Color.Dark)"
+                       Size="@(Size.Medium)"
+                       OnClick="@(()=> ChangeViewType(TypeOfView.SecondaryTypeGroupView))" /> *@
+</div>
+
+    @code {
+    [Parameter]
+    public TypeOfView ViewType { get; set; }
+    [Parameter]
+    public EventCallback<TypeOfView> ViewTypeChanged { get; set; }
+
+    private async Task ChangeViewType(TypeOfView type)
+    {
+        if (type != ViewType)
+        {
+            ViewType = type;
+            await ViewTypeChanged.InvokeAsync(type);
+        }
+    }
+}

@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CommonHelpers\CommonHelpers.csproj" />
+    <ProjectReference Include="..\CommonInterfacesBronze\CommonInterfacesBronze.csproj" />
+    <ProjectReference Include="..\CommonOrderModels\CommonOrderModels.csproj" />
+    <ProjectReference Include="..\DrawingLibrary\DrawingLibrary.csproj" />
+    <ProjectReference Include="..\ShapesLibrary\ShapesLibrary.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.11.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.3" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,81 @@
+﻿@*The Starting Appearing Window as well as the Resume Story Window*@
+@namespace BronzeArtWebApplication.Pages.CabinsPage.Components.WindowsComponents
+@using BronzeArtWebApplication.Components.SVGComponents
+@inject ILanguageContainerService lc
+@inject AssembleCabinViewModel vm
+
+@if (vm.IsWindowVisible[StoryWindow.StartWindow])
+{
+    @*<div style="position:absolute;top:0px;left:0px;z-index:-1;">
+        <video autoplay loop muted>
+            <source src="../Videos/GlassDropsVideo.mp4" type="video/mp4"/>
+        </video>
+    </div>*@
+    <div class="bronze-FadeIn d-flex align-center justify-center mud-elevation-9 rounded-lg mainWindowContainer my-2" style="height:100%">
+        <MudGrid Justify="Justify.Center" Spacing="2" Class="px-5 py-5" Style="width:100%;height:100%">
+            <MudItem xs="12" sm="12" md="8" lg="8" xl="8" xxl="8" Class="d-flex justify-center align-center flex-column">
+                <div style="width:100%" class="d-flex">
+                    <CabinsCarousel />
+                </div>
+            </MudItem>
+
+            <MudItem xs="6" sm="6" md="2" lg="2" xl="2" xxl="2" Class="d-flex justify-center align-center flex-column">
+                <MudButton Variant="Variant.Text"
+                           FullWidth="true"
+                           Color="@(Color.Primary)"
+                           Style="text-transform:none;height:100%"
+                           Class="pa-2 cabinButton"
+                           OnClick="@(()=>vm.ShowWindow(StoryWindow.OpeningPrimary,StoryWindow.StartWindow))">
+                    <MudContainer Class="d-flex justify-center flex-column ma-1 pa-1" Style="max-width:90%">
+                        <i class="fas fa-tools fa-7x d-none d-sm-inline cabinButton-Icon"></i>
+                        <i class="fas fa-tools fa-5x d-inline d-sm-none"></i>
+                        <MudText Typo="Typo.subtitle1">
+                            @(lc.Keys["CreateCabin"])
+                        </MudText>
+                    </MudContainer>
+                </MudButton>
+            </MudItem>
+
+            <MudItem xs="6" sm="6" md="2" lg="2" xl="2" xxl="2" Class="d-flex justify-center align-center flex-column">
+                <MudButton Variant="Variant.Text"
+                           FullWidth="true"
+                           Color="@(Color.Primary)"
+                           Style="text-transform:none;height:100%;"
+                           Class="pa-2 cabinButton"
+                           OnClick="@(()=>vm.ShowWindow(StoryWindow.SeriesPrimary,StoryWindow.StartWindow))">
+                    <MudContainer Class="d-flex justify-center flex-column ma-1 pa-1" Style="max-width:90%">
+                        <i class="fas fa-book fa-7x d-none d-sm-inline cabinButton-Icon"></i>
+                        <i class="fas fa-book fa-5x d-inline d-sm-none "></i>
+                        <MudText Typo="Typo.subtitle1">
+                            @(lc.Keys["CabinCatalogueModels"])
+                        </MudText>
+                    </MudContainer>
+                </MudButton>
+            </MudItem>
+            <MudItem xs="0" sm="0" md="0" lg="8" xl="8" xxl="8">
+                <div class="d-flex align-center mt-5" style="width:100%">
+                    <div class="d-none d-lg-flex mr-auto ml-n7 mb-n4">
+                        <MudButton Style="width:30px;height:210px;background-color:var(--customDark)"
+                                   Class="pr-2 rounded-0 rounded-bl-lg mb-n2"
+                                   OnClick="@(()=> _isOpenRecents = !_isOpenRecents)">
+                            <MudText Typo="@(Typo.caption)" Style="transform:rotate(-90deg);font-weight:700;color:white">@(lc.Keys["RecentsSavedButton"])</MudText>
+                        </MudButton>
+                        <div class="@(_isOpenRecents ? "isVisible" : "notVisible")">
+                            <SavedRecentsCabinTable Class="mud-theme-dark" TableHeightPX="170px" Style="height:210px;width:730px" />
+                        </div>
+                    </div>
+                </div>
+            </MudItem>
+            <MudItem md="12" lg="4" xl="4" xxl="4">
+                <div style="width:100%;height:100%;" class="d-flex justify-center align-center">
+                    <div>
+                        <CabinCodeInput Style="min-width:280px;max-width:350px" TextBoxVariant="@(Variant.Filled)" />
+                    </div>
+                </div>
+            </MudItem>
+        </MudGrid>
+    </div>
+}
+@code {
+    private bool _isOpenRecents = false;
+}

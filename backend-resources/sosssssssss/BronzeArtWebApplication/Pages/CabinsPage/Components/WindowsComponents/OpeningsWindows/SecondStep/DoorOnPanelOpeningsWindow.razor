@@ -1,0 +1,42 @@
+﻿@*The Window to Choose a DoorOnPanel Opening*@
+@namespace BronzeArtWebApplication.Pages.CabinsPage.Components.WindowsComponents.OpeningsWindows.SecondStep
+@using ShowerEnclosuresModelsLibrary.Enums.CabinCategories
+@using static BronzeArtWebApplication.Shared.Helpers.StaticInfoCabins
+@using static BronzeArtWebApplication.Shared.Helpers.StylesStaticInfoCabins
+@inject ILanguageContainerService lc
+@inject AssembleCabinViewModel vm
+
+<StoryContainer Title = "@(lc.Keys["DoorOnPanelWindowTitle"])" 
+                @bind-IsVisible = "@(vm.IsWindowVisible[StoryWindow.DoorOnPanelOpenings])" 
+                IsNextButtonVisible = "@(false)"
+                IsPreviousButtonVisible = "@(true)"
+                OnPreviousClick = "@(()=> vm.ShowWindow(StoryWindow.OpeningPrimary,StoryWindow.DoorOnPanelOpenings))" 
+                OnResetClick = "@(()=> vm.ResetViewModel())">
+    <MainContent>
+        <MudGrid Justify="Justify.Center" Spacing="2" Class="px-5 py-5">
+                @foreach (DoorOnPanelType doorOnPanelType in Enum.GetValues(typeof(DoorOnPanelType)))
+                    {
+                     <MudItem sm="12" md="6" lg="4" Class="d-flex justify-center align-center">
+                         <MudButton Variant="Variant.Filled"
+                                    FullWidth="true"
+                                    Style="text-transform:none;height:100%"
+                                    Class="ma-2"
+                                    OnClick = "@(()=> HandleSelection(doorOnPanelType))">
+                             <MudContainer Class="d-flex justify-center flex-column ma-1 pa-1" Style="max-width:90%">
+                                 <img src="@(DoorOnPanelTypeImagePaths[doorOnPanelType])"
+                                      alt="@lc.Keys[DoorOnPanelTypeDescKey[doorOnPanelType]]"
+                                      class="rounded-lg" />
+                                 <MudText Typo="Typo.subtitle1">
+                                     @lc.Keys[DoorOnPanelTypeDescKey[doorOnPanelType]]
+                                 </MudText>
+                             </MudContainer>
+                         </MudButton>
+                     </MudItem>   
+                    }
+        </MudGrid>    
+    </MainContent>
+</StoryContainer>
+
+@code {
+
+}

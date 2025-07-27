@@ -1,0 +1,295 @@
+﻿@inherits LayoutComponentBase
+@inject ILanguageContainerService languageContainer
+@inject NavigationManager navigationManager
+@inject ILocalStorageService localStorage
+@inject BronzeUser LoggedUser
+@inject AuthenticationStateProvider StateProvider
+@inject AssembleMirrorViewModel Vm
+
+@using BronzeArtWebApplication.Components.SVGComponents
+@using BronzeArtWebApplication.Components.UniversalComponents
+@using BronzeArtWebApplication.Pages
+
+
+<MudThemeProvider Theme="@currentTheme"
+ObserveSystemThemeChange="@(false)"
+IsDarkMode="@(false)" />
+<MudPopoverProvider />
+<MudDialogProvider CloseButton="true"
+MaxWidth="MaxWidth.ExtraLarge"
+BackdropClick="@(false)"
+Position="DialogPosition.Center" />
+<MudSnackbarProvider />
+<NewsDialog @bind-IsVisible="@(isNewsDialogOpen)" />
+@*The Options of the Opened Dialogs*@
+
+@*On White Labeling the Menu Bar And Drawer Are not Visible -- Instead a Logo of the Whitelabeled Customer Appears*@
+@*The no Translate class is needed to Prevent browsers that implement google translate automatically from messing around with pricing*@
+@*An error will be thrown at some point even with this class on , there will be no price confusions though*@
+<MudLayout Class="notranslate">
+
+    <MudAppBar Dense="true"
+    Style="background-color:lightgray;"
+    Class="doNotPrint">
+        @if (!LoggedUser.IsWhiteLabeled)
+        {
+            <MudTooltip Placement="@(Placement.Bottom)">
+                <TooltipContent>
+                    @(languageContainer.Keys["AppMenuButton"])
+                </TooltipContent>
+                <ChildContent>
+                    <MudIconButton Icon="@Icons.Material.Filled.Menu"
+                    Color="Color.Dark"
+                    Edge="Edge.Start"
+                    OnClick="@(() => DrawerToggle())" />
+                </ChildContent>
+            </MudTooltip>
+            <MudTooltip Placement="@(Placement.Bottom)">
+                <TooltipContent>
+                    @(languageContainer.Keys["Home"])
+                </TooltipContent>
+                <ChildContent>
+                    <MudIconButton Icon="@(Icons.Material.Filled.Home)"
+                    Color="@(Color.Dark)"
+                    OnClick="@(()=>navigationManager.NavigateTo("/"))" />
+                </ChildContent>
+            </MudTooltip>
+            <MudTooltip Placement="@(Placement.Bottom)">
+                <TooltipContent>
+                    @(languageContainer.Keys["NavChooseAppCabin"])
+                </TooltipContent>
+                <ChildContent>
+                    <MudIconButton Style="width:50px;height:50px"
+                    Class="d-none d-sm-flex align-center justify-center"
+                    OnClick="@(()=> navigationManager.NavigateTo("/AssembleCabin/fromMenu"))">
+                        <ChildContent>
+                            <div style="width:24px;height:24px">
+                                <ShowerCabinSVG Fill="var(--customDark)" />
+                            </div>
+                        </ChildContent>
+                    </MudIconButton>
+                </ChildContent>
+            </MudTooltip>
+            <MudTooltip Placement="@(Placement.Bottom)">
+                <TooltipContent>
+                    @(languageContainer.Keys["NavChooseAppMirror"])
+                </TooltipContent>
+                <ChildContent>
+                    <MudIconButton Style="width:50px;height:50px"
+                    Class="d-none d-sm-flex align-center justify-center"
+                    OnClick="@(()=> navigationManager.NavigateTo("/AssembleMirror"))">
+                        <ChildContent>
+                            <div style="width:24px;height:24px">
+                                <MirrorIconSVG Fill="var(--customDark)" />
+                            </div>
+                        </ChildContent>
+                    </MudIconButton>
+                </ChildContent>
+            </MudTooltip>
+            <MudTooltip Placement="@(Placement.Bottom)">
+                <TooltipContent>
+                    <span>@(languageContainer.Keys["NavChooseAppAccessories"])</span>
+                </TooltipContent>
+                <ChildContent>
+                    <MudIconButton Style="width:50px;height:50px"
+                    Class="d-none d-sm-flex align-center justify-center"
+                    OnClick="@(()=> navigationManager.NavigateTo("/Accessories"))">
+                        <ChildContent>
+                            <div style="width:24px;height:24px" class="d-flex align-center justify-center">
+                                <AccessoriesIconSVG Fill="var(--customDark)" />
+                            </div>
+                        </ChildContent>
+                    </MudIconButton>
+                </ChildContent>
+            </MudTooltip>
+
+            <MudHidden Breakpoint="Breakpoint.SmAndDown">
+                <MudSpacer />
+                <MudText Color="Color.Dark"
+                Typo="Typo.caption" Class="noselect">
+                    @(VersionNotes.ApplicationVersion)
+                </MudText>
+                <MudTooltip>
+                    <ChildContent>
+                        <MudIconButton Class="mb-1"
+                        Icon="@(Icons.Material.Filled.HelpOutline)"
+                        Color="@(Color.Dark)"
+                        OnClick="@(()=> isNewsDialogOpen = true)" />
+                    </ChildContent>
+                    <TooltipContent>
+                        @(languageContainer.Keys["ClickToCheckNews"])
+                    </TooltipContent>
+                </MudTooltip>
+            </MudHidden>
+        }
+        else
+        {
+            <div style="width:100%" class="d-flex flex-row">
+                <BrandLogo Style="width:120px" Class="mt-2" />
+                @if (LoggedUser.RetailTheme is RetailModeTheme.Lakiotis)
+                {
+                    <MudTooltip Placement="@(Placement.Bottom)">
+                        <TooltipContent>
+                            @(languageContainer.Keys["Home"])
+                        </TooltipContent>
+                        <ChildContent>
+                            <MudIconButton Icon="@(Icons.Material.Filled.Home)"
+                            Color="@(Color.Dark)"
+                            OnClick="@(()=>navigationManager.NavigateTo("/"))" />
+                        </ChildContent>
+                    </MudTooltip>
+                    <MudTooltip Placement="@(Placement.Bottom)">
+                        <TooltipContent>
+                            @(languageContainer.Keys["NavChooseAppCabin"])
+                        </TooltipContent>
+                        <ChildContent>
+                            <MudIconButton Style="width:50px;height:50px"
+                            Class="d-none d-sm-flex align-center justify-center"
+                            OnClick="@(()=> navigationManager.NavigateTo("/AssembleCabin/fromMenu"))">
+                                <ChildContent>
+                                    <div style="width:24px;height:24px">
+                                        <ShowerCabinSVG Fill="var(--customDark)" />
+                                    </div>
+                                </ChildContent>
+                            </MudIconButton>
+                        </ChildContent>
+                    </MudTooltip>
+                    <MudTooltip Placement="@(Placement.Bottom)">
+                        <TooltipContent>
+                            @(languageContainer.Keys["NavChooseAppMirror"])
+                        </TooltipContent>
+                        <ChildContent>
+                            <MudIconButton Style="width:50px;height:50px"
+                            Class="d-none d-sm-flex align-center justify-center"
+                            OnClick="@(()=> navigationManager.NavigateTo("/AssembleMirror"))">
+                                <ChildContent>
+                                    <div style="width:24px;height:24px">
+                                        <MirrorIconSVG Fill="var(--customDark)" />
+                                    </div>
+                                </ChildContent>
+                            </MudIconButton>
+                        </ChildContent>
+                    </MudTooltip>
+                }
+            </div>
+        }
+        <MudSpacer />
+        <div style="width:55px;">
+            <MudSelect T="string"
+            Dense="true"
+            Margin="@(Margin.Dense)"
+            Variant="@(Variant.Text)"
+            AnchorOrigin="@(Origin.BottomLeft)"
+            TransformOrigin="@(Origin.BottomLeft)"
+            Value="@(languageContainer.CurrentCulture.Name)"
+            ValueChanged="@(value => ChangeLanguage(value))"
+            Underline="@(false)"
+            PopoverClass="mud-theme-dark"
+            Class="my-auto" Style="border:none">
+                <MudSelectItem Value="@("el-GR")">
+                    <div>
+                        <img src="../Images/FlagIcons/GreekFlag.png" style="height:25px;" alt="GR" />
+                    </div>
+                </MudSelectItem>
+                <MudSelectItem Value="@("en-US")">
+                    <div>
+                        <img src="../Images/FlagIcons/EnglishFlag.png" style="height:25px" alt="EN" />
+                    </div>
+                </MudSelectItem>
+                <MudSelectItem Value="@("it-IT")">
+                    <div>
+                        <img src="../Images/FlagIcons/ItalianFlag.png" style="height:25px" alt="IT" />
+                    </div>
+                </MudSelectItem>
+            </MudSelect>
+        </div>
+        <LoginDisplay LogoutString="@languageContainer.Keys["LogOut"]"
+        LoginString="@languageContainer.Keys["LogIn"]" />
+
+        <img src="/Images/Logos/BABlack.png" style="height:23px" class="pl-5" />
+    </MudAppBar>
+
+    @if (!LoggedUser.IsWhiteLabeled)
+    {
+        <MudDrawer @bind-Open="@(_drawerOpen)"
+        ClipMode="@(DrawerClipMode.Docked)"
+        Style="border-right: 1px solid rgba(0,0,0,0.06);background: linear-gradient(180deg, #ffffff 70%, #f9f9f9 100%);">
+            <MudNavMenu Bordered="false" Class="modern-nav-menu" Color="Color.Primary">
+                <MudText Typo="Typo.h6"
+                Align="@(Align.Center)"
+                Class="pt-3">
+                    @languageContainer.Keys["NavCaption"]
+                </MudText>
+                <MudNavGroup Icon="@Icons.Material.Filled.Apps"
+                Title="@languageContainer.Keys["NavChooseApp"]"
+                Expanded="true"
+                Class="nav-group">
+                    <MudNavLink Href="/AssembleCabin"
+                    Icon="@CustomSvgIconStrings.CabinIcon"
+                    IconColor="Color.Inherit"
+                    Class="nav-link">
+                        @(languageContainer.Keys["NavChooseAppCabin"])
+                    </MudNavLink>
+                    <MudNavLink Href="/AssembleMirror"
+                    Icon="@CustomSvgIconStrings.MirrorIcon"
+                    IconColor="Color.Inherit"
+                    Class="nav-link">
+                        @languageContainer.Keys["NavChooseAppMirror"]
+                    </MudNavLink>
+                    <MudNavLink Href="/Accessories"
+                    Icon="@CustomSvgIconStrings.AccessoriesIcon"
+                    IconColor="Color.Inherit"
+                    Class="nav-link">
+                        @languageContainer.Keys["NavChooseAppAccessories"]
+                    </MudNavLink>
+                </MudNavGroup>
+
+                <MudNavLink Icon="@(Icons.Material.Filled.Notes)"
+                Href="/VersionNotes"
+                IconColor="Color.Inherit"
+                Class="nav-link">
+                    @languageContainer.Keys["NavVersion"]
+                </MudNavLink>
+
+                <MudNavLink Icon="@(Icons.Material.Filled.Home)"
+                Href="/"
+                IconColor="Color.Inherit"
+                Class="nav-link">
+                    @(languageContainer.Keys["NavChooseHome"])
+                </MudNavLink>
+            </MudNavMenu>
+
+            <MudSpacer />
+            <div class="drawer-footer">
+                <MudImage Src="/Images/Logos/BAGold.png" Width="120" Alt="Bronze Art" />
+                <MudText Typo="Typo.caption" Color="Color.Dark" Class="mt-2">
+                    Powered by Bronze Art &copy;
+                </MudText>
+            </div>
+        </MudDrawer>
+    }
+    <MudMainContent Class="d-flex flex-column centralMainContainer">
+        <BusyStateIndicator />
+        @*Main Layout Body Id used so that Javascript can scroll to top when needed by selecting this*@
+        <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge" Class="d-flex flex-column" Style="flex-grow:1;overflow-y:auto" id="mainLayoutBody">
+            @Body
+            <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge" Class="noselect doNotPrint">
+                <div style="width:100%;background: transparent;border-top:1px solid var(--BackgroundColor)" class="d-flex flex-row mt-0 mb-0 pa-2 align-center bronze-FadeIn doNotPrint">
+                    <img src="../Images/Logos/DGLogo.png" style="height:40px" class="mr-auto my-auto">
+                    <img src="../Images/Logos/BAGold.png" style="height:30px" class="ma-auto d-none d-sm-flex"> @*not shown on mobiles*@
+                    <MudText Typo="Typo.subtitle2" Class="ml-auto my-auto">&copy Bronze Art @(DateTime.Now.Year)</MudText>
+                </div>
+            </MudContainer>
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
+
+
+@code {
+    private bool isNewsDialogOpen;
+    /// <summary>
+    /// The Id of the Body DIV of the Main Layout - used to scroll to Top if needed with Js
+    /// </summary>
+    public const string BodyId = "mainLayoutBody";
+}
+

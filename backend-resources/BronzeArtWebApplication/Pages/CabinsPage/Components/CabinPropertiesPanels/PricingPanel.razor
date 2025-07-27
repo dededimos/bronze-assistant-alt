@@ -1,0 +1,51 @@
+﻿@*A Panel Containing Controls for Pricing *@
+@namespace BronzeArtWebApplication.Pages.CabinsPage.Components.CabinPropertiesPanels
+@using static BronzeArtWebApplication.Shared.Helpers.StaticInfoCabins
+@using static BronzeArtWebApplication.Shared.Helpers.CommonStaticInfo
+@inject BronzeUser user
+@inject ILanguageContainerService lc
+@inject AssembleCabinViewModel vm
+
+<div id="PricingPanelContainer" class="d-flex flex-column justify-center align-center rounded-lg mud-elevation-4">
+    <div id="PricingPanelTitleContainer" class="d-flex flex-row justify-center align-center pa-2" style="width:100%;border-bottom:4px solid var(--BronzeDarkPink);background-color:var(--BackgroundColor)">
+        <i class="fas fa-percent fa-2x mr-4"></i>
+        <MudText Typo="Typo.h6" Style="user-select:none">@(lc.Keys["Pricing"])</MudText>
+        @if (user.IsPowerUser)
+        {
+            @*Applied Rules Descriptions for Power Users Only*@
+            <MudTooltip Placement="@(Placement.Left)" RootClass="mt-1 ml-2">
+                <ChildContent>
+                    <div class="d-flex align-center justify-center">
+                        <MudIcon Icon="@(Icons.Material.Filled.Info)" Color="@(Color.Primary)" />
+                    </div>
+                </ChildContent>
+                <TooltipContent>
+                    <div class="d-flex flex-column pa-2">
+                        <MudText Typo="@(Typo.subtitle2)">@($"{lc.Keys["Pricing"]} - {lc.Keys["Rules"]}")</MudText>
+                        <MudDivider Class="my-2"/>
+                        @foreach (string rule in vm.GetAllRulesNames())
+                        {
+                            <MudText Typo="@(Typo.caption)" Align="@(Align.Left)">@($"{vm.GetAllRulesNames().IndexOf(rule) + 1}.{lc.Keys[PricingRulesDescKeys[rule]]}")</MudText>
+                        }
+                    </div>
+                </TooltipContent>
+            </MudTooltip>
+        }
+    </div>
+    <div id="InnerPanelContainer" class="d-flex flex-row my-0 mx-2 justify-center align-center" style="height:100%;width:100%">
+        <DiscountInputBox @bind-PrimaryDiscount="@(user.SelectedPrimaryDiscountCabin)"
+                          @bind-SecondaryDiscount="@(user.SelectedSecondaryDiscountCabin)"
+                          @bind-TertiaryDiscount="@(user.SelectedTertiaryDiscountCabin)" 
+                          CombinedDiscount="@(user.CombinedDiscountCabin)"
+                          AreDiscountBoxesHorizontal="@(true)" MarginDiv="0" PaddingDiv="2"
+                          IsMinMaxDiscountDisabled="@(true)"/>
+        @*<MudDivider Vertical="@(true)" FlexItem="@(true)"/>
+            <div class="d-flex flex-column justify-center align-center">
+
+            </div>*@
+    </div>
+</div>
+
+@code {
+
+}

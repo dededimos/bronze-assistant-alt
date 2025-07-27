@@ -1,0 +1,119 @@
+﻿@page "/DrawingCanvas"
+@using BathAccessoriesModelsLibrary;
+@using BronzeArtWebApplication.Shared.Services;
+@using SVGCabinDraws
+@using SVGCabinDraws.ConcreteDraws.Inox304Draws
+@using SVGDrawingLibrary
+@using SVGDrawingLibrary.Helpers
+@using SVGDrawingLibrary.Models
+@using SVGDrawingLibrary.Models.ConcreteShapes
+@using ShowerEnclosuresModelsLibrary.Models.SeriesModels.Inox304Models
+
+<PageTitle>Testing Page Only</PageTitle>
+
+<MudText Align="@(Align.Center)">This is a Testing Page</MudText>
+<div style="width:100%;height:100%" class="d-flex flex-column">
+    <MudPaper class="d-flex flex-column">
+        
+    </MudPaper>
+    <svg viewBox="0 0 2000 2000" id="drawingCanvas" style="width:100%;" @onmousemove="@((e)=> MoveShape(e))">
+        
+        @foreach (var shape in shapes)
+        {
+            <path d="@(shape.GetShapePathData())" stroke="@(@shape.Stroke)" fill="@(shape.Fill)" @onclick="@((e)=>SelectShape(e,shape))">
+
+            </path>
+        }
+
+        @*<path d="@(PathDataFactory.Elipse(500+i*5,500+i*2,65,65))" stroke="red">
+            <animateTransform attributeName="transform"
+            begin="@(i/15d)s"
+            dur="3s"
+            type="translate"
+            values="0 0 ; 0 -50 ; 0 0"
+            repeatCount="indefinite" />
+            <animateTransform attributeName="transform"
+            begin="@(i/15d)s"
+            dur="3s"
+            type="rotate"
+            values="0 @(500+i*5) @(500+i*2) ; 360 @(500+i*5) @(500+i*10) "
+            repeatCount="indefinite" />
+            </path>*@
+
+        @*<path d="@(PathDataFactory.Quadrilateral(xx1,yy1,xx2,yy2,xx3,yy3,xx4,yy4))" stroke="red" fill="transparent"/>
+            <path d="@(PathDataFactory.Quadrilateral(xx1,yy1,xxx1,yyy1,xxx2,yyy2,xx2,yy2))" stroke="red" fill="transparent"/>
+            <path d="@(PathDataFactory.Quadrilateral(xx2,yy2,xxx2,yyy2,xxx3,yyy3,xx3,yy3))" stroke="red" fill="transparent"/>*@
+
+    </svg>
+</div>
+
+
+
+@code {
+    private DrawShape selectedShape;
+    private void SelectShape(MouseEventArgs e, DrawShape shape)
+    {
+        if (selectedShape is null)
+        {
+            selectedShape = shape;
+            previousClientX = e.ClientX;
+            previousClientY = e.ClientY;
+        }
+        else
+        {
+            selectedShape = null;
+        }
+
+    }
+    private double previousClientX = double.NaN;
+    private double previousClientY = double.NaN;
+    private void MoveShape(MouseEventArgs e)
+    {
+        if (selectedShape != null)
+        {
+            selectedShape.TranslateX(e.ClientX - previousClientX);
+            selectedShape.TranslateY(e.ClientY - previousClientY);
+            previousClientX = e.ClientX;
+            previousClientY = e.ClientY;
+        }
+        StateHasChanged();
+    }
+
+
+    List<DrawShape> shapes = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        //EllipseDraw elipse = new(800, 500, 500, 500);
+        //elipse.Stroke = "red";
+        //elipse.Fill = "lightslategray";
+        //shapes.Add(elipse);
+
+        // EllipseDraw ellipse = new(1850, 400, 1000, 1000);
+        // ellipse.Stroke = "red";
+        // shapes.Add(ellipse);
+
+        // DrawPoint pointOnEllipse = MathCalc.GetPointOnEllipsePerimeter(ellipse, Math.PI/2);
+        // LineDraw line1 = new(ellipse.ShapeCenterX, ellipse.ShapeCenterY, pointOnEllipse.X, pointOnEllipse.Y);
+        // line1.Stroke = "red";
+
+        // DrawPoint pointOnEllipse2 = MathCalc.GetPointOnEllipsePerimeter(ellipse, 0);
+        // LineDraw line2 = new(ellipse.ShapeCenterX, ellipse.ShapeCenterY, pointOnEllipse2.X, pointOnEllipse2.Y);
+        // line2.Stroke = "red";
+
+        // DrawPoint pointOnEllipse3 = MathCalc.GetPointOnEllipsePerimeter(ellipse, Math.PI / 18);
+        // LineDraw line3 = new(ellipse.ShapeCenterX, ellipse.ShapeCenterY, pointOnEllipse3.X, pointOnEllipse3.Y);
+        // line3.Stroke = "red";
+
+        // DrawPoint pointOnEllipse4 = MathCalc.GetPointOnEllipsePerimeter(ellipse, Math.PI/9);
+        // LineDraw line4 = new(ellipse.ShapeCenterX, ellipse.ShapeCenterY, pointOnEllipse4.X, pointOnEllipse4.Y);
+        // line4.Stroke = "red";
+
+        // shapes.Add(line1);
+        // shapes.Add(line2);
+        // shapes.Add(line3);
+        // shapes.Add(line4);
+    }
+}

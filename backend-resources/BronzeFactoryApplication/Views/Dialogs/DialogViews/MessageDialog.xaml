@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.Dialogs.DialogViews.MessageDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.Dialogs.DialogViews"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels.DialogsViewModels"
+             mc:Ignorable="d" d:Height="200" d:Width="400"
+             d:DataContext="{d:DesignInstance Type=vm:MessageDialogViewModel}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="25"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="25"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition Height="25"/>
+        </Grid.RowDefinitions>
+        <TextBlock Style="{StaticResource CMessageTextBlock}" 
+                   Text="{Binding Message}" 
+                   HorizontalAlignment="Center" 
+                   TextAlignment="Center"
+                   d:Text="TEST MESSAGE"
+                   Grid.Column="1"
+                   Grid.Row="1" Margin="5"/>
+        <Button Style="{StaticResource CButtonStyle}" 
+                Content="Ok" Margin="5"
+                Command="{Binding OKCommand}" 
+                CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"
+                Grid.Column="1"
+                Grid.Row="2"/>
+    </Grid>
+</UserControl>

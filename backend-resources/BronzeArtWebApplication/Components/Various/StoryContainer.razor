@@ -1,0 +1,78 @@
+﻿@*A Cabin Story Mode Content Window*@
+@namespace BronzeArtWebApplication.Components.Various
+@inject ILanguageContainerService lc
+
+@if (IsVisible)
+{
+    <MudPaper Elevation="9" id="storyContainerMain" 
+              Class="bronze-FadeIn d-flex flex-column my-2 rounded"
+              Style="@($"width:100%;border:1px solid #9E9E9E;{StoryContainerStyle}")">
+        @if (IsTitleBoxVisible)
+        {
+            <div id="storyContainerTitleBar" class="d-flex rounded-t" style="width:100%;height:60px;background-color:var(--BackgroundColor);border-bottom:solid 3px #9E9E9E;@(TitleContainerStyle)">
+                @if (TitleContent != null)
+                {
+                    @TitleContent
+                }
+                else
+                {
+                    <MudText Class="my-auto mx-4" Typo="@(Typo.h6)">@(Title)</MudText>
+                }
+                <div class="ml-auto d-flex flex-row align-center">
+
+                    @if (IsPreviousButtonVisible)
+                    {
+                        <MudButton EndIcon="@(Icons.Material.Filled.ArrowBack)"
+                       Variant="@(ActionButtonVariant)"
+                       Color="@(ActionButtonColor)"
+                       Style="height:35px;text-transform:none"
+                       Class="d-flex mr-5 rounded-pill"
+                       OnClick="@(()=>{OnPreviousClick.InvokeAsync(); IsVisible = false;IsVisibleChanged.InvokeAsync(IsVisible); })">
+                            <MudText Typo="Typo.button" Style="text-transform:none" Class="mt-1">@lc.Keys["DialogActionButtonBack"]</MudText>
+                        </MudButton>
+                    }
+
+                    @if (IsNextButtonVisible)
+                    {
+                        <MudButton EndIcon="@(Icons.Material.Filled.ArrowForward)"
+                       Variant="@(ActionButtonVariant)"
+                       Color="@(ActionButtonColor)"
+                       Style="height:35px"
+                       Class="d-flex mr-5 rounded-pill"
+                       OnClick="@(()=>{OnNextClick.InvokeAsync(); IsVisible = false;IsVisibleChanged.InvokeAsync(IsVisible); })">
+                            <MudText Typo="Typo.button" Style="text-transform:none" Class="mt-1">@lc.Keys["DialogActionButtonNext"]</MudText>
+                        </MudButton>
+                    }
+                    @if (IsResetIconVisible)
+                    {
+                        <MudTooltip>
+                            <TooltipContent>
+                                <MudText Typo="Typo.caption">@(lc.Keys["Restart"])</MudText>
+                            </TooltipContent>
+                            <ChildContent>
+                                <MudIconButton Icon="fas fa-undo"
+                                   Color="@(Color.Primary)"
+                                   OnClick="@(()=> OnResetClick.InvokeAsync())" />
+                            </ChildContent>
+                        </MudTooltip>
+
+                    }
+                    @if (IsCloseIconVisible)
+                    {
+                        <MudIconButton Icon="@(Icons.Material.Outlined.Close)"
+                                       Color="@(Color.Primary)"
+                                       OnClick="@(()=> OnCloseClick.InvokeAsync())" />
+                    }
+                </div>
+            </div>
+        }
+        <div id="storyContainerMainContent" class="d-flex" style="width:100%;@(MainContentStyle)">
+            @MainContent
+        </div>
+    </MudPaper>
+}
+
+@code {
+
+
+}

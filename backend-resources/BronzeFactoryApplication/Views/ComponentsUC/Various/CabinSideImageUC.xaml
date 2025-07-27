@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.ComponentsUC.Various.CabinSideImageUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.Various"
+             x:Name="ImageContainerUC"
+             mc:Ignorable="d">
+    <!--Uses as DataContext Itself - Else Dedining a Data Context with Draw Number and Synthesis Model will do the Same Trick-->
+    <!--If Set to height and not Actual Height it throws binding Failures , or Warning when FallbackValue is Set-->
+    <Image Stretch="Uniform"
+           VerticalAlignment="Center"
+           Height="{Binding ElementName=ImageContainerUC, Path=ImageHeight}">
+        <Image.Source>
+            <MultiBinding Converter="{StaticResource DrawSideSketchMultiConverter}" 
+                              TargetNullValue="{StaticResource QuestionMarkIcon}" 
+                              FallbackValue="{StaticResource QuestionMarkIcon}">
+                <!--Bind to Model and Synthesis and let Converter get proper Image-->
+                <Binding ElementName="ImageContainerUC" Path="DrawNumber"/>
+                <Binding ElementName="ImageContainerUC" Path="SynthesisModel"/>
+            </MultiBinding>
+        </Image.Source>
+    </Image>
+</UserControl>

@@ -1,0 +1,138 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.MirrorObjectsViews.MirrorSupportInstructionsViewUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.MirrorObjectsViews"
+             xmlns:vmSupport="clr-namespace:BronzeFactoryApplication.ViewModels.MirrorsViewModels.SupportsViewModels"
+             xmlns:vw="clr-namespace:BronzeFactoryApplication.Views.HelperViews"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:mirrElements="clr-namespace:MirrorsLib.MirrorElements;assembly=MirrorsLib"
+             xmlns:globalCommands="clr-namespace:BronzeFactoryApplication.Helpers"
+             xmlns:EnumSource="clr-namespace:BronzeFactoryApplication.Helpers.MarkupExtensions"
+             xmlns:mirrorEnum="clr-namespace:MirrorsLib.MirrorElements;assembly=MirrorsLib"
+             mc:Ignorable="d"
+             x:Name="Container"
+             d:DataContext="{d:DesignInstance Type=vmSupport:MirrorSupportInstructionsEditorViewModel}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <StackPanel HorizontalAlignment="Center">
+            <TextBlock Text="{Binding ElementName=Container, Path=Title}"
+                       FontSize="16"
+                       HorizontalAlignment="Center"/>
+            <hc:Divider Margin="0,2,0,10" LineStroke="{StaticResource SecondaryBorderBrush}" LineStrokeThickness="1" />
+        </StackPanel>
+        <hc:UniformSpacingPanel Spacing="20"
+                                ChildWrapping="Wrap"
+                                ItemVerticalAlignment="Center"
+                                Grid.Row="1">
+
+            <!--#region Length Option -->
+            <DockPanel>
+                <vw:TasComboBox ItemsSource="{Binding Source={EnumSource:BindingSourceEnumValuesNoZero {x:Type mirrorEnum:SupportLengthOption}}}"
+                                ComboBoxTitle="{StaticResource lngSupportLengthOption}"
+                                IconToolTip="{StaticResource lngSupportLengthOptionTooltip}"
+                                SelectedItem="{Binding LengthOption ,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                DockPanel.Dock="Top"
+                                Margin="0,0,0,10">
+                    <vw:TasComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding .,Converter={StaticResource languageConverter}}" />
+                        </DataTemplate>
+                    </vw:TasComboBox.ItemTemplate>
+                </vw:TasComboBox>
+                <vw:TasNumericTextBox Text="{Binding LengthOptionValue}"
+                                      TextBoxTitle="{StaticResource lngSupportLengthOptionValue}"
+                                      IconTooltip="{StaticResource lngSupportLengthOptionValueTooltip}"
+                                      Precision="0"
+                                      JustPositiveInput="True"
+                                      InputMode="DigitInput"
+                                      MaxLength="4" />
+            </DockPanel>
+            <!--#endregion-->
+
+            <!--#region Vertical Distance Option -->
+            <DockPanel HorizontalAlignment="Stretch">
+                <vw:TasComboBox ItemsSource="{Binding Source={EnumSource:BindingSourceEnumValuesNoZero {x:Type mirrorEnum:SupportVerticalDistanceOption}}}"
+                                ComboBoxTitle="{StaticResource lngSupportVerticalDistanceOption}"
+                                IconToolTip="{StaticResource lngSupportVerticalDistanceOptionTooltip}"
+                                SelectedItem="{Binding VerticalDistanceOption ,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                DockPanel.Dock="Top"
+                                Margin="0,0,0,10">
+                    <vw:TasComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding .,Converter={StaticResource languageConverter}}" />
+                        </DataTemplate>
+                    </vw:TasComboBox.ItemTemplate>
+                </vw:TasComboBox>
+                <vw:TasNumericTextBox Text="{Binding VerticalDistanceOptionValue}"
+                                      TextBoxTitle="{StaticResource lngSupportVerticalDistanceOptionValue}"
+                                      IconTooltip="{StaticResource lngSupportVerticalDistanceOptionValueTooltip}"
+                                      Precision="0"
+                                      JustPositiveInput="True"
+                                      InputMode="DigitInput"
+                                      MaxLength="4"
+                                      DockPanel.Dock="Bottom" />
+            </DockPanel>
+            <!--#endregion-->
+
+            <!--#region Distance Between Option -->
+            <DockPanel>
+                <vw:TasComboBox ItemsSource="{Binding Source={EnumSource:BindingSourceEnumValuesNoZero {x:Type mirrorEnum:DistanceBetweenSupportsOption}}}"
+                                ComboBoxTitle="{StaticResource lngSupportDistanceBetweenOption}"
+                                IconToolTip="{StaticResource lngSupportDistanceBetweenOptionTooltip}"
+                                SelectedItem="{Binding DistanceBetweenOption ,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                HorizontalAlignment="Stretch"
+                                DockPanel.Dock="Top"
+                                Margin="0,0,0,10">
+                    <vw:TasComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding .,Converter={StaticResource languageConverter}}" />
+                        </DataTemplate>
+                    </vw:TasComboBox.ItemTemplate>
+                </vw:TasComboBox>
+                <vw:TasNumericTextBox Text="{Binding DistanceBetweenOptionValue}"
+                                      TextBoxTitle="{StaticResource lngSupportDistanceBetweenOptionValue}"
+                                      IconTooltip="{StaticResource lngSupportDistanceBetweenOptionValueTooltip}"
+                                      Precision="0"
+                                      JustPositiveInput="True"
+                                      InputMode="DigitInput"
+                                      MaxLength="4" />
+            </DockPanel>
+            <!--#endregion-->
+
+            <!--#region Supports Number & Thickness & Depth -->
+            <DockPanel>
+                <vw:TasNumericTextBox Text="{Binding SupportsNumber}"
+                                      TextBoxTitle="{StaticResource lngSupportsNumber}"
+                                      IconTooltip="{StaticResource lngSupportsNumberTooltip}"
+                                      Precision="0"
+                                      JustPositiveInput="True"
+                                      InputMode="DigitInput"
+                                      MaxLength="2"
+                                      DockPanel.Dock="Top"
+                                      Margin="0,0,0,10" />
+                <vw:TasNumericTextBox Text="{Binding Thickness}"
+                                      TextBoxTitle="{StaticResource lngSupportThickness}"
+                                      IconTooltip="{StaticResource lngSupportThicknessTooltip}"
+                                      Precision="0"
+                                      JustPositiveInput="True"
+                                      InputMode="DigitInput"
+                                      MaxLength="4" />
+                <vw:TasNumericTextBox Text="{Binding Depth}"
+                                      TextBoxTitle="{StaticResource lngSupportDepth}"
+                                      IconTooltip="{StaticResource lngSupportDepthTooltip}"
+                                      Precision="0"
+                                      JustPositiveInput="True"
+                                      InputMode="DigitInput"
+                                      MaxLength="4" Margin="10,0,0,0"/>
+            </DockPanel>
+            <!--#endregion-->
+            
+        </hc:UniformSpacingPanel>
+    </Grid>
+</UserControl>

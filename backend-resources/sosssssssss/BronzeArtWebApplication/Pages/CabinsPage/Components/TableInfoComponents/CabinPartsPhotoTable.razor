@@ -1,0 +1,48 @@
+﻿@*A Table that Contains Photos and Explanations of the Various Cabin Parts*@
+@namespace BronzeArtWebApplication.Pages.CabinsPage.Components.TableInfoComponents
+@using BronzeArtWebApplication.Components.SVGComponents
+@using BronzeRulesPricelistLibrary.Models
+@using ShowerEnclosuresModelsLibrary.Enums
+@using ShowerEnclosuresModelsLibrary.Models
+@using ShowerEnclosuresModelsLibrary.Enums.CabinCategories
+@using static BronzeArtWebApplication.Shared.Helpers.StaticInfoCabins
+@inject ILanguageContainerService lc
+
+<MudSimpleTable Elevation="4"
+                Class="rounded-lg my-2"
+                Outlined="@(true)"
+                Dense="@(true)" Bordered="true" Style="@($"max-width:100%;overflow-x:hidden;{Style}")">
+    <thead class="tableHead">
+        
+        <tr>
+            @foreach (var column in columns)
+            {
+                @*First and Last rows have different Classes for the Border topleft - topright*@
+                <td class="tableCell @(columns.IndexOf(column) == 0 ? "rounded-tl-lg" : "") @(columns.IndexOf(column) == columns.Count() - 1 ? "rounded-tr-lg" : "")" 
+                    style="@(columns.IndexOf(column) == 0 ? "border:0px" : "")">
+                    @(lc.Keys[column.HeaderKey])
+                </td>
+            }
+        </tr>
+    </thead>
+    
+    <tbody>
+        <tr>
+            @foreach (var column in columns)
+            {
+                <td class="tableCell">
+                <div class="d-flex flex-column" >
+                    <img style="@(column.ImgStyle)" 
+                         class="mx-auto my-auto" 
+                         src="@(column.ImgSrc)" 
+                         alt="@(lc.Keys[column.HeaderKey])"/>
+                </div>
+            </td>
+            }
+        </tr>
+    </tbody>
+</MudSimpleTable>
+
+@code {
+
+}

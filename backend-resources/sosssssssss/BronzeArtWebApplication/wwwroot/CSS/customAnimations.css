@@ -1,0 +1,235 @@
+﻿
+:root {
+    --check-size: 20px;
+    --check-border-width: 1px;
+    --checkmark-width: calc(var(--check-size) / 2);
+    --checkmark-height: calc(var(--checkmark-width) / 2);
+    --checkmark-left: calc(var(--checkmark-width)/2 + 1px); /*take into account border width*/
+    --checkmark-top: calc(50% + 1px); /*take into account border width*/
+    --checkmark-color: #19b8a2; /*greenish*/
+
+    --x-checkmark-color:var(--customRed);
+}
+/*use in a container to contain the checkmark
+    <div class="checkmark-wrapper" style="position:absolute;right:0px;bottom:0px">
+         <span class="checkmark"></span>
+    </div>
+*/
+.checkmark-wrapper {
+    width: var(--check-size);
+    height: var(--check-size);
+    position: relative;
+}
+    /*the grayish circle where the green line runs around it*/
+    .checkmark-wrapper::after {
+        content: "";
+        position: absolute;
+        inset: 0; /*like: top/left/right/bottom 0*/
+        border: var(--check-border-width) solid #f8f8f8;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%; /*circle radius*/
+        display: block;
+        z-index: 0;
+    }
+    /*the small apearing green line on the left of the checkmark*/
+    .checkmark-wrapper::before {
+        content: "";
+        position: absolute;
+        inset: 0; /*like: top/left/right/bottom 0*/
+        border: var(--check-border-width) solid transparent;
+        border-left-color: var(--checkmark-color);
+        width: 100%;
+        height: 100%;
+        border-radius: 50%; /*circle radius*/
+        display: block;
+        z-index: 1;
+        animation: circleAnimation linear forwards .75s;
+        /*forwards : take the values of the last keyframe of the animation and apply them to the element in the end of the animation*/
+    }
+
+.checkmark {
+    opacity:0; /*starts hidden*/
+    height: var(--checkmark-height);
+    width: var(--checkmark-width);
+    position: absolute;
+    left: var(--checkmark-left);
+    top: var(--checkmark-top);
+    display: block;
+    border-left: var(--check-border-width) solid var(--checkmark-color);
+    border-bottom: var(--check-border-width) solid var(--checkmark-color);
+    transform-origin: left top;
+    transform: rotate(-45deg);/*Before rotating its actually a rectangle with left and bottom border*/
+    animation: checkmarkAnimation linear both 1s; /*both: apply the values of the first keyframe to the element , then in the end of the keyframes apply the last values also*/
+}
+
+@keyframes circleAnimation{
+    0%{
+        border-color:transparent;
+        border-left-color:var(--checkmark-color);
+    }
+    90%{
+        transform:rotate(-360deg);
+        border-color:transparent;
+        border-left-color:var(--checkmark-color);
+    }
+    100%{
+        transform:rotate(-360deg);
+        border-color:var(--checkmark-color);
+    }
+}
+
+@keyframes checkmarkAnimation{
+    0%{
+        height:0;
+        width:0;
+        opacity:0;
+    }
+    80% {
+        /*give time to the circle animation to run first*/
+        height: 0;
+        width: 0;
+        opacity: 0;
+    }
+    90% {
+        height:var(--checkmark-height);
+        width:0;
+        opacity:1;
+    }
+    100% {
+        height: var(--checkmark-height);
+        width: var(--checkmark-width);
+        opacity: 1;
+    }
+}
+
+.x-wrapper {
+    width: var(--check-size);
+    height: var(--check-size);
+    position: relative;
+}
+    /*the grayish circle where the green line runs around it*/
+    .x-wrapper::after {
+        content: "";
+        position: absolute;
+        inset: 0; /*like: top/left/right/bottom 0*/
+        border: var(--check-border-width) solid #f8f8f8;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%; /*circle radius*/
+        display: block;
+        z-index: 0;
+    }
+    /*the small apearing green line on the left of the checkmark*/
+    .x-wrapper::before {
+        content: "";
+        position: absolute;
+        inset: 0; /*like: top/left/right/bottom 0*/
+        border: var(--check-border-width) solid transparent;
+        border-left-color: var(--x-checkmark-color);
+        width: 100%;
+        height: 100%;
+        border-radius: 50%; /*circle radius*/
+        display: block;
+        z-index: 1;
+        animation: x-circleAnimation linear forwards .75s;
+        /*forwards : take the values of the last keyframe of the animation and apply them to the element in the end of the animation*/
+    }
+
+.x-checkmark-right {
+    opacity: 0; /*starts hidden*/
+    width: var(--checkmark-width);
+    position: absolute;
+    left: var(--checkmark-left);
+    top: var(--checkmark-top);
+    display: block;
+    border-bottom: var(--check-border-width) solid var(--x-checkmark-color);
+    transform-origin: center center;
+    transform: rotate(-45deg); /*Before rotating its actually a rectangle with bottom border*/
+    animation: x-checkmarkAnimationRight linear both 1s; /*both: apply the values of the first keyframe to the element , then in the end of the keyframes apply the last values also*/
+}
+.x-checkmark-left {
+    opacity: 0; /*starts hidden*/
+    width: var(--checkmark-width);
+    position: absolute;
+    left: var(--checkmark-left);
+    top: var(--checkmark-top);
+    display: block;
+    border-bottom: var(--check-border-width) solid var(--x-checkmark-color);
+    transform-origin: center center;
+    transform: rotate(45deg); /*Before rotating its actually a rectangle with bottom border*/
+    animation: x-checkmarkAnimationLeft linear both 1s; /*both: apply the values of the first keyframe to the element , then in the end of the keyframes apply the last values also*/
+}
+
+@keyframes x-circleAnimation {
+    0% {
+        border-color: transparent;
+        border-left-color: var(--x-checkmark-color);
+    }
+
+    90% {
+        transform: rotate(-360deg);
+        border-color: transparent;
+        border-left-color: var(--x-checkmark-color);
+    }
+
+    100% {
+        transform: rotate(-360deg);
+        border-color: var(--x-checkmark-color);
+    }
+}
+
+/*Make this visible at the 90%*/
+@keyframes x-checkmarkAnimationRight{
+    0%{
+        height:0;
+        width:0;
+        opacity:0;
+    }
+    80% {
+        /*give time to the circle animation to run first*/
+        height: 0;
+        width: 0;
+        opacity: 0;
+    }
+    90% {
+        height: 0;
+        width: var(--checkmark-width);
+        opacity: 1;
+    }
+    100% {
+        height:0;
+        width: var(--checkmark-width);
+        opacity: 1;
+    }
+}
+/*Leave this hidden till the last 100%*/
+@keyframes x-checkmarkAnimationLeft {
+    0% {
+        height: 0;
+        width: 0;
+        opacity: 0;
+    }
+
+    80% {
+        /*give time to the circle animation to run first*/
+        height: 0;
+        width: 0;
+        opacity: 0;
+    }
+
+    90% {
+        height: 0;
+        width: 0;
+        opacity: 1;
+    }
+
+    100% {
+        height: 0;
+        width: var(--checkmark-width);
+        opacity: 1;
+    }
+}
+
+
+

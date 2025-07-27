@@ -1,0 +1,16 @@
+﻿
+
+<div class="carouselContainer">
+    @foreach (var url in ImageUrls)
+    {
+        <div class="carouselContainerItem"
+        @onmouseenter="@(()=> OnImageHoveredChanged(url))"
+        @onmouseleave="@(()=> OnImageHoveredChanged(string.Empty))">
+            <img src="@(url)"
+                 loading="lazy"
+                 class="carouselImg noselect" />
+        </div>
+    }
+</div>
+
+

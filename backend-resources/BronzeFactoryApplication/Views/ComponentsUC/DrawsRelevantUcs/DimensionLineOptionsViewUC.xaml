@@ -1,0 +1,100 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.ComponentsUC.DrawsRelevantUcs.DimensionLineOptionsViewUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.DrawsRelevantUcs"
+             mc:Ignorable="d"
+             xmlns:helperVw="clr-namespace:BronzeFactoryApplication.Views.HelperViews"
+             xmlns:drawingVm="clr-namespace:BronzeFactoryApplication.ViewModels.DrawingsViewModels"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             d:DataContext="{d:DesignInstance Type=drawingVm:DimensionLineOptionsVm}">
+    <DockPanel>
+        <hc:UniformSpacingPanel Spacing="10"
+                                ChildWrapping="Wrap"
+                                Orientation="Vertical">
+
+            <helperVw:TasTextBox TextBoxTitle="{StaticResource lngDimensionUnitString}"
+                                 IconTooltip="{StaticResource lngDimensionUnitStringTooltip}"
+                                 Text="{Binding DimensionUnitString}"/>
+            <helperVw:TasTextBox TextBoxTitle="{StaticResource lngDimensionTextPrefix}"
+                                 IconTooltip="{StaticResource lngDimensionTextPrefixTooltip}"
+                                 Text="{Binding DimensionTextPrefix}" />
+            <helperVw:TasNumericTextBox TextBoxTitle="{StaticResource lngTextMarginFromDimensionLine}"
+                                        IconTooltip="{StaticResource lngTextMarginFromDimensionLineTooltip}"
+                                        Text="{Binding TextMarginFromDimension}"
+                                        MaxLength="3"
+                                        Precision="0"
+                                        InputMode="DigitInput" />
+            <helperVw:TasNumericTextBox TextBoxTitle="{StaticResource lngDimensionValueRoundingDecimals}"
+                                        IconTooltip="{StaticResource lngDimensionValueRoundingDecimalsTooltip}"
+                                        Text="{Binding DimensionValueRoundingDecimals}"
+                                        MaxLength="4"
+                                        Precision="0"
+                                        InputMode="DigitInput" />
+            <helperVw:TasNumericTextBox TextBoxTitle="{StaticResource lngStartRotationAngleDegrees}"
+                                        IconTooltip="{StaticResource lngStartRotationAngleDegreesTooltip}"
+                                        Text="{Binding StartRotationAngle}"
+                                        MaxLength="3"
+                                        Precision="0"
+                                        InputMode="DigitInput"
+                                        IsEnabled="False" />
+        </hc:UniformSpacingPanel>
+        <hc:Divider Orientation="Vertical"
+                    LineStrokeThickness="1"
+                    LineStroke="{DynamicResource SecondaryBorderBrush}" 
+                    Margin="20"/>
+        <hc:UniformSpacingPanel Spacing="10"
+                                ChildWrapping="Wrap"
+                                Orientation="Vertical">
+            <helperVw:TasNumericTextBox TextBoxTitle="{StaticResource lngArrowThickness}"
+                                        IconTooltip="{StaticResource lngArrowThicknessTooltip}"
+                                        Text="{Binding ArrowThickness}"
+                                        MaxLength="3"
+                                        Precision="0"
+                                        InputMode="DigitInput" />
+            <helperVw:TasNumericTextBox TextBoxTitle="{StaticResource lngArrowLength}"
+                                        IconTooltip="{StaticResource lngArrowLengthTooltip}"
+                                        Text="{Binding ArrowLength}"
+                                        MaxLength="3"
+                                        Precision="0"
+                                        InputMode="DigitInput" />
+            <helperVw:TasNumericTextBox TextBoxTitle="{StaticResource lngOneEndLineLength}"
+                                        IconTooltip="{StaticResource lngOneEndLineLengthTooltip}"
+                                        Text="{Binding OneEndLineLength}"
+                                        MaxLength="3"
+                                        Precision="0"
+                                        InputMode="DigitInput" />
+            <helperVw:TasNumericTextBox TextBoxTitle="{StaticResource lngTwoLinesDimensionArrowLengthThresholdMultiplier}"
+                                        IconTooltip="{StaticResource lngTwoLinesDimensionArrowLengthThresholdMultiplierTooltip}"
+                                        Text="{Binding TwoLinesDimensionArrowLengthThresholdMultiplier}"
+                                        MaxLength="4"
+                                        Precision="0"
+                                        InputMode="DigitInput"
+                                        DockPanel.Dock="Top" />
+            <DockPanel>
+                <CheckBox Content="{StaticResource lngIncludeStartArrow}"
+                          ToolTip="{StaticResource lngIncludeStartArrowTooltip}"
+                          IsChecked="{Binding IncludeStartArrow}"
+                          IsEnabled="{Binding IsIncludeStartArrowEnabled}"
+                          DockPanel.Dock="Top" />
+                <CheckBox Content="{StaticResource lngIncludeEndArrow}"
+                          ToolTip="{StaticResource lngIncludeEndArrowTooltip}"
+                          IsChecked="{Binding IncludeEndArrow}"
+                          IsEnabled="{Binding IsIncludeEndArrowEnabled}"
+                          Margin="0,5,0,0"
+                          DockPanel.Dock="Top" />
+                <CheckBox Content="{StaticResource lngIsTwoLinesDimension}"
+                          ToolTip="{StaticResource lngIsTwoLinesDimensionTooltip}"
+                          IsChecked="{Binding IsTwoLinesDimension}"
+                          Margin="0,5,0,0"
+                          DockPanel.Dock="Top" />
+                <CheckBox Content="{StaticResource lngCenterTextOnTwoLineDimension}"
+                          ToolTip="{StaticResource lngCenterTextOnTwoLineDimensionTooltip}"
+                          IsChecked="{Binding CenterTextOnTwoLineDimension}"
+                          Margin="0,5,0,0"
+                          DockPanel.Dock="Top" />
+            </DockPanel>
+        </hc:UniformSpacingPanel>
+    </DockPanel>
+</UserControl>

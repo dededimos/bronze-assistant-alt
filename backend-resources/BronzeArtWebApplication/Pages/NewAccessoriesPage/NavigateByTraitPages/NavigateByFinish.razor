@@ -1,0 +1,49 @@
+﻿@using BathAccessoriesModelsLibrary;
+@using BathAccessoriesModelsLibrary.Services;
+@using BronzeArtWebApplication.Shared.ViewModels.AccessoriesPageViewModels;
+@using BronzeArtWebApplication.Shared.Layouts;
+
+@layout AccessoriesLayout
+@inject IAccessoriesMemoryRepository repo
+@inject NavigationManager NavManager
+@inject AccessoriesUrlHelper PhotoHelper
+
+@if (string.IsNullOrEmpty(FinishCode))
+{
+    <div class="finishesContainer">
+        @foreach (var finish in repo.TraitsByType[TypeOfTrait.FinishTrait])
+        {
+            <MudButton OnClick="@(()=> NavManager.NavigateTo($"{RoutesStash.AccessoriesMain}/{TypeOfTrait.FinishTrait}/{finish.Code}"))">
+                <div class="finishButtonContainer">
+                    <img src="@($"{PhotoHelper.GetMediumPhoto(finish.PhotoURL)}")"
+                         class="finishImage rounded-lg"
+                         loading="lazy" />
+                    <MudText Align="@(Align.Center)" Typo="@(Typo.h6)">@(finish.Trait)</MudText>
+                    </div>
+                </MudButton>
+        }
+    </div>
+}
+else
+{
+    <AccessoriesView Accessories="@(repo.GetAccessoriesByFinish(FinishCode))"
+                     FilterBySecondaryType="@(true)"
+                     ShowNameCard="@(true)"
+                     ShowSeriesCard="@(true)"
+                     ShowDimensionsCard="@(true)"
+                     ShowFinishes="@(true)"
+                     ShownAccessoryFinishCode="@(FinishCode)"/>
+}
+
+
+@code {
+
+    [Parameter]
+    public string FinishCode { get; set; } = string.Empty;
+
+    [Parameter]
+    public string SelectedSeriesFilterCode { get; set; } = string.Empty;
+    [Parameter]
+    public string SelectedSecondaryTypeFilterCode { get; set; } = string.Empty;
+
+}

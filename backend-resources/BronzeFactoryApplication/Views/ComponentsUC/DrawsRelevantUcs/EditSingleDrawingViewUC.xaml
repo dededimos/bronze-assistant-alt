@@ -1,0 +1,366 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.ComponentsUC.DrawsRelevantUcs.EditSingleDrawingViewUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.DrawsRelevantUcs"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:helperVw="clr-namespace:BronzeFactoryApplication.Views.HelperViews"
+             xmlns:drawingVm="clr-namespace:BronzeFactoryApplication.ViewModels.DrawingsViewModels"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:drawingEnums="clr-namespace:DrawingLibrary.Enums;assembly=DrawingLibrary"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <!--Line Hatch Patterns Various -->
+        <Rect x:Key="DotViewPortSize">0,0,3,3</Rect>
+        <sys:Double x:Key="DotSize">0.6</sys:Double>
+        <Point x:Key="DotCenter">0,0</Point>
+
+        <sys:Double x:Key="HatchLineThickness">0.6</sys:Double>
+        <Rect x:Key="HatchLineGapRectangle">0,0,5,5</Rect>
+
+        <Point x:Key="HatchLine45Start">0,5</Point>
+        <Point x:Key="HatchLine45End">5,0</Point>
+
+        <Point x:Key="HatchLine225Start">0,0</Point>
+        <Point x:Key="HatchLine225End">5,5</Point>
+
+        <Point x:Key="HatchLine0Start">0,2.5</Point>
+        <Point x:Key="HatchLine0End">5,2.5</Point>
+
+        <Point x:Key="HatchLine90Start">2.5,0</Point>
+        <Point x:Key="HatchLine90End">2.5,5</Point>
+
+        <Storyboard x:Key="FadeInStoryboard">
+            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                             From="0"
+                             To="1"
+                             Duration="0:0:0.3" />
+        </Storyboard>
+        <!--#region DIMENSION DRAWING VIEWMODEL DATA TEMPLATE -->
+        <DataTemplate DataType="{x:Type drawingVm:DimensionLineDrawingViewModel}">
+            <DockPanel>
+                <ScrollViewer Padding="0,0,20,0"
+                              DockPanel.Dock="Left">
+                    <DockPanel>
+                        <local:DimensionLineOptionsViewUC DataContext="{Binding LineOptions}"
+                                                          DockPanel.Dock="Top"
+                                                          VerticalAlignment="Top" />
+                        <local:DrawingPresentationOptionsView DataContext="{Binding PresentationOptions}"
+                                                              DockPanel.Dock="Bottom"
+                                                              VerticalAlignment="Top"
+                                                              Margin="0,20" />
+                    </DockPanel>
+                </ScrollViewer>
+                <Border BorderBrush="{DynamicResource SecondaryBorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="20">
+                    <DockPanel>
+                        <helperVw:TasTextBox TextBoxTitle="{StaticResource lngDrawName}"
+                                             IconTooltip="{StaticResource lngDrawNameTooltip}"
+                                             MaxLength="50"
+                                             MaxWidth="300"
+                                             Text="{Binding Name}"
+                                             Margin="10" 
+                                             DockPanel.Dock="Top"/>
+                        <hc:Divider Orientation="Horizontal"
+                                    LineStroke="{DynamicResource SecondaryBorderBrush}"
+                                    LineStrokeThickness="1"
+                                    DockPanel.Dock="Top"
+                                    Margin="0" />
+                        <Canvas DockPanel.Dock="Right"
+                                Height="{Binding CloneContainerHeight}"
+                                Width="{Binding CloneContainerLength}"
+                                Margin="20">
+                            <Canvas.Triggers>
+                                <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                                    <BeginStoryboard Storyboard="{StaticResource FadeInStoryboard}" />
+                                </EventTrigger>
+                            </Canvas.Triggers>
+                            <Path Data="{Binding PathDataGeometryClone}"
+                                  Stroke="{Binding PresentationOptions.Stroke.BrushModel,Converter={StaticResource drawBrushToBrushConverter}}"
+                                  StrokeThickness="{Binding PresentationOptions.StrokeThickness}"
+                                  StrokeDashArray="{Binding PresentationOptions.StrokeDashArray,Converter={StaticResource listOfDoubleToDoubleCollectionConverter}}"
+                                  StrokeLineJoin="Round"
+                                  Opacity="{Binding PresentationOptions.Opacity}"
+                                  Panel.ZIndex="{Binding LayerNo}"
+                                  x:Name="DimensionLinePath">
+                            </Path>
+                            <Path Data="{Binding DimensionArrowheadsGeometryClone}"
+                                  Fill="{Binding PresentationOptions.Stroke.BrushModel,Converter={StaticResource drawBrushToBrushConverter}}"
+                                  x:Name="DimensionLineArrowsPath" />
+                            <Path Data="{Binding TextPathDataGeometryClone}"
+                                  Fill="{Binding PresentationOptions.Stroke.BrushModel,Converter={StaticResource drawBrushToBrushConverter}}"
+                                  Panel.ZIndex="10000"
+                                  x:Name="DimensionTextPath">
+                            </Path>
+                        </Canvas>
+                    </DockPanel>
+                </Border>
+            </DockPanel>
+        </DataTemplate>
+        <!--#endregion-->
+
+        <!--#region DRAWING VIEWMODEL DATA TEMPLATE -->
+        <DataTemplate DataType="{x:Type drawingVm:DrawingViewModel}">
+            <DockPanel>
+                <ScrollViewer Padding="0,0,20,0"
+                              DockPanel.Dock="Left">
+                    <DockPanel>
+                        <hc:UniformSpacingPanel Spacing="10"
+                                                Grid.Row="1"
+                                                Orientation="Horizontal"
+                                                DockPanel.Dock="Top"
+                                                VerticalAlignment="Top"
+                                                Visibility="{Binding IsPolygonSimulatable,Converter={StaticResource Boolean2VisibilityConverter}}">
+                            <hc:UniformSpacingPanel Spacing="10"
+                                                    Orientation="Vertical"
+                                                    Margin="0,5,0,0">
+                                <CheckBox IsChecked="{Binding SimulateAsPolygon}"
+                                          ToolTip="{StaticResource lngSimulateAsPolygonTooltip}"
+                                          Content="{StaticResource lngSimulateAsPolygon}" />
+                                <CheckBox IsChecked="{Binding CombineNormalWithPolygonSimulation}"
+                                          ToolTip="{StaticResource lngShowBothShapeAndSimulationTooltip}"
+                                          Content="{StaticResource lngShowBothShapeAndSimulation}" />
+                            </hc:UniformSpacingPanel>
+                            <helperVw:TasNumericTextBox TextBoxTitle="{StaticResource lngPolygonSimulationSides}"
+                                                        IconTooltip="{StaticResource lngPolygonSimulationSidesTooltip}"
+                                                        InputMode="DigitInput"
+                                                        Precision="0"
+                                                        MaxLength="3"
+                                                        Text="{Binding PolygonSimulationSides, UpdateSourceTrigger=PropertyChanged ,Delay=300 ,StringFormat={}{0:F0}}" />
+                        </hc:UniformSpacingPanel>
+                        <local:DrawingPresentationOptionsView DataContext="{Binding PresentationOptions}"
+                                                              DockPanel.Dock="Top"
+                                                              VerticalAlignment="Top"
+                                                              Margin="0,20,0,0" />
+                    </DockPanel>
+                </ScrollViewer>
+                <Border BorderBrush="{DynamicResource SecondaryBorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="20">
+                    <DockPanel>
+                        <helperVw:TasTextBox TextBoxTitle="{StaticResource lngDrawName}"
+                                             IconTooltip="{StaticResource lngDrawNameTooltip}"
+                                             MaxLength="50"
+                                             MaxWidth="300"
+                                             Text="{Binding Name}" 
+                                             Margin="10"
+                                             DockPanel.Dock="Top"/>
+                        <hc:Divider Orientation="Horizontal"
+                                    LineStroke="{DynamicResource SecondaryBorderBrush}"
+                                    LineStrokeThickness="1"
+                                    DockPanel.Dock="Top"
+                                    Margin="0" />
+                        <Canvas DockPanel.Dock="Right"
+                                Height="{Binding CloneContainerHeight}"
+                                Width="{Binding CloneContainerLength}"
+                                Margin="20">
+                            <Canvas.Triggers>
+                                <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                                    <BeginStoryboard Storyboard="{StaticResource FadeInStoryboard}" />
+                                </EventTrigger>
+                            </Canvas.Triggers>
+                            <Path Data="{Binding PathDataGeometryClone}"
+                                  StrokeDashArray="{Binding PresentationOptions.StrokeDashArray,Converter={StaticResource listOfDoubleToDoubleCollectionConverter}}"
+                                  StrokeLineJoin="Round"
+                                  Panel.ZIndex="{Binding LayerNo}"
+                                  x:Name="myPath">
+                                <!--Conditionally Use the Shadow Effect According to the Presentation Options-->
+                                <Path.Style>
+                                    <Style TargetType="Path">
+                                        <Setter Property="Stroke"
+                                                Value="{Binding PresentationOptions.Stroke.BrushModel,Converter={StaticResource drawBrushToBrushConverter}}" />
+                                        <Setter Property="StrokeThickness"
+                                                Value="{Binding PresentationOptions.StrokeThickness}" />
+                                        <Setter Property="Effect"
+                                                Value="{x:Null}" />
+                                        <Setter Property="Opacity"
+                                                Value="{Binding PresentationOptions.Opacity}" />
+                                        <!-- Default Fill Binding -->
+                                        <Setter Property="Fill"
+                                                Value="{Binding PresentationOptions.Fill.BrushModel,Converter={StaticResource drawBrushToBrushConverter}}" />
+                                        <Style.Triggers>
+                                            <!--#region Shadow Data Trigger -->
+                                            <DataTrigger Binding="{Binding PresentationOptions.UseShadow}"
+                                                         Value="True">
+                                                <Setter Property="Effect">
+                                                    <Setter.Value>
+                                                        <DropShadowEffect BlurRadius="10"
+                                                                          ShadowDepth="15"
+                                                                          Color="Black"
+                                                                          Opacity="0.5" />
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </DataTrigger>
+                                            <!--#endregion-->
+                                            <!--#region DotPattern -->
+                                            <DataTrigger Binding="{Binding PresentationOptions.FillPattern}"
+                                                         Value="{x:Static drawingEnums:FillPatternType.DotPattern}">
+                                                <Setter Property="Fill">
+                                                    <Setter.Value>
+                                                        <DrawingBrush x:Name="DotPatternBrush"
+                                                                      TileMode="Tile"
+                                                                      Viewport="{StaticResource DotViewPortSize}"
+                                                                      ViewportUnits="Absolute"
+                                                                      Viewbox="{StaticResource DotViewPortSize}"
+                                                                      ViewboxUnits="Absolute">
+                                                            <DrawingBrush.Drawing>
+                                                                <DrawingGroup>
+                                                                    <GeometryDrawing Brush="{Binding PresentationOptions.Fill.BrushModel,Converter={StaticResource drawBrushToBrushConverter}}">
+                                                                        <GeometryDrawing.Geometry>
+                                                                            <EllipseGeometry Center="{StaticResource DotCenter}"
+                                                                                             RadiusX="{StaticResource DotSize}"
+                                                                                             RadiusY="{StaticResource DotSize}" />
+                                                                        </GeometryDrawing.Geometry>
+                                                                    </GeometryDrawing>
+                                                                </DrawingGroup>
+                                                            </DrawingBrush.Drawing>
+                                                        </DrawingBrush>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </DataTrigger>
+                                            <!--#endregion-->
+                                            <!--#region LinePattern45 -->
+                                            <DataTrigger Binding="{Binding PresentationOptions.FillPattern}"
+                                                         Value="{x:Static drawingEnums:FillPatternType.HatchLine45DegPattern}">
+                                                <Setter Property="Fill">
+                                                    <Setter.Value>
+                                                        <DrawingBrush TileMode="Tile"
+                                                                      Viewport="{StaticResource HatchLineGapRectangle}"
+                                                                      ViewportUnits="Absolute"
+                                                                      Viewbox="{StaticResource HatchLineGapRectangle}"
+                                                                      ViewboxUnits="Absolute"
+                                                                      Stretch="Fill"
+                                                                      AlignmentX="Left"
+                                                                      AlignmentY="Top">
+                                                            <DrawingBrush.Drawing>
+                                                                <GeometryDrawing>
+                                                                    <GeometryDrawing.Geometry>
+                                                                        <LineGeometry StartPoint="{StaticResource HatchLine45Start}"
+                                                                                      EndPoint="{StaticResource HatchLine45End}" />
+                                                                    </GeometryDrawing.Geometry>
+                                                                    <GeometryDrawing.Pen>
+                                                                        <Pen Thickness="{StaticResource HatchLineThickness}"
+                                                                             Brush="{Binding PresentationOptions.Fill.BrushModel,Converter={StaticResource drawBrushToBrushConverter}}" />
+                                                                    </GeometryDrawing.Pen>
+                                                                </GeometryDrawing>
+                                                            </DrawingBrush.Drawing>
+                                                        </DrawingBrush>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </DataTrigger>
+                                            <!--#endregion-->
+                                            <!--#region LinePattern225 -->
+                                            <DataTrigger Binding="{Binding PresentationOptions.FillPattern}"
+                                                         Value="{x:Static drawingEnums:FillPatternType.HatchLine225DegPattern}">
+                                                <Setter Property="Fill">
+                                                    <Setter.Value>
+                                                        <DrawingBrush TileMode="Tile"
+                                                                      Viewport="{StaticResource HatchLineGapRectangle}"
+                                                                      ViewportUnits="Absolute"
+                                                                      Viewbox="{StaticResource HatchLineGapRectangle}"
+                                                                      ViewboxUnits="Absolute"
+                                                                      Stretch="Fill"
+                                                                      AlignmentX="Left"
+                                                                      AlignmentY="Top">
+                                                            <DrawingBrush.Drawing>
+                                                                <GeometryDrawing>
+                                                                    <GeometryDrawing.Geometry>
+                                                                        <LineGeometry StartPoint="{StaticResource HatchLine225Start}"
+                                                                                      EndPoint="{StaticResource HatchLine225End}" />
+                                                                    </GeometryDrawing.Geometry>
+                                                                    <GeometryDrawing.Pen>
+                                                                        <Pen Thickness="{StaticResource HatchLineThickness}"
+                                                                             Brush="{Binding PresentationOptions.Fill.BrushModel,Converter={StaticResource drawBrushToBrushConverter}}" />
+                                                                    </GeometryDrawing.Pen>
+                                                                </GeometryDrawing>
+                                                            </DrawingBrush.Drawing>
+                                                        </DrawingBrush>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </DataTrigger>
+                                            <!--#endregion-->
+                                            <!--#region LinePattern0 -->
+                                            <DataTrigger Binding="{Binding PresentationOptions.FillPattern}"
+                                                         Value="{x:Static drawingEnums:FillPatternType.HatchLineHorizontalPattern}">
+                                                <Setter Property="Fill">
+                                                    <Setter.Value>
+                                                        <DrawingBrush TileMode="Tile"
+                                                                      Viewport="{StaticResource HatchLineGapRectangle}"
+                                                                      ViewportUnits="Absolute"
+                                                                      Viewbox="{StaticResource HatchLineGapRectangle}"
+                                                                      ViewboxUnits="Absolute"
+                                                                      Stretch="Fill"
+                                                                      AlignmentX="Left"
+                                                                      AlignmentY="Top">
+                                                            <DrawingBrush.Drawing>
+                                                                <GeometryDrawing>
+                                                                    <GeometryDrawing.Geometry>
+                                                                        <!-- Extend the line slightly beyond tile boundaries -->
+                                                                        <LineGeometry StartPoint="{StaticResource HatchLine0Start}"
+                                                                                      EndPoint="{StaticResource HatchLine0End}" />
+                                                                    </GeometryDrawing.Geometry>
+                                                                    <GeometryDrawing.Pen>
+                                                                        <Pen Thickness="{StaticResource HatchLineThickness}"
+                                                                             Brush="{Binding PresentationOptions.Fill.BrushModel,Converter={StaticResource drawBrushToBrushConverter}}" />
+                                                                    </GeometryDrawing.Pen>
+                                                                </GeometryDrawing>
+                                                            </DrawingBrush.Drawing>
+                                                        </DrawingBrush>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </DataTrigger>
+                                            <!--#endregion-->
+                                            <!--#region LinePattern90 -->
+                                            <DataTrigger Binding="{Binding PresentationOptions.FillPattern}"
+                                                         Value="{x:Static drawingEnums:FillPatternType.HatchLineVerticalPattern}">
+                                                <Setter Property="Fill">
+                                                    <Setter.Value>
+                                                        <DrawingBrush TileMode="Tile"
+                                                                      Viewport="{StaticResource HatchLineGapRectangle}"
+                                                                      ViewportUnits="Absolute"
+                                                                      Viewbox="{StaticResource HatchLineGapRectangle}"
+                                                                      ViewboxUnits="Absolute"
+                                                                      Stretch="Fill"
+                                                                      AlignmentX="Left"
+                                                                      AlignmentY="Top">
+                                                            <DrawingBrush.Drawing>
+                                                                <GeometryDrawing>
+                                                                    <GeometryDrawing.Geometry>
+                                                                        <!-- Extend the line slightly beyond tile boundaries -->
+                                                                        <LineGeometry StartPoint="{StaticResource HatchLine90Start}"
+                                                                                      EndPoint="{StaticResource HatchLine90End}" />
+                                                                    </GeometryDrawing.Geometry>
+                                                                    <GeometryDrawing.Pen>
+                                                                        <Pen Thickness="{StaticResource HatchLineThickness}"
+                                                                             Brush="{Binding PresentationOptions.Fill.BrushModel,Converter={StaticResource drawBrushToBrushConverter}}" />
+                                                                    </GeometryDrawing.Pen>
+                                                                </GeometryDrawing>
+                                                            </DrawingBrush.Drawing>
+                                                        </DrawingBrush>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </DataTrigger>
+                                            <!--#endregion-->
+                                        </Style.Triggers>
+                                    </Style>
+                                </Path.Style>
+                            </Path>
+                            <Path Data="{Binding TextPathDataGeometryClone}"
+                                  Fill="{DynamicResource PrimaryTextBrush}"
+                                  Panel.ZIndex="10000">
+                            </Path>
+                        </Canvas>
+                    </DockPanel>
+                </Border>
+            </DockPanel>
+        </DataTemplate>
+        <!--#endregion-->
+
+    </UserControl.Resources>
+    <ContentControl Content="{Binding .}">
+
+    </ContentControl>
+</UserControl>

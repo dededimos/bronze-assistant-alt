@@ -1,0 +1,46 @@
+﻿@using BathAccessoriesModelsLibrary;
+@using BathAccessoriesModelsLibrary.Services;
+@using BronzeArtWebApplication.Pages.NewAccessoriesPage.NavigateByTraitPages
+@using BronzeArtWebApplication.Shared.Layouts;
+@using BronzeArtWebApplication.Shared.Services;
+@using BronzeArtWebApplication.Shared.ViewModels.AccessoriesPageViewModels;
+
+@layout AccessoriesLayout
+@page "/Accessories/{TraitTypeString}/{TraitCodeString}/ignorecache"
+@page "/Accessories/{TraitTypeString}/{TraitCodeString}"
+@page "/Accessories/{TraitTypeString}"
+@page "/Accessories"
+@inject ILanguageContainerService Lc
+@inject JSCallService Js
+@inject IAccessoriesMemoryRepository repo
+@inject AccessoriesUrlHelper photosHelper
+@inject NavigationManager NavManager
+
+<PageTitle>@(Lc.Keys["AccessoriesSelectionPageTitle"])</PageTitle>
+
+@if (repo.IsBuilt)
+{
+    @switch (TraitType)
+    {
+        case null:
+            <AccessoriesNavigationMain/>
+            break;
+        case TypeOfTrait.PrimaryTypeTrait:
+            <NavigateByPrimaryType PrimaryTypeCode="@(TraitCodeString)"/>
+            break;
+        case TypeOfTrait.SeriesTrait:
+            <NavigateBySeriesPage SeriesCode="@(TraitCodeString)"/>
+            break;
+        case TypeOfTrait.FinishTrait:
+            <NavigateByFinish FinishCode="@(TraitCodeString)" />
+            break;
+        default:
+            <MudText Align="@(Align.Center)">Selected Resource has been either Modified or Does not Exist</MudText>
+            break;
+    }
+}
+
+
+@code {
+    
+}

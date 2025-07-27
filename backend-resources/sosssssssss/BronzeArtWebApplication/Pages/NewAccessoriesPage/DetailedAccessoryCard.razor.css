@@ -1,0 +1,194 @@
+﻿.detailedCardContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 16px;
+    position: relative;
+}
+
+.cardContainerItem {
+    display: flex;
+    /*Items take 50% of space of flexbox of Card Container The Spaces beteween the '-' operator are obligatory for browser compatibility!!!!!!!*/
+    flex: 0 0 calc(50% - 16px);
+    /*padding is included in the width of the item
+        box-sizing: border-box;
+    */
+    flex-direction: column;
+    border: 1px solid var(--BackgroundColor);
+    border-radius: 20px;
+}
+
+/*In Viewports equal or less than 800 Put its item in a single row*/
+/*ExtraExtraLarge*/
+@media (min-width:2560px) {
+    .cardContainerItem {
+        flex-basis: calc(50% - 16px);
+    }
+    .detailedCardContainer {
+        height: 100%;
+    }
+    .tableCellProperty {
+        white-space: nowrap;
+    }
+    .mainImageContainer {
+        min-height: 1px;
+    }
+}
+/*ExtraLarge*/
+@media (min-width:1920px) and (max-width:2560px) {
+    .cardContainerItem {
+        flex-basis: calc(50% - 16px);
+    }
+    .detailedCardContainer {
+        height: 100%;
+    }
+    .tableCellProperty {
+        white-space: nowrap;
+    }
+    .mainImageContainer {
+        min-height: 1px;
+    }
+}
+/*Large*/
+@media (min-width:1280px) and (max-width:1920px) {
+    .cardContainerItem {
+        flex-basis: calc(50% - 16px);
+    }
+    .detailedCardContainer {
+        height: 100%;
+    }
+    .tableCellProperty {
+        white-space: nowrap;
+    }
+    .mainImageContainer {
+        min-height: 1px;
+    }
+}
+/*Medium*/
+@media (min-width:960px) and (max-width:1280px) {
+    .cardContainerItem {
+        flex-basis: calc(50% - 16px);
+    }
+    .detailedCardContainer {
+        height: 100%;
+    }
+    .tableCellProperty {
+        white-space: nowrap;
+    }
+    .mainImageContainer {
+        min-height: 1px;
+    }
+}
+/*Small*/
+@media (min-width:600px) and (max-width:960px) {
+    .cardContainerItem {
+        flex-basis: 100%;
+    }
+    .mainImageContainer {
+        height: 100%;
+    }
+    .tableCellProperty {
+    }
+}
+/*Extra Small*/
+@media (max-width:600px) {
+    .cardContainerItem {
+        flex-basis: 100%;
+    }
+    .tableCellProperty {
+        
+    }
+    .mainImageContainer {
+        height: 100%;
+    }
+}
+
+.mainImageContainer {
+    /*Grows to the width and height of the container - fills up , need height 1px to not overflow*/
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row;
+    border-bottom:1px solid var(--BackgroundColor);
+    max-height:700px;
+}
+
+.imgCarouselContainer {
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    overflow-y: auto;
+    border-right: 1px solid var(--BackgroundColor);
+}
+
+.controlsContainer{
+    display:flex;
+    flex-direction:row;
+    flex-wrap:wrap;
+    align-items:center;
+    width:100%;
+    flex-grow:1;
+    justify-content:space-evenly;
+    gap:10px;
+    padding: 0px 16px;
+}
+.externalPriceContainer {
+    flex-grow: 1;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+}
+.priceContainer{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    border:2px solid var(--BackgroundColor);
+    border-radius:10px;
+}
+
+.priceIcon {
+    width: 50px;
+    height: 50px;
+    padding:10px;
+    border-bottom:1px solid var(--BackgroundColor);
+    object-fit:scale-down;
+}
+
+.priceValueText{
+    font-size:1.1rem;
+    padding:10px;
+}
+
+.downloadMenuItemContainer{
+    display:flex;
+    flex-direction:row;
+    flex-grow:1;
+    height:90px;
+    align-items:center;
+    border:1px solid var(--BackgroundColor);
+    padding:15px;
+    border-radius:10px;
+    background-color:white;
+}
+.downloadMenuSmallImg {
+    object-fit: scale-down;
+    width: 80px;
+    height: 80px;
+}
+.downloadMenuItemText {
+    margin-left:10px;
+    font-size:0.8rem;
+    font-weight:bold;
+    text-align:center;
+    flex-grow:1;
+}
+.downloadMenuTitleText{
+    text-align:center;
+    font-size:1rem;
+    font-weight:bold;
+    text-decoration:underline;
+    color:white;
+}

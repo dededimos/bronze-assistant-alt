@@ -1,0 +1,99 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.MirrorObjectsViews.IPRatingViewUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.MirrorObjectsViews"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels.MirrorsViewModels"
+             xmlns:vw="clr-namespace:BronzeFactoryApplication.Views.HelperViews"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:mirrElements="clr-namespace:MirrorsLib.MirrorElements;assembly=MirrorsLib"
+             xmlns:globalCommands="clr-namespace:BronzeFactoryApplication.Helpers"
+             xmlns:EnumSource="clr-namespace:BronzeFactoryApplication.Helpers.MarkupExtensions"
+             xmlns:mirrorEnum="clr-namespace:MirrorsLib;assembly=MirrorsLib"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=vm:IPRatingEditorViewModel}">
+    <Grid>
+        <Grid.Resources>
+            <Style TargetType="Border">
+                <Setter Property="BorderBrush"
+                        Value="{DynamicResource SecondaryBorderBrush}" />
+                <Setter Property="BorderThickness"
+                        Value="2" />
+                <Setter Property="Padding"
+                        Value="25" />
+                <Setter Property="CornerRadius"
+                        Value="15" />
+            </Style>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0"
+                    HorizontalAlignment="Center"
+                    Margin="0,0,0,25">
+            <TextBlock Text="{Binding IPRatingLettering}"
+                       d:Text="IP65"
+                       Style="{StaticResource CHeaderTextBlock}"
+                       FontSize="35" />
+        </StackPanel>
+        <hc:UniformSpacingPanel Spacing="20"
+                                ChildWrapping="Wrap"
+                                Orientation="Vertical"
+                                Grid.Row="1">
+            <Border>
+                <StackPanel Orientation="Horizontal">
+                    <vw:TasComboBox ItemsSource="{Binding Source={EnumSource:BindingSourceEnumValues {x:Type mirrorEnum:IPSolidsRating}}}"
+                                    ComboBoxTitle="{StaticResource lngSolidsRating}"
+                                    IconToolTip="{StaticResource lngSolidsRatingTooltip}"
+                                    SelectedItem="{Binding SolidsRating,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                    Width="150" 
+                                    VerticalAlignment="Center"/>
+                    <TextBlock TextWrapping="Wrap"
+                               Text="{Binding SolidsRatingDescription}"
+                               d:Text="Some Text Some Text Some Text Some Text Some Text "
+                               VerticalAlignment="Bottom"
+                               Margin="30,0,0,0"
+                               FontSize="20"
+                               MaxWidth="420" />
+                </StackPanel>
+            </Border>
+            <Border>
+                <StackPanel Orientation="Horizontal">
+                    <vw:TasComboBox ItemsSource="{Binding Source={EnumSource:BindingSourceEnumValues {x:Type mirrorEnum:IPWaterRating}}}"
+                                    ComboBoxTitle="{StaticResource lngWaterRating}"
+                                    IconToolTip="{StaticResource lngWaterRatingTooltip}"
+                                    SelectedItem="{Binding WaterRating,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                    Width="150"
+                                    VerticalAlignment="Center" />
+                    <TextBlock TextWrapping="Wrap"
+                               Text="{Binding WaterRatingDescription}"
+                               d:Text="Some Text Some Text Some Text Some Text Some Text "
+                               VerticalAlignment="Bottom"
+                               Margin="30,0,0,0"
+                               FontSize="20"
+                               MaxWidth="420"/>
+                </StackPanel>
+            </Border>
+            <Border>
+                <StackPanel Orientation="Horizontal">
+                    <vw:TasComboBox ItemsSource="{Binding Source={EnumSource:BindingSourceEnumValues {x:Type mirrorEnum:IPAdditionalLetter}}}"
+                                    ComboBoxTitle="{StaticResource lngAdditionalLetter}"
+                                    IconToolTip="{StaticResource lngAdditionalLetterTooltip}"
+                                    SelectedItem="{Binding AdditionalLetter,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                    Width="150"
+                                    VerticalAlignment="Center" />
+                    <TextBlock TextWrapping="Wrap"
+                               Text="{Binding AdditionalLetterDescription}"
+                               d:Text="Some Text Some Text Some Text Some Text Some Text "
+                               VerticalAlignment="Bottom"
+                               Margin="30,0,0,0"
+                               FontSize="20"
+                               MaxWidth="420" />
+                </StackPanel>
+            </Border>
+        </hc:UniformSpacingPanel>
+    </Grid>
+</UserControl>

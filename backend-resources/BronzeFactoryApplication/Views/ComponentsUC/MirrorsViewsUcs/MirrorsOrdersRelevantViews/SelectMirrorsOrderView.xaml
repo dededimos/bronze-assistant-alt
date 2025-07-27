@@ -1,0 +1,180 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.MirrorsOrdersRelevantViews.SelectMirrorsOrderView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.MirrorsOrdersRelevantViews"
+             xmlns:huc="clr-namespace:BronzeFactoryApplication.Views.HelperViews"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels.MirrorsViewModels.MirrorOrdersViewModels"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:EnumSource="clr-namespace:BronzeFactoryApplication.Helpers.MarkupExtensions"
+             xmlns:mirrorEnum="clr-namespace:MirrorsLib.Enums;assembly=MirrorsLib"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=vm:SelectMirrorsOrderViewModel}">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding InitilizeCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+        <Grid.Resources>
+            <CollectionViewSource x:Key="DatagridSource"
+                                  Source="{Binding LoadedOrders}">
+            </CollectionViewSource>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!--#region 1.Loader -->
+        <Border x:Name="LoadingIndicatorBorder"
+                Panel.ZIndex="2"
+                Background="{StaticResource BackgroundBrush}"
+                Opacity="0.9"
+                Grid.RowSpan="2"
+                Grid.Row="0"
+                CornerRadius="20"
+                d:Visibility="Collapsed"
+                Visibility="{Binding IsBusy,Converter={StaticResource Boolean2VisibilityConverter}}">
+            <StackPanel HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        Orientation="Horizontal">
+                <hc:LoadingCircle Foreground="{StaticResource PrimaryBrush}"
+                                  IsRunning="{Binding IsBusy}"
+                                  d:IsRunning="false">
+
+                </hc:LoadingCircle>
+                <TextBlock Style="{StaticResource CLoaderTextBlock}"
+                           Margin="10"
+                           Foreground="{StaticResource PrimaryBrush}"
+                           Text="{Binding BusyPrompt}" />
+            </StackPanel>
+        </Border>
+        <!--#endregion-->
+
+        <!--#region 2.ToolBar -->
+        <DockPanel Grid.Row="0"
+                   HorizontalAlignment="Left">
+            <Button hc:IconElement.Geometry="{StaticResource RefreshCloudGeometry}"
+                    Foreground="{DynamicResource SecondaryBrush}"
+                    Content="{StaticResource lngRefresh}"
+                    ToolTip="{StaticResource lngRefreshMirrorsOrders}"
+                    Margin="0,0,10,0" 
+                    VerticalAlignment="Bottom"
+                    Command="{Binding RefreshLoadedOrdersCommand}"/>
+            <Button hc:IconElement.Geometry="{StaticResource DownloadGeometry}"
+                    Foreground="{DynamicResource SecondaryBrush}"
+                    Content="{StaticResource lngLoadMoreOrders}"
+                    ToolTip="{StaticResource lngLoadMoreOrdersTooltip}"
+                    VerticalAlignment="Bottom"
+                    Margin="0,0,10,0" 
+                    Command="{Binding LoadOrdersCommand}"/>
+            <huc:TasNumericTextBox Text="{Binding OrderToLoadPerFetch}"
+                                   TextBoxTitle="{StaticResource lngOrdersToLoadPerFetch}"
+                                   IconTooltip="{StaticResource lngOrdersToLoadPerFetchTooltip}"
+                                   Precision="0"
+                                   JustPositiveInput="True"
+                                   InputMode="DigitInput"
+                                   MaxLength="4" />
+        </DockPanel>
+        <!--#endregion-->
+
+        <!--#region 3.Orders DataGrid -->
+        <TextBlock Text="{StaticResource lngOrders}" 
+                   Style="{StaticResource CHeaderTextBlock}"
+                   Grid.Row="1"
+                   Margin="0,20,0,5"/>
+        <DataGrid x:Name="OrdersDatagrid"
+                  Grid.Row="2"
+                  ItemsSource="{Binding LoadedOrders}"
+                  SelectedItem="{Binding SelectedOrder}"
+                  Style="{StaticResource CDataGridSmall}"
+                  HorizontalAlignment="Center"
+                  IsSynchronizedWithCurrentItem="True"
+                  EnableRowVirtualization="True"
+                  Height="600"
+                  hc:BorderElement.CornerRadius="15"
+                  ScrollViewer.CanContentScroll="True"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  CellStyle="{StaticResource CCenteredDatagridCell}">
+            <DataGrid.InputBindings>
+                <MouseBinding Gesture="LeftDoubleClick"
+                              Command="{Binding SelectOrderCommand}"
+                              CommandParameter="{Binding SelectedOrder}" />
+            </DataGrid.InputBindings>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="{StaticResource lngOrderNo}"
+                                    Binding="{Binding OrderNo}" />
+                <DataGridTemplateColumn Header="{StaticResource lngFilledQuantity}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock HorizontalAlignment="Center"
+                                       TextAlignment="Center">
+                                <Run Text="{Binding TotalFilledQuantity,Mode=OneWay}" />
+                                <Run Text=" / " />
+                                <Run Text="{Binding TotalQuantity,Mode=OneWay}" />
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="{StaticResource lngStatus}"
+                                    Binding="{Binding Status ,Converter={StaticResource languageConverter}}" />
+                <DataGridTextColumn Header="{StaticResource lngCreated}"
+                                    Binding="{Binding Created, StringFormat=\{0:dd/MM/yyyy\}}" />
+                <DataGridTextColumn Header="{StaticResource lngLastModified}"
+                                    Binding="{Binding LastModified, StringFormat=\{0:dd/MM/yyyy\}}" />
+                <DataGridTemplateColumn Header="{StaticResource lngNotes}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Notes}"
+                                       TextTrimming="CharacterEllipsis"
+                                       TextWrapping="Wrap"
+                                       ToolTip="{Binding Notes}"
+                                       ToolTipService.InitialShowDelay="0"
+                                       ToolTipService.Placement="Right"
+                                       VerticalAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="{StaticResource lngActions}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button hc:IconElement.Geometry="{StaticResource DownArrowGeometry}"
+                                    ToolTip="{StaticResource lngSelectMirrorsOrder}"
+                                    Command="{Binding DataContext.SelectOrderCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                    CommandParameter="{Binding .}">
+                                <Button.Style>
+                                    <Style TargetType="Button"
+                                           BasedOn="{StaticResource ButtonIconCircular.Small}">
+                                        <Setter Property="Foreground"
+                                                Value="{DynamicResource SecondaryBrush}" />
+                                        <Setter Property="BorderBrush"
+                                                Value="{DynamicResource SecondaryBrush}" />
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver"
+                                                     Value="True">
+                                                <Setter Property="Foreground"
+                                                        Value="{DynamicResource RegionBrush}" />
+                                                <Setter Property="BorderBrush"
+                                                        Value="{DynamicResource RegionBrush}" />
+                                                <Setter Property="Background"
+                                                        Value="{DynamicResource SecondaryBrush}" />
+                                                <!-- Change to desired hover color -->
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <!--#endregion-->
+
+    </Grid>
+</UserControl>

@@ -1,0 +1,293 @@
+﻿@using BathAccessoriesModelsLibrary.Services;
+@using BathAccessoriesModelsLibrary;
+@using BronzeArtWebApplication.Pages.NewAccessoriesPage.VariousComponents
+@using BronzeArtWebApplication.Shared.Services;
+@using BronzeArtWebApplication.Shared.ViewModels.AccessoriesPageViewModels;
+
+@inject NavigationManager NavManager
+@inject AccessoriesUrlHelper PhotoHelper
+@inject BasketViewModel Basket
+@inject ILanguageContainerService Lc
+@inject AccessoriesPageViewModel Vm
+@inject IAccessoriesMemoryRepository Repo
+@inject BronzeUser user
+@inject JSCallService Js
+
+@if (Accessories.Count == 0)
+{
+    <MudText>This Query Returned No Results</MudText>
+}
+else
+{
+    <div class="accessoriesViewContainer">
+        <div class="stickyOptionsContainer">
+            <div class="viewSelectorContainer">
+                <ViewSelector @bind-ViewType:get="@(Vm.ViewType)"
+                @bind-ViewType:set="@((v)=> {Vm.ViewType = v;})" />
+
+                @if (FilterBySecondaryType && Accessories.Select(a => a.SecondaryType).Distinct().ToList().Count > 1)
+                {
+                    <MudSelect T="string"
+                    @bind-Value="@(SelectedSecondaryTypeFilter)"
+                    Variant="@(Variant.Outlined)"
+                    Label="@(Repo.GetTraitClassName(TypeOfTrait.SecondaryTypeTrait))"
+                    AnchorOrigin="@(Origin.BottomLeft)"
+                    TransformOrigin="@(Origin.TopLeft)"
+                    ShrinkLabel="@(true)"
+                    Dense="@(true)"
+                    Margin="@(Margin.Dense)"
+                    Style="min-width:250px;margin-top:14px;margin-left:15px;"
+                    Clearable="@(true)">
+                        <MudSelectItem Value="@(string.Empty)">
+                            @(Lc.Keys["All"])
+                        </MudSelectItem>
+                        @foreach (var secondaryType in Accessories.Select(a => a.SecondaryType).Distinct().ToList())
+                        {
+                            <MudSelectItem T="string" Value="secondaryType.Code">
+                                @(secondaryType.Trait)
+                            </MudSelectItem>
+                        }
+                    </MudSelect>
+                }
+                @if (FilterByFinishType && Accessories.SelectMany(a=> a.AvailableFinishes.Select(af=> af.Finish)).Distinct().Count() > 1)
+                {
+                    <MudSelect T="string"
+                    @bind-Value="@(SelectedFinishFilter)"
+                    Variant="@(Variant.Outlined)"
+                    Label="@(Repo.GetTraitClassName(TypeOfTrait.FinishTrait))"
+                    AnchorOrigin="@(Origin.BottomLeft)"
+                    TransformOrigin="@(Origin.TopLeft)"
+                    ShrinkLabel="@(true)"
+                    Dense="@(true)"
+                    Margin="@(Margin.Dense)"
+                    Class="d-none d-md-flex"
+                    Style="min-width:150px;margin-top:14px;margin-left:15px;"
+                    Clearable="@(true)">
+                        <MudSelectItem Value="@(string.Empty)">
+                            @(Lc.Keys["All"])
+                        </MudSelectItem>
+                        @foreach (var finshItem in Accessories.SelectMany(a => a.AvailableFinishes.Select(af => af.Finish)).Distinct())
+                        {
+                            <MudSelectItem T="string" Value="finshItem.Code">
+                                @(finshItem.Trait)
+                            </MudSelectItem>
+                        }
+                    </MudSelect>
+                }
+            </div>
+        </div>
+
+        @if (Vm.ViewType == TypeOfView.ListView)
+        {
+            <MudDataGrid Items="@(FilteredAccessories)" Elevation="0"
+            Class="mt-8"
+            Virtualize="@(true)"
+            Groupable="@(false)"
+            GroupExpanded="@(false)"
+            SortMode="@(SortMode.None)"
+            Hover="@(true)"
+            Dense="@(true)"
+            Filterable="@(false)"
+            Height="75vh"
+            Bordered="@(false)"
+            FixedHeader="@(true)"
+            ShowColumnOptions="@(false)"
+            ShowFilterIcons="@(false)"
+            ShowMenuIcon="@(false)">
+                <Columns>
+
+                    @* Code *@
+                    <PropertyColumn Property="a=> a.Code"
+                    Title="@(Lc.Keys["Code"])"
+                    Sortable="@(true)"
+                    HeaderStyle="@(headerStyle)"
+                    HeaderClass="@(columnheaderClass)" />
+
+                    @* Photo *@
+                    <TemplateColumn CellClass=""
+                    Sortable="@(false)"
+                    Groupable="@(false)"
+                    HeaderStyle="@(headerStyle)"
+                    HeaderClass="@(columnheaderClass)"
+                    Title="@(Lc.Keys["Photo"])">
+                        <CellTemplate>
+                            <div style="display:flex;justify-content:center;align-items:center;height:80px;width:80px">
+                                <img src="@($"{PhotoHelper.GetThumbnail(context.Item.MainPhotoUrl)}")"
+                                style="max-width:100%;max-height:100%" />
+                            </div>
+                        </CellTemplate>
+                    </TemplateColumn>
+
+                    @* Secondary Type (Uses as Label Primary Type)*@
+                    <PropertyColumn Property="@(a=> a.SecondaryType.Trait)"
+                    HeaderStyle="@(headerStyle)"
+                    HeaderClass="@(columnheaderClass)"
+                    Sortable="@(true)"
+                    SortBy="@(a=> a.SecondaryType.Trait)"
+                    Title="@(Repo.GetTraitClassName(TypeOfTrait.PrimaryTypeTrait))">
+                    </PropertyColumn>
+
+                    @* Available Finishes *@
+                    <TemplateColumn CellClass=""
+                    Sortable="@(false)"
+                    Groupable="@(false)"
+                    HeaderStyle="@($"{headerStyle};width:125px")"
+                    HeaderClass="@(columnheaderClass)">
+                        <HeaderTemplate>
+                            <div style="flex-grow:1;text-align:center">
+                                @(Repo.GetTraitClassName(TypeOfTrait.FinishTrait))
+                            </div>
+                        </HeaderTemplate>
+                        <CellTemplate>
+                            <div style="display:flex;flex-direction:row;flex-wrap:wrap;justify-content:center;align-items:center;">
+                                @foreach (var item in context.Item.AvailableFinishes)
+                                {
+                                    <MudTooltip>
+                                        <TooltipContent>
+                                            @(item.Finish.Trait)
+                                        </TooltipContent>
+                                        <ChildContent>
+                                            <img src="@($"{PhotoHelper.GetThumbnail(item.Finish.PhotoURL)}")"
+                                            style="max-width:35px;max-height:35px;" />
+                                        </ChildContent>
+                                    </MudTooltip>
+                                }
+                            </div>
+                        </CellTemplate>
+                    </TemplateColumn>
+
+                    @* Series Trait *@
+                    <PropertyColumn Property="@(a=> a.Series.Trait)"
+                    Sortable="@(true)"
+                    SortBy="@(a=> a.Series.Trait)"
+                    HeaderStyle="@(headerStyle)"
+                    HeaderClass="@(columnheaderClass)"
+                    Title="@(Repo.GetTraitClassName(TypeOfTrait.SeriesTrait))">
+                    </PropertyColumn>
+
+                    @if (user.IsPowerUser && Basket.PricesEnabled && Repo.HasStockInfo)
+                    {
+                        @* Stock *@
+                        <TemplateColumn CellClass=""
+                                        Sortable="@(false)"
+                                        Groupable="@(false)"
+                                        HeaderStyle="@($"{headerStyle};width:180px")"
+                                        HeaderClass="@(columnheaderClass)">
+                            <HeaderTemplate>
+                                <div style="flex-grow:1;text-align:center">
+                                    @("Stock")
+                                </div>
+                            </HeaderTemplate>
+                            <CellTemplate>
+                                <div style="display:flex;flex-direction:column;justify-content:center;align-items:end;">
+                                    @foreach (var finish in context.Item.AvailableFinishes)
+                                    {
+                                        <span>@($"{finish.Finish.Trait} : {Repo.GetAccessoryStock(context.Item.GetSpecificCode(finish.Finish.Code)):0}pcs")</span>
+                                    }
+                                </div>
+                            </CellTemplate>
+                        </TemplateColumn>
+                    }
+
+                    @if (Basket.PricesEnabled)
+                    {
+                        @* Price Trait *@
+                        <TemplateColumn CellClass=""
+                                        Sortable="@(false)"
+                                        Groupable="@(false)"
+                                        HeaderStyle="@($"{headerStyle};width:180px")"
+                                        HeaderClass="@(columnheaderClass)">
+                            <HeaderTemplate>
+                                <div style="flex-grow:1;text-align:center">
+                                    @(Repo.GetTraitClassName(TypeOfTrait.PriceTrait))
+                                </div>
+                            </HeaderTemplate>
+                            <CellTemplate>
+                                <div style="display:flex;flex-direction:column;justify-content:center;align-items:end;">
+                                    @foreach (var pi in context.Item.PricesInfo)
+                                    {
+                                        <span>@($"{pi.RefersToName} : {pi.PriceValue.ToString("0.00 €")}")</span>
+                                    }
+                                </div>
+                            </CellTemplate>
+                        </TemplateColumn>
+                    }
+                </Columns>
+            </MudDataGrid>
+        }
+        else if (Vm.ViewType == TypeOfView.GridView)
+        {
+            <div class="cardRowsContainer" >
+                @foreach (var acc in FilteredAccessories.Take(itemsToShow))
+                {
+                    @*Show The Selected Finish otherwise by the Filter*@
+                    <NewAccessoryCard Accessory="@(acc)"
+                                      ShowName="@(ShowNameCard)"
+                                      ShowSeries="@(ShowSeriesCard)"
+                                      ShowDimensions="@(ShowDimensionsCard)"
+                                      AppearingDimensionsCodes="@(Repo.AccessoriesOptions.AppearingDimensions.Select(d => d.Code).ToList())"
+                                      ShowFinishes="@(ShowFinishes)"
+                                      ShownAccessoryFinishCode="@(ShownAccessoryFinishCode ?? SelectedFinishFilter)"
+                                      ShowPrices="@(Basket.PricesEnabled)"
+                                      ShowStock="@(user.IsPowerUser && Basket.PricesEnabled && Repo.HasStockInfo)"
+                                      Class="ma-4" />
+                }
+            </div>
+            @if (FilteredAccessories.Count > itemsToShow)
+            {
+                <MudButton StartIcon="@(Icons.Material.Filled.GetApp)" 
+                           OnClick="@(()=> {itemsToShow += 30;remainingItems -= 30;})"
+                           Color="@(Color.Primary)"
+                           Style="text-transform:none">
+                      @($"{Lc.Keys["LoadMore"]} ({remainingItems})")
+                </MudButton>
+            }
+        }
+        else if (Vm.ViewType == TypeOfView.CompactView)
+        {
+            <div class="cardRowsContainer">
+                @foreach (var acc in FilteredAccessories)
+                {
+                    <NewAccessoryCard Accessory="@(acc)"
+                                      ShowName="@(false)"
+                                      ShowSeries="@(false)"
+                                      ShowDimensions="@(false)"
+                                      ShowFinishes="@(false)"
+                                      Class="ma-2" />
+                }
+            </div>
+        }
+        else if (Vm.ViewType == TypeOfView.SecondaryTypeGroupView)
+        {
+            @foreach (var group in AccessoriesBySecondaryType())
+            {
+                <div class="d-flex flex-column my-2">
+                    <div class="d-flex justify-start align-center mx-5 mb-3" style="border-bottom:2px solid var(--customPrimary)">
+                        <MudText Typo="@(Typo.h6)" Style="color:var(--customPrimary)">@(group.Key)</MudText>
+                        </div>
+                        <div class="d-flex flex-wrap justify-start align-center">
+                            @foreach (var acc in group.Value)
+                        {
+                            <div class="pa-2">
+                                <NewAccessoryCard Accessory="@(acc)"
+                                                  ShowDimensions="@(true)"
+                                                  AppearingDimensionsCodes="@(Repo.AccessoriesOptions.AppearingDimensions.Select(d => d.Code).ToList())"
+                                                  ShowSeries="@(true)"
+                                                  ShowName="@(false)" />
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        }
+    </div>
+
+}
+
+
+
+
+@code {
+    private readonly string columnheaderClass = "";
+    private readonly string headerStyle = "width:150px;color:white;background-color:var(--customPrimary)";
+}

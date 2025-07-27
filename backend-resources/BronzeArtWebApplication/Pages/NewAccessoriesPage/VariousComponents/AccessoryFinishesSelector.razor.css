@@ -1,0 +1,39 @@
+﻿.finishesCard {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.finishesCardTitle {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.finishesContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.finishContainer {
+    max-width: 70px;
+    max-height: 70px;
+    padding: 5px;
+    border: 2px solid white;
+    border-radius: 5px;
+}
+
+.selectedFinish {
+    border: 2px solid var(--customPrimary);
+    transition: border-color ease 1s;
+}
+
+.finishImg {
+    object-fit: scale-down;
+}

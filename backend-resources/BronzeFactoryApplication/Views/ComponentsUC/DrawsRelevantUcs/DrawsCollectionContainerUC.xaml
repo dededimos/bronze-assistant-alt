@@ -1,0 +1,66 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.ComponentsUC.DrawsRelevantUcs.DrawsCollectionContainerUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.DrawsRelevantUcs"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels.ComponentsUCViewModels.DrawsViewModels"
+             xmlns:dr="clr-namespace:SVGDrawingLibrary.Models;assembly=SVGDrawingLibrary"
+             mc:Ignorable="d"
+             x:Name="DrawsContainer">
+    <UserControl.Resources>
+        <!--#region Items Control Style for Draws -->
+        <Style x:Key="DrawsItemsControlStyle"
+               TargetType="ItemsControl">
+            <Setter Property="ItemsControl.ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <Grid />
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ItemsControl.ItemTemplate">
+                <Setter.Value>
+                    <DataTemplate DataType="{x:Type dr:DrawShape}">
+                        <Path Panel.ZIndex="{Binding LayerNo}"
+                              Opacity="{Binding Opacity , Converter={StaticResource StringToDoubleConverter}}"
+                              StrokeDashArray="{Binding StrokeDashArray , Converter={StaticResource StringToDoubleCollectionConverter}}"
+                              Data="{Binding ShapePathDataString ,Converter={StaticResource StringToGeometryConverter}}">
+                            <Path.Resources>
+                                <Style TargetType="Path">
+                                    <Setter Property="Fill"
+                                            Value="{Binding Fill,Converter={StaticResource StringToBrushConverter}}" />
+                                    <Setter Property="Stroke"
+                                            Value="{Binding Stroke,Converter={StaticResource StringToBrushConverter}}" />
+                                    <Setter Property="StrokeThickness"
+                                            Value="2" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Name}"
+                                                     Value="StepWallArea">
+                                            <Setter Property="Fill"
+                                                    Value="{StaticResource BiggerHatchPattern}" />
+                                            <Setter Property="Stroke"
+                                                    Value="{DynamicResource PrimaryBrush}" />
+                                            <Setter Property="StrokeThickness"
+                                                    Value="1" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Path.Resources>
+                        </Path>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!--#endregion-->
+    </UserControl.Resources>
+    <Viewbox x:Name="DrawsViewBox"
+             Width="auto"
+             Height="auto"
+             MaxWidth="{Binding ElementName=DrawsContainer, Path=MaxWidth}"
+             MaxHeight="{Binding ElementName=DrawsContainer, Path=MaxHeight}">
+        <ItemsControl Style="{StaticResource DrawsItemsControlStyle}"
+                      ItemsSource="{Binding ElementName=DrawsContainer, Path=DrawsCollection}" />
+    </Viewbox>
+</UserControl>

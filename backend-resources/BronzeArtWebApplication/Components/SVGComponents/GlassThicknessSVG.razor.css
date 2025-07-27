@@ -1,0 +1,39 @@
+﻿@font-face {
+    font-family: "Humnst777 Cn BT";
+    src: url("#FontID0") format(svg)
+}
+
+.fil2 {
+    fill: #6F2443
+}
+
+.fil0 {
+    fill: #2B2A29;
+    fill-rule: nonzero
+}
+
+.fil1 {
+    fill: url(#id0)
+}
+
+.fntmm {
+    font-weight: normal;
+    font-size: 164.33px;
+    font-family: 'Humnst777 Cn BT'
+}
+
+.fnt0 {
+    font-weight: bold;
+    font-size: 333.539px;
+    font-family: 'Humnst777 Cn BT'
+}
+.fntTenplex {
+    font-weight: bold;
+    font-size: 160px;
+    font-family: 'Humnst777 Cn BT'
+}
+.fnt810 {
+    font-weight: bold;
+    font-size: 256.237px;
+    font-family: 'Humnst777 Cn BT'
+}

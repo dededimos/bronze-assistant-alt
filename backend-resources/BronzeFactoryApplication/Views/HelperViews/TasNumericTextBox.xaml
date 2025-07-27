@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.HelperViews.TasNumericTextBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.HelperViews"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             mc:Ignorable="d"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:b="clr-namespace:BronzeFactoryApplication.Helpers.Behaviours"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             x:Name="Container"
+             d:Height="auto"
+             d:Width="200">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <DockPanel HorizontalAlignment="Stretch"
+                   Grid.Row="0"
+                   Visibility="{Binding ElementName=Container, Path=TitleVisibility}">
+            <cc:Icon ToolTip="{Binding ElementName=Container, Path=IconTooltip}"
+                     Style="{StaticResource CTasInfoTooltipIcon}" />
+            <TextBlock x:Name="AddPriceValueTextBlock"
+                       Style="{StaticResource CTasTitleTextBlockStyle}"
+                       Text="{Binding ElementName=Container , Path=TextBoxTitle}">
+            </TextBlock>
+        </DockPanel>
+        <hc:TextBox Text="{Binding ElementName=Container, Path=Text,UpdateSourceTrigger=PropertyChanged}"
+                    d:Text="Input Number"
+                    MaxLength="{Binding ElementName=Container , Path=MaxLength}"
+                    Foreground="{Binding ElementName=Container,Path=TextBoxForeground}"
+                    Grid.Row="1" 
+                    hc:InfoElement.Placeholder="{Binding ElementName=Container ,Path=TextBoxTitle}"
+                    IsReadOnly="{Binding ElementName=Container, Path=IsEnabled , Converter={StaticResource Boolean2BooleanReConverter}}"
+                    hc:InfoElement.ShowClearButton="{Binding ElementName=Container, Path=ShowClearButton}">
+            <i:Interaction.Behaviors>
+                <b:TextBoxNumericInputBehavior Precision="{Binding ElementName=Container, Path=Precision}"
+                                               InputMode="{Binding ElementName=Container, Path=InputMode}"
+                                               JustPositivDecimalInput="{Binding ElementName=Container, Path=JustPositiveInput}" />
+            </i:Interaction.Behaviors>
+        </hc:TextBox>
+    </Grid>
+</UserControl>

@@ -1,0 +1,291 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.ComponentsUC.DrawsRelevantUcs.DrawingPresentationOptionsGlobalView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.DrawsRelevantUcs"
+             mc:Ignorable="d"
+             xmlns:enumSource="clr-namespace:BronzeFactoryApplication.Helpers.MarkupExtensions"
+             xmlns:dimOptionEnum="clr-namespace:DrawingLibrary.Enums;assembly=DrawingLibrary"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels.ComponentsUCViewModels.DrawsViewModels"
+             xmlns:drawingVm="clr-namespace:BronzeFactoryApplication.ViewModels.DrawingsViewModels"
+             xmlns:helperVw="clr-namespace:BronzeFactoryApplication.Views.HelperViews"
+             xmlns:modelsPresOpt="clr-namespace:DrawingLibrary.Models.PresentationOptions;assembly=DrawingLibrary"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             d:DataContext="{d:DesignInstance Type=drawingVm:DrawingPresentationOptionsGlobalVm}">
+    <Grid>
+        <StackPanel>
+            <StackPanel.Resources>
+                <Style TargetType="Expander"
+                       BasedOn="{StaticResource ExpanderBaseStyle}">
+                    <Setter Property="BorderThickness"
+                            Value="1" />
+                    <Setter Property="Margin"
+                            Value="5,5" />
+                    <Setter Property="Background"
+                            Value="{DynamicResource MainContentBackgroundBrush}" />
+                    <Setter Property="IsExpanded"
+                            Value="False" />
+                </Style>
+                <Style TargetType="Border">
+                    <Setter Property="BorderThickness"
+                            Value="1,0,1,1" />
+                    <Setter Property="CornerRadius"
+                            Value="0" />
+                    <Setter Property="Padding"
+                            Value="10" />
+                    <Setter Property="BorderBrush"
+                            Value="{DynamicResource BorderBrush}" />
+                    <Setter Property="Background"
+                            Value="{DynamicResource MainContentBackgroundBrush}" />
+                </Style>
+            </StackPanel.Resources>
+            <!--#region Global Properties -->
+            <Expander Header="{StaticResource lngGlobalPresentationOptions}"
+                      Foreground="{DynamicResource SecondaryBrush}" 
+                      x:Name="Expander1"
+                      Expanded="Expander1_Expanded">
+                <Border>
+                    <StackPanel>
+                        <!--#region Global TextHeight -->
+                        <helperVw:TasNumericTextBox TextBoxTitle="{StaticResource lngTextHeightGlobal}"
+                                                    IconTooltip="{StaticResource lngTextHeightGlobalTooltip}"
+                                                    Text="{Binding TextHeight}"
+                                                    Precision="0"
+                                                    MaxLength="3"
+                                                    InputMode="DigitInput"
+                                                    JustPositiveInput="True"
+                                                    Margin="0,0,0,10" />
+                        <!--#endregion-->
+                        <!--#region NormalDrawDimensionDrawingOption -->
+                        <helperVw:TasComboBox ItemsSource="{Binding Source={enumSource:BindingSourceEnumValues {x:Type dimOptionEnum:DimensionDrawingOption}}}"
+                                              SelectedItem="{Binding NormalDrawDimensionDrawingOption}"
+                                              ComboBoxTitle="{StaticResource lngNormalDrawDimensionDrawingOption}"
+                                              IconToolTip="{StaticResource lngNormalDrawDimensionDrawingOption}"
+                                              Margin="0,0,0,10">
+                            <helperVw:TasComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding . ,Converter={StaticResource languageConverter} , TargetNullValue=''}"/>
+                                </DataTemplate>
+                            </helperVw:TasComboBox.ItemTemplate>
+                        </helperVw:TasComboBox>
+                        <!--#endregion-->
+                        <!--#region SketchDrawDimensionDrawingOption -->
+                        <helperVw:TasComboBox ItemsSource="{Binding Source={enumSource:BindingSourceEnumValues {x:Type dimOptionEnum:DimensionDrawingOption}}}"
+                                              SelectedItem="{Binding SketchDrawDimensionDrawingOption}"
+                                              ComboBoxTitle="{StaticResource lngSketchDrawDimensionDrawingOption}"
+                                              IconToolTip="{StaticResource lngSketchDrawDimensionDrawingOption}"
+                                              Margin="0,0,0,10">
+                            <helperVw:TasComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding . ,Converter={StaticResource languageConverter} , TargetNullValue=''}" />
+                                </DataTemplate>
+                            </helperVw:TasComboBox.ItemTemplate>
+                        </helperVw:TasComboBox>
+                        <!--#endregion-->
+                        <!--#region Sketch Stroke Thickness -->
+                        <helperVw:TasNumericTextBox TextBoxTitle="{StaticResource lngStrokeThicknessSketch}"
+                                                    IconTooltip="{StaticResource lngStrokeThicknessSketchTooltip}"
+                                                    Text="{Binding StrokeThicknessSketch}"
+                                                    Precision="0"
+                                                    MaxLength="3"
+                                                    InputMode="DigitInput"
+                                                    JustPositiveInput="True"
+                                                    Margin="0,0,0,10" />
+                        <!--#endregion-->
+                        <!--#region Sketch Stroke Dash Array -->
+                        <helperVw:TasNumericTextBox TextBoxTitle="{StaticResource lngStrokeDashArraySketch}"
+                                                    IconTooltip="{StaticResource lngDrawingStrokeDashArrayTooltip}"
+                                                    Text="{Binding StrokeDashArraySketchString , UpdateSourceTrigger=LostFocus}"
+                                                    Margin="0,0,0,10" />
+                        <!--#endregion-->
+                        <!--#region StrokeSketchDark -->
+                        <Expander Header="{StaticResource lngStrokeSketchDarkGlobal}"
+                                  Width="700">
+                            <local:DrawBrushEditView DataContext="{Binding StrokeSketchDark}"
+                                                     Width="600"/>
+                        </Expander>
+                        <!--#endregion-->
+                        <!--#region StrokeSketchLight -->
+                        <Expander Header="{StaticResource lngStrokeSketchLightGlobal}"
+                                  Width="700">
+                            <local:DrawBrushEditView DataContext="{Binding StrokeSketchLight}"
+                                                     Width="600"/>
+                        </Expander>
+                        <!--#endregion-->
+                    </StackPanel>
+                </Border>
+
+            </Expander>
+            <!--#endregion-->
+            <!--#region Dimension Properties -->
+            <Expander Header="{StaticResource lngGlobalDimensionPresentationOptions}"
+                      Foreground="{DynamicResource SecondaryBrush}"
+                      x:Name="Expander2"
+                      Expanded="Expander2_Expanded">
+                <Border>
+                    <StackPanel>
+                        <!--#region Dimensions Text Height -->
+                        <DockPanel>
+                            <CheckBox Margin="0,10,10,0"
+                                      Content="{StaticResource lngSameWithGlobal}" 
+                                      IsChecked="{Binding IsDimensionsTextHeightEqualToGlobal}"/>
+                            <helperVw:TasNumericTextBox TextBoxTitle="{StaticResource lngDimensionsTextHeight}"
+                                                        IconTooltip="{StaticResource lngDimensionsTextHeightTooltip}"
+                                                        Text="{Binding DimensionsTextHeight}"
+                                                        Precision="0"
+                                                        MaxLength="3"
+                                                        InputMode="DigitInput"
+                                                        JustPositiveInput="True"
+                                                        Margin="0,0,0,10"
+                                                        IsEnabled="{Binding IsDimensionsTextHeightEqualToGlobal, Converter={StaticResource Boolean2BooleanReConverter}}" />
+                        </DockPanel>
+                        <!--#endregion-->
+                        <!--#region Stroke Thickness Dimensions -->
+                        <helperVw:TasNumericTextBox TextBoxTitle="{StaticResource lngStrokeThicknessDimensions}"
+                                                    IconTooltip="{StaticResource lngStrokeThicknessDimensionsTooltip}"
+                                                    Text="{Binding StrokeThicknessDimensions}"
+                                                    Precision="0"
+                                                    MaxLength="3"
+                                                    InputMode="DigitInput"
+                                                    JustPositiveInput="True"
+                                                    Margin="0,0,0,10" />
+                        <!--#endregion-->
+                        <!--#region Stroke Dash Array Dimensions -->
+                        <helperVw:TasNumericTextBox TextBoxTitle="{StaticResource lngStrokeDashArrayDimensions}"
+                                                    IconTooltip="{StaticResource lngDrawingStrokeDashArrayTooltip}"
+                                                    Text="{Binding StrokeDashArrayDimensionsString, UpdateSourceTrigger=LostFocus}"
+                                                    Margin="0,0,0,10" />
+                        <!--#endregion-->
+                        <!--#region Stroke Dash Array Dimensions -->
+                        <helperVw:TasNumericTextBox TextBoxTitle="{StaticResource lngStrokeDashArrayHelpLines}"
+                                                    IconTooltip="{StaticResource lngDrawingStrokeDashArrayTooltip}"
+                                                    Text="{Binding StrokeDashArrayHelpLinesString, UpdateSourceTrigger=LostFocus}"
+                                                    Margin="0,0,0,10" />
+                        <!--#endregion-->
+                        <!--#region Dimensions Opacity - Use Shadow -->
+                        <DockPanel>
+                            <CheckBox Content="{StaticResource lngUseShadowDimensions}"
+                                      ToolTip="{StaticResource lngUseShadowDimensionsTooltip}"
+                                      IsChecked="{Binding UseShadowDimensions}"
+                                      DockPanel.Dock="Right"
+                                      Margin="10,8,0,0" />
+                            <helperVw:TasNumericTextBox TextBoxTitle="{StaticResource lngOpacityDimensions}"
+                                                        IconTooltip="{StaticResource lngOpacityDimensionsTooltip}"
+                                                        Text="{Binding OpacityDimensions}"
+                                                        Precision="2"
+                                                        MaxLength="4"
+                                                        InputMode="DecimalInput"
+                                                        JustPositiveInput="True"
+                                                        Margin="0,0,0,10"
+                                                        DockPanel.Dock="Left" />
+                        </DockPanel>
+                        <!--#endregion-->
+                        <!--#region DarkFill Dimensions -->
+                        <Expander Header="{StaticResource lngDarkFillDimensions}"
+                                  Width="700">
+                            <local:DrawBrushEditView DataContext="{Binding DarkFillDimensions}"
+                                                     Width="600" />
+                        </Expander>
+                        <!--#endregion-->
+                        <!--#region LightFill Dimensions -->
+                        <Expander Header="{StaticResource lngLightFillDimensions}"
+                                  Width="700">
+                            <local:DrawBrushEditView DataContext="{Binding LightFillDimensions}"
+                                                     Width="600" />
+                        </Expander>
+                        <!--#endregion-->
+                        <!--#region DarkStroke Dimensions -->
+                        <Expander Header="{StaticResource lngDarkStrokeDimensions}"
+                                  Width="700">
+                            <local:DrawBrushEditView DataContext="{Binding DarkStrokeDimensions}"
+                                                     Width="600" />
+                        </Expander>
+                        <!--#endregion-->
+                        <!--#region LightStroke Dimensions -->
+                        <Expander Header="{StaticResource lngLightStrokeDimensions}"
+                                  Width="700">
+                            <local:DrawBrushEditView DataContext="{Binding LightStrokeDimensions}"
+                                                     Width="600" />
+                        </Expander>
+                        <!--#endregion-->
+                    </StackPanel>
+                </Border>
+            </Expander>
+            <!--#endregion-->
+            <!--#region Dimension Line Properties -->
+            <Expander Header="{StaticResource lngGlobalDimensionLineOptions}"
+                      Foreground="{DynamicResource SecondaryBrush}"
+                      x:Name="Expander3"
+                      Expanded="Expander3_Expanded">
+                <Border>
+                    <StackPanel>
+                        <!--#region ArrowThickness -->
+                        <helperVw:TasNumericTextBox TextBoxTitle="{StaticResource lngArrowThickness}"
+                                                    IconTooltip="{StaticResource lngArrowThicknessTooltip}"
+                                                    Text="{Binding ArrowThickness}"
+                                                    Precision="0"
+                                                    MaxLength="3"
+                                                    InputMode="DigitInput"
+                                                    JustPositiveInput="True"
+                                                    Margin="0,0,0,10" />
+                        <!--#endregion-->
+                        <!--#region ArrowLength -->
+                        <helperVw:TasNumericTextBox TextBoxTitle="{StaticResource lngArrowLength}"
+                                                    IconTooltip="{StaticResource lngArrowLengthTooltip}"
+                                                    Text="{Binding ArrowLength}"
+                                                    Precision="0"
+                                                    MaxLength="3"
+                                                    InputMode="DigitInput"
+                                                    JustPositiveInput="True"
+                                                    Margin="0,0,0,10" />
+                        <!--#endregion-->
+                        <!--#region TextMarginFromDimensionLine -->
+                        <helperVw:TasNumericTextBox TextBoxTitle="{StaticResource lngTextMarginFromDimensionLine}"
+                                                    IconTooltip="{StaticResource lngTextMarginFromDimensionLineTooltip}"
+                                                    Text="{Binding TextMarginFromDimensionLine}"
+                                                    Precision="0"
+                                                    MaxLength="3"
+                                                    InputMode="DigitInput"
+                                                    JustPositiveInput="True"
+                                                    Margin="0,0,0,10" />
+                        <!--#endregion-->
+                        <!--#region OneEndLineLength -->
+                        <helperVw:TasNumericTextBox TextBoxTitle="{StaticResource lngOneEndLineLength}"
+                                                    IconTooltip="{StaticResource lngOneEndLineLengthTooltip}"
+                                                    Text="{Binding OneEndLineLength}"
+                                                    Precision="0"
+                                                    MaxLength="3"
+                                                    InputMode="DigitInput"
+                                                    JustPositiveInput="True"
+                                                    Margin="0,0,0,10" />
+                        <!--#endregion-->
+                        <!--#region DimensionValueRoundingDecimals -->
+                        <helperVw:TasNumericTextBox TextBoxTitle="{StaticResource lngDimensionValueRoundingDecimals}"
+                                                    IconTooltip="{StaticResource lngDimensionValueRoundingDecimalsTooltip}"
+                                                    Text="{Binding DimensionValueRoundingDecimals}"
+                                                    Precision="0"
+                                                    MaxLength="3"
+                                                    InputMode="DigitInput"
+                                                    JustPositiveInput="True"
+                                                    Margin="0,0,0,10" />
+                        <!--#endregion-->
+                        <!--#region TwoLinesDimensionArrowLengthThresholdMultiplier -->
+                        <helperVw:TasNumericTextBox TextBoxTitle="{StaticResource lngTwoLinesDimensionArrowLengthThresholdMultiplier}"
+                                                    IconTooltip="{StaticResource lngTwoLinesDimensionArrowLengthThresholdMultiplierTooltip}"
+                                                    Text="{Binding TwoLinesDimensionArrowLengthThresholdMultiplier}"
+                                                    Precision="0"
+                                                    MaxLength="3"
+                                                    InputMode="DigitInput"
+                                                    JustPositiveInput="True"
+                                                    Margin="0,0,0,10" />
+                        <!--#endregion-->
+                    </StackPanel>
+                </Border>
+            </Expander>
+            <!--#endregion-->
+        </StackPanel>
+    </Grid>
+</UserControl>

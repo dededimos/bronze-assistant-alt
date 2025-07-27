@@ -1,0 +1,1601 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<UserSecretsId>0117c787-18da-4e76-9972-e6cacbb46f7c</UserSecretsId>
+	</PropertyGroup>
+	<!--Disable SMID , for older hardware - app crashes there with SMID-->
+	<!--<PropertyGroup>
+		<WasmEnableSIMD>false</WasmEnableSIMD>
+		<RunAOTCompilation>false</RunAOTCompilation>
+		<WasmEnableExceptionHandling>false</WasmEnableExceptionHandling>
+		<WasmEnableThreads>false</WasmEnableThreads>
+	</PropertyGroup>-->
+	<ItemGroup>
+		<Content Remove="wwwroot\CSS\MudBlazorReference.css" />
+	</ItemGroup>
+	<ItemGroup>
+		<Watch Include="**\*.css" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Remove="Resources\el-GR.yml" />
+		<None Remove="Resources\en-US.yml" />
+		<None Remove="Resources\it-IT.yml" />
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="Resources\el-GR.yml" />
+		<EmbeddedResource Include="Resources\en-US.yml" />
+		<EmbeddedResource Include="Resources\it-IT.yml" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="AKSoftware.Localization.MultiLanguages" Version="5.9.12" />
+		<PackageReference Include="BlazorDownloadFile" Version="2.4.0.2" />
+		<PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+		<PackageReference Include="FluentValidation" Version="11.11.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.3" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="9.0.3" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.Authentication.WebAssembly.Msal" Version="9.0.3" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="9.0.3" />
+		<PackageReference Include="MudBlazor" Version="8.3.0" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.6.1" />
+		<PackageReference Include="System.Net.Http.Json" Version="9.0.3" />
+	</ItemGroup>
+	<ItemGroup>
+		<Folder Include="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\" />
+		<Folder Include="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\" />
+		<Folder Include="wwwroot\Images\CabinImages\HelpPhotos\" />
+		<Folder Include="wwwroot\Images\CabinImages\GlassImages\" />
+		<Folder Include="wwwroot\Images\CabinImages\CabinExtras\" />
+		<Folder Include="wwwroot\Images\CabinImages\Polycarbonics\" />
+		<Folder Include="wwwroot\Images\CabinImages\Openings\FoldingOpenings\" />
+		<Folder Include="wwwroot\Images\CabinImages\Openings\DoorOnPanelOpenings\" />
+		<Folder Include="wwwroot\Images\CabinImages\Openings\FixedPanelsOpenings\" />
+		<Folder Include="wwwroot\Images\CabinImages\Openings\StandardDoorOpenings\" />
+		<Folder Include="wwwroot\Images\CabinImages\Openings\SlidingOpenings\" />
+		<Folder Include="wwwroot\Images\CabinImages\Series\ImgBronze6000\Charachteristics\" />
+		<Folder Include="wwwroot\Images\CabinImages\Series\ImgFree\Charachteristics\" />
+		<Folder Include="wwwroot\Images\CabinImages\Series\ImgHB\Charachteristics\" />
+		<Folder Include="wwwroot\Images\CabinImages\Series\ImgInox304\Charachteristics\" />
+		<Folder Include="wwwroot\Images\CabinImages\Series\ImgNB\Charachteristics\" />
+		<Folder Include="wwwroot\Images\CabinImages\Series\ImgNP\Charachteristics\" />
+		<Folder Include="wwwroot\Images\CabinImages\Series\ImgNVMV\" />
+		<Folder Include="wwwroot\Images\CabinImages\Series\ImgSmart\Charachteristics\" />
+		<Folder Include="wwwroot\Images\MirrorsImages\HelperBackgrounds\" />
+		<Folder Include="wwwroot\Images\MirrorsImages\SupportsImages\" />
+		<Folder Include="wwwroot\Images\MirrorsImages\OptionsIcons\" />
+		<Folder Include="wwwroot\Images\Finishes\" />
+		<Folder Include="wwwroot\Images\FlagIcons\" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="wwwroot\CSS\MudBlazorReference.css" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\BathAccessoriesModelsLibrary\BathAccessoriesModelsLibrary.csproj" />
+		<ProjectReference Include="..\BronzeRulesPricelistLibrary\BronzeRulesPricelistLibrary.csproj" />
+		<ProjectReference Include="..\ExcelSupportLib\ExcelSupportLib.csproj" />
+		<ProjectReference Include="..\MementosLibrary\MementosLibrary.csproj" />
+		<ProjectReference Include="..\MirrorsModelsLibrary\MirrorsModelsLibrary.csproj" />
+		<ProjectReference Include="..\ShowerEnclosuresModelsLibrary\ShowerEnclosuresModelsLibrary.csproj" />
+		<ProjectReference Include="..\SVGCabinDraws\SVGCabinDraws.csproj" />
+		<ProjectReference Include="..\SVGDrawingLibrary\SVGDrawingLibrary.csproj" />
+		<ProjectReference Include="..\XMLClosedReporting\XMLClosedReporting.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Update="Properties\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
+	<ItemGroup>
+		<TrimmerRootAssembly Include="Microsoft.Authentication.WebAssembly.Msal" />
+	</ItemGroup>
+	<ItemGroup>
+		<Content Update="wwwroot\appsettings.development.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\appsettings.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\CSS\CustomSheet.css">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\CustomScripts\CustomJavaScripts.js">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\CustomScripts\MirrorDrawScripts.js">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\favicon.ico">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\31-SingleDoor.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\32-Corner-Door-and-Panel.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\33-DoubleDoor.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\34-DoorOnFixed.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\35-DoorOnFixedSidePanel.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\37 DoubleDoorOnFixedCorner.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\38-Door-and-Panel-Straight.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\40 DoorOnFixedExtrPanel.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\41-SaloonDoor.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\43 DoubleDoorOnFixedStr.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\44-Folding-Door.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\45-Corner-Folding-Door-with.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\46-Double-Corner-Folding-Do.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\47-Folding-Door-with-Fixed-.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\48DoubleFoldDoor.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\51-SingleDoor.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\52 DoorAndSideFixed.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\53 DoubleDoorCorner.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\59 DoorAndFixed.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\61 DoubleDoorSaloon.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\81Flipper.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\82DoubleFixedCorner.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\84.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\85.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\88.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\8W40.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\CornerEntry.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\CornerEntrySidePanel.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\DoubleSliding.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\DoubleSliding2SidePanels.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\DoubleSlidingSidePanel.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\E.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\MV2.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\NV.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\NV2.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\PivotDoor.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\PivotDoor2SidePanels.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\PivotDoorSidePanel.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\Semicircular.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SemicircularSidePanel.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\31Primary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\32Primary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\32Secondary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\33Primary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\33Secondary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\34Primary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\35Primary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\35Secondary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\37Primary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\37Secondary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\38Primary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\38Secondary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\4.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\40Primary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\40Secondary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\41Primary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\41Secondary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\43Primary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\43Secondary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\44Primary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\45Primary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\45Seconary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\46Primary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\46Secondary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\47Primary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\47Secondary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\48Primary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\48Secondary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\4FFPrimary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\4FFSecondary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\4FFTertiary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\4FPrimary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\4FSecondary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\51Primary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\52Primary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\52Secondary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\53Primary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\53Secondary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\59.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\59Primary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\59Secondary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\61Primary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\61Secondary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\81Primary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\81Secondary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\82Primary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\82Secondary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\84Primary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\84Secondary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\85Primary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\85Secondary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\88Primary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\88Secondary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\88Tertiary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\8W40Primary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\AFPrimary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\AFSecondary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\AFTertiary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\APrimary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\ASecondary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\BFFPrimary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\BFFSecondary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\BFFTertiary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\BFPrimary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\BFSecondary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\BPrimary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\CAll.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\CFMain.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\CFPrimary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\CFPrimarySecondary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\CFSecondary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\CFTertiary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\CPrimary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\CSecondary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\EPrimary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\MV2Primary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\NV2Primary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\NVPrimary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\SFFPrimary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\SFFSecondary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\SFFTertiary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\SFPrimary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\SFSecondary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\SPrimary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\WPrimary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SideSketches\WSPrimary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\Sliding.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\Sliding2SidePanels.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SlidingSidePanel.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\SlidingSmartWS.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\31NoStep.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\32Step.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\32StepSecond.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\33NoStep.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\33NoStepSecond.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\34Step.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\35Step.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\35StepSecond.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\37Step.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\37StepSecond.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\38Step.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\38StepSecond.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\40Step.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\40StepSecond.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\41NoStep.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\41NoStepSecond.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\43Step.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\43StepSecond.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\44NoStep.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\45Step.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\45StepSecond.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\46NoStep.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\46NoStepSecond.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\47Step.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\47StepSecond.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\48NoStep.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\48NoStepSecond.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\4FFStep.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\4FFStepSecond.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\4FFStepTertiary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\4FStep.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\4FStepSecond.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\4Step.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\51NoStep.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\52Step.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\52StepSecond.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\53NoStep.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\53NoStepSecond.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\59Step.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\59StepSecond.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\61NoStep.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\61NoStepSecond.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\81Step.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\82Step.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\82StepSecond.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\84Step.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\84StepSecond.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\85Step.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\85StepSecond.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\88Step.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\88StepSecond.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\88StepTertiary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\8W40Step.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\AFFStep.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\AFFStepSecond.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\AFFStepTertiary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\AStep.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\AStepSecond.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\BFFStep.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\BFFStepSecond.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\BFFStepTertiary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\BFStep.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\BFStepSecond.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\BNoStep.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\CFStep.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\CFStepSecond.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\CFStepTertiary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\CNoStep.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\CNoStepSecond.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\ENoStep.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\MV2NoStep.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\NV2NoStep.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\NVNoStep.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\SFFStep.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\SFFStepSecond.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\SFFStepTertiary.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\SFStep.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\SFStepSecond.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\SStep.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\StepGlass.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\WSNoStep.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\StepSketches\WStep.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\AllCabinDrawSketches\W.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\CabinExtras\BronzeClean.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\CabinExtras\MadeInGreece.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\CabinExtras\Packing.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\CabinExtras\Reversible.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\CabinExtras\SafeKids.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\CabinExtras\StepCut.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\CabinExtras\Wheels8x8.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\GlassImages\Frosted.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\GlassImages\Fume.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\GlassImages\Satin.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\GlassImages\Serigraphy.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\GlassImages\Transparent.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\GlassImages\Windowed.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\HelpPhotos\StepHelpImg.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\MainCabins.png">
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\MetalFinishes\ChromeFinish.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\MetalFinishes\WhiteMatFinish.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Openings\BathtubPanels.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Openings\DoorOnPanelOpenings\Door34.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Openings\DoorOnPanelOpenings\Door35.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Openings\DoorOnPanelOpenings\Door37.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Openings\DoorOnPanelOpenings\Door40.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Openings\DoorOnPanelOpenings\Door43.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Openings\DoorsOnPanel.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Openings\FixedPanels.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Openings\FixedPanelsOpenings\8EFreeStandingPanel.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Openings\FixedPanelsOpenings\8WWallPanel.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Openings\FixedPanelsOpenings\Flipper81.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Openings\FixedPanelsOpenings\Synthesis82.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Openings\FixedPanelsOpenings\Synthesis84.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Openings\FixedPanelsOpenings\Synthesis85.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Openings\FixedPanelsOpenings\Synthesis88.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Openings\FoldingOpenings.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Openings\FoldingOpenings\CornerFoldingDoorSideP45.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Openings\FoldingOpenings\DoubleCornerFolding46.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Openings\FoldingOpenings\DoubleFoldDoor48.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Openings\FoldingOpenings\FoldingDoor44.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Openings\FoldingOpenings\FoldingDoorwithFixed47.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Openings\SlidingOpenings.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Openings\SlidingOpenings\CornerSliding.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Openings\SlidingOpenings\CornerSlidingWithSidePanel.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Openings\SlidingOpenings\DoubleSliding.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Openings\SlidingOpenings\DoubleSlidingWith2SidePanels.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Openings\SlidingOpenings\DoubleSlidingWithSidePanel.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Openings\SlidingOpenings\SemicircularSliding.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Openings\SlidingOpenings\SemicircularSlidingWithSidePanel.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Openings\SlidingOpenings\SingleSliding.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Openings\SlidingOpenings\SingleSlidingWith2SidePanels.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Openings\SlidingOpenings\SingleSlidingWithSidePanel.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Openings\StandardDoorOpenings\Door3151.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Openings\StandardDoorOpenings\Door3252.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Openings\StandardDoorOpenings\Door3353.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Openings\StandardDoorOpenings\Door3859.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Openings\StandardDoorOpenings\Door4161.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Openings\StandardDoors.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Polycarbonics\BumperStrip.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Polycarbonics\CornerStrip.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Polycarbonics\MagnetProfileStrip.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Polycarbonics\StraightMagnet.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\Bronze6000.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\Free.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\Hotel8000.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgBronze6000\94.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgBronze6000\949F.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgBronze6000\9A.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgBronze6000\9B.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgBronze6000\9B9F.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgBronze6000\9C.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgBronze6000\9F.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgBronze6000\9S.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgBronze6000\9S9F.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgBronze6000\Charachteristics\9CMagnetClosure.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgBronze6000\Charachteristics\9SMagnetClosure.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgBronze6000\Charachteristics\B6000Aluminium.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgBronze6000\Charachteristics\B6000Handle.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgBronze6000\Charachteristics\B6000Wheel.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgBronze6000\Charachteristics\B6000Wheels.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgBronze6000\Charachteristics\Hinge9B.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgDB\Charachteristics\Hinge.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgDB\Charachteristics\MagnetOrBumper.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgDB\Charachteristics\MagnetOrBumper2.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgDB\Charachteristics\SingleHandle.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgDB\Charachteristics\ThresholdFlap.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgDB\DB51.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgFree\82.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgFree\84.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgFree\88.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgFree\8E.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgFree\8W.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgFree\Charachteristics\Double AluminiumHorizontal.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgFree\Charachteristics\Double AluminiumVertical.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgFree\Charachteristics\FlipperHinge.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgFree\Charachteristics\StopperColored.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgFree\Charachteristics\StopperSketch.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgFree\Charachteristics\SupportBar.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgFree\Charachteristics\WallClamp.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgFree\Charachteristics\WallProfile8W.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgFree\Flipper.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgHB\Charachteristics\GlassToGlassHinge.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgHB\HB34.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgHB\HB35.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgHB\HB37.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgHB\HB40.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgHB\HB43.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgInox304\Charachteristics\Inox304Mechanism.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgInox304\V4.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgInox304\VA.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgInox304\VF.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgInox304\VS.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgInox304\VSVF.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgNB\Charachteristics\NiagaraProfile.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgNB\NB31.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgNB\NB32.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgNB\NB33.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgNB\NB38.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgNB\NB41.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgNP\Charachteristics\NPHinge.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgNP\NP44.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgNP\NP45.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgNP\NP46.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgNP\NP47.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgNP\NP48.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgNVMV\6WA30.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgNVMV\8W40.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgNVMV\Charachteristics\AluminiumBetweenHinge.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgNVMV\Charachteristics\MVHinge1.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgNVMV\Charachteristics\MVHinge2.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgNVMV\MV2.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgNVMV\NV.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgNVMV\NV2.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgSmart\Charachteristics\SupportWS.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgSmart\Charachteristics\WSMechanism.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgSmart\Charachteristics\WSWallProfile.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\ImgSmart\WS.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\Inox304.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\Niagara6000.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\CabinImages\Series\Smart.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\Finishes\BlackMatAnodized.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\Finishes\BronzeElectroplated.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\Finishes\BronzeMatAnodized.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\Finishes\BrushedNickelAnodized.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\Finishes\ChromeMatAnodized.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\Finishes\CopperElectroplated.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\Finishes\CopperMatAnodized.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\Finishes\GoldMatAnodized.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\Finishes\GraphiteElectroplated.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\Finishes\GraphiteMatAnodized.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\Finishes\NickelElectroplated.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\Finishes\RalPainting.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\Finishes\RealGoldElectroplated.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\Finishes\RoseGoldElectroplated.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\Finishes\SilverAnodized.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\Finishes\SimilarGoldElectroplated.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\FlagIcons\EnglishFlag.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\FlagIcons\GreekFlag.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\FlagIcons\ItalianFlag.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\Logos\BABlack.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\Logos\BAGold.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\Logos\DGLogo.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\Logos\Whitelabel1.svg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\Logos\PapapolitisLogo.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\AllCapsuleMirrors.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\AllCircularMirrors.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\AllEllipseMirrors.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\AllRectangularMirrors.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\AllRectangularMirrors2.jpg">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\HelperBackgrounds\MirrorSupport.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\HelperBackgrounds\TapeMeasure.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\MakeYourMirrorButton.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\MakeYourMirrorButton2.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\MirrorModelsImages\6000Horizontal.jpg">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\MirrorModelsImages\6000Vertical.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\MirrorModelsImages\60A7.jpg">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\MirrorModelsImages\60A9.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\MirrorModelsImages\60ELHorizontal.jpg">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\MirrorModelsImages\60ELVertical.jpg">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\MirrorModelsImages\60ESHorizontal.jpg">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\MirrorModelsImages\60ESPure.jpg">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\MirrorModelsImages\60ESVertical.jpg">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\MirrorModelsImages\60H7Horizontal.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\MirrorModelsImages\60H7Vertical.jpg">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\MirrorModelsImages\60H8Horizontal.jpg">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\MirrorModelsImages\60H8Vertical.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\MirrorModelsImages\60IC.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\MirrorModelsImages\60IL.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\MirrorModelsImages\60M3.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\MirrorModelsImages\60N1.jpg">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\MirrorModelsImages\60N2.jpg">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\MirrorModelsImages\60N6.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\MirrorModelsImages\60N7.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\MirrorModelsImages\60N9.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\MirrorModelsImages\60NA.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\MirrorModelsImages\60NCVertical.jpg">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\MirrorModelsImages\60NCHorizontal.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\MirrorModelsImages\60ND.jpg">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\MirrorModelsImages\60NL.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\MirrorModelsImages\60NS.jpg">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\MirrorModelsImages\60P9.jpg">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\MirrorModelsImages\60R7Horizontal.jpg">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\MirrorModelsImages\60R7Vertical.jpg">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\MirrorModelsImages\60P8.jpg">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\MirrorModelsImages\60P8Pure.jpg">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\MirrorModelsImages\60R9.jpg">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\MirrorModelsImages\60X4Horizontal.jpg">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\MirrorModelsImages\60X4Vertical.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\MirrorModelsImages\60X6Horizontal.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\MirrorModelsImages\60X6Vertical.jpg">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\MirrorModelsImages\AllCircularMirrors.jpg">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\MirrorModelsImages\H7FramedMirror.jpg">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\MirrorModelsImages\H8FramedMirror.jpg">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\MirrorModelsImages\R9CarouselImage.jpg">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\OptionsIcons\AluminumChannel.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\OptionsIcons\AntiFog16W.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\OptionsIcons\AntiFog24W.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\OptionsIcons\AntiFog55W.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\OptionsIcons\BackLightChannel.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\OptionsIcons\Bluetooth.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\OptionsIcons\Choose Light.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\OptionsIcons\Clock.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\OptionsIcons\Cold Light.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\OptionsIcons\Cold16W.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\OptionsIcons\ColdDotless.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\OptionsIcons\Day16W.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\OptionsIcons\DayDotless.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\OptionsIcons\DayLight.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\OptionsIcons\Dimmer.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\OptionsIcons\DoubleLightedPlexi.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\OptionsIcons\EcoTouch.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\OptionsIcons\FOGTOUCH.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\OptionsIcons\FrontLightChannel.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\OptionsIcons\IP LID.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\OptionsIcons\Lamp.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\OptionsIcons\LightedSinglePlexi.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\OptionsIcons\Meteo 19.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\OptionsIcons\Meteo 20.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\OptionsIcons\No Light.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\OptionsIcons\Round Edges.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\OptionsIcons\Screen No11.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\OptionsIcons\Screen11b.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\OptionsIcons\Sensor.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\OptionsIcons\SmartAntiFog.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\OptionsIcons\TouchButton.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\OptionsIcons\Warm Cold Day Light.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\OptionsIcons\Warm Light.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\OptionsIcons\Warm-Cold Light.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\OptionsIcons\Warm16W.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\OptionsIcons\WarmColdDay16W.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\OptionsIcons\WarmColdDayDotless.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\OptionsIcons\WarmDotless.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\OptionsIcons\Zoom x3 &amp; LED Touch.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\OptionsIcons\Zoom x3 &amp; LED.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\OptionsIcons\Zoom x3.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\SimpleCircular.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\SimpleCircularMirror.jpg">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\SimpleRect.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\SimpleRectangleMirror.jpg">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\SupportsImages\CapsuleDoubleSupport.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\SupportsImages\CapsulePerimetricalSupport.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\SupportsImages\CapsuleWithoutSupport.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\SupportsImages\CircleDoubleSupport.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\SupportsImages\CirclePerimetricalSupport.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\SupportsImages\CircleWithoutSupport.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\SupportsImages\ElipseDoubleSupport.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\SupportsImages\ElipsePerimetricalSupport.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\SupportsImages\ElipseWithoutSupport.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\SupportsImages\FramedCircularMirror.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\SupportsImages\FramedRectangularMirror.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\SupportsImages\FrontSupportsMirror.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\SupportsImages\SquareDoubleSupport.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\SupportsImages\SquarePerimetricalSupport.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\MirrorsImages\SupportsImages\SquareWithoutSupport.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\Various\BathroomBackground.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\Various\MainAccessoriesButton.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\Various\MainAccessoriesButton1.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\Various\MainAccessoriesButtonOLD.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\Various\MainCabinButton.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\Various\MainCabinButton1.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\Various\MainMirrorButton.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\Various\NoImageAvailable.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Images\Various\UnavailableIcon.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\local.settings.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Update="Properties\Resources.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
+</Project>

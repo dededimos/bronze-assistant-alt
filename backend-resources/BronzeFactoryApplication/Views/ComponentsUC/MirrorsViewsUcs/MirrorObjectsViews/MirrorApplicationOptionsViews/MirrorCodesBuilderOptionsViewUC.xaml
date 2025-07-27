@@ -1,0 +1,928 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.MirrorObjectsViews.MirrorApplicationOptionsViews.MirrorCodesBuilderOptionsViewUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.MirrorObjectsViews.MirrorApplicationOptionsViews"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels.MirrorsViewModels.MirrorOptionsViewModels"
+             xmlns:vw="clr-namespace:BronzeFactoryApplication.Views.HelperViews"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:mirrElements="clr-namespace:MirrorsLib.MirrorElements;assembly=MirrorsLib"
+             xmlns:affixPresenter="clr-namespace:MirrorsLib.Services.CodeBuldingService;assembly=MirrorsLib"
+             xmlns:globalCommands="clr-namespace:BronzeFactoryApplication.Helpers"
+             xmlns:EnumSource="clr-namespace:BronzeFactoryApplication.Helpers.MarkupExtensions"
+             xmlns:mirrorEnum="clr-namespace:MirrorsLib.Enums;assembly=MirrorsLib"
+             xmlns:codeDimensionUnitEnum="clr-namespace:MirrorsLib.Services.CodeBuldingService;assembly=MirrorsLib"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=vm:MirrorCodesBuilderOptionsEditorViewModel}">
+    <Grid>
+        <Grid.Resources>
+            <Style TargetType="hc:Divider"
+                   BasedOn="{StaticResource DividerBaseStyle}">
+                <Setter Property="LineStroke"
+                        Value="{DynamicResource SecondaryBorderBrush}" />
+                <Setter Property="LineStrokeThickness"
+                        Value="1" />
+            </Style>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <!--#region Separators -->
+        <hc:UniformSpacingPanel Spacing="5"
+                                Orientation="Vertical"
+                                Grid.Row="0"
+                                Grid.Column="0">
+            <!--#region Add Separator UI -->
+            <DockPanel LastChildFill="True"
+                       Margin="0,0,0,10">
+                <Button Command="{Binding AddSeperatorCommand}"
+                        Style="{StaticResource AddButtonStyle}"
+                        DockPanel.Dock="Right"
+                        VerticalAlignment="Bottom"
+                        Margin="0,0,0,4" />
+                <StackPanel Orientation="Horizontal"
+                            Margin="0,0,10,0">
+                    <vw:TasNumericTextBox Text="{Binding SelectedSeparatorPositionToAdd}"
+                                          TextBoxTitle="{StaticResource lngSeperatorPosition}"
+                                          IconTooltip="{StaticResource lngSeperatorPositionTooltip}"
+                                          Precision="0"
+                                          JustPositiveInput="True"
+                                          InputMode="DigitInput"
+                                          MaxLength="2"
+                                          Margin="0,0,10,0" />
+                    <vw:TasTextBox Text="{Binding SelectedSeparatorToAdd}"
+                                   TextBoxTitle="{StaticResource lngSeparator}"
+                                   IconTooltip="{StaticResource lngSeparatorTooltip}"
+                                   MaxLength="5" />
+                </StackPanel>
+            </DockPanel>
+            <!--#endregion-->
+            <!--#region Separators List -->
+            <vw:TasListBox ListBoxTitle="{StaticResource lngSeparatorsList}"
+                           IconTooltip="{StaticResource lngSeparatorsListTooltip}"
+                           ItemsSource="{Binding Separators}">
+                <vw:TasListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel Grid.IsSharedSizeScope="True" />
+                    </ItemsPanelTemplate>
+                </vw:TasListBox.ItemsPanel>
+                <vw:TasListBox.ItemTemplate>
+                    <DataTemplate DataType="{x:Type vm:SeparatorPositionHelper}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition SharedSizeGroup="Remove" />
+                                <ColumnDefinition SharedSizeGroup="Separator" />
+                                <ColumnDefinition SharedSizeGroup="divider" />
+                                <ColumnDefinition SharedSizeGroup="Position" />
+                            </Grid.ColumnDefinitions>
+                            <Button Style="{StaticResource RemoveItemButtonStyle}"
+                                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.RemoveSeparatorCommand}"
+                                    CommandParameter="{Binding .}"
+                                    Grid.Column="0" />
+                            <TextBlock Margin="20,0,10,0"
+                                       Grid.Column="1"
+                                       TextAlignment="Center"
+                                       VerticalAlignment="Center">
+                                <Run Text="' " />
+                                <Run Text="{Binding Separator, Mode=OneWay}" />
+                                <Run Text=" '" />
+                            </TextBlock>
+                            <hc:Divider Orientation="Vertical"
+                                        LineStroke="{DynamicResource SecondaryBorderBrush}"
+                                        LineStrokeThickness="1"
+                                        Grid.Column="2" />
+                            <TextBlock Margin="10,0"
+                                       Grid.Column="3"
+                                       VerticalAlignment="Center">
+                                <Run Text="{StaticResource lngPosition}" />
+                                <Run Text=": " />
+                                <Run Text="{Binding Position,Mode=OneWay}" />
+                            </TextBlock>
+                        </Grid>
+                    </DataTemplate>
+                </vw:TasListBox.ItemTemplate>
+            </vw:TasListBox>
+            <!--#endregion-->
+        </hc:UniformSpacingPanel>
+        <!--#endregion-->
+
+        <hc:Divider Orientation="Vertical"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="20,10" />
+        <hc:Divider Orientation="Vertical"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Margin="20,10" />
+
+        <hc:Divider Orientation="Horizontal"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="10" />
+        <hc:Divider Orientation="Horizontal"
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Margin="10" />
+        <hc:Divider Orientation="Horizontal"
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    Margin="20,10" />
+
+        <hc:UniformSpacingPanel Grid.Row="0"
+                                Grid.Column="2"
+                                Spacing="5"
+                                Orientation="Vertical">
+            <!--#region GlassOnly Options -->
+            <StackPanel Margin="0,0,0,10"
+                        Orientation="Horizontal">
+                <CheckBox Content="{StaticResource lngGlassOnlyOptions}"
+                          IsChecked="{Binding GlassOnlyOptions}" />
+                <cc:Icon Style="{StaticResource CInfoTooltipIcon}"
+                         Margin="5,0,0,0"
+                         ToolTip="{StaticResource lngGlassOnlyOptionsTooltip}"/>
+                <hc:Divider Orientation="Vertical"
+                            LineStrokeThickness="1"
+                            LineStroke="{DynamicResource SecondaryBorderBrush}" 
+                            Margin="20,0"/>
+                <CheckBox Content="{StaticResource lngComplexCodeOptions}"
+                          IsChecked="{Binding ComplexCodeOptions}" 
+                          IsEnabled="{Binding IsComplexCodeOptionsEditable}"/>
+                <cc:Icon Style="{StaticResource CInfoTooltipIcon}"
+                         Margin="5,0,5,0"
+                         ToolTip="{StaticResource lngComplexCodeOptionsTooltip}"
+                         IsEnabled="{Binding IsComplexCodeOptionsEditable}" />
+            </StackPanel>
+            <!--#endregion-->
+            <!--#region Dimension Unit -->
+            <vw:TasComboBox ComboBoxTitle="{StaticResource lngMirrorCodeDimensionsUnit}"
+                            IconToolTip="{StaticResource lngMirrorCodeDimensionsUnitTooltip}"
+                            ItemsSource="{Binding Source={EnumSource:BindingSourceEnumValues {x:Type codeDimensionUnitEnum:MirrorCodeDimensionsUnit}}}"
+                            SelectedItem="{Binding DimensionUnit}"
+                            DropDownElementConsistentWidth="False" />
+            <!--#endregion-->
+            <!--#region Length Affix Position -->
+            <vw:TasNumericTextBox Text="{Binding LengthAffixPosition}"
+                                  TextBoxTitle="{StaticResource lngLengthAffixPosition}"
+                                  IconTooltip="{StaticResource lngLengthAffixPositionTooltip}"
+                                  Precision="0"
+                                  JustPositiveInput="True"
+                                  InputMode="DigitInput"
+                                  MaxLength="2" />
+            <!--#endregion-->
+            <!--#region Height Affix Position -->
+            <vw:TasNumericTextBox Text="{Binding HeightAffixPosition}"
+                                  TextBoxTitle="{StaticResource lngHeightAffixPosition}"
+                                  IconTooltip="{StaticResource lngHeightAffixPositionTooltip}"
+                                  Precision="0"
+                                  JustPositiveInput="True"
+                                  InputMode="DigitInput"
+                                  MaxLength="2" />
+            <!--#endregion-->
+            <!--#region Truncated Trailing Charachter -->
+            <vw:TasTextBox Text="{Binding TruncatedTrailingCharachter}"
+                           TextBoxTitle="{StaticResource lngTruncatedTrailingCharachter}"
+                           IconTooltip="{StaticResource lngTruncatedTrailingCharachterTooltip}"
+                           MaxLength="1" />
+            <!--#endregion-->
+        </hc:UniformSpacingPanel>
+
+        <!--#region Mirror Elements Codes AFFIXES -->
+        <hc:UniformSpacingPanel Spacing="5"
+                                Orientation="Vertical"
+                                Grid.Row="2"
+                                Grid.Column="0">
+            <!--#region Add Affix UI -->
+            <DockPanel LastChildFill="True"
+                       Margin="0,0,0,10">
+                <Button Command="{Binding AddMirrorPropertyCodeAffixCommand}"
+                        Style="{StaticResource AddButtonStyle}"
+                        DockPanel.Dock="Right"
+                        VerticalAlignment="Bottom"
+                        Margin="0,0,0,4" />
+                <DockPanel Margin="0,0,10,0">
+                    <vw:TasComboBox ComboBoxTitle="{StaticResource lngMirrorCodeElementType}"
+                                    IconToolTip="{StaticResource lngMirrorCodeElementTypeTooltip}"
+                                    ItemsSource="{Binding Source={EnumSource:BindingSourceEnumValuesNoZero {x:Type mirrorEnum:MirrorCodeOptionsElementType}}}"
+                                    SelectedItem="{Binding ElementTypeToAddAffixOptions}"
+                                    DropDownElementConsistentWidth="False"
+                                    Margin="0,0,10,0"
+                                    MinWidth="150">
+                        <vw:TasComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding .,Converter={StaticResource languageConverter}}" />
+                            </DataTemplate>
+                        </vw:TasComboBox.ItemTemplate>
+                    </vw:TasComboBox>
+                    <Button Height="45"
+                            HorizontalAlignment="Stretch"
+                            Command="{Binding OpenEditSelectedMirrorPropertyAffixCommand}"
+                            VerticalAlignment="Bottom">
+                        <hc:UniformSpacingPanel Orientation="Vertical"
+                                                Spacing="2"
+                                                HorizontalAlignment="Center">
+                            <TextBlock Text="{Binding SelectedAffixOptionsOfElement.CodeType,Converter={StaticResource languageConverter}}"
+                                       Style="{StaticResource CSmallInfoTextBlock}"
+                                       d:Text="CodeType"
+                                       HorizontalAlignment="Left"
+                                       Visibility="{Binding SelectedAffixOptionsOfElement.IsCodeTypeOverriden , Converter={StaticResource Boolean2VisibilityReConverter}}" />
+                            <TextBlock Text="{Binding SelectedAffixOptionsOfElement.IsCodeTypeOverriden}"
+                                       Style="{StaticResource CSmallInfoTextBlock}"
+                                       d:Text="OverrideString"
+                                       HorizontalAlignment="Left"
+                                       d:Visibility="Collapsed"
+                                       Visibility="{Binding SelectedAffixOptionsOfElement.IsCodeTypeOverriden,Converter={StaticResource Boolean2VisibilityConverter}}" />
+                            <TextBlock Style="{StaticResource CSmallInfoTextBlock}"
+                                       d:Text="position"
+                                       HorizontalAlignment="Center">
+                                <Run Text="{StaticResource lngPosition}" />
+                                <Run Text=": " />
+                                <Run Text="{Binding SelectedAffixOptionsOfElement.PositionOrder , Mode=OneWay}" />
+                            </TextBlock>
+                        </hc:UniformSpacingPanel>
+                    </Button>
+                </DockPanel>
+            </DockPanel>
+            <!--#endregion-->
+            <!--#region Affix List -->
+            <vw:TasListBox ListBoxTitle="{StaticResource lngMirrorElementsAffixList}"
+                           IconTooltip="{StaticResource lngMirrorElementsAffixListTooltip}"
+                           ItemsSource="{Binding MirrorPropertiesCodeAffixes}"
+                           MinWidth="400"
+                           Height="120">
+                <vw:TasListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel Grid.IsSharedSizeScope="True" />
+                    </ItemsPanelTemplate>
+                </vw:TasListBox.ItemsPanel>
+                <vw:TasListBox.ItemTemplate>
+                    <DataTemplate DataType="{x:Type vm:CodeOptionsAffixHelper}">
+                        <Grid ToolTipService.Placement="Left"
+                              ToolTipService.InitialShowDelay="0"
+                              ToolTipService.BetweenShowDelay="0">
+                            <Grid.ToolTip>
+                                <!--#region TOOLTIP Code Options Affix Helper !!!!! -->
+                                <ToolTip Foreground="{DynamicResource SecondaryBrush}">
+                                    <Grid DataContext="{Binding RelativeSource={RelativeSource AncestorType=ToolTip}, Path=PlacementTarget.DataContext}"
+                                          d:DataContext="{d:DesignInstance Type=vm:CodeOptionsAffixHelper}"
+                                          Grid.IsSharedSizeScope="True">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="30" />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition Width="15" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Text="{Binding ElementType,Converter={StaticResource languageConverter}}"
+                                                   HorizontalAlignment="Left"
+                                                   TextDecorations="Underline"
+                                                   Style="{StaticResource CMediumInfoTextBlock}"
+                                                   Grid.Row="0"
+                                                   Grid.Column="0"
+                                                   Foreground="{DynamicResource SecondaryBrush}"
+                                                   Grid.ColumnSpan="3" />
+
+
+                                        <!--#region CodeType -->
+                                        <TextBlock Text="{StaticResource lngMirrorElementAffixCodeType}"
+                                                   Grid.Row="1"
+                                                   Grid.Column="0" />
+                                        <TextBlock Text=":"
+                                                   HorizontalAlignment="Center"
+                                                   Grid.Row="1"
+                                                   Grid.Column="1" />
+                                        <TextBlock Text="{Binding AffixOptions.CodeType,Converter={StaticResource languageConverter}}"
+                                                   Grid.Row="1"
+                                                   Grid.Column="2" />
+                                        <!--#endregion-->
+
+                                        <!--#region Override String -->
+                                        <TextBlock Text="{StaticResource lngAffixOverrideCodeString}"
+                                                   Grid.Row="2"
+                                                   Grid.Column="0" />
+                                        <TextBlock Text=":"
+                                                   HorizontalAlignment="Center"
+                                                   Grid.Row="2"
+                                                   Grid.Column="1" />
+                                        <TextBlock Text="{Binding AffixOptions.OverrideCodeString , TargetNullValue='null'}"
+                                                   Grid.Row="2"
+                                                   Grid.Column="2" />
+                                        <!--#endregion-->
+
+                                        <!--#region Replacement Affix When Empty -->
+                                        <TextBlock Text="{StaticResource lngReplacementCodeAffixWhenEmpty}"
+                                                   Grid.Row="3"
+                                                   Grid.Column="0" />
+                                        <TextBlock Text=":"
+                                                   HorizontalAlignment="Center"
+                                                   Grid.Row="3"
+                                                   Grid.Column="1" />
+                                        <StackPanel Grid.Row="3"
+                                                    Grid.Column="2">
+                                            <TextBlock Text="{Binding AffixOptions.ReplacementCodeAffixWhenEmpty , TargetNullValue='null'}" />
+                                            <ItemsControl ItemsSource="{Binding AffixOptions.ReplacementCodeAffixBasedOnShape}">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <VirtualizingStackPanel Grid.IsSharedSizeScope="True" />
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition  SharedSizeGroup="K" />
+                                                                <ColumnDefinition SharedSizeGroup=":" />
+                                                                <ColumnDefinition SharedSizeGroup="Val" />
+                                                            </Grid.ColumnDefinitions>
+                                                            <TextBlock Text="{Binding Key,Converter={StaticResource languageConverter}}" />
+                                                            <TextBlock Text=" : "
+                                                                       Grid.Column="1" />
+                                                            <TextBlock Text="{Binding Value}"
+                                                                       Grid.Column="2" />
+                                                        </Grid>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </StackPanel>
+                                        <!--#endregion-->
+
+                                        <!--#region Position Order -->
+                                        <TextBlock Text="{StaticResource lngPosition}"
+                                                   Grid.Row="4"
+                                                   Grid.Column="0" />
+                                        <TextBlock Text=":"
+                                                   HorizontalAlignment="Center"
+                                                   Grid.Row="4"
+                                                   Grid.Column="1" />
+                                        <TextBlock Text="{Binding AffixOptions.PositionOrder , TargetNullValue='null'}"
+                                                   Grid.Row="4"
+                                                   Grid.Column="2" />
+                                        <!--#endregion-->
+
+                                        <!--#region MinimumNumberOfCharachters -->
+                                        <TextBlock Text="{StaticResource lngAffixMinimumNumberOfCharachters}"
+                                                   Grid.Row="5"
+                                                   Grid.Column="0" />
+                                        <TextBlock Text=":"
+                                                   HorizontalAlignment="Center"
+                                                   Grid.Row="5"
+                                                   Grid.Column="1" />
+                                        <TextBlock Text="{Binding AffixOptions.NumberOfCharachters}"
+                                                   Grid.Row="5"
+                                                   Grid.Column="2" />
+                                        <!--#endregion-->
+
+                                        <!--#region Filler Charachter -->
+                                        <TextBlock Text="{StaticResource lngAffixFillerCharachter}"
+                                                   Grid.Row="6"
+                                                   Grid.Column="0" />
+                                        <TextBlock Text=":"
+                                                   HorizontalAlignment="Center"
+                                                   Grid.Row="6"
+                                                   Grid.Column="1" />
+                                        <TextBlock Text="{Binding AffixOptions.FillerCharachter}"
+                                                   Grid.Row="6"
+                                                   Grid.Column="2" />
+                                        <!--#endregion-->
+
+                                        <!--#region Include Element Position Code -->
+                                        <TextBlock Text="{StaticResource lngAffixIncludeElementPositionCode}"
+                                                   Grid.Row="7"
+                                                   Grid.Column="0" />
+                                        <TextBlock Text=":"
+                                                   HorizontalAlignment="Center"
+                                                   Grid.Row="7"
+                                                   Grid.Column="1" />
+                                        <TextBlock Text="{Binding AffixOptions.IncludeElementPositionCode}"
+                                                   Grid.Row="7"
+                                                   Grid.Column="2" />
+                                        <!--#endregion-->
+
+                                        <!--#region Element Position Code Type Option -->
+                                        <TextBlock Text="{StaticResource lngElementPositionAffixCodeType}"
+                                                   Grid.Row="8"
+                                                   Grid.Column="0" />
+                                        <TextBlock Text=":"
+                                                   HorizontalAlignment="Center"
+                                                   Grid.Row="8"
+                                                   Grid.Column="1" />
+                                        <TextBlock Text="{Binding AffixOptions.ElementPositionCodeTypeOption}"
+                                                   Grid.Row="8"
+                                                   Grid.Column="2" />
+                                        <!--#endregion-->
+
+                                        <!--#region Element Position Minimum Number Of Charachters -->
+                                        <TextBlock Text="{StaticResource lngElementPositionMinimumNumberOfCharachters}"
+                                                   Grid.Row="9"
+                                                   Grid.Column="0" />
+                                        <TextBlock Text=":"
+                                                   HorizontalAlignment="Center"
+                                                   Grid.Row="9"
+                                                   Grid.Column="1" />
+                                        <TextBlock Text="{Binding AffixOptions.ElementPositionMinimumNumberOfCharachters}"
+                                                   Grid.Row="9"
+                                                   Grid.Column="2" />
+                                        <!--#endregion-->
+
+                                        <!--#region Element Position Filler Charachter -->
+                                        <TextBlock Text="{StaticResource lngElementPositionFillerCharachter}"
+                                                   Grid.Row="10"
+                                                   Grid.Column="0" />
+                                        <TextBlock Text=":"
+                                                   HorizontalAlignment="Center"
+                                                   Grid.Row="10"
+                                                   Grid.Column="1" />
+                                        <TextBlock Text="{Binding AffixOptions.ElementPositionFillerCharachter}"
+                                                   Grid.Row="10"
+                                                   Grid.Column="2" />
+                                        <!--#endregion-->
+                                    </Grid>
+                                </ToolTip>
+                                <!--#endregion-->
+                            </Grid.ToolTip>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition SharedSizeGroup="remove" />
+                                <ColumnDefinition SharedSizeGroup="elementType" />
+                                <ColumnDefinition SharedSizeGroup="divider" />
+                                <ColumnDefinition SharedSizeGroup="codeType" />
+                                <ColumnDefinition SharedSizeGroup="divider2" />
+                                <ColumnDefinition SharedSizeGroup="position" />
+                                <ColumnDefinition SharedSizeGroup="divider3" />
+                                <ColumnDefinition SharedSizeGroup="emptySpot" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Orientation="Horizontal"
+                                        Grid.Column="0">
+                                <Button Style="{StaticResource EditLocalizedStringVmButtonStyle}"
+                                        Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl},Path=DataContext.CopyListAffixToSelectedAffixOfElementCommand}"
+                                        CommandParameter="{Binding .}" />
+                                <Button Style="{StaticResource RemoveItemButtonStyle}"
+                                        Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.RemoveMirrorPropertyCodeAffixCommand}"
+                                        CommandParameter="{Binding .}" />
+                            </StackPanel>
+                            <TextBlock Grid.Column="1"
+                                       Margin="10,0,5,0"
+                                       Text="{Binding ElementType,Converter={StaticResource languageConverter}}"
+                                       VerticalAlignment="Center" />
+                            <hc:Divider Orientation="Vertical"
+                                        LineStroke="{DynamicResource SecondaryBorderBrush}"
+                                        LineStrokeThickness="1"
+                                        Grid.Column="2" />
+                            <DockPanel Grid.Column="3"
+                                       Margin="5,0">
+                                <TextBlock Text="{Binding AffixOptions.CodeType,Converter={StaticResource languageConverter}}"
+                                           Visibility="{Binding AffixOptions.IsCodeTypeOverridden,Converter={StaticResource Boolean2VisibilityReConverter}}"
+                                           VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding AffixOptions.OverrideCodeString}"
+                                           Visibility="{Binding AffixOptions.IsCodeTypeOverridden,Converter={StaticResource Boolean2VisibilityConverter}}"
+                                           VerticalAlignment="Center" />
+                            </DockPanel>
+                            <hc:Divider Orientation="Vertical"
+                                        LineStroke="{DynamicResource SecondaryBorderBrush}"
+                                        LineStrokeThickness="1"
+                                        Grid.Column="4" />
+                            <TextBlock Grid.Column="5"
+                                       Margin="5,0"
+                                       VerticalAlignment="Center">
+                                <Run Text="{StaticResource lngPosition}" />
+                                <Run Text=": " />
+                                <Run Text="{Binding AffixOptions.PositionOrder,Mode=OneWay}" />
+                            </TextBlock>
+                            <hc:Divider Orientation="Vertical"
+                                        LineStroke="{DynamicResource SecondaryBorderBrush}"
+                                        LineStrokeThickness="1"
+                                        Grid.Column="6" />
+                            <TextBlock Grid.Column="7"
+                                       Margin="5,0"
+                                       VerticalAlignment="Center">
+                                <Run Text="{StaticResource lngMissingElementAffix}" />
+                                <Run Text=": " />
+                                <Run Text="{Binding AffixOptions.ReplacementCodeAffixWhenEmpty , Mode=OneWay , TargetNullValue='-'}" />
+                            </TextBlock>
+                        </Grid>
+                    </DataTemplate>
+                </vw:TasListBox.ItemTemplate>
+            </vw:TasListBox>
+            <!--#endregion-->
+        </hc:UniformSpacingPanel>
+        <!--#endregion-->
+
+        <!--#region Specific Modules Codes AFFIXES -->
+        <hc:UniformSpacingPanel Spacing="5"
+                                Orientation="Vertical"
+                                Grid.Row="2"
+                                Grid.Column="2">
+            <!--#region Add Affix UI -->
+            <DockPanel LastChildFill="True"
+                       Margin="0,0,0,10">
+                <Button Command="{Binding AddModuleTypeCodeAffixCommand}"
+                        Style="{StaticResource AddButtonStyle}"
+                        DockPanel.Dock="Right"
+                        VerticalAlignment="Bottom"
+                        Margin="0,0,0,4" />
+                <DockPanel Margin="0,0,10,0">
+                    <vw:TasComboBox ComboBoxTitle="{StaticResource lngMirrorModuleType}"
+                                    IconToolTip="{StaticResource lngMirrorModuleType}"
+                                    ItemsSource="{Binding Source={EnumSource:BindingSourceEnumValues {x:Type mirrorEnum:MirrorModuleType}}}"
+                                    SelectedItem="{Binding ModuleTypeToAddAffixOptions}"
+                                    DropDownElementConsistentWidth="False"
+                                    Margin="0,0,10,0"
+                                    MinWidth="150">
+                        <vw:TasComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding .,Converter={StaticResource languageConverter}}" />
+                            </DataTemplate>
+                        </vw:TasComboBox.ItemTemplate>
+                    </vw:TasComboBox>
+                    <Button Height="45"
+                            HorizontalAlignment="Stretch"
+                            Command="{Binding OpenEditSpecificModulePropertyAffixCommand}"
+                            VerticalAlignment="Bottom">
+                        <hc:UniformSpacingPanel Orientation="Vertical"
+                                                Spacing="2"
+                                                HorizontalAlignment="Center">
+                            <TextBlock Text="{Binding SelectedAffixOptionsOfModule.CodeType,Converter={StaticResource languageConverter}}"
+                                       Style="{StaticResource CSmallInfoTextBlock}"
+                                       d:Text="CodeType"
+                                       HorizontalAlignment="Left"
+                                       Visibility="{Binding SelectedAffixOptionsOfModule.IsCodeTypeOverriden , Converter={StaticResource Boolean2VisibilityReConverter}}" />
+                            <TextBlock Text="{Binding SelectedAffixOptionsOfModule.IsCodeTypeOverriden}"
+                                       Style="{StaticResource CSmallInfoTextBlock}"
+                                       d:Text="OverrideString"
+                                       HorizontalAlignment="Left"
+                                       d:Visibility="Collapsed"
+                                       Visibility="{Binding SelectedAffixOptionsOfModule.IsCodeTypeOverriden,Converter={StaticResource Boolean2VisibilityConverter}}" />
+                            <TextBlock Style="{StaticResource CSmallInfoTextBlock}"
+                                       d:Text="position">
+                                <Run Text="{StaticResource lngPosition}" />
+                                <Run Text=": " />
+                                <Run Text="{Binding SelectedAffixOptionsOfModule.PositionOrder , Mode=OneWay}" />
+                            </TextBlock>
+                        </hc:UniformSpacingPanel>
+                    </Button>
+                </DockPanel>
+            </DockPanel>
+            <!--#endregion-->
+            <!--#region Modules Affix List -->
+            <vw:TasListBox ListBoxTitle="{StaticResource lngSpecificModulesAffixList}"
+                           IconTooltip="{StaticResource lngSpecificModulesAffixListTooltip}"
+                           ItemsSource="{Binding SpecificModulesCodeAffixes}"
+                           MinWidth="400"
+                           Height="120">
+                <vw:TasListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel Grid.IsSharedSizeScope="True" />
+                    </ItemsPanelTemplate>
+                </vw:TasListBox.ItemsPanel>
+                <vw:TasListBox.ItemTemplate>
+                    <DataTemplate DataType="{x:Type vm:ModuleTypeAffixHelper}">
+                        <Grid ToolTipService.Placement="Right"
+                              ToolTipService.InitialShowDelay="0"
+                              ToolTipService.BetweenShowDelay="0">
+                            <Grid.ToolTip>
+                                <!--#region TOOLTIP Code Options Affix Helper !!!!! -->
+                                <ToolTip Foreground="{DynamicResource SecondaryBrush}">
+                                    <Grid DataContext="{Binding RelativeSource={RelativeSource AncestorType=ToolTip}, Path=PlacementTarget.DataContext}"
+                                          d:DataContext="{d:DesignInstance Type=vm:ModuleTypeAffixHelper}"
+                                          Grid.IsSharedSizeScope="True">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="30" />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition Width="15" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Text="{Binding ModuleType,Converter={StaticResource languageConverter}}"
+                                                   HorizontalAlignment="Left"
+                                                   TextDecorations="Underline"
+                                                   Style="{StaticResource CMediumInfoTextBlock}"
+                                                   Grid.Row="0"
+                                                   Grid.Column="0"
+                                                   Foreground="{DynamicResource SecondaryBrush}"
+                                                   Grid.ColumnSpan="3" />
+
+
+                                        <!--#region CodeType -->
+                                        <TextBlock Text="{StaticResource lngMirrorElementAffixCodeType}"
+                                                   Grid.Row="1"
+                                                   Grid.Column="0" />
+                                        <TextBlock Text=":"
+                                                   HorizontalAlignment="Center"
+                                                   Grid.Row="1"
+                                                   Grid.Column="1" />
+                                        <TextBlock Text="{Binding AffixOptions.CodeType,Converter={StaticResource languageConverter}}"
+                                                   Grid.Row="1"
+                                                   Grid.Column="2" />
+                                        <!--#endregion-->
+
+                                        <!--#region Override String -->
+                                        <TextBlock Text="{StaticResource lngAffixOverrideCodeString}"
+                                                   Grid.Row="2"
+                                                   Grid.Column="0" />
+                                        <TextBlock Text=":"
+                                                   HorizontalAlignment="Center"
+                                                   Grid.Row="2"
+                                                   Grid.Column="1" />
+                                        <TextBlock Text="{Binding AffixOptions.OverrideCodeString , TargetNullValue='null'}"
+                                                   Grid.Row="2"
+                                                   Grid.Column="2" />
+                                        <!--#endregion-->
+
+                                        <!--#region Replacement Affix When Empty -->
+                                        <TextBlock Text="{StaticResource lngReplacementCodeAffixWhenEmpty}"
+                                                   Grid.Row="3"
+                                                   Grid.Column="0" />
+                                        <TextBlock Text=":"
+                                                   HorizontalAlignment="Center"
+                                                   Grid.Row="3"
+                                                   Grid.Column="1" />
+                                        <StackPanel Grid.Row="3"
+                                                    Grid.Column="2">
+                                            <TextBlock Text="{Binding AffixOptions.ReplacementCodeAffixWhenEmpty , TargetNullValue='null'}" />
+                                            <ItemsControl ItemsSource="{Binding AffixOptions.ReplacementCodeAffixBasedOnShape}">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <VirtualizingStackPanel Grid.IsSharedSizeScope="True" />
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition  SharedSizeGroup="K" />
+                                                                <ColumnDefinition SharedSizeGroup=":" />
+                                                                <ColumnDefinition SharedSizeGroup="Val" />
+                                                            </Grid.ColumnDefinitions>
+                                                            <TextBlock Text="{Binding Key}" />
+                                                            <TextBlock Text=" : " />
+                                                            <TextBlock Text="{Binding Value}" />
+                                                        </Grid>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </StackPanel>
+                                        <!--#endregion-->
+
+                                        <!--#region Position Order -->
+                                        <TextBlock Text="{StaticResource lngPosition}"
+                                                   Grid.Row="4"
+                                                   Grid.Column="0" />
+                                        <TextBlock Text=":"
+                                                   HorizontalAlignment="Center"
+                                                   Grid.Row="4"
+                                                   Grid.Column="1" />
+                                        <TextBlock Text="{Binding AffixOptions.PositionOrder , TargetNullValue='null'}"
+                                                   Grid.Row="4"
+                                                   Grid.Column="2" />
+                                        <!--#endregion-->
+
+                                        <!--#region MinimumNumberOfCharachters -->
+                                        <TextBlock Text="{StaticResource lngAffixMinimumNumberOfCharachters}"
+                                                   Grid.Row="5"
+                                                   Grid.Column="0" />
+                                        <TextBlock Text=":"
+                                                   HorizontalAlignment="Center"
+                                                   Grid.Row="5"
+                                                   Grid.Column="1" />
+                                        <TextBlock Text="{Binding AffixOptions.NumberOfCharachters}"
+                                                   Grid.Row="5"
+                                                   Grid.Column="2" />
+                                        <!--#endregion-->
+
+                                        <!--#region Filler Charachter -->
+                                        <TextBlock Text="{StaticResource lngAffixFillerCharachter}"
+                                                   Grid.Row="6"
+                                                   Grid.Column="0" />
+                                        <TextBlock Text=":"
+                                                   HorizontalAlignment="Center"
+                                                   Grid.Row="6"
+                                                   Grid.Column="1" />
+                                        <TextBlock Text="{Binding AffixOptions.FillerCharachter}"
+                                                   Grid.Row="6"
+                                                   Grid.Column="2" />
+                                        <!--#endregion-->
+
+                                        <!--#region Include Element Position Code -->
+                                        <TextBlock Text="{StaticResource lngAffixIncludeElementPositionCode}"
+                                                   Grid.Row="7"
+                                                   Grid.Column="0" />
+                                        <TextBlock Text=":"
+                                                   HorizontalAlignment="Center"
+                                                   Grid.Row="7"
+                                                   Grid.Column="1" />
+                                        <TextBlock Text="{Binding AffixOptions.IncludeElementPositionCode}"
+                                                   Grid.Row="7"
+                                                   Grid.Column="2" />
+                                        <!--#endregion-->
+
+                                        <!--#region Element Position Code Type Option -->
+                                        <TextBlock Text="{StaticResource lngElementPositionAffixCodeType}"
+                                                   Grid.Row="8"
+                                                   Grid.Column="0" />
+                                        <TextBlock Text=":"
+                                                   HorizontalAlignment="Center"
+                                                   Grid.Row="8"
+                                                   Grid.Column="1" />
+                                        <TextBlock Text="{Binding AffixOptions.ElementPositionCodeTypeOption}"
+                                                   Grid.Row="8"
+                                                   Grid.Column="2" />
+                                        <!--#endregion-->
+
+                                        <!--#region Element Position Minimum Number Of Charachters -->
+                                        <TextBlock Text="{StaticResource lngElementPositionMinimumNumberOfCharachters}"
+                                                   Grid.Row="9"
+                                                   Grid.Column="0" />
+                                        <TextBlock Text=":"
+                                                   HorizontalAlignment="Center"
+                                                   Grid.Row="9"
+                                                   Grid.Column="1" />
+                                        <TextBlock Text="{Binding AffixOptions.ElementPositionMinimumNumberOfCharachters}"
+                                                   Grid.Row="9"
+                                                   Grid.Column="2" />
+                                        <!--#endregion-->
+
+                                        <!--#region Element Position Filler Charachter -->
+                                        <TextBlock Text="{StaticResource lngElementPositionFillerCharachter}"
+                                                   Grid.Row="10"
+                                                   Grid.Column="0" />
+                                        <TextBlock Text=":"
+                                                   HorizontalAlignment="Center"
+                                                   Grid.Row="10"
+                                                   Grid.Column="1" />
+                                        <TextBlock Text="{Binding AffixOptions.ElementPositionFillerCharachter}"
+                                                   Grid.Row="10"
+                                                   Grid.Column="2" />
+                                        <!--#endregion-->
+                                    </Grid>
+                                </ToolTip>
+                                <!--#endregion-->
+                            </Grid.ToolTip>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition SharedSizeGroup="remove" />
+                                <ColumnDefinition SharedSizeGroup="elementType" />
+                                <ColumnDefinition SharedSizeGroup="divider" />
+                                <ColumnDefinition SharedSizeGroup="codeType" />
+                                <ColumnDefinition SharedSizeGroup="divider2" />
+                                <ColumnDefinition SharedSizeGroup="position" />
+                                <ColumnDefinition SharedSizeGroup="divider3" />
+                                <ColumnDefinition SharedSizeGroup="emptySpot" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0"
+                                        Orientation="Horizontal">
+                                <Button Style="{StaticResource EditLocalizedStringVmButtonStyle}"
+                                        Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl},Path=DataContext.CopyListAffixToSelectedAffixOfModuleCommand}"
+                                        CommandParameter="{Binding .}" />
+                                <Button Style="{StaticResource RemoveItemButtonStyle}"
+                                        Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.RemoveModuleTypeCodeAffixCommand}"
+                                        CommandParameter="{Binding .}" />
+                            </StackPanel>
+                            <TextBlock Grid.Column="1"
+                                       Margin="10,0,5,0"
+                                       VerticalAlignment="Center"
+                                       Text="{Binding ModuleType,Converter={StaticResource languageConverter}}" />
+                            <hc:Divider Orientation="Vertical"
+                                        LineStroke="{DynamicResource SecondaryBorderBrush}"
+                                        LineStrokeThickness="1"
+                                        Grid.Column="2" />
+                            <DockPanel Grid.Column="3"
+                                       Margin="5,0">
+                                <TextBlock Text="{Binding AffixOptions.CodeType,Converter={StaticResource languageConverter}}"
+                                           Visibility="{Binding AffixOptions.IsCodeTypeOverridden,Converter={StaticResource Boolean2VisibilityReConverter}}"
+                                           VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding AffixOptions.OverrideCodeString}"
+                                           Visibility="{Binding AffixOptions.IsCodeTypeOverridden,Converter={StaticResource Boolean2VisibilityConverter}}"
+                                           VerticalAlignment="Center" />
+                            </DockPanel>
+                            <hc:Divider Orientation="Vertical"
+                                        LineStroke="{DynamicResource SecondaryBorderBrush}"
+                                        LineStrokeThickness="1"
+                                        Grid.Column="4" />
+                            <TextBlock Grid.Column="5"
+                                       Margin="5,0"
+                                       VerticalAlignment="Center">
+                                    <Run Text="{StaticResource lngPosition}" />
+                                    <Run Text=": " />
+                                    <Run Text="{Binding AffixOptions.PositionOrder,Mode=OneWay}" />
+                            </TextBlock>
+                            <hc:Divider Orientation="Vertical"
+                                        LineStroke="{DynamicResource SecondaryBorderBrush}"
+                                        LineStrokeThickness="1"
+                                        Grid.Column="6" />
+                            <TextBlock Grid.Column="7"
+                                       Margin="5,0"
+                                       VerticalAlignment="Center">
+                                    <Run Text="{StaticResource lngMissingElementAffix}" />
+                                    <Run Text=": " />
+                                    <Run Text="{Binding AffixOptions.ReplacementCodeAffixWhenEmpty , Mode=OneWay , TargetNullValue='-'}" />
+                            </TextBlock>
+                        </Grid>
+                    </DataTemplate>
+                </vw:TasListBox.ItemTemplate>
+            </vw:TasListBox>
+            <!--#endregion-->
+        </hc:UniformSpacingPanel>
+        <!--#endregion-->
+
+        <!--#region Affix Presenter -->
+        <DockPanel Grid.Row="4"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="3"
+                   VerticalAlignment="Stretch"
+                   LastChildFill="True"
+                   HorizontalAlignment="Stretch">
+            <DockPanel DockPanel.Dock="Left"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Center">
+                <Button Content="{StaticResource lngSetDefaultGlassCodeOptions}"
+                        Command="{Binding SetDefaultGlassCodeOptionsCommand}"
+                        DockPanel.Dock="Top"
+                        Foreground="{DynamicResource SecondaryBrush}" />
+                <Button Content="{StaticResource lngSetDefaultMirrorCodeOptions}"
+                        Command="{Binding SetDefaultMirrorCodeOptionsCommand}"
+                        DockPanel.Dock="Top"
+                        Margin="0,10,0,0"
+                        Foreground="{DynamicResource SecondaryBrush}" />
+            </DockPanel>
+            <ItemsControl ItemsSource="{Binding AffixPresenters}"
+                          VerticalAlignment="Bottom"
+                          HorizontalAlignment="Center"
+                          DockPanel.Dock="Right">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type affixPresenter:AffixPresenter}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition SharedSizeGroup="RefType" />
+                                <RowDefinition SharedSizeGroup="Code" />
+                                <RowDefinition SharedSizeGroup="CodeRef" />
+                                <RowDefinition SharedSizeGroup="Position" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0"
+                                       Style="{StaticResource CSmallInfoTextBlock}"
+                                       Text="{Binding AffixRefType}"
+                                       TextTrimming="WordEllipsis"
+                                       MaxWidth="50"
+                                       Margin="10,0" />
+                            <TextBlock Grid.Row="1"
+                                       Style="{StaticResource CHeaderTextBlock}"
+                                       Text="{Binding AffixString}"
+                                       Margin="10,5" />
+                            <TextBlock Grid.Row="2"
+                                       Style="{StaticResource CSmallInfoTextBlock}"
+                                       Text="{Binding AffixStringReference}"
+                                       ToolTip="{Binding AffixStringReference}"
+                                       TextTrimming="WordEllipsis"
+                                       MaxWidth="50"
+                                       Margin="10,0" />
+                            <TextBlock Grid.Row="3"
+                                       Style="{StaticResource CSmallInfoTextBlock}"
+                                       Text="{Binding Position}"
+                                       Margin="10,2,10,0" />
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </DockPanel>
+        <!--#endregion-->
+
+    </Grid>
+</UserControl>

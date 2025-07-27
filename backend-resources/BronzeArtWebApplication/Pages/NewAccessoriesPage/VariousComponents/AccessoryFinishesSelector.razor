@@ -1,0 +1,21 @@
+﻿@using BathAccessoriesModelsLibrary;
+@using BathAccessoriesModelsLibrary.Services;
+@inject ILanguageContainerService Lc
+@inject AccessoriesUrlHelper urlHelper
+
+<div class="finishesCard">
+    <span class="finishesCardTitle">@(Lc.Keys["AvailableFinishes"])</span>
+    <div class="finishesContainer">
+        @foreach (var finish in Finishes)
+        {
+            <div class="finishContainer @(SelectedFinish.Finish.Code == finish.Finish.Code ? "selectedFinish" : "")"
+            @onclick="@(()=> OnSelectedFinishChanged(finish))">
+                <img src="@($"{urlHelper.GetThumbnail(finish.Finish.PhotoURL)}")"
+                     class="finishImage noselect"
+                     loading="lazy" />
+            </div>
+        }
+    </div>
+</div>
+
+

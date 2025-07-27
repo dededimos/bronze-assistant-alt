@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.MirrorObjectsViews.MirrorElementInfoViewUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.MirrorObjectsViews"
+             mc:Ignorable="d"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:vwElements="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.MirrorObjectsViews"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:vw="clr-namespace:BronzeFactoryApplication.Views.HelperViews"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels.MirrorsViewModels"
+             xmlns:photoSizeEnum="clr-namespace:AzureBlobStorageLibrary;assembly=AzureBlobStorageLibrary"
+             d:DataContext="{d:DesignInstance Type=vm:MirrorElementInfoEditorViewModel}">
+    <Grid>
+        <hc:UniformSpacingPanel Spacing="10"
+                                HorizontalAlignment="Center"
+                                Orientation="Vertical"
+                                ChildWrapping="Wrap">
+            <!--#region Code -->
+            <vw:TasTextBox Text="{Binding Code, Mode=TwoWay}"
+                           TextBoxTitle="{StaticResource lngCode}"
+                           IconTooltip="{StaticResource lngCode}"
+                           MaxLength="20"
+                           MinWidth="200"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Center" />
+            <!--#endregion-->
+            <!--#region Name -->
+            <vw:TasLocalizedStringView LocalizedString="{Binding Name}"
+                                       EditCommand="{Binding EditLocalizedStringCommand}"
+                                       CommandParameter="{Binding Name}"
+                                       PropertyName="{StaticResource lngName}"
+                                       Style="{StaticResource DescriptionInfoLocalziedStringViewStyle}" />
+            <!--#endregion-->
+            <!--#region Description -->
+            <vw:TasLocalizedStringView LocalizedString="{Binding Description}"
+                                       EditCommand="{Binding EditLocalizedStringCommand}"
+                                       CommandParameter="{Binding Description}"
+                                       PropertyName="{StaticResource lngDescription}"
+                                       Style="{StaticResource DescriptionInfoLocalziedStringViewStyle}" />
+            <!--#endregion-->
+            <!--#region Extended Description -->
+            <vw:TasLocalizedStringView LocalizedString="{Binding ExtendedDescription}"
+                                       EditCommand="{Binding EditLocalizedStringCommand}"
+                                       CommandParameter="{Binding ExtendedDescription}"
+                                       PropertyName="{StaticResource lngExtendedDescription}"
+                                       Style="{StaticResource DescriptionInfoLocalziedStringViewStyle}" />
+            <!--#endregion-->
+        </hc:UniformSpacingPanel>
+    </Grid>
+</UserControl>

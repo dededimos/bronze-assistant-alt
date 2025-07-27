@@ -1,0 +1,205 @@
+﻿@using BathAccessoriesModelsLibrary.Services;
+@using BathAccessoriesModelsLibrary;
+@using BronzeArtWebApplication.Components.UniversalComponents
+@using BronzeArtWebApplication.Shared.Services;
+@using BronzeArtWebApplication.Shared.ViewModels.AccessoriesPageViewModels;
+@*A nested Layout*@
+@inherits LayoutComponentBase
+@layout MainLayout
+@inject ILanguageContainerService Lc
+@inject AccessoriesPageViewModel Vm
+@inject IAccessoriesMemoryRepository repo
+@inject AccessoriesUrlHelper PhotosHelper
+@inject NavigationManager NavManager
+@inject APICallService api
+@inject BasketViewModel Basket
+@inject BronzeUser user
+@inject BronzeCacheService cacheService
+
+@if (isRetrieving)
+{
+    <MudOverlay Visible="@(true)" AutoClose="@(false)" DarkBackground="@(true)">
+        <div class="loaderContainer">
+            <MudProgressLinear Style="width:500px;height:40px" Class="mb-4"
+                                 Color="@(Color.Primary)" Size="@(Size.Large)"
+                                 Indeterminate="@(true)" Striped="@(true)">
+                <span style="color:white;font-size:0.875rem;font-weight:bold">@($"{Lc.Keys["RetrievingAccessories"]}...{repoBuildingPhase}")</span>
+            </MudProgressLinear>
+        </div>
+    </MudOverlay>
+    <div class="d-flex flex-row" style="width:100%;height:100%">
+        <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="200px" Height="100%" />
+        <div class="ma-10" style="display:flex;flex-direction:row;flex-wrap:wrap;flex-grow:1;justify-content:center">
+            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="400px" Height="600px" Class="ma-10" />
+            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="400px" Height="600px" Class="ma-10" />
+            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Width="400px" Height="600px" Class="ma-10" />
+        </div>
+    </div>
+}
+else if (!repo.IsBuilt)
+{
+    <div class="loaderContainer">
+        <MudText Style="font-size:1.5rem">
+            @(Lc.Keys["FailedToRetrieve"])
+        </MudText>
+        <MudButton OnClick="@(async()=> await BuildRepoAsync(false))"
+                   Color="@(Color.Primary)"
+                   Size="@(Size.Large)"
+                   Style="font-size:1.5rem">
+            <MudIcon Icon="@(Icons.Material.Filled.CloudDownload)" Style="font-size:50px"/>
+            <MudText Class="ma-2" Style="font-size:1.5rem">Reload</MudText>
+        </MudButton>
+    </div>
+}
+else
+{
+    <div class="layoutContainer">
+        <div class="basketContainer doNotPrint d-none d-sm-flex d-md-none" style="@(NavManager.Uri.Contains(RoutesStash.BasketPage) ? "display:none;" : "")">
+            <MudTooltip>
+                <ChildContent>
+                    <MudBadge Overlap="@(true)" Class="mx-6 my-4" Content="@(Basket.ItemsCount)" Color="@(Color.Dark)">
+                        <MudFab StartIcon="@(Icons.Material.Filled.ShoppingCart)" Size="@(Size.Small)" IconSize="@(Size.Small)"
+                                Color="@(Color.Primary)"
+                                OnClick="@(()=> NavManager.NavigateTo(RoutesStash.BasketPage))" />
+                    </MudBadge>
+                </ChildContent>
+                <TooltipContent>
+                    @(Lc.Keys["QuoteBasket"])
+                </TooltipContent>
+            </MudTooltip>
+        </div>
+        <div class="d-none d-md-flex navMenuContainer doNotPrint">
+            <div class="appModeContainer">
+                <BronzeAppModeSelector IsSelectionForAccessories=@(true) />
+            </div>
+            <div class="autocompleteContainer">
+                <MudAutocomplete T="IndexedItem"
+                                 Label="@(Lc.Keys["Search"])"
+                                 SearchFunc="@((searchText,cancelToken) => repo.SearchIndexAsync(searchText))"
+                                 ToStringFunc="@(i=> i.ItemDescription)"
+                                 Margin="@(Margin.Dense)"
+                                 MaxHeight="600"
+                                 ResetValueOnEmptyText="@(true)"
+                                 Dense=@(true)
+                                 AdornmentIcon="@(Icons.Material.Outlined.Search)"
+                                 AdornmentColor="@(Color.Primary)"
+                                 Variant="@(Variant.Outlined)"
+                                 Immediate="@(true)"
+                                 DebounceInterval="150"
+                                 @bind-Value="@(selectedSearchTerm)"
+                                 @bind-Value:after="@(NavigateAfterSearch)"
+                                 Class="mr-0 ml-0">
+                    <NoItemsTemplate>
+                        <div class="d-flex flex-column justify-center align-center my-3">
+                            <MudIcon Class="mb-2"
+                                     Size="@(Size.Large)"
+                                     Icon="@(Icons.Material.Outlined.HourglassEmpty)"
+                                     Color="@(Color.Dark)" />
+                            <MudText Typo="@(Typo.caption)">@(Lc.Keys["NoResultsFound"])</MudText>
+                            </div>
+                    </NoItemsTemplate>
+                    <ItemTemplate>
+                            <div class="searchItemContainer">
+                                @if (context.AssociatedAccessory != null)
+                            {
+                                <div class="searchItemTextContainer">
+                                    @(context.AssociatedAccessory.Code)
+                                    <br />
+                                    @(context.AssociatedAccessory.PrimaryType.Trait)
+                                    <br />
+                                    @(context.AssociatedAccessory.Series.Trait)
+                                </div>
+                                <img src="@($"{PhotosHelper.GetThumbnail(context.AssociatedAccessory.MainPhotoUrl)}")"
+                                     class="searchItemImage accessoryImage noselect" />
+                            }
+                            else if (context.AssociatedTrait != null)
+                            {
+                                <div class="searchItemTextContainer">
+                                    @(repo.GetTraitClassName(context.AssociatedTrait.TraitType))
+                                    <br />
+                                    @(context.AssociatedTrait.Trait)
+                                    <br />
+                                    @(context.AssociatedTrait.Code)
+                                </div>
+                                <img src="@($"{PhotosHelper.GetThumbnail(context.AssociatedTrait.PhotoURL)}")"
+                                     class="searchItemImage traitImage noselect" />
+                            }
+                            else
+                            {
+                                @("Undefined Item")
+                            }
+                        </div>
+                    </ItemTemplate>
+                </MudAutocomplete>
+            </div>
+            <MudText Typo="@(Typo.body1)" Style="font-weight:600" Class="mx-1">@(Lc.Keys["AccessoriesGroupsFilter"])</MudText>
+            <MudNavMenu Style="overflow-y:auto" Rounded="@(true)" Color="Color.Primary" Bordered="@(true)">
+                <MudNavGroup Icon="@(GetImageSvgString(PhotosHelper.GetThumbnail(repo.GetTraitClassPhotoUrl(TypeOfTrait.SeriesTrait)),"buttonIcon"))"
+                             Title="@(repo.GetTraitClassName(TypeOfTrait.SeriesTrait))"
+                             @bind-Expanded="@(Vm.IsSeriesExpanded)"
+                             Class="my-3">
+                    @foreach (var series in repo.GetTraitClass(TypeOfTrait.SeriesTrait).Traits.Values)
+                    {
+                        <MudNavLink Href="@($"{RoutesStash.AccessoriesMain}/{TypeOfTrait.SeriesTrait}/{series.Code}")"
+                                    Class="d-flex flex-row align-center">
+                            <MudText Style="white-space:nowrap" 
+                                     Typo="@(Typo.overline)" 
+                                     Align="@(Align.Left)">
+                                        @($"{series.Trait}({repo.GetAccessoriesBySeries(series.Code).Count})")
+                            </MudText>
+                        </MudNavLink>
+                    }
+                </MudNavGroup>
+                <MudNavGroup Icon="@(GetImageSvgString(PhotosHelper.GetThumbnail(repo.GetTraitClassPhotoUrl(TypeOfTrait.PrimaryTypeTrait)),"buttonIcon"))"
+                             Title="@(repo.GetTraitClassName(TypeOfTrait.PrimaryTypeTrait))"
+                             @bind-Expanded="@(Vm.IsTypeExpanded)"
+                             Class="my-3">
+                            @foreach (var pt in repo.GetTraitClass(TypeOfTrait.PrimaryTypeTrait).Traits.Values)
+                            {
+                                <MudNavLink Href="@($"{RoutesStash.AccessoriesMain}/{TypeOfTrait.PrimaryTypeTrait}/{pt.Code}")"
+                                            Class="d-flex flex-row align-center">
+                                    <MudText Style="white-space:nowrap" 
+                                             Typo="@(Typo.overline)" 
+                                             Align="@(Align.Left)">
+                                           @($"{pt.Trait} ({repo.GetAccessoriesByPrimaryType(pt.Code).Count})")
+                                    </MudText>
+                                </MudNavLink>
+                            }
+                </MudNavGroup>
+                <MudNavGroup Icon="@(GetImageSvgString(PhotosHelper.GetThumbnail(repo.GetTraitClassPhotoUrl(TypeOfTrait.FinishTrait)),"buttonIcon"))"
+                             Title="@(repo.GetTraitClassName(TypeOfTrait.FinishTrait))"
+                             @bind-Expanded="@(Vm.IsFinishExpanded)"
+                             Class="my-3">
+                            @foreach (var finish in repo.GetTraitClass(TypeOfTrait.FinishTrait).Traits.Values)
+                            {
+                                <MudNavLink Href="@($"{RoutesStash.AccessoriesMain}/{TypeOfTrait.FinishTrait}/{finish.Code}")"
+                                            Class="d-flex flex-row align-center">
+                                    <MudText Style="white-space:nowrap" Typo="@(Typo.overline)" Align="@(Align.Left)">@($"{finish.Trait} ({repo.GetAccessoriesByFinish(finish.Code).Count})")</MudText>
+                                </MudNavLink>
+                            }
+                </MudNavGroup>
+            </MudNavMenu>
+
+
+                <div class="basketAppModeContainer">
+                    <div class="basketNavContainer mud-elevation-2 cursorPointer backgroundColorHover rounded-lg"
+                        @onclick="@(()=> NavManager.NavigateTo(RoutesStash.BasketPage))"
+                        style="@(NavManager.Uri.Contains(RoutesStash.BasketPage) ? "display:none!important;" : "")">
+                            <MudIcon 
+                                Size="@(Size.Medium)" 
+                                Color="@(Color.Primary)" 
+                                Icon="@(Icons.Material.Filled.ShoppingCart)" Class="mr-3 noselect" />
+                            <MudText Class="noselect" Typo="@(Typo.subtitle2)">@($"{Lc.Keys["QuoteBasket"]} ( {Basket.ItemsCount} )")</MudText>
+                    </div>
+                </div>
+        </div>
+        <div class="bodyContainer" id="@(bodyElementId)">
+            @Body
+        </div>
+    </div>
+}
+
+
+@code {
+    
+}

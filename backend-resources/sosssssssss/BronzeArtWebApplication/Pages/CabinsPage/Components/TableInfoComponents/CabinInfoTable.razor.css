@@ -1,0 +1,12 @@
+﻿
+.tableHead{
+    border-bottom:12px solid;
+    border-bottom-color: var(--BronzeDarkPink);
+    background-color: var(--BackgroundColor);
+}
+
+.tableCell {
+    text-align: center;
+    font-weight: 500;
+    font-size: 14px;
+}

@@ -1,0 +1,20 @@
+﻿@page "/espaPoster"
+@inject ILanguageContainerService lc
+@layout MainLayout
+
+
+@if (lc.CurrentCulture.Name == "el-GR")
+{
+    <img src="https://storagebronze.blob.core.windows.net/bronzewebapp-images/EspaBanners/EspaPosterGR.jpg">
+    <img src="https://storagebronze.blob.core.windows.net/bronzewebapp-images/EspaBanners/antagonistikotitaPosterGR.jpg">
+}
+else
+{
+    <img src="https://storagebronze.blob.core.windows.net/bronzewebapp-images/EspaBanners/EspaPosterEN.jpg">
+    <img src="https://storagebronze.blob.core.windows.net/bronzewebapp-images/EspaBanners/antagonistikotitaPosterEN.jpg">
+}
+
+
+@code {
+
+}

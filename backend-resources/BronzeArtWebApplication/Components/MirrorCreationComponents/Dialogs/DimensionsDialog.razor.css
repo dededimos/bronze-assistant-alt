@@ -1,0 +1,136 @@
+﻿.custom-dimensions-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1rem;
+}
+
+.tape-measure-img {
+    max-height: 100px;
+    transition: transform 0.3s ease;
+}
+
+    .tape-measure-img:hover {
+        transform: scale(1.05);
+    }
+
+.dimensions-inputs {
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.dimension-input-group {
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border-left: 4px solid var(--BronzeGold);
+}
+
+    .dimension-input-group:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    }
+
+.dimension-input-wrapper {
+    width: 100%;
+}
+
+.diameter-input {
+    border-left: 4px solid var(--BronzeDarkPink);
+}
+
+/* Fixed Dimensions UI */
+.fixed-dimensions-container {
+    padding: 1rem;
+}
+
+.dimension-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.dimension-option {
+    min-width:140px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+    .dimension-option:hover {
+        transform: translateY(-5px);
+    }
+
+.dimension-option-content {
+    background-color: var(--BackgroundColor);
+    border-radius: 8px;
+    padding: 0.75rem 1.25rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+    min-width: 120px;
+}
+
+    .dimension-option-content:hover {
+        border-color: var(--BronzeGold);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    }
+
+    .dimension-option-content.selected {
+        border-color: var(--BronzeDarkPink);
+        background-color: rgba(214, 188, 198, 0.15);
+    }
+
+.dimension-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dimension-values {
+    font-weight: 500;
+    color: var(--customDark);
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    flex-wrap: nowrap;
+}
+
+.dimension-separator {
+    font-weight: bold;
+}
+
+.dimension-value-prefix {
+    font-weight: 500;
+}
+
+.dimension-unit {
+    color: var(--customDark);
+    opacity: 0.7;
+    font-size: 0.85rem;
+    margin-left: 0.1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .dimensions-inputs {
+        width: 100%;
+    }
+
+    .dimension-option-content {
+        min-width: 120px;
+    }
+
+    .dimension-visual {
+        width: 80px;
+        height: 80px;
+    }
+}

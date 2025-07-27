@@ -1,0 +1,221 @@
+﻿@using System.Diagnostics
+@using System.Globalization
+@inject BronzeUser bronzeUser
+@inject AuthenticationStateProvider stateProvider
+@inject AssembleMirrorViewModel vm
+@inject NavigationManager nm
+@inject ILocalStorageService localStorage
+@inject ILanguageContainerService lc
+@inject IJSRuntime JSRuntime
+
+@if (!isInitilized)
+{
+    <div style="position:absolute; top:30vh; width:100%; text-align:center">
+        <img src="Images/Logos/BAGold.png" style="max-width:30vw" />
+        <br />
+
+        <p style="color: gray;font-family:Calibri"> Initilizing Please wait...</p>
+        <i class="fas fa-spin fa-cog fa-4x" style="color:var(--BronzeDarkPink)"></i>
+    </div>
+}
+else
+{
+    <ErrorBoundary @ref="errorBoundary">
+        <ChildContent>
+            <Router AppAssembly="@typeof(Program).Assembly">
+                <Found Context="routeData">
+                    <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+                        <NotAuthorized>
+                            @if (!context.User.Identity.IsAuthenticated)
+                            {
+                                <RedirectToLogin />
+                            }
+                            else
+                            {
+                                <p>You are not authorized to access this resource.</p>
+                            }
+                        </NotAuthorized>
+                        <Authorizing>
+                            <div style="position:absolute; top:30vh; width:100%; text-align:center">
+                                <img src="Images/Logos/BAGold.png" style="max-width:30vw" />
+                                <br />
+                                <p style="color: gray;font-family:Calibri"> Authorizing Please wait...</p>
+                                <i class="fas fa-spin fa-cog fa-4x" style="color: #EBB852"></i>
+                            </div>
+                        </Authorizing>
+                    </AuthorizeRouteView>
+                </Found>
+                <NotFound>
+                    <LayoutView Layout="@typeof(MainLayout)">
+                        <p>Sorry, there's nothing at this address.</p>
+                    </LayoutView>
+                </NotFound>
+            </Router>
+            @* Not wrapping the App.razor anymore with that <CascadingAuthenticationState> , its added in the Builder.Services for .Net8 or Later*@
+        </ChildContent>
+        <ErrorContent Context="exception">
+            <div style="padding: 2rem; background-color: white; border-radius: 12px; max-width: 800px; margin: 40px auto; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+                <!-- Error header with Bronze color -->
+                <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                    <div style="background-color: rgba(157, 8, 13, 0.1); border-radius: 50%; width: 48px; height: 48px; display: flex; justify-content: center; align-items: center; margin-right: 1rem;">
+                        <i class="fas fa-exclamation-triangle" style="color: #9D080D; font-size: 1.5rem;"></i>
+                    </div>
+                    <h3 style="color: #67003C; margin: 0; font-weight: 500; font-size: 1.5rem;">Application Error</h3>
+                </div>
+
+                <!-- English section -->
+                <div style="margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid #e0e0e0;">
+                    <p style="margin-bottom: 0.75rem; color: #272c34;">We apologize, but an error has occurred in the application.</p>
+                    <p style="margin-bottom: 0.75rem; color: #272c34;">This may be due to cached data or temporary files stored in your browser.</p>
+                    <p style="color: #272c34; font-weight: 500;">Please try to <span style="color: #D7B262; font-weight: bold;">clear your browser cache, cookies, and site data</span> then refresh the page.</p>
+                </div>
+
+                <!-- Greek section -->
+                <div style="margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid #e0e0e0;">
+                    <p style="margin-bottom: 0.75rem; color: #272c34;">Ζητούμε συγγνώμη, αλλά προέκυψε ένα σφάλμα στην εφαρμογή.</p>
+                    <p style="margin-bottom: 0.75rem; color: #272c34;">Αυτό μπορεί να οφείλεται σε αποθηκευμένα δεδομένα ή προσωρινά αρχεία στον περιηγητή σας.</p>
+                    <p style="color: #272c34; font-weight: 500;">Παρακαλούμε δοκιμάστε να <span style="color: #D7B262; font-weight: bold;">καθαρίσετε την προσωρινή μνήμη του περιηγητή, τα cookies και τα δεδομένα ιστότοπου</span> και στη συνέχεια ανανεώστε τη σελίδα.</p>
+                </div>
+
+                <!-- Italian section -->
+                <div style="margin-bottom: 1.5rem;">
+                    <p style="margin-bottom: 0.75rem; color: #272c34;">Ci scusiamo, ma si è verificato un errore nell'applicazione.</p>
+                    <p style="margin-bottom: 0.75rem; color: #272c34;">Questo potrebbe essere dovuto a dati memorizzati nella cache o file temporanei nel tuo browser.</p>
+                    <p style="color: #272c34; font-weight: 500;">Ti preghiamo di provare a <span style="color: #D7B262; font-weight: bold;">cancellare la cache del browser, i cookie e i dati del sito</span> e poi aggiornare la pagina.</p>
+                </div>
+
+                <!-- Error details section with improved styling -->
+                <div style="margin-top: 1.5rem; padding: 1.25rem; background-color: #f8f9fa; border-left: 4px solid #67003C; border-radius: 6px; font-family: 'Consolas', 'Courier New', monospace; font-size: 12px; overflow-x: auto;">
+                    <p style="font-weight: bold; color: #67003C; margin-top: 0;">Error details:</p>
+                    <p style="margin-bottom: 0.5rem; word-break: break-word;">@exception.Message</p>
+                    <p style="margin-bottom: 0; word-break: break-word; white-space: pre-wrap;">@exception.StackTrace</p>
+                </div>
+
+                <!-- Button row with reload and clear cache options -->
+                <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 2rem; flex-wrap: wrap;">
+                    <button style="padding: 0.75rem 1.5rem; background-color: #67003C; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 500; transition: background-color 0.2s ease, transform 0.2s ease; box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);"
+                    @onclick="RecoverError"
+                    onmouseover="this.style.backgroundColor='#9D080D'; this.style.transform='translateY(-2px)';"
+                    onmouseout="this.style.backgroundColor='#67003C'; this.style.transform='translateY(0)';">
+                        <i class="fas fa-sync-alt" style="margin-right: 0.5rem;"></i>
+                        Reload Application
+                    </button>
+                    <button style="padding: 0.75rem 1.5rem; background-color: #D7B262; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 500; transition: background-color 0.2s ease, transform 0.2s ease; box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);"
+                    onclick="window.location.href='/';"
+                    onmouseover="this.style.backgroundColor='#C6A14E'; this.style.transform='translateY(-2px)';"
+                    onmouseout="this.style.backgroundColor='#D7B262'; this.style.transform='translateY(0)';">
+                        <i class="fas fa-home" style="margin-right: 0.5rem;"></i>
+                        Return to Home
+                    </button>
+                </div>
+            </div>
+        </ErrorContent>
+    </ErrorBoundary>
+
+}
+
+@code {
+
+    private ErrorBoundary errorBoundary;
+    private bool isInitilized = false;
+
+    private void RecoverError()
+    {
+        errorBoundary?.Recover();
+        nm.NavigateTo(nm.Uri, forceLoad: true);
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        // Step 1: Language initialization
+        await InitializeLanguageSettings();
+
+        // Step 2: User initialization
+        await bronzeUser.InitilizeBronzeUser();
+
+        // Log debug information
+        await JSRuntime.InvokeVoidAsync("console.log", "JS Runtime is Ready");
+        Console.WriteLine($"Current Culture: {CultureInfo.CurrentCulture.Name}");
+        Console.WriteLine($"Current UI Culture: {CultureInfo.CurrentUICulture.Name}");
+    }
+
+    private async Task InitializeLanguageSettings()
+    {
+        try
+        {
+            string storedLanguagePreference = await localStorage.GetItemAsync<string>("BronzeAppLanguage");
+            if (storedLanguagePreference is "en-US" or "it-IT" or "el-GR")
+            {
+                if (lc.CurrentCulture.Name != storedLanguagePreference)
+                {
+                    lc.SetLanguage(CultureInfo.GetCultureInfo(storedLanguagePreference));
+                }
+            }
+            else
+            {
+                //Fallback if no language is selected (otherwise browsers that trim the locale will throw exceptions)
+
+                if (CultureInfo.CurrentCulture.Name == "en-US" || CultureInfo.CurrentCulture.Name == "en")
+                {
+                    lc.SetLanguage(CultureInfo.GetCultureInfo("en-US"));
+                }
+                else if (CultureInfo.CurrentCulture.Name == "el-GR" || CultureInfo.CurrentCulture.Name == "el")
+                {
+                    lc.SetLanguage(CultureInfo.GetCultureInfo("el-GR"));
+                }
+                else if (CultureInfo.CurrentCulture.Name == "it-IT" || CultureInfo.CurrentCulture.Name == "it")
+                {
+                    lc.SetLanguage(CultureInfo.GetCultureInfo("it-IT"));
+                }
+                else
+                {
+                    lc.SetLanguage(CultureInfo.GetCultureInfo("en-US"));
+                }
+            }
+
+            // Catch any URL Ending with a Language Selection
+            // Change the language to the selection and
+            // Redirect to the url without the lang prefix in the end
+            // This way anyone Can Point to a Specific Language with a link
+            if (nm.Uri.EndsWith("/el") || nm.Uri.EndsWith("/en") || nm.Uri.EndsWith("/it"))
+            {
+                string langQuery = nm.Uri.Substring(nm.Uri.Length - 3);
+                switch (langQuery)
+                {
+                    case "/el":
+                        lc.SetLanguage(System.Globalization.CultureInfo.GetCultureInfo("el-GR"));
+                        nm.NavigateTo(nm.Uri.Substring(0, nm.Uri.Length - 3));
+                        break;
+                    case "/en":
+                        lc.SetLanguage(System.Globalization.CultureInfo.GetCultureInfo("en-US"));
+                        nm.NavigateTo(nm.Uri.Substring(0, nm.Uri.Length - 3));
+                        break;
+                    case "/it":
+                        lc.SetLanguage(System.Globalization.CultureInfo.GetCultureInfo("it-IT"));
+                        nm.NavigateTo(nm.Uri.Substring(0, nm.Uri.Length - 3));
+                        break;
+                    default:
+                        return;
+                }
+
+            }
+            //await Task.Delay(2000);
+            ////We have to Explicitly Set the Claims of the User each time Layout is Rendered
+            ////Because if the User Refreshes the Page and he is Authenticated the Claims are not Preserved and the BronzeUser Service is Empty
+            //bronzeUser.GetAuthenticatedUsersClaims(stateProvider.GetAuthenticationStateAsync());
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Failed to Store or Retrieve Language Preference - Browser Incompatibility or Internal Application Error ");
+            Console.WriteLine(ex.Message);
+        }
+        finally
+        {
+
+            //Prevent Race conditions only Render Router after App Razor is Fully Initialized
+            isInitilized = true;
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+}
+

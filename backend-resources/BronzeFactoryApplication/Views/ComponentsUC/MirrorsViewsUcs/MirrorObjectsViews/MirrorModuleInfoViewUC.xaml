@@ -1,0 +1,102 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.MirrorObjectsViews.MirrorModuleInfoViewUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.MirrorObjectsViews"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels.MirrorsViewModels.ModulesViewModels"
+             xmlns:vw="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.MirrorObjectsViews.MirrorModulesViews"
+             xmlns:vwHelper="clr-namespace:BronzeFactoryApplication.Views.HelperViews"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:mirrElements="clr-namespace:MirrorsLib.MirrorElements;assembly=MirrorsLib"
+             xmlns:globalCommands="clr-namespace:BronzeFactoryApplication.Helpers"
+             xmlns:EnumSource="clr-namespace:BronzeFactoryApplication.Helpers.MarkupExtensions"
+             xmlns:mirrorEnum="clr-namespace:MirrorsLib.Enums;assembly=MirrorsLib"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=vm:MirrorModuleInfoBaseViewModel}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <DockPanel VerticalAlignment="Top"
+                   HorizontalAlignment="Center">
+            <ContentControl Content="{Binding .}">
+                <ContentControl.Resources>
+                    <!--#region Bluetooth -->
+                    <DataTemplate DataType="{x:Type vm:BluetoothModuleEditorViewModel}">
+                        <vw:BluetoothModuleInfoViewUC />
+                    </DataTemplate>
+                    <!--#endregion-->
+                    <!--#region Sandblasted Magnifier -->
+                    <DataTemplate DataType="{x:Type vm:MagnifierSandblastedModuleEditorViewModel}">
+                        <vw:SandblastedMagnifierModuleInfoViewUC />
+                    </DataTemplate>
+                    <!--#endregion-->
+                    <!--#region Magnifier -->
+                    <DataTemplate DataType="{x:Type vm:MagnifierModuleEditorViewModel}">
+                        <vw:MagnifyerModuleInfoViewUC />
+                    </DataTemplate>
+                    <!--#endregion-->
+                    <!--#region Back Lid -->
+                    <DataTemplate DataType="{x:Type vm:MirrorBackLidModuleEditorViewModel}">
+                        <vw:MirrorBackLidModuleInfoViewUC />
+                    </DataTemplate>
+                    <!--#endregion-->
+                    <!--#region Resistance Pad -->
+                    <DataTemplate DataType="{x:Type vm:ResistancePadModuleEditorViewModel}">
+                        <vw:ResistancePadModuleInfoViewUC />
+                    </DataTemplate>
+                    <!--#endregion-->
+                    <!--#region Rounded Corners -->
+                    <DataTemplate DataType="{x:Type vm:RoundedCornersModuleEditorViewModel}">
+                        <vw:RoundedCornersModuleInfoViewUC />
+                    </DataTemplate>
+                    <!--#endregion-->
+                    <!--#region Screen -->
+                    <DataTemplate DataType="{x:Type vm:ScreenModuleEditorViewModel}">
+                        <vw:ScreenModuleInfoViewUC />
+                    </DataTemplate>
+                    <!--#endregion-->
+                    <!--#region Touch Button -->
+                    <DataTemplate DataType="{x:Type vm:TouchButtonModuleEditorViewModel}">
+                        <vw:TouchButtonModuleInfoViewUC />
+                    </DataTemplate>
+                    <!--#endregion-->
+                    <!--#region Lamp -->
+                    <DataTemplate DataType="{x:Type vm:MirrorLampModuleEditorViewModel}">
+                        <vw:MirrorLampModuleInfoViewUC />
+                    </DataTemplate>
+                    <!--#endregion-->
+                    <!--#region Transformer -->
+                    <DataTemplate DataType="{x:Type vm:TransformerModuleEditorViewModel}">
+                        <vw:TransformerModuleInfoViewUC />
+                    </DataTemplate>
+                    <!--#endregion-->
+                    <!--#region Process -->
+                    <DataTemplate DataType="{x:Type vm:ProcessModuleEditorViewModel}">
+                        <vw:MirrorProcessModuleViewUC />
+                    </DataTemplate>
+                    <!--#endregion-->
+                    <!--#region Undefined Module -->
+                    <DataTemplate DataType="{x:Type vm:MirrorModuleInfoUndefinedViewModel}">
+                        <Grid VerticalAlignment="Stretch"
+                              HorizontalAlignment="Stretch">
+                            <Border CornerRadius="20"
+                                    BorderBrush="{DynamicResource SecondaryBorderBrush}"
+                                    BorderThickness="5"
+                                    Padding="50"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                <TextBlock FontSize="20"
+                                           Text="{StaticResource lngModuleTypeNotSelected}" />
+                            </Border>
+                        </Grid>
+                    </DataTemplate>
+                    <!--#endregion-->
+                </ContentControl.Resources>
+            </ContentControl>
+        </DockPanel>
+       
+    </Grid>
+</UserControl>

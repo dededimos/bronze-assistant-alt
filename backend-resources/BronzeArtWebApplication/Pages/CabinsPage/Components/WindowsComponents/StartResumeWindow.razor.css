@@ -1,0 +1,101 @@
+﻿/*The breakPoints where the Grid Changes -- Invert gradient and change min-height*/
+.mainWindowContainer {
+    background: linear-gradient(45deg,silver 0%,var(--BackgroundColor) 25%,gainsboro 50%,whitesmoke 75%,white 100%);
+}
+
+
+@media (max-width:1280px) {
+    .mainWindowContainer {
+        background: linear-gradient(45deg,silver 0%,var(--BackgroundColor) 25%,gainsboro 50%,whitesmoke 75%,white 100%);
+    }
+}
+
+@media (max-width:960px) {
+    .mainWindowContainer {
+        background: linear-gradient(135deg,silver 0%,var(--BackgroundColor) 25%,gainsboro 50%,whitesmoke 75%,white 100%);
+    }
+}
+
+@media (max-width:600px) {
+    .mainWindowContainer {
+        background: linear-gradient(135deg,silver 0%,var(--BackgroundColor) 25%,gainsboro 50%,whitesmoke 75%,white 100%);
+    }
+}
+
+.notVisible {
+    display: none;
+    height: 0px;
+    width: 0px;
+}
+
+
+
+
+.isVisible {
+    animation: appearAnimation ease 1s;
+    height: 210px;
+    width: 730px;
+    overflow: hidden;
+}
+
+
+
+
+
+
+
+
+@keyframes appearAnimation {
+
+
+    from {
+        opacity: 0;
+        width: 0%;
+        height: 0%;
+    }
+
+
+
+
+    to {
+        opacity: 1;
+        height: 190px;
+        width: 730px;
+    }
+}
+
+
+
+
+
+@-webkit-keyframes appearAnimation {
+
+
+    from {
+        opacity: 0;
+        width: 0%;
+        height: 0%;
+    }
+
+
+
+
+
+    to {
+        opacity: 1;
+        height: 190px;
+        width: 730px;
+    }
+}
+
+
+.cabinButton {
+}
+
+    .cabinButton:hover .cabinButton-Icon {
+        transform: translateY(-10px);
+    }
+
+.cabinButton-Icon {
+    transition: all ease 0.3s;
+}

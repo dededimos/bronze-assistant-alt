@@ -1,0 +1,813 @@
+﻿<hc:Window x:Class="BronzeFactoryApplication.MainWindow"
+           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+           xmlns:hc="https://handyorg.github.io/handycontrol"
+           xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+           xmlns:local="clr-namespace:BronzeFactoryApplication"
+           xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels"
+           xmlns:vmc="clr-namespace:BronzeFactoryApplication.ViewModels.CabinsViewModels"
+           xmlns:vmModals="clr-namespace:BronzeFactoryApplication.ViewModels.ModalViewModels"
+           xmlns:vmMirrors="clr-namespace:BronzeFactoryApplication.ViewModels.MirrorsViewModels"
+           xmlns:vmMirrorOrders="clr-namespace:BronzeFactoryApplication.ViewModels.MirrorsViewModels.MirrorOrdersViewModels"
+           xmlns:vmSettingsXls="clr-namespace:BronzeFactoryApplication.ViewModels.SettingsViewModels.XlsSettingsViewModels"
+           xmlns:vmuc="clr-namespace:BronzeFactoryApplication.ViewModels.ComponentsUCViewModels"
+           xmlns:vwSettingsXls="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.SettingsUcs.XlsSettingsUcs"
+           xmlns:vwModal="clr-namespace:BronzeFactoryApplication.Views.Modals"
+           xmlns:vmAccessories="clr-namespace:BronzeFactoryApplication.ViewModels.AccessoriesViewModels"
+           xmlns:vmShapes="clr-namespace:BronzeFactoryApplication.ViewModels.MirrorsViewModels.ShapeInfoViewModels"
+           xmlns:vwShapes="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.ShapesEditViewsUcs"
+           xmlns:vwMirrorObjects="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.MirrorObjectsViews"
+           xmlns:vwMirrorOrder="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.MirrorsOrdersRelevantViews"
+           xmlns:vw="clr-namespace:BronzeFactoryApplication.Views"
+           xmlns:draws="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.DrawsRelevantUcs"
+           xmlns:vwGlass="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.GlassOrderUcs"
+           xmlns:uc="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC"
+           xmlns:cuc="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.CabinPropertiesUserControls"
+           xmlns:edituc="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.EditModelUserControl"
+           xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+           d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
+           mc:Ignorable="d"
+           FontSize="16"
+           Closed="MainStartingWindow_Closed"
+           ShowTitle="False"
+           Style="{StaticResource MainWindowStyle}"
+           x:Name="MainMenuWindow"
+           WindowStartupLocation="CenterScreen"
+           WindowState="Maximized"
+           Closing="MainStartingWindow_Closing"
+           Initialized="MainStartingWindow_Initialized"
+           hc:WindowAttach.SystemBackdropType="Tabbed"
+           d:Height="300"
+           d:Width="300">
+    <hc:Window.InputBindings>
+        <KeyBinding Key="Esc"
+                    Command="{Binding ModalsContainer.CloseFrontModalCommand}" />
+    </hc:Window.InputBindings>
+    <!--The cc namespace is the declaration to use the Custom Controls that are located outside of this Project , At the APP level we must also add the Resource Dictionary of the Custom Controls so that the Template Bindings can be found-->
+    <!--<hc:Window.InputBindings>
+        <KeyBinding Command="{Binding UpdateLanguageCommand}" CommandParameter="el" Key="F5"/>
+    </hc:Window.InputBindings>-->
+
+    <!--#region 1.Title Bar of Window -->
+    <hc:Window.NonClientAreaContent>
+        <DockPanel x:Name="WindowTitleBarDockPanel"
+                   VerticalAlignment="Stretch"
+                   LastChildFill="True">
+            <!--#region A.Window Title -->
+            <!--Needs is HitTestVisible = False , Otherwise Window is Not Draggable there-->
+            <TextBlock IsHitTestVisible="False"
+                       x:Name="WindowTitleTextBlock1"
+                       Text="Bronnze Factory App"
+                       FontSize="12"
+                       VerticalAlignment="Center"
+                       Margin="5,0,0,0"
+                       DockPanel.Dock="Left" />
+            <TextBlock IsHitTestVisible="False"
+                       x:Name="WindowTitleTextBlock2"
+                       Text="{Binding ElementName=MainMenuWindow, Path=ApplicationVersion }"
+                       FontSize="12"
+                       VerticalAlignment="Center"
+                       Margin="5,0,0,0"
+                       DockPanel.Dock="Left" />
+            <!--#endregion-->
+
+            <!--#region B.Navigation Buttons-->
+            <StackPanel DockPanel.Dock="Left"
+                        Margin="15,0,0,0"
+                        Orientation="Horizontal"
+                        Visibility="{Binding IsNavigationMenuActive , Converter={StaticResource Boolean2VisibilityConverter}}">
+
+                <Button x:Name="BackToMenuButton"
+                        Command="{Binding NavigateToMenuCommand}"
+                        BorderThickness="0"
+                        ToolTip="{StaticResource lngMainMenu}"
+                        ToolTipService.InitialShowDelay="10">
+                    <cc:Icon GeometryData="{StaticResource AppMenuGeometry}"
+                             Style="{StaticResource WindowMenuIconStyle}" />
+                </Button>
+                <Button x:Name="ToCabinsButton"
+                        Command="{Binding NavigateToCabinsCommand}"
+                        BorderThickness="0"
+                        ToolTip="{StaticResource lngCabins}"
+                        ToolTipService.InitialShowDelay="10">
+                    <cc:Icon GeometryData="{StaticResource ShowerCabinGeometry2}"
+                             Style="{StaticResource WindowMenuIconStyle}" />
+                </Button>
+                <Button x:Name="ToMirrorsButton"
+                        Command="{Binding NavigateToMirrorsCommand}"
+                        BorderThickness="0"
+                        ToolTip="{StaticResource lngMirrors}"
+                        ToolTipService.InitialShowDelay="10">
+                    <cc:Icon GeometryData="{StaticResource MirrorGeometry}"
+                             Style="{StaticResource WindowMenuIconStyle}" />
+                </Button>
+                <Button x:Name="ToManagmentButton"
+                        Command="{Binding NavigateToManagmentCommand}"
+                        BorderThickness="0"
+                        ToolTip="{StaticResource lngManagment}"
+                        ToolTipService.InitialShowDelay="10">
+                    <cc:Icon GeometryData="{StaticResource DatabaseGeometry}"
+                             Style="{StaticResource WindowMenuIconStyle}" />
+                </Button>
+                <Button x:Name="ToSearchOrdersButton"
+                        Command="{Binding NavigateToSearchOrdersCommand}"
+                        BorderThickness="0"
+                        ToolTip="{StaticResource lngSearchOrders}"
+                        ToolTipService.InitialShowDelay="10">
+                    <cc:Icon GeometryData="{StaticResource SearchGeometry}"
+                             Style="{StaticResource WindowMenuIconStyle}" />
+                </Button>
+                <Button x:Name="ToAccessoriesButton"
+                        Command="{Binding NavigateToAccessoriesCommand}"
+                        BorderThickness="0"
+                        ToolTip="{StaticResource lngBathroomAccesories}"
+                        ToolTipService.InitialShowDelay="10">
+                    <cc:Icon GeometryData="{StaticResource PaperHolderGeometry}"
+                             Style="{StaticResource WindowMenuIconStyle}" />
+                </Button>
+                <Button x:Name="ToWharehouseButton"
+                        Command="{Binding NavigateToWharehouseCommand}"
+                        BorderThickness="0"
+                        ToolTip="{StaticResource lngWharehouseStock}"
+                        ToolTipService.InitialShowDelay="10">
+                    <cc:Icon GeometryData="{StaticResource WharehouseGeometry}"
+                             Style="{StaticResource WindowMenuIconStyle}">
+                        <cc:Icon.RenderTransform>
+                            <RotateTransform CenterX="9"
+                                             CenterY="8"
+                                             Angle="180" />
+                        </cc:Icon.RenderTransform>
+                    </cc:Icon>
+                </Button>
+                <Button x:Name="OpenConsoleButton"
+                        BorderThickness="0"
+                        ToolTip="{StaticResource lngConsoleWindow}"
+                        ToolTipService.InitialShowDelay="10"
+                        Command="{Binding ElementName=MainMenuWindow, Path=OpenConsoleCommand}">
+                    <cc:Icon GeometryData="{StaticResource ConsoleGeometry}"
+                             Style="{StaticResource WindowMenuIconStyle}" />
+                </Button>
+            </StackPanel>
+            <!--#endregion-->
+
+            <!--#region B1.Theme Menu -->
+            <Menu x:Name="ThemeMenu"
+                  VerticalAlignment="Center"
+                  DockPanel.Dock="Right"
+                  HorizontalAlignment="Right">
+                <MenuItem ToolTip="{StaticResource lngChangeTheme}"
+                          ToolTipService.InitialShowDelay="0"
+                          ToolTipService.BetweenShowDelay="0"
+                          ToolTipService.Placement="Bottom">
+                    <MenuItem.Header>
+                        <cc:Icon GeometryData="{StaticResource ColorPalleteGeometry}"
+                                 Style="{StaticResource WindowMenuIconStyle}" />
+                    </MenuItem.Header>
+                    <MenuItem Padding="0"
+                              Margin="5,0"
+                              Width="120"
+                              BorderBrush="{StaticResource BorderBrush}"
+                              BorderThickness="0 0 0 1"
+                              hc:BorderElement.CornerRadius="0"
+                              Command="{Binding ChangeThemeCommand}"
+                              CommandParameter="Dark">
+                        <MenuItem.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <Viewbox VerticalAlignment="Center"
+                                         Height="25">
+                                    <Image Source="Resources/Images/Icons/DarkThemeIcon.png" />
+                                </Viewbox>
+                                <TextBlock Text="{StaticResource lngDarkTheme}"
+                                           VerticalAlignment="Center"
+                                           Margin="5,0,0,0" />
+                            </StackPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <MenuItem Padding="0"
+                              Width="120"
+                              Command="{Binding ChangeThemeCommand}"
+                              CommandParameter="Light">
+                        <MenuItem.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <Viewbox VerticalAlignment="Center"
+                                         Height="25">
+                                    <Image Source="Resources/Images/Icons/LightThemeIcon.png" />
+                                </Viewbox>
+                                <TextBlock Text="{StaticResource lngLightTheme}"
+                                           VerticalAlignment="Center"
+                                           Margin="5,0,0,0" />
+                            </StackPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
+                </MenuItem>
+            </Menu>
+            <!--#endregion-->
+
+            <!--#region B2.Language Menu -->
+            <Menu x:Name="LanguageMenu"
+                  VerticalAlignment="Center"
+                  DockPanel.Dock="Right"
+                  HorizontalAlignment="Right">
+                <MenuItem ToolTip="{StaticResource lngChangeLanguage}"
+                          ToolTipService.InitialShowDelay="0"
+                          ToolTipService.BetweenShowDelay="0"
+                          ToolTipService.Placement="Bottom">
+                    <MenuItem.Header>
+                        <cc:Icon GeometryData="{StaticResource LanguageIcon}"
+                                 Style="{StaticResource WindowMenuIconStyle}" />
+                    </MenuItem.Header>
+                    <MenuItem Padding="0"
+                              Margin="5,0"
+                              Width="120"
+                              BorderBrush="{StaticResource BorderBrush}"
+                              BorderThickness="0 0 0 1"
+                              hc:BorderElement.CornerRadius="0"
+                              Command="{Binding ChangeLanguageCommand}"
+                              CommandParameter="el-GR">
+                        <MenuItem.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <Viewbox VerticalAlignment="Center"
+                                         Height="25">
+                                    <Image Source="Resources/Images/Icons/GreekFlag.png" />
+                                </Viewbox>
+                                <TextBlock Text="{StaticResource lngGreek}"
+                                           VerticalAlignment="Center"
+                                           Margin="5,0,0,0" />
+                            </StackPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <MenuItem Padding="0"
+                              Width="120"
+                              Command="{Binding ChangeLanguageCommand}"
+                              CommandParameter="en-EN">
+                        <MenuItem.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <Viewbox VerticalAlignment="Center"
+                                         Height="25">
+                                    <Image Source="Resources/Images/Icons/EnglishFlag.png" />
+                                </Viewbox>
+                                <TextBlock Text="{StaticResource lngEnglish}"
+                                           VerticalAlignment="Center"
+                                           Margin="5,0,0,0" />
+                            </StackPanel>
+                        </MenuItem.Header>
+                    </MenuItem>
+                </MenuItem>
+            </Menu>
+            <!--#endregion-->
+
+        </DockPanel>
+    </hc:Window.NonClientAreaContent>
+    <!--#endregion-->
+
+
+    <Grid x:Name="DummyContainer">
+        <Grid.InputBindings>
+
+        </Grid.InputBindings>
+
+        <!--#region A. Starting Photo and Loading Indicator -->
+        <Border x:Name="StartingLogoContainer"
+                Panel.ZIndex="1"
+                Background="{DynamicResource RegionBrush}"
+                IsHitTestVisible="False"
+                Opacity="1"
+                d:Visibility="Collapsed">
+            <Image Source="{StaticResource BronzeArtLogo}"
+                   IsHitTestVisible="False"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Margin="50"
+                   MaxWidth="650" />
+        </Border>
+        <Border x:Name="LoadingIndicatorBorder"
+                Panel.ZIndex="2"
+                Background="{StaticResource BackgroundBrush}"
+                Opacity="0.9"
+                d:Visibility="Collapsed"
+                Visibility="{Binding IsBusy,Converter={StaticResource Boolean2VisibilityConverter}}">
+            <StackPanel HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        Orientation="Horizontal">
+                <hc:LoadingCircle Foreground="{StaticResource PrimaryBrush}"
+                                  IsRunning="{Binding IsBusy}"
+                                  d:IsRunning="false">
+
+                </hc:LoadingCircle>
+                <TextBlock Style="{StaticResource CLoaderTextBlock}"
+                           Margin="10"
+                           Foreground="{StaticResource PrimaryBrush}"
+                           Text="Loading Database" />
+            </StackPanel>
+        </Border>
+        <Border x:Name="OperationProgressLoadingIndicator"
+                Panel.ZIndex="3"
+                Background="{StaticResource BackgroundBrush}"
+                Opacity="0.9"
+                d:Visibility="Collapsed"
+                Visibility="{Binding OperationProgressVm.IsBusy,Converter={StaticResource Boolean2VisibilityConverter}}">
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Vertical">
+                <hc:CircleProgressBar Foreground="{StaticResource PrimaryBrush}"
+                                      IsIndeterminate="True"
+                                      ShowText="True"
+                                      Style="{StaticResource ProgressBarInfoCircle}">
+                </hc:CircleProgressBar>
+                <TextBlock Style="{StaticResource CLoaderTextBlock}"
+                           Margin="10"
+                           FontSize="20"
+                           Foreground="{StaticResource PrimaryBrush}">
+                           <Run Text="Processing... " />
+                           <Run Text="{Binding OperationProgressVm.ProgressPercent,Mode=OneWay,StringFormat='{}{0:0}%'}" />
+                </TextBlock>
+            </StackPanel>
+        </Border>
+        <!--#endregion-->
+
+        <!--#region B. Main Content -->
+
+        <hc:ScrollViewer VerticalScrollBarVisibility="Auto"
+                         HorizontalScrollBarVisibility="Auto">
+            <ContentControl x:Name="MainContentPresenter"
+                            Content="{Binding CurrentViewModel}"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            d:Visibility="Collapsed">
+                <ContentControl.Resources>
+                    <DataTemplate x:Name="MenuDataTemplate"
+                                  DataType="{x:Type vm:MenuViewModel}">
+                        <vw:MenuView />
+                    </DataTemplate>
+                    <DataTemplate x:Name="MirrorsDataTemplate"
+                                  DataType="{x:Type vm:MirrorsModuleViewModel}">
+                        <vw:MirrorsView />
+                    </DataTemplate>
+                    <DataTemplate x:Name="ManagmentTemplate"
+                                  DataType="{x:Type vm:ManagmentViewModel}">
+                        <vw:ManagmentView />
+                    </DataTemplate>
+                    <DataTemplate x:Name="CabinsDataTempalte"
+                                  DataType="{x:Type vm:ShowerCabinsModuleViewModel}">
+                        <vw:ShowerCabinsView />
+                    </DataTemplate>
+                    <DataTemplate x:Name="SearchOrdersDataTemplate"
+                                  DataType="{x:Type vm:OrdersModuleViewModel}">
+                        <vw:SearchOrdersView />
+                    </DataTemplate>
+                    <DataTemplate x:Name="OtherAppHelpersDataTemplate"
+                                  DataType="{x:Type vm:VariousAppHelpersViewModel}">
+                        <vw:OtherAppHelpers />
+                    </DataTemplate>
+                    <DataTemplate x:Name="AcessoriesViewDataTemplate"
+                                  DataType="{x:Type vm:AccessoriesModuleViewModel}">
+                        <vw:BathAccessoriesView />
+                    </DataTemplate>
+                    <DataTemplate x:Name="WharehouseViewDataTemplate"
+                                  DataType="{x:Type vm:WharehouseModuleViewModel}">
+                        <vw:WharehouseModuleView />
+                    </DataTemplate>
+                </ContentControl.Resources>
+            </ContentControl>
+        </hc:ScrollViewer>
+
+        <!--#endregion-->
+
+        <!--#region C. Modals Container -->
+
+        <ItemsControl x:Name="ModalsItemsControl"
+                      DataContext="{Binding ModalsContainer}"
+                      ItemsSource="{Binding OpenedModals}"
+                      d:Visibility="Collapsed">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <cc:Modal x:Name="ModalDialog"
+                              Panel.ZIndex="{Binding LayerNo}"
+                              IsOpen="True">
+                        <cc:Modal.Background>
+                            <SolidColorBrush Color="Black"
+                                             Opacity="0.5" />
+                        </cc:Modal.Background>
+                        <Border CornerRadius="20"
+                                Margin="10"
+                                Background="{DynamicResource BackgroundBrush}">
+                            <!--<i:Interaction.Behaviors>
+                                        <i:MouseDragElementBehavior ConstrainToParentBounds="True"/>
+                                    </i:Interaction.Behaviors>-->
+                            <Grid Margin="0"
+                                  MinWidth="250"
+                                  MinHeight="250"
+                                  d:ShowGridLines="True">
+                                <!--This is a mask to avoid the corner radius from being overlapped-->
+                                <Grid.OpacityMask>
+                                    <VisualBrush Visual="{Binding ElementName=borderMask}" />
+                                </Grid.OpacityMask>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="auto" />
+                                </Grid.RowDefinitions>
+                                <!--Mask should have the same background and corner radius as main border-->
+                                <Border x:Name="borderMask"
+                                        Background="{DynamicResource BackgroundBrush}"
+                                        CornerRadius="0,17,17,17"
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Grid.RowSpan="5"
+                                        Grid.ColumnSpan="4" />
+
+                                <Border BorderThickness="0,0,0,2"
+                                        BorderBrush="Gray"
+                                        Background="{DynamicResource RegionBrush}"
+                                        CornerRadius="0,17,0,0"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="2" />
+                                <!--#region Divider Line -->
+                                <hc:Divider Orientation="Horizontal"
+                                            LineStrokeThickness="2"
+                                            Grid.Column="0"
+                                            Grid.ColumnSpan="2"
+                                            Grid.Row="0"
+                                            Margin="0"
+                                            VerticalAlignment="Bottom" />
+                                <!--#endregion-->
+
+                                <!--#region Close Button -->
+                                <Button x:Name="ModalCloseButton"
+                                        hc:IconElement.Geometry="{StaticResource CloseGeometry}"
+                                        hc:BorderElement.CornerRadius="15"
+                                        Background="{StaticResource DangerBrush}"
+                                        Grid.Row="0"
+                                        Grid.Column="2"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Margin="10"
+                                        BorderThickness="0"
+                                        Command="{Binding ElementName=ModalsItemsControl , Path=DataContext.CloseModalCommand}"
+                                        CommandParameter="{Binding .}" />
+                                <!--#endregion-->
+
+                                <!--#region Title Block -->
+                                <TextBlock x:Name="ModalTitleTextblock"
+                                           d:Text="TEST TITLE"
+                                           Text="{Binding Title }"
+                                           Style="{StaticResource CHeaderTextBlock}"
+                                           Foreground="{DynamicResource PrimaryTextBrush}"
+                                           Grid.Row="0"
+                                           Grid.Column="0"
+                                           HorizontalAlignment="Left"
+                                           Margin="20,18" />
+                                <!--#endregion-->
+
+                                <!--#region Modal Content -->
+
+                                <Border Padding="35,20,35,30"
+                                        Grid.Row="1"
+                                        Grid.RowSpan="2"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="2">
+                                    <!--Using a Second Border that is the Limits after the Padding The Border is just a container before the ScrollViewer
+                                    In Order To Restrict Width Height in Controls that do not need the ScrollViewer !!-->
+                                    <Border>
+                                        <ContentControl x:Name="ModalContentPresenter"
+                                                        Content="{Binding .}">
+                                            <ContentControl.Resources>
+
+                                                <!--#region 1. Editing Constraints of a Cabin Modal -->
+                                                <DataTemplate DataType="{x:Type vmModals:EditCabinConstraintsModalViewModel}">
+                                                    <hc:ScrollViewer VerticalScrollBarVisibility="Auto"
+                                                                     HorizontalScrollBarVisibility="Auto">
+
+                                                        <cuc:AdvancedCabinPropsUC DataContext="{Binding Constraints}" />
+                                                    </hc:ScrollViewer>
+                                                </DataTemplate>
+                                                <!--#endregion-->
+
+                                                <!--#region 2. Editing a whole Cabin Modal -->
+                                                <DataTemplate DataType="{x:Type vmModals:EditCabinModalViewModel}">
+                                                    <hc:ScrollViewer VerticalScrollBarVisibility="Auto"
+                                                                     HorizontalScrollBarVisibility="Auto">
+                                                        <vwModal:EditCabinRowModalUC />
+                                                    </hc:ScrollViewer>
+                                                </DataTemplate>
+                                                <!--#endregion-->
+
+                                                <!--#region 3.Add Synthesis To Order Modal -->
+                                                <DataTemplate DataType="{x:Type vmModals:AddSynthesisToOrderModalViewModel}">
+                                                    <hc:ScrollViewer VerticalScrollBarVisibility="Auto"
+                                                                     HorizontalScrollBarVisibility="Auto">
+
+                                                        <vwModal:AddSynthesisToOrderModalUC />
+                                                    </hc:ScrollViewer>
+                                                </DataTemplate>
+                                                <!--#endregion-->
+
+                                                <!--#region 4.Edit Glass Row Modal -->
+                                                <DataTemplate DataType="{x:Type vmModals:GlassRowEditViewModel}">
+                                                    <hc:ScrollViewer VerticalScrollBarVisibility="Auto"
+                                                                     HorizontalScrollBarVisibility="Auto">
+
+                                                        <vwModal:EditGlassRowModalUC />
+                                                    </hc:ScrollViewer>
+                                                </DataTemplate>
+                                                <!--#endregion-->
+
+                                                <!--#region 5.Retrieve Order -->
+                                                <DataTemplate DataType="{x:Type vmModals:GlassesOrdersDisplayModalViewModel}">
+                                                    <hc:ScrollViewer VerticalScrollBarVisibility="Auto"
+                                                                     HorizontalScrollBarVisibility="Auto">
+                                                        <vwGlass:GlassesOrdersDisplayUC />
+                                                    </hc:ScrollViewer>
+                                                </DataTemplate>
+                                                <!--#endregion-->
+
+                                                <!--#region 6.Edit Order Details Modal -->
+                                                <DataTemplate DataType="{x:Type vmModals:EditGlassesOrderDetailsModalViewModel}">
+                                                    <hc:ScrollViewer VerticalScrollBarVisibility="Auto"
+                                                                     HorizontalScrollBarVisibility="Auto">
+                                                        <vwModal:EditGlassesOrderDetailsUC />
+                                                    </hc:ScrollViewer>
+                                                </DataTemplate>
+                                                <!--#endregion-->
+
+                                                <!--#region 7.XlsSettings Modal -->
+                                                <DataTemplate DataType="{x:Type vmModals:XlsSettingsModalViewModel}">
+                                                    <hc:ScrollViewer VerticalScrollBarVisibility="Auto"
+                                                                     HorizontalScrollBarVisibility="Auto">
+                                                        <vwModal:XlsSettingsModalUC />
+                                                    </hc:ScrollViewer>
+                                                </DataTemplate>
+                                                <!--#endregion-->
+
+                                                <!--#region 8.XlsSettings Edit Modal -->
+                                                <DataTemplate DataType="{x:Type vmModals:XlsSettingsEditModalViewModel}">
+                                                    <hc:ScrollViewer VerticalScrollBarVisibility="Auto"
+                                                                     HorizontalScrollBarVisibility="Auto">
+                                                        <vwModal:XlsSettingsEditModalUC />
+                                                    </hc:ScrollViewer>
+                                                </DataTemplate>
+                                                <!--#endregion-->
+
+                                                <!--#region 9.EditGlassRow Quantity Modal -->
+                                                <DataTemplate DataType="{x:Type vmModals:EditGlassOrderRowQuantityModalViewModel}">
+                                                    <hc:ScrollViewer VerticalScrollBarVisibility="Auto"
+                                                                     HorizontalScrollBarVisibility="Auto">
+                                                        <vwModal:EditGlassRowQuantityModalUC />
+                                                    </hc:ScrollViewer>
+                                                </DataTemplate>
+                                                <!--#endregion-->
+
+                                                <!--#region 10. Import Orders Modal -->
+                                                <DataTemplate DataType="{x:Type vmModals:ImportOrderModalViewModel}">
+                                                    <hc:ScrollViewer VerticalScrollBarVisibility="Auto"
+                                                                     HorizontalScrollBarVisibility="Auto">
+                                                        <vwGlass:GalaxyOrdersDisplayUC DataContext="{Binding GalaxyOrderViewModel}" />
+                                                    </hc:ScrollViewer>
+                                                </DataTemplate>
+                                                <!--#endregion-->
+
+                                                <!--#region 11.Edit Sub Parts Modal -->
+                                                <DataTemplate DataType="{x:Type vmModals:EditSubPartsModalViewModel}">
+                                                    <hc:ScrollViewer VerticalScrollBarVisibility="Auto"
+                                                                     HorizontalScrollBarVisibility="Auto">
+                                                        <vwModal:EditSubPartsModal />
+                                                    </hc:ScrollViewer>
+                                                </DataTemplate>
+                                                <!--#endregion-->
+
+                                                <!--#region 12.Live Edit Part Modal -->
+                                                <DataTemplate DataType="{x:Type vmModals:LiveEditPartModalViewModel}">
+                                                    <hc:ScrollViewer VerticalScrollBarVisibility="Auto"
+                                                                     HorizontalScrollBarVisibility="Auto">
+                                                        <edituc:LiveEditPartUC DataContext="{Binding PartEditViewModel}" />
+                                                    </hc:ScrollViewer>
+                                                </DataTemplate>
+                                                <!--#endregion-->
+
+                                                <!--#region 13.Print BOM Modal -->
+                                                <DataTemplate DataType="{x:Type vmModals:PrintCabinBomModalViewModel}">
+                                                    <vwModal:PrintCabinBomModal />
+                                                </DataTemplate>
+                                                <!--#endregion-->
+
+                                                <!--#region 14.Edit Part Sets Modal -->
+                                                <DataTemplate DataType="{x:Type vmModals:EditPartSetsModalViewModel}">
+                                                    <vwModal:EditPartSetsModal />
+                                                </DataTemplate>
+                                                <!--#endregion-->
+
+                                                <!--#region 15.Glasses Stock Modal -->
+                                                <DataTemplate DataType="{x:Type vmModals:GlassesStockModalViewModel}">
+                                                    <vwModal:StockedGlassesModalUC VerticalAlignment="Top"
+                                                                                   HorizontalAlignment="Stretch" />
+                                                </DataTemplate>
+                                                <!--#endregion-->
+
+                                                <!--#region 16.Glasses Matching Modal -->
+                                                <DataTemplate DataType="{x:Type vmModals:GlassMatchingModalViewModel}">
+                                                    <vwModal:GlassMatchingModal VerticalAlignment="Top"
+                                                                                HorizontalAlignment="Stretch" />
+                                                </DataTemplate>
+                                                <!--#endregion-->
+
+                                                <!--#region 17.GlassDrawPrint Preview -->
+                                                <DataTemplate DataType="{x:Type vmModals:PrintPriviewGlassDrawModalViewModel}">
+                                                    <draws:PrintPriviewGlassDrawUC Height="auto"
+                                                                                   Width="auto"
+                                                                                   HorizontalAlignment="Stretch"
+                                                                                   VerticalAlignment="Stretch" />
+                                                </DataTemplate>
+                                                <!--#endregion-->
+
+                                                <!--#region 18.GlassDrawPrint Preview -->
+                                                <DataTemplate DataType="{x:Type vmModals:SelectSwapOptionsModalViewModel}">
+                                                    <vwModal:SelectSwapOptionsModalUC VerticalAlignment="Top"
+                                                                                      HorizontalAlignment="Stretch" />
+                                                </DataTemplate>
+                                                <!--#endregion-->
+
+                                                <!--#region 19.Edit LocalizedString ViewModel -->
+                                                <DataTemplate DataType="{x:Type vmModals:LocalizedStringEditModalViewModel}">
+                                                    <StackPanel>
+                                                        <vwModal:LocalizedStringEditView DataContext="{Binding LocalizedStringVm}"
+                                                                                         VerticalAlignment="Top"
+                                                                                         HorizontalAlignment="Stretch" />
+                                                        <StackPanel Orientation="Horizontal"
+                                                                    HorizontalAlignment="Center">
+                                                            <Button Style="{StaticResource UndoButton}"
+                                                                    Command="{Binding UndoCommand}"
+                                                                    Margin="20,0" />
+                                                            <Button Style="{StaticResource SaveButton}"
+                                                                    Command="{Binding SaveAndCloseCommand}"
+                                                                    Margin="20,0" />
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                                <!--#endregion-->
+
+                                                <!--#region 20.Image Viewer -->
+                                                <DataTemplate DataType="{x:Type vmModals:ImageViewerModalViewModel}">
+                                                    <StackPanel Margin="10">
+                                                        <hc:ImageViewer ImageSource="{Binding ImageUrl, FallbackValue={StaticResource DefaultNoImage}}"
+                                                                        MinWidth="500"
+                                                                        MinHeight="500"
+                                                                        ShowToolBar="True"
+                                                                        ShowImgMap="True"
+                                                                        BorderThickness="0" />
+                                                        <TextBlock FontSize="12"
+                                                                   Margin="20,0"
+                                                                   Text="{Binding ImageUrl}" />
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                                <!--#endregion-->
+
+                                                <!--#region 21. Edit Trait Classes Modal -->
+                                                <DataTemplate DataType="{x:Type vmModals:EditTraitClassesModalViewModel}">
+                                                    <vwModal:EditTraitClassesModaUC VerticalAlignment="Top"
+                                                                                    HorizontalAlignment="Stretch" />
+                                                </DataTemplate>
+                                                <!--#endregion-->
+
+                                                <!--#region 22. Edit Trait Classes Modal -->
+                                                <DataTemplate DataType="{x:Type vmModals:EditTraitGroupModalViewModel}">
+                                                    <vwModal:EditTraitGroupsModalUC VerticalAlignment="Top"
+                                                                                    HorizontalAlignment="Stretch" />
+                                                </DataTemplate>
+                                                <!--#endregion-->
+
+                                                <!--#region 23.Export To XML-Json Modal -->
+                                                <DataTemplate DataType="{x:Type vmModals:EntityToJsonXmlModalViewModel}">
+                                                    <vwModal:EntityToJsonXmlModal VerticalAlignment="Center"
+                                                                                  HorizontalAlignment="Stretch" />
+                                                </DataTemplate>
+                                                <!--#endregion-->
+
+                                                <!--#region 24.Edit User Accessories Options Modal -->
+                                                <DataTemplate DataType="{x:Type vmModals:EditUserAccOptionsModalViewModel}">
+                                                    <vwModal:EditUserAccessoriesOptionsModalUC VerticalAlignment="Center"
+                                                                                               HorizontalAlignment="Stretch" />
+                                                </DataTemplate>
+                                                <!--#endregion-->
+
+                                                <!--#region 25. Edit UserInfo Modal -->
+                                                <DataTemplate DataType="{x:Type vmModals:EditUsersInfoModalViewModel}">
+                                                    <vwModal:EditUserInfoModalUC VerticalAlignment="Center"
+                                                                                 HorizontalAlignment="Stretch" />
+                                                </DataTemplate>
+                                                <!--#endregion-->
+
+                                                <!--#region 26. Edit PriceRule Modal -->
+                                                <DataTemplate DataType="{x:Type vmModals:EditCustomPriceRulesModalViewModel}">
+                                                    <vwModal:EditCustomPriceRuleModalUC VerticalAlignment="Center"
+                                                                                        HorizontalAlignment="Stretch" />
+                                                </DataTemplate>
+                                                <!--#endregion-->
+
+                                                <!--#region 27. Wrapped Modals -->
+                                                <DataTemplate DataType="{x:Type vmModals:WrappedViewModelModalViewModel}">
+                                                    <vwModal:WrappedViewModalUC VerticalAlignment="Top" 
+                                                                                HorizontalAlignment="Stretch"/>
+                                                </DataTemplate>
+
+                                                <!--#endregion-->
+
+                                                <!--#region 28. Edit Model Generic Modals -->
+                                                <DataTemplate DataType="{x:Type vmModals:EditModelModalViewModel}">
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="auto"/>
+                                                        </Grid.RowDefinitions>
+                                                        <ContentControl Content="{Binding EditorViewModel}" Grid.Row="0">
+                                                            <ContentControl.Resources>
+                                                                <DataTemplate DataType="{x:Type vmAccessories:LocalizedStringViewModel}">
+                                                                    <vwModal:LocalizedStringEditView VerticalAlignment="Top"
+                                                                                                     HorizontalAlignment="Stretch" />
+                                                                </DataTemplate>
+                                                                <DataTemplate DataType="{x:Type vmShapes:ShapeInfoBaseVm}">
+                                                                    <vwShapes:MirrorShapeViewUC VerticalAlignment="Top"
+                                                                                              HorizontalAlignment="Stretch" />
+                                                                </DataTemplate>
+                                                                <DataTemplate DataType="{x:Type vmMirrors:IPRatingEditorViewModel}">
+                                                                    <vwMirrorObjects:IPRatingViewUC VerticalAlignment="Top"
+                                                                                                    HorizontalAlignment="Stretch" />
+                                                                </DataTemplate>
+                                                            </ContentControl.Resources>
+                                                        </ContentControl>
+                                                        <StackPanel Orientation="Horizontal"
+                                                                    HorizontalAlignment="Center"
+                                                                    Margin="0,15,0,0" Grid.Row="1">
+                                                            <Button Style="{StaticResource UndoButton}"
+                                                                    Command="{Binding UndoCommand}"
+                                                                    Margin="20,0" />
+                                                            <Button Style="{StaticResource RedoButton}"
+                                                                    Command="{Binding RedoCommand}"
+                                                                    Margin="20,0" />
+                                                            <Button Style="{StaticResource SaveButton}"
+                                                                    Command="{Binding SaveAndCloseCommand}"
+                                                                    Margin="20,0" />
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </DataTemplate>
+                                                <!--#endregion-->
+
+                                                <!--#region 29. Add Mirror To Order Modal -->
+                                                <DataTemplate DataType="{x:Type vmMirrorOrders:AddRowToMirrorsOrderModalViewModel}">
+                                                    <vwMirrorOrder:AddRowToMirrorsOrderView VerticalAlignment="Center"
+                                                                                            HorizontalAlignment="Stretch" />
+                                                </DataTemplate>
+                                                <!--#endregion-->
+
+                                            </ContentControl.Resources>
+                                        </ContentControl>
+                                    </Border>
+                                </Border>
+
+                                <!--#endregion-->
+
+                            </Grid>
+                        </Border>
+                    </cc:Modal>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <!--#endregion-->
+
+        <!--#region D. Progress Report Control -->
+        <Border HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                BorderBrush="{DynamicResource SecondaryBrush}"
+                BorderThickness="1"
+                CornerRadius="10"
+                Panel.ZIndex="10"
+                Background="{DynamicResource RegionBrush}"
+                Padding="10"
+                Margin="10"
+                Visibility="{Binding OperationProgressVm.IsBusy , Converter={StaticResource Boolean2VisibilityConverter}}">
+            <StackPanel MinWidth="120"
+                        MaxWidth="250">
+                <TextBlock Text="{Binding OperationProgressVm.OperationDescription, Mode=OneWay}"
+                           HorizontalAlignment="Center"
+                           FontSize="10"
+                           Margin="0,0,0,5" />
+                <ProgressBar Style="{StaticResource ProgressBarSuccess}"
+                             Margin="5,0"
+                             MinWidth="120"
+                             Value="{Binding OperationProgressVm.ProgressPercent , Mode=OneWay}" />
+            </StackPanel>
+        </Border>
+        <!--#endregion-->
+    </Grid>
+</hc:Window>

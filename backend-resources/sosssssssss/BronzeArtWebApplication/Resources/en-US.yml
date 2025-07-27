@@ -1,0 +1,1294 @@
+﻿#GeneralStrings
+New : New
+CompleteView: Complete View
+Models : Models
+Shape : Shape
+Extras : Extras
+ViewNeedsLogIn : You Need to LogIn to View this Page
+TaskCancelled : Task has been Cancelled
+Generating... : Generating...
+Request : Request
+RegisterMachine : Register Machine
+MachineAddress : Machine Address
+Print : Print
+PrintSaveOffer : Print/Save Offer
+PrintSaveOfferFirefoxNo : Print/Save Offer (Firefox Not Supported)
+Included : Included
+YouHaveTo : You Have to
+PleaseChooseShape : Choose Mirror Shape
+PleaseChooseDimensions : Enter Mirror Dimensions
+PleaseChooseLight : Choose Light Type (with/without)
+Dimensions : Dimensions
+LengthxHeight: (LxH)
+Range: Range
+Tollerance : Tollerance
+Restart : Restart
+Resume : Resume
+Glass : Glass
+Type : Type
+Thickness : Thickness
+Finish : Finish
+GlassFinish : Glass Type
+OfGlass: of Glass
+AdditionalOptions : Additional Options
+CabinSide : Cabin Side
+Selected : Selected
+Without : Without
+Draw : Draw
+Tempered : Tempered
+Pricing : Pricing
+Rules : Rules
+NominalDimension : Nominal Dimension
+Opening : Opening
+Wheels : Wheels
+PrintsBestIn : Printing Best Supported in
+Diagonal : Diagonal
+Photo : Photo
+PhotoAbbreviated: Photo
+Mirrors : Mirrors
+Showers : Showers
+Accessories : Accessories
+Demo : (Demo)
+Options : Options
+Edit : Edit
+Format : Format
+οr : or
+Choices : Choices
+Properties : Properties
+Link : Link
+Delete : Delete
+Empty : Empty
+Busy : Busy
+Available : Available
+Search : Search
+Column : Column
+Columns : Columns
+Images : Images
+UnderConstruction : Under Construction
+SectionStillUnderConstruction : This Section is Still Under Construction. Please Try Again on 18-07.
+RetrievingAccessories : Retrieving Accessories
+Loading : Loading
+or: or
+Filters : Filters
+ResetFilters : Reset Filters
+HeightLetter : H
+ClickToCheckNews : Check Version News
+Retrying: Retrying...
+FailedToRetrieve: Failed to Retrieve...
+CheckConnection: Check Connection
+CustomizedDimension: Customized
+Frame : Frame
+PricesAreNew : Automated Pricing in Custom Dimensions has multiple rules Applied , if you think something is amiss please contact us
+PricesAreNotBinding : Displayed Prices are non Binding and can change without Notice
+CustomDimensionIrregular : Custom Dimensions Pricing is calculated with a Multiplier (15%,25% e.t.c.) as well as , the structure's sqm and closest model's basic Catalogue price
+Notes : Notes
+NotAvailable : N/A
+CalculationsInfo : Calculations Info
+ItemModifiedNotAvailable: Item has been modified or is not longer available
+Retrieve : Retrieve
+SavingFile...: Saving File...
+Save : Save
+FileSaved : File Saved
+SaveSuccess: Saved Succesfully
+SaveFailed: Save Failed
+OnlyDigitsAndEnglish : Digits-Latin Char.
+SaveAsExcelFile : Save as Excel File (.xlsx)
+PhotoUrl : Photo Url
+AppliedRules : Pricing Rules
+
+#Authentication Page strings
+LoggingIn : Logging In...
+CompletingLogin : Completing Login...
+LogInFailed : Login Failed
+LoggingOut : Logging Out...
+CompletingLogout : Completing Logout...
+LogoutSucceded : Logout Complete
+BackToHome : Back to Home
+LogoutFailed : Logout Failed
+
+#Page Titles
+IndexPageTitle : Bronze Art Application
+AssembleCabinPageTitle : Cabin Creation - BronzeApp
+AssembleMirrorPageTitle : Mirror Creation - BronzeApp
+AccessoriesSelectionPageTitle : Bathroom Accessories - BronzeApp
+MirrorDrawPageTitle : Mirror Draw
+VersionNotesPageTitle : Version Notes
+
+#NewsTooltip
+NewsDialogTitle: Version News and Additions
+NewsTitle100 : Ver. 1.00
+CabinSectionReady: 1.Customized or fixed size cabins
+CapsuleMirrorReady: 2.Capsule shaped mirrors with or without light
+FramedLightMirrorsWithoutSandblast: 3.Framed rectangular lighted mirrors WITHOUT sandblasting
+BetterLooksReady: 4.Aesthetic changes (general and for smaller screens)
+NewsTitle101 : Ver. 1.01
+EllipseMirrorReady: 1.Ellipse shaped mirrors with or without light
+LinkItemsReady: 2.Possibility to Create Links for Created Mirrors/Cabins
+BetterLooksReady2: 3.Small Aesthetic Changes
+NewsTitle102103 : Ver. 1.02 & 1.03
+BathtubPanelsReady: 1.Added Bathtub Panel Designs
+NewsTitle104105106 : Ver. 1.04 & 1.05 & 1.06
+InvalidFlagBug: 1.Application should now Run also On Secured Browsers (Sophos agent e.t.c.)
+CabinPricingComing : 2.Showers Pricing (From ??-07)
+AccessoriesComing : 3.Accessories Page (From 18-07)
+NewsTitle107abc : Ver. 1.07a-1.07b-1.07c
+SaveCabinSynthesis : 1.Cabin Selections can now be Saved and reselected later
+NewsTitle108 : Ver. 1.08
+AccessoriesDemoNews : 1.Demo Version of Bathroom Accessories Application Operational
+NewsTitle109 : Ver. 1.09 & 1.10
+CabinsPricing : 1.Cabins Wholesale Pricing is Now Available please request to get it (Catalogue 2023)
+CabinsPricing2 : Pricing for All Customizations - Finishes - Selected Parts
+CabinsOptions : 2.Selectable Dynamic Options
+CabinsOptions2 : Handles - Profiles - Frame - Hinges e.t.c.
+BugFixes109 : 3.Various Bug Fixes and Small Improvements
+NewsTitle111 : Ver. 1.11 & 1.12
+NotesBoxAdded : 1.Notes Box Added to Mirrors and Cabin Quotes
+CabinPricingFixes : 2.Pricing Fixes in customized models WS-9C-VF-VS-V4
+IrregularThicknessPricing : 3.Pricing for 6/8mm , 8/10mm , 10mm Glasses
+BugFixes111 : 4.Various Bug Fixes and Small Improvements (Check Full Log in Application Versions)
+NewsTitle113 : Ver. 1.13
+BugFixes113 : 1.Multiple Fixes (see. Application Versions)
+NewsTitle200 : Ver. 2.00 14-11-2023
+A2001 : 1.Added New Accessories Menu.
+A2002 : 2.Added new functionalities Quote Basket , Pricing Rules, Customized pricing, Printable Quotes and Orders.
+A2003 : 3.Introduced Series-Type-Finish Navigation for better product exploration.
+A2004 : 4.Added Item Basic Cards and Detailed Accessory Card for product information.
+A2005 : 5.Implemented Search Box By Code/Descriptions/Trait.
+A2006 : 6.Added Grid, Table Views in Accessories for varied display options.
+A2007 : 7.Included Accessories Pricing and Finishes per Item with Hover - Select feature.
+A2008 : 8.Added Printable Accessories Sheets and Templates for convenience.
+A2009 : 9.Added Accessory Dimensioning and Dimension Photo per Accessory Color for detailed product visualization.
+A20010 : 10.Updated Theme Color.
+A20011 : 11.Implemented pages animations and improved routing for a smoother user experience.
+A20012 : 12.Improved Footer layout separation from main content.
+A20013 : 13.Fixed Scroll Bar issues on app bar and Index Page.
+A20014 : 14.Enhanced User Interface with Side Menus, Toolbars, and various Dialogs for a more intuitive experience.
+NewsTitle201206 : Ver. 2.01-2.07 / 14-03-2025
+A2012061 : 1.Multiple Fixes (see. Application Versions)
+NewsTitle208 : Ver. 2.08-2.11 / 24-03-2025
+A2081: 1. Additional Mirror Dimensions added to all Catalog Models
+A2082: 2. Added capability to create Circular mirrors with frames (dimensions 50-60-70-80-90-100-110-120)
+A2083: 3. Electroplated Colors for Mirrors have been discontinued
+A2084: 4. Various Additional Corrections (see Application Versions)
+NewsTitle212 : Ver. 2.12-2.14 / 10-04-2025
+A2121 : 1. Added Additional Mirror Models and Shapes
+A2122 : 2. Added Additional Options for Lighting
+A2123 : 3. Added additional Media Screen
+A2124 : 4. Various Additional Corrections (see Application Versions)
+
+#CreateLink Tooltip
+CreateLinkInformation : Copy a Link for the Current Selection
+LinkCreation : Copy Link of Selection
+LinkCopiedToClipboard: Link copied to Clipboard
+PassMirrorFromLink : Mirror from Link Created
+PassSynthesisCabinFromLink : Cabin Synthesis from Link Created
+InvalidLinkCouldNotGenerateMirror: The Provided Address Link was Incorrect
+InvalidLinkCouldNotGenerateCabin: The Provided Address Link was Incorrect
+InvalidLinkCouldNotGenerateQuery : The Provided Address Link was Incorrect
+CouldNotCopyLinkToClipboard : The Link Could not be Created
+
+#MainLayout Strings
+AppMenuButton : Menu
+ThemeButton : Theme
+LogIn : Log In
+LogOut : Log Out
+Home : Home
+
+#NavMenu
+NavCaption : Menu
+NavChooseHome: Home
+NavChooseApp : Choose App
+NavChooseAppCabin : Shower Enclosures App
+NavChooseAppMirror : Mirrors App
+NavChooseAppAccessories : Accessories App
+NavContact : Contact us
+NavVersion : Application Versions
+NavManage : Manage Options
+
+#MessageBox Messages
+SomethingWentWrongReset: Something Went Wrong , Selection has been Reset
+Error: Error
+AnApplicationWideErrorOccured : An Error Has Occured , Please Restart the application by refreshing the Page
+
+#Printing Page Strings
+DrawingsAreIndicative: -Mirror Drawings are Indicative.The Actual Layout may differ
+
+#Main Body Strings
+MainButton: Customized Mirror
+MainFieldsetLegend : Mirror - Properties
+Reset : Reset
+MirrorShape : Mirror Shape
+MirrorLight : Light
+Length : Length
+Height : Height
+Diameter : Diameter
+DimensionsHelperText : From 40-220cm
+cm : cm
+Support : Support
+LineNo : Item
+LineNoMin: Νο
+Code : SKU
+Description : Description
+FullDescription : Full Description
+ExtendedDescription : Extended Description
+RetailPrice : Retail Price
+NetPrice : Net Price
+FinalPrice : Final Price
+Price : Price
+PlusVat : +vat
+WhereApplicable : Where Applicable
+UndefinedLength : Undefined Length
+UndefinedHeight : Undefined Height
+UndefinedDiameter : Undefined Diameter
+Total : Total
+FinalTotal : Final Total
+VAT : Vat
+TotalWithVat : Total with Vat
+ClickToObserveDraw : Click to Observe Mirror Draw
+EnterCodeToGetMirror : Enter SKU
+
+#AssembleMirrorStateBox - Mode Selector Box
+CurrentState: Current State
+GuestState: Guest
+RetailState: Retail Mode
+WholesaleState: Wholesale Mode
+PressToOpenOptionsTooltip: Press to Open Options
+
+#FogTouchOptions Enum Descriptions
+WithAutonomusTouch : Autonomus Touch Switch
+WithAutonomusTouchEco : Autonomus Touch Switch Eco
+
+#MirrorShape Enum Descriptions
+RectangularMirror : Rectangular Mirror
+CircularMirror : Circular Mirror
+CapsuleMirror: Capsule Mirror
+EllipseMirror: Ellipse Mirror
+SpecialMirror : Special Mirror
+StoneNSMirror : Mirror Stone
+PebbleNDMirror : Mirror Pebble
+CircleSegmentMirror : Mirror Circle Segment
+CircleSegment2Mirror : Mirror Circle Segment 2
+
+#MirrorSeries Enum Descriptions
+SeriesCustom : Customized Mirror
+SeriesH7 : Hotel H7
+SeriesH8 : Eco H8
+SeriesX6 : Lugano X6
+SeriesX4 : Quattro X4
+Series6000 : Crystal 6000
+SeriesM3 : San Remo M3
+SeriesN9 : Diagonios N9
+SeriesN6 : Loop N6
+SeriesN7 : Totem N7
+SeriesA7 : Lunar A7
+SeriesA9 : Fairmont A9
+SeriesM8 : Series M8
+SeriesND : Pebble ND
+SeriesNC : Capsule NC
+SeriesNL : Ellipse NL
+SeriesP8 : Genesis P8
+SeriesP9 : Isavella P9
+SeriesR7 : Premium Hotel R7
+SeriesR9 : Premium Diagonios R9
+SeriesNS : Stone NS
+SeriesN1 : Round1000 N1
+SeriesN2 : Round2000 N2
+SeriesEL : Riviera Single EL
+SeriesES : Riviera Double ES
+SeriesIM : Customized Rectangular with Light
+SeriesIA : Customized Rectangular Simple
+SeriesN9Custom : Customized Circular with Light
+SeriesNA : Customized Circular Simple
+SeriesNCCustom : Customized Capsule with Light
+SeriesIC : Customized Capsule Simple 
+SeriesNLCustom : Customized Ellipse with Light
+SeriesIL : Customized Ellipse Simple
+
+#MirrorLight Enum Descriptions
+WithoutLight : Without Light
+Warm : Warm
+Cold : Cold
+DayLight : DayLight
+WarmCold : Warm-Cold
+WarmColdDay : Warm-Cold-Day
+DayCOB : Day COB
+WarmCOB : Warm COB
+ColdCOB : Cold COB
+WarmColdDayCOB : Warm-Cold-Day COB
+Day16W : Day 16W
+Warm16W : Warm 16W
+Cold16W : Cold 16W
+WarmColdDay16W : Warm-Cold-Day 16W
+
+WithoutLightFullDescription : Without Light
+WarmFullDescription : Warm Light 3000K
+ColdFullDescription : Cold Light 6000K
+DayLightFullDescription : Daylight 4000K
+WarmColdFullDescription : Double Light Warm-Cold
+WarmColdDayFullDescription : Triple Light Warm-Cold-Day
+DayCOBFullDescription : Daylight COB/Dotless
+WarmCOBFullDescription : Warm Light COB/Dotless
+ColdCOBFullDescription : Cold Light COB/Dotless
+WarmColdDayCOBFullDescription : Triple Light COB/Dotless W/C/D
+Day16WFullDescription : Daylight 16Watt
+Warm16WFullDescription : Warm Light 16Watt
+Cold16WFullDescription : Cold Light 16Watt
+WarmColdDay16WFullDescription : Triple Light 16Watt W/C/D
+
+#MirrorSandblast Enum Descriptions
+SandblastH7 : Without Sandblast
+SandblastH8 : Design H8
+SandblastX6 : Design X6
+SandblastX4 : Design X4
+Sandblast6000 : Design 6000
+SandblastM3 : Design M3
+SandblastN9 : Without Sandblast
+SandblastN6 : Design N6
+
+#MirrorOptions Enum Descriptions
+OptionBlueTooth : Bluetooth
+OptionsClock : Clock
+OptionsDimmer : Dimmer
+OptionsDisplay19 : Display19
+OptionsDisplay20 : Display20
+OptionsDisplay11 : DisplayFM 11
+OptionsFog16W : Fog 16Watt
+OptionsFog24W : Fog 24Watt
+OptionsFog55W : Fog 55Watt
+OptionsIPLid : Closed Lid
+OptionsRoundedCorners : Round Edges
+OptionsSensor : Sensor Switch
+OptionsTouch : Touch Switch
+OptionsTouchFog : Touch Switch (anti-Fog)
+OptionsZoom : Magnifyer x3
+OptionsZoomLed : Magnifyer with Light
+OptionsZoomLedTouch : Magnifyer Autonomus Light
+OptionsBackLightSealedChannel : Backlight Concealed Channel
+OptionsFrontLightSealedChannel : Front Light Concealed Channel
+OptionsSmartAntiFog : Smart Anti-Fog (timer)
+OptionsSingleTopLightedPlexiglass : Single Lighted Plexiglass
+OptionsDoubleTopBottomLightedPlexiglass : Double Lighted Plexiglass
+OptionsEcoTouch : Touch Switch (anti-Fog) Eco 60min
+OptionsScreen11b : DisplayFM 11 Black
+OptionsLamp : Lamp
+OptionsLightAluminumChannel : Metal Lighting Channel
+
+#MirrorSupport Enum Descriptions
+WithoutSupport : Without
+DoubleSupport : Double Sup.
+PerimetricalSupport : Perimetrical Sup.
+FrameSupport : Visible Frame
+FrontSmallSupport : Small Front Supports
+
+#Support Finish Type Enum Description
+PaintedFinish : Anodized Finish
+ElectroplatedFinish : Electroplated Finish
+SimpleFinish : Simple Finish
+Anodized : Anodized
+Electroplated : Electroplated
+
+#SupportPainted Finishes Enum Description Keys
+BlackAnodized : Black Mat
+BronzeAnodized : Bronze Mat
+ChromeAnodized : Chrome Mat
+CopperAnodized : Copper Mat
+GoldAnodized : Gold Mat
+GraphiteAnodized : Graphite Mat
+RalColor : Ral Color       
+SilverAnodized : Silver
+AnodizeNotDefined : Anodize Finish Undefined
+
+#Support Electroplated Finish Enum Description Keys
+BronzeBrushedElectroplated : Brushed Bronze
+BronzeMirrorElectroplated : Polished Bronze
+CopperBrushedElectroplated : Brushed Copper
+CopperMirrorElectroplated : Polished Copper
+SimilarGoldBrushedElectroplated : Gold Similar Brushed
+SimilarGoldMirrorElectroplated : Gold Similar Polished
+GraphiteBrushedElectroplated : Graphite Brushed
+GraphiteMirrorElectroplated : Graphite Polished
+NickelBrushedElectroplated : Nickel Brushed
+NickelMirrorElectroplated : Nickel Polished
+RealGoldBrushedElectroplated : Real Gold Brushed
+RealGoldMirrorElectroplated : Real Gold Polished
+RoseGoldMirrorElectroplated : Rose Gold Polished
+RoseGoldBrushedElectroplated : Rose Gold Brushed
+ElectroplatingNotDefined : Electroplated Finish Undefined
+
+#DialogItems
+DialogActionButtonFinish : Finish
+DialogActionButtonClose : Close
+DialogActionButtonBack : Back
+DialogActionButtonNext : Next
+DialogActionButtonSaveAndClose : Save and Close
+DialogActionButtonCloseWithoutSave : Close(Without Saving)
+DialogOk: Ok
+DialogCancel: Cancel
+DialogYes: 'Yes'
+DialogNo: 'No'
+DialogConfirm : Confirm
+DialogSubmit : Submit
+
+#AssembleMirrorPageOptions Dialog
+DialogAssembleMirrorOptionsTitle : General Options
+RetailModeOptions : Retail Mode Options
+Multiplier : Multiplier
+MultiplierHelpText1 : Catalogue Price Multiplier (ex. 100.00 =>
+MultiplierHelpText2 : Catalogue Prices are multiplied by this number in Retail Offers
+MaxRetailDiscount : Max Discount
+MaxRetailDiscountHelpText : The Maximum Discount , that can be Applied to Retail Mode Offers
+MinRetailDiscount : Min Discount
+MinRetailDiscountHelpText : The Minimum Discount , Applied to Retail Mode Offers
+RetailTheme : Retail Theme
+RetailThemeHelpText : Defines Parameters for the Retail Mode Theme
+
+
+#RetailWholesale Dialog
+DiaogRetailWholesaleTitle : Choose Application Service Retail/WholeSale
+
+#Ready Dialog
+DialogFixedSizeMirror : Fixed Size Mirrors
+DialogReadyTitle : Catalog Models
+DialogReadySelectDrawCaption: Select a Model from the List
+NoMirrorsFound: "No mirrors match your criteria"
+NoMirrorsFoundDescription: "We couldn't find any mirrors that match your current filter settings. Try adjusting your filters or search query."
+SearchTips: "Try these tips"
+SearchTip1: "Remove or change one or more filters"
+SearchTip2: "Try a more general search term"
+SearchTip3: "Check for spelling errors in your search"
+SearchTip4: "Try searching by product code or dimensions"
+ClearAllFilters: "Clear All Filters"
+
+#Shape Dialog
+DialogShapeTitle : Choose Shape
+
+#Light Dialog
+DialogLightTitle : Choose Light
+CommonLights : Basic Lights
+AdditionalLights : Additional Lights
+
+#Dimensions Dialog
+DialogDimensionsTitle : Enter Dimensions
+FixedDimensionsLegend : Fixed Dimensions
+
+#Supports Dialog
+DialogSupportsTitle : Choose Support
+
+#FrameFinish Dialog
+DialogFrameFinishTitle : Choose Frame Finish
+PleaseChooseFinishType : Please Choose The Type of Finish
+
+#Sandblast Dialog
+DialogSandblastTitle : Choose Sandblast
+
+#Touch Buttons Dialog
+DialogTouchTitle : Choose Light Switch
+DialogTouchFieldsetLegend : Switches
+DialogTouchTouchCaption : On/Off Touch Switch
+DialogTouchDimmerCaption : Dimmer Touch Switch
+DialogTouchSensorCaption : Light Sensor Switch
+CannotChangeOptionForThisMirror : This Option Cannot Change for the Current Mirror
+
+#Fogs Dialog
+DialogFogTitle : Choose Demister
+DialogFogFieldsetLegend : Demister Pads
+DialogFog16Caption : 16Watt - 29x29cm
+DialogFog24Caption : 24Watt - 29x41cm
+DialogFog55Caption : 55Watt - 51x51cm
+DialogFogTouchCaption : Operation Switch
+
+#Magnifyers Dialog
+DialogMagnifyerTitle : Choose Magnifyer
+DialogMagnifyerFieldsetLegend : Magnifyers
+DialogMagnifyerZoomCaption : Magnifyer x3
+DialogMagnifyerZoomLedCaption : Magnifyer with Light
+DialogMagnifyerZoomLedTouchCaption : Magnifyer Autonomus Light
+
+#Screen Dialog
+DialogScreenTitle : Choose Media
+DialogScreenFieldsetLegend : Screens/Media
+DialogScreenTimeCaption : Clock-Temprature
+DialogScreenBluetoothCaption : MediaPlayer-Bluetooth
+DialogScreenDisplay11Caption : Radio-MediaPlayer-Clock-Temprature
+DialogScreenDisplay11BlackCaption : Radio-MediaPlayer-Clock-Temprature-Dimmer
+DialogScreenDisplay19Caption : Weather Sync-Time Large
+DialogScreenDisplay20Caption : Weather Sync-Time Small
+
+#Various Options Dialog
+DialogVariousTitle : Choose Extras
+DialogVariousFieldsetLegend : Extras
+DialogVariousLid : Mirror Back Lid
+DialogVariousRounding : Filleted Edges
+
+#Mirror Descriptions
+Rectangular : Rectangular
+Circular : Circular
+Capsule : Capsule
+Ellipse : Ellipse
+Special : Special
+Mirror : Mirror
+WithLight : With Light
+Light : Light
+WithoutLed : Without Light
+WithSandblast : With Sandblast
+WithoutSandblast : Without Sandblast
+StoneNS : Stone
+PebbleND : Pebble
+CircleSegment : Circle Segment
+CircleSegment2 : Circle Segment(2)
+
+#DiscountBox Strings
+Discount : Discount
+
+#Validation Error Messages
+ShapeNotSelected : You have not Selected Shape
+LengthNotSelected : Mirror Length Not Selected
+MirrorLengthWithin : Mirror Length Must be
+DimensionsNotSet : Dimensions not Set
+
+HeightNotSelected : Mirror Height Not Selected
+MirrorHeightWithin : Mirror Height Must be
+
+DiameterNotSelected : Mirror Diameter Not Selected
+MirrorDiameterWithin : Mirror Diameter Must be
+
+SandblastNotSelected : Mirror Sandblast Not Selected
+SupportNotSelected : Mirror Support Not Selected
+LightNotSelected : Mirror With/Without Light Not Selected
+FrameFinishTypeNotSelected : Frame Finish Not Selected
+PaintFinishNotSelected : Anodized Frame Finish Not Selected
+ElectroplatedFinishNotSelected : Electroplated Frame Finish Not Selected
+MaxDimensionsWithVisibleFrame : Maximum Dimensions with Visible Frame are
+SandblastObligatoryWithLightFrame : Mirrors With Frame and Light must ALWAYS have a Sandblast
+CannotCreateFramedCapsule : Application Cannot Create Capsule Mirrors With Frame Yet
+CannotCreateFramedEllipse : Application Cannot Create Ellipse Mirrors With Frame Yet
+CapsuleCannotHaveSandblast : Capsule Mirrors cannot have Sandblast
+EllipseCannotHaveSandblast : Ellipse Mirrors cannot have Sandblast
+PremiumMirrorsCannotHaveLightsLessThan16W : Premium Mirrors Cannot have Lighting Less than 16W
+
+#Validation Error Codes Messages
+LightWithDoubleSupport : Perimetrical Support Added - Lighted Mirrors Must Have Perimetrical or Visible Frame
+LightWithFrontSupport : Perimetrical Support Added - Lighted Mirrors Must Have Perimetrical or Visible Frame
+LightWithoutSupport : Perimetrical Support Added - Lighted Mirrors Must Have Perimetrical or Visible Frame
+
+LightWithRounding : Rounding Removed -- Cannot Have Rounding When Visible Frame is Selected
+
+SimpleRectangularWithSandblast : Sandblast Design Removed - Simple Mirrors are without Lighted Sandblasting
+SimpleCircularWithSandblast : Sandblast Design Removed - Simple Mirrors are without Lighted Sandblasting
+
+SimpleWithTouch : Touch Switch Removed -- Simple Mirrors Do not Have Light Switches
+SimpleWithDimmer : Dimmer Switch Removed -- Simple Mirrors Do not Have Light Switches
+SimpleWithSensor : Sensor Removed -- Simple Mirrors do not Have Light Switches
+
+SimpleWithMagnifyer : Magnifyer Removed -- Mirror Needs Perimetrical or Frame Support to Select a Magnifyer
+SimpleWithMagnifyerLed : Magnifyer with Light Removed -- Selected Mirror is Without Light
+SimpleWithMagnifyerLedTouch : Magnifyer with Light Removed -- Selected Mirror is Without Light
+
+SimpleWithLid : Lid Removed -- Only Perimetrical or Visible Frames can have a Lid
+SimpleWithRounding : Rounding Removed -- Cannot Have Rounding When Visible Frame is Selected
+
+SimpleWithFog16 : Anti-Fog Removed -- Mirror Support Should be Perimetrical or Visible Frame or Double Support to Select this Option
+SimpleWithFog24 : Anti-Fog Removed -- Mirror Support Should be Perimetrical or Visible Frame or Double Support to Select this Option
+SimpleWithFog55 : Anti-Fog Removed -- Mirror Support Should be Perimetrical or Visible Frame or Double Support to Select this Option
+SimpleWithFogSwitch : Autonomus FogSwitch Removed -- Simple Mirrors cannot have switches
+
+SimpleWithClock : Clock Removed -- Simple Mirrors Cannot Have Media Devices
+SimpleWithBluetooth : Bluetooth Removed -- Simple Mirrors Cannot Have Media Devices
+SimpleWithDisplay11 : Display11 Removed -- Simple Mirrors Cannot Have Media Devices
+SimpleWithDisplay19 : Display19 Removed -- Simple Mirrors Cannot Have Media Devices
+SimpleWithDisplay20 : Display20 Removed -- Simple Mirrors Cannot Have Media Devices
+
+SimpleCircularCapsulePerimetrical : Perimetr.Support Removed -- Simple Circular/Capsule/Elipse Mirrors Cannot Have Perimetrical Supports
+
+CircularWithFrame : Circular Mirrors with Visible Frame only Available in  40,50,60,70,80,90,100,110,120cm
+CircularWithFrameNoLightSandblastN9 : Simple Circular Mirror with Frame cannot take any type of Sandblast
+CircularWithFrameWithLightSandblastN6 : Circular Mirror with Light and Frame is available ONLY WITH Perimetrical Sandblast
+FinishTypeWithoutFrame : Frame Finish Removed -- You have Changed the Support to Non-Visible Frame
+
+#CodeTextValiation Error Messages
+InvalidLengthInput: Expected Length >4 Chars
+InvalidCodeInput : Provided Code is Invalid
+
+#Draw Page
+FrontDraw : Front Draw
+RearDraw : Rear Draw
+ShowBoundaryButton : Show Mirror Extras Boundary
+SideDraw : Side Draw
+
+#Collision Messages
+ChangeExtrasOrDimensions : Please Remove a Mirror Extra or Increase Mirror's Dimensions
+SelectedExtrasAreOutOfBounds : Selected Extras Cannot Fit on the Mirror - Please see the Draw for More Information
+MagnifyerDraw : Magnifyer
+MagnifyerSandblastDraw: Magnifyer
+TouchDraw : Touch
+TouchFogDraw : Touch
+DimmerDraw : Dimmer
+SensorDraw : Sensor
+Fog16WDraw : Anti-Fog
+Fog24WDraw : Anti-Fog
+Fog55Draw : Anti-Fog
+Display11Draw : Display11
+Display19Draw : Display19
+Display20Draw : Display20
+ClockDraw : Clock
+GlassDraw : Mirror
+VisibleFrameDraw : Frame
+PerimetricalSupportDraw : Perim.Support
+DoubleSupportDraw : Double Support
+SingleSupportDraw : Single Support
+SandbastDraw : Sandblast
+ExtrasAreaDraw : Mirror's Available Area
+NotAvailableSpaceFor : Not Available Space For
+
+#MessageBox Messages
+MirrorNotCompleteMessage : The Selected Options for the Mirror are Incomplete or Not Possible
+MirrorNotCompleteTitle : Incomplete Mirror
+MirrorDrawNotAvailableMessage : (Under Construction) The drawings for this series are not yet available in the Application  
+MirrorDrawNotAvailableTitle : Draw Not Available
+
+#CABINS PAGE
+#Selection Starting Buttons Grid
+CreateCabin: Customized Shower
+CabinCatalogueModels: Catalogue Models
+EnterCabinCode: Insert SKU
+
+#OpeningDialog
+OpeningsWindowTitle: Opening Type
+
+#SlidingTypeDialog
+SlidingTypeWindowTitle: Sliding Door
+
+#FoldingTypeDialog
+FoldingTypeWindowTitle: Folding Door
+
+#StandardDoorTypeDialog
+StandardDoorWindowTitle: Choose Door
+
+#DoorOnPanelTypeDialog
+DoorOnPanelWindowTitle: Choose Door
+
+#FixedPanelTypeDialog
+FixedPanelWindowTitle: Fixed Panel
+
+#CabinSeriesDialog
+SeriesWindowTitle: Model Series
+
+#CabinPanelWindow
+CabinPanelWindowTitle : Selected Model
+SelectionsNeedCorrection : Selections that Need Correction
+CabinDrawNotAvailable : Draw Not Available for selected Model
+
+#Choose Model Dialog
+DialogChooseB6000Title: Choose Model
+DialogChooseInox304Title: Choose Model
+DialogChooseHotel8000Title: Choose Model
+DialogChooseNiagara6000Title: Choose Model
+DialogChooseFreeTitle : Choose Model
+WindowChooseModelTitle : Choose Model
+
+#Choose CabinDrawNumber
+DialogChooseDrawNumber : Choose Draw Type
+
+#Cabin Dimensions Panel
+DialogSetCabinDimensionsTitle : Set Dimensions
+FlipDraw: Change Draw Direction
+CatalogueDimensions: Catalogue Dimensions
+
+#Tooltips Dimensions Panel
+9CHeightOnly1850: Height for this model ,can be only 1850mmm
+
+#SetCabin StepDimensions Dialog
+DialogSetStepDimensionsTitle : Set Glass Step Cut
+SideCannotHaveStep: This Side cannot undergo a Step Cut Process
+
+#SetCabinGlassPropertiesDialog
+GlassPropertiesDialogTitle: Select Glass
+
+#Openings Enum Descriptions
+FixedPanels: Fixed Panels
+SlidingOpening: Sliding Doors
+StandardDoorOpening: Standard Doors
+DoorOnPanelOpening : Doors on Panel
+FoldingDoorOpening: Folding Doors
+BathtubPanels : Bathtub Panels
+
+#SlidingType Enum Descriptions
+SingleSliding: Single Sliding Door
+SingleSlidingSidePanel: Single Sliding Door with Side Panel
+SingleSliding2SidePanels : Single Sliding Door ,two SidePanels
+DoubleSliding: Double Sliding Doors
+DoubleSlidingSidePanel: Double Sliding Doors with Side Panel
+DoubleSliding2SidePanels: Double Sliding Doors ,two Side Panels
+CornerSliding: Corner Sliding Doors
+CornerSlidingSidePanel : Corner Sliding with Side Panel
+SemicircularSliding: Semicircular Sliding Doors
+SemicircularSlidingSidePanel : Semicircular Sliding with Side Panel
+
+#FoldingType Enum Descriptions
+SingleDoor44 : Folding Door
+SingleDoorSidePanel45 : Folding Door - Side Panel
+DoubleDoorCorner46 : Corner Double Folding Door
+SingleDoorStraightPanel47 : Folding Door - Extra Panel
+DoubleDoorStraight48 : Double Folding Door
+
+#StandardDoorType Enum Descriptions
+Door3151 : Sinlge Door
+DoorSidePanel3252 : Door with Side Panel
+DoubleCornerDoor3353 : Double Corner Door
+DoorStraightPanel3859 : Door - Extra Panel
+DoubleDoor4161 : Double Door
+
+#DoorOnPanel Enum Descriptions
+Door34 : Single Door
+DoorSidePanel35 : Door with Side Panel
+DoubleCornerDoor37 : Double Corner Door
+DoorStraightPanel40 : Door - Extra Panel
+DoubleDoor43 : Double Door
+
+#FixedTypePanel Enum Descriptions
+WallPanel : Wall Panel
+FreeStandingPanel : Free Standing Panel
+PanelWithFlipper81 : Panel With Flipper
+DoubleWallPanel82 : Draw 82
+DoubleAngularPanel84 : Draw 84
+DoublePanel85 : Draw 85
+TriplePanel88 : Draw 88
+
+#Cabin Series Enum Descriptions
+Bronze6000 : Bronze 6000
+Inox304 : Inox 304
+Smart : Smart Free
+Niagara6000 : Niagara 6000
+Hotel8000 : Hotel 8000
+Free : Free
+
+#Cabin Model Enum Descriptions
+Model9A : Corner Sliding 9A
+Model9S : Single Sliding 9S
+Model94 : Double Sliding 94
+Model9F : Side Panel 9F
+Model9B : Pivot Door 9B
+ModelW : Fixed Panel W
+ModelHB : Door on Panel HB
+ModelNP : Folding Door NP
+ModelVS : Single Sliding VS
+ModelVF : Side Panel VF
+ModelV4 : Double Sliding V4
+ModelVA : Corner Sliding VA
+ModelWS : Single Sliding WS
+ModelE : Free Standing Panel E
+ModelWFlipper : Flipper Panel FL
+ModelDB : Single Door DB
+ModelNB : Single Door NB
+ModelNV : Bathtub Mov.Panel NV
+ModelMV : Bathtub Mov.Panel MV
+ModelNV2 : Bathtub Mov.Panel NV2
+Model6WA : Fixed with Flipper 6WA
+Model9C : Semicircular Sliding 9C
+Model8W40 : Bathtub Fixed Panel
+ModelGlassContainer : Spare Glass
+ModelQB : Single Door QB
+ModelQP : Folding Door QP
+
+#CabinFinishEnum Descriptions
+Polished: Chrome
+Brushed : Brushed
+BlackMat : Black Mat
+WhiteMat : White Mat
+Bronze : Bronze
+BrushedGold : Gold Brushed
+Gold : Gold
+Copper : Copper
+SpecialColor : Special 
+NotSet : Undefined
+
+#CabinThicknessesEnum Descriptions
+ThickNotSet : Thick??
+Thick5mm : 5mm
+Thick6mm : 6mm
+Thick8mm : 8mm
+Thick10mm : 10mm
+ThickTenplex10mm : Tenplex 10mm
+Thick6mm8mm : 6-8mm
+Thick8mm10mm : 8-10mm
+
+#GlassFinishEnum Descriptions
+Transparent : Transparent
+Satin : Satin
+Serigraphy : Serigraphy
+Fume : Fume
+Frosted : Frosted
+SpecialFinish : Special
+
+#CabinDrawNumber Enum Descriptions
+DrawNone: Not Available
+Draw9S: Single Sliding 9S
+Draw9S9F: Sliding 9S - Side Panel 9F
+Draw9S9F9F : Sliding 9S - Two Side Panels 9F
+Draw94 : Double Sliding 94
+Draw949F : Double Sliding 94 - Side Panel 9F
+Draw949F9F : Double Sliding 94 - Two Side Panels 9F
+Draw9A : Corner Entry 9A
+Draw9A9F : Corner Entry 9A - Side Panel 9F
+Draw9C : Semicircular 9C
+Draw9C9F : Semicircular 9C - Side Panel 9F
+Draw9B : Pivot Door 9B
+Draw9B9F : Pivot Door with Side Panel
+Draw9B9F9F : Pivot Door 9B - Two Side Panels 9F
+DrawVS : Single Sliding VS
+DrawVSVF : Single Sliding VS - Side Panel VF
+DrawV4 : Double Sliding V4
+DrawV4VF : Double Sliding V4 - Side Panel VF
+DrawVA : Corner Entry VA
+DrawWS : Sliding Autonomus WS
+DrawNP44 : Draw 44
+Draw2CornerNP46 : Draw 46
+Draw2StraightNP48 : Draw 48
+DrawCornerNP6W45 : Draw 45
+DrawStraightNP6W47 : Draw 47
+DrawNB31 : Draw 31
+DrawCornerNB6W32 : Draw 32
+Draw2CornerNB33 : Draw 33
+DrawStraightNB6W38 : Draw 38
+Draw2StraightNB41 : Draw 41
+DrawDB51 : Draw 51
+DrawCornerDB8W52 : Draw 52
+Draw2CornerDB53 : Draw 53
+DrawStraightDB8W59 : Draw 59
+Draw2StraightDB61 : Draw 61
+DrawHB34 : Draw 34
+DrawCornerHB8W35 : Draw 35
+Draw2CornerHB37 : Draw 37
+DrawStraightHB8W40 : Draw 40
+Draw2StraightHB43 : Draw 43
+Draw8W : Fixed Panel W
+DrawE : Free Standing Panel E
+Draw8WFlipper81 : Fixed Panel W - Flipper FL
+Draw2Corner8W82 : Draw No82
+Draw1Corner8W84 : Draw No84
+Draw2Straight8W85 : Draw No85
+Draw2CornerStraight8W88 : Draw No88
+Draw8W40 : Fixed Panel
+DrawMV2 : Double Folding Panel - Hinges
+DrawNV2 : Double Folding Panel - Aluminium
+DrawNV : Single Moving Panel
+DrawQP44 : Draw 44
+Draw2CornerQP46 : Draw 46Q
+Draw2StraightQP48 : Draw 48Q
+DrawCornerQP6W45 : Draw 45Q
+DrawStraightQP6W47 : Draw 47Q
+DrawQB31 : Draw 31Q
+DrawCornerQB6W32 : Draw 32Q
+Draw2CornerQB33 : Draw 33Q
+DrawStraightQB6W38 : Draw 38Q
+Draw2StraightQB41 : Draw 41Q
+
+#DimensionMeasureNames
+9ALength1 : Sliding Side
+9SLength1 : Sliding Door
+94Length1 : Sliding Doors
+9FLength1 : Side Panel
+9BLength1 : Pivot Door
+WLength1  : Fix.Panel
+HBLength1 : HB Door
+NPLength1 : Folding Door
+VSLength1 : Sliding Door
+VFLength1 : Side Panel
+V4Length1 : Sliding Doors
+VALength1 : Sliding Side
+WSLength1 : Sliding Door
+ELength1  : FreeStanding
+WFlipperLength1 : Flipper
+DBLength1 : Door
+NBLength1 : Door
+NVLength1 : Door
+MVLength1 : Door
+NV2Length1 : Door
+6WALength1 : Door
+9CLength1 : Semicirc.Side
+8W40Length1  : Fix.Panel
+
+9ALength2 : Sliding Side2
+9SLength2 : N/A
+94Length2 : N/A
+9FLength2 : Side Panel
+9BLength2 : N/A
+WLength2  : Fix.Panel2
+HBLength2 : HB Door 2
+NPLength2 : Folding Door2
+VSLength2 : N/A
+VFLength2 : Side Panel
+V4Length2 : N/A
+VALength2 : Sliding Side2
+WSLength2 : N/A
+ELength2  : FreeStanding
+WFlipperLength2 : Flipper
+DBLength2 : Door2
+NBLength2 : Door2
+NVLength2 : Door2
+MVLength2 : Door2
+NV2Length2 : Door2
+6WALength2 : Door2
+9CLength2 : Semicirc.Side2
+8W40Length2  : N/A
+
+9ALength3 : N/A
+9SLength3 : N/A
+94Length3 : N/A
+9FLength3 : Side Panel2
+9BLength3 : N/A
+WLength3  : Fix.Panel3
+HBLength3 : N/A
+NPLength3 : N/A
+VSLength3 : N/A
+VFLength3 : N/A
+V4Length3 : N/A
+VALength3 : N/A
+WSLength3 : N/A
+ELength3  : FreeStanding2
+WFlipperLength3 : Flipper2
+DBLength3 : N/A
+NBLength3 : N/A
+NVLength3 : N/A
+MVLength3 : N/A
+NV2Length3 : N/A
+6WALength3 : N/A
+9CLength3 : N/A
+8W40Length3  : N/A
+
+StepLength : Step Length 
+StepHeight : Step Height
+
+#CabinExtraType Enum Descriptions
+StepCut : Cut(Step)
+SafeKids : SafeKids
+BronzeClean : BronzeClean
+StepCutFullDesc : Glass will take the form of a -Step- in One of its Edges
+SafeKidsFullDesc : Glass will not Scatter in case of breakage
+BronzeCleanFullDesc : Salts Protection, Easier Cleaning, (Hydrophobic surface)
+GlassTreatments : Glass Treatments
+
+#Cabin & Mirrors & Accessories PricingRules Names Keys
+AppliedDiscountRules: Calculations
+SpecialDimensionCalculations: Added Price Calculations
+IrregularThicknessCalculations : Irregular Thick. Calculations
+CalculatedPrice : Calculated Total
+BronzeCleanRule: BronzeClean Price
+CabinBasePriceRule: Basic Price
+CabinFinishPriceRule: Finish Price
+CabinSpecialDimensionRule: Special Dimen.Diff.
+IrregularGlassThicknessRule : Spec.Glass Thick.
+ClientDiscountPriceRule: Basic Discount
+DiscountPriceRule: Basic Discount
+CabinExtraDiscountRule: Extra Discount
+SafeKidsPriceRule: SafeKids Price
+StepCutPriceRule: Step Cut Catalogue Price
+CabinExceededSQMRule : Big Dimension
+ExtraHingePriceRule : Big Dimens.Hinges
+CabinPartPricingRule : Part Base Price
+IncreasePriceRule : Retail Increase
+CustomMirrorPriceRule : Custom Mirror Base
+CatalogueMirrorPriceRule : Catalogue Mirror
+SandblastPriceRule : Sandblast Base Price
+LightingPriceRule : Light Base Price
+MirrorSupportPriceRule : Support Base Price
+MirrorExtraPriceRule : Option Base Price
+CapsuleMirrorPriceRule : Capsule Processing
+CircularMirrorPriceRule : Circular Processing
+EllipseMirrorPriceRule : Ellipse Processing
+SecondaryDiscountRule : Secondary Discount
+TertiaryDiscountRule : Tertiary Discount
+AccessoryBasePriceRule: Catalogue Price
+CustomStartingPriceRule : Custom Initial Price
+ExtraDiscountRule : Extra Discount
+
+#CalculationsDescriptors
+OriginalPrice : Base Price
+IncreaseFactor: Inc.Factor
+OriginalSQM : Base m²
+CurrentSQM : Current m²
+OriginalPricePerSQM : Base Price/m²
+CurrentPricePerSQM : Current Price/m²
+CurrentPrice : Current Price
+MinimumPrice : Min Price
+AddedPrice : Added Cost
+FixedGlass : Fix.Glass Dim.
+CabinSQM : Cabin m²
+TotalSQM : Total m²
+PremiumPerSQM : Added Cost/m²
+
+#Cabins Validation ErrorCodes
+InvalidCabinModel: Cabin Model is Not Selected
+InvalidCabinMetalFinish: Selected Metal Finish is not available for this Model
+InvalidCabinThickness: Selected Glass Thickness is not available for this Model
+InvalidCabinGlassFinish: Selected Glass Finish is not available for this Model
+CurrentDimensionsNeedBiggerThickness : Selected Dimensions need bigger glass thickness
+InvalidCabinLength: Selected Length is out of Range for this Model
+InvalidCabinHeight: Selected Height is out of Range for this Model
+MissingStepDimension: Either Height or Length of Step-Cut is not Selected
+StepHeightLessThanMinimum: Selected Step-Cut Height is Less than the Allowed for this Model
+StepDimensionsExceedCabin: Selected Step-Cut Dimensions Exceed Cabin Dimensions
+9BWithoutFixedCannotHaveStep: For the Selected Length (Model will have a single Door) Step-Cut is Not Available
+CannotHaveStep: Selected Model cannot Have a Step Cut
+Cabin9CSerigraphyOutOfRangeLength: Non Transparent Glasses Are Availabel for this Setup only for Basic Dimensions
+Cabin9CStepWithoutTransparentGlass: Cut (Step) is available only For Transparent Glass for the Selected Model
+SafeKidsCannotBeAppliedOnSatinGlass: Safekids Protection Cannot be Applied on Satin/Frosted Glasses
+WithoutHandleError: Selected Model Cannot be without Handle
+WithoutCloserError : Selected Model Cannot be without Closer
+CloseProfileWithoutHandle: Models with Close Profile cannot be without Handle
+WithoutMiddleHinge : Selected Model Cannot be without in between rotation Mechanism
+PerimetricalFrameWithRounding : Structures with Perimetrical Frame Cannot Have Rounded Glasses
+
+#CabinDirection Enum Keys
+CabinDirectionUndefined : Any Direction (Left-Right)
+CabinDirectionLeftSided : Left Direction
+CabinDirectionRightSided : Right Direction
+
+#CabinExtraOptions Selections
+Handles : Handles
+BottomFixer : Bottom Fixing
+MiddleHinge : Middle Mechanism
+Closure : Magnetic Closure
+WallFixer : Wall Fixing
+PerimetricalFrameSelection : Perimetrical Frame
+
+#Saved-Recents Component
+RecentSynthesis: Recents
+SavedSynthesis: Saved
+FailedLoadingRecents: Failed loading recent selections
+FailedLoadingSaved : Failed loading saved selections
+SavedListEmpty : List of saved selections is empty
+RecentsListEmpty : List of recent selections is empty
+CabinSynthesisFromRecentTable : Cabin Synthesis from recents/saved created
+ErrorGeneratingSynthesisFromRecentTable : Could not generate cabin synthesis from recents/saved table
+SaveSynthesisTooltip: Save Selection to Recents
+SaveSynthesisButton : Save Selection
+FailedToSaveCabinSelection : Saving Selection Failed...
+SavedSelectionAlreadyExists : Selection has already been Saved...
+CabinSelectionSaved : Selection has been saved to recents
+RecentsSavedButton : Recents/Saved
+
+#Tooltips
+HeavyDutyPackingTooltip: High Quality Heavy Duty Packaging
+Wheels8x8Tooltip1 : Double Wheels
+Wheels8x8Tooltip2 : Two-Hole Support
+Wheels8x8Tooltip3 : Internal Metal Structure
+Wheels8x8Tooltip4 : Inox304 Bearings
+ReversibleTooltip : This Shower is Reversible
+MadeInGreeceTooltip : Manufactured in Greece
+
+#Print Templates Keys
+PerimetricalAluminium : Perimetrical Frame
+HandleGuide : Handle & Guide
+SupportBar : Support
+SupportBarHeavyDuty : Heavy Duty Support
+TwoSupportBars : Supports
+FloorAluminium : Bottom Profile
+PerimetricalFrame : Perimetrical Profile
+AdjustmentProfile : Adjustment Profile
+HeavyDutyProfile : Heavy Duty Profile
+Clamps : Supports
+GlassClamps : In Between Supports
+Hinges : Rotation Mechanisms
+InΒetweenHinges : In Between Mechanisms
+InΒetweenHingeAluminium : In Between Alum.Mechanism
+HeavyDutyHinges : Heavy Duty Mechanisms
+HeavyDutyMechanism : Heavy Duty Mechanism
+AluminiumHinge : Heavy Duty Rotation Mechanism
+HiddenMagnetClosure : Covered Magnet
+MagnetClosure : Magnetic Closure
+BumperClosure: Bumper Closure
+
+#CabinPartTypeEnum
+Undefined: Undefined
+GenericPart : Part
+Handle : Handle
+Hinge: Hinge
+Profile: Profile
+MagnetProfile: Magnetic Profile
+HingeProfile: Profile Hinge
+FloorStopper: Bottom Stopper
+BarSupport: Support Bar
+SmallSupport: Small Support
+Strip : Glass Strip
+AnglePart: Angle Part
+WallRotationMechanism : Rotation Wall Mech.
+
+#CabinHandleTypeEnum
+SingleHandle: Single Handle
+DoubleHandle: Double Handle
+SingleKnob: Single Knob
+DoubleKnob: Double Knob
+HandleKnob: Handle-Knob
+
+#CabinStripTypeEnum
+PolycarbonicMagnet: Magnet Strip
+PolycarbonicBumper: Bumper Strip
+
+#Material Type Enum
+MaterialAluminium: Alluminium
+MaterialInox304: Inox304
+MaterialInox316: Inox316
+MaterialInox430: Inox430
+MaterialBrass: Brass
+MaterialZink: Zink
+MaterialAbs: Abs
+MaterialPlastic: Plastic
+MaterialMetallic: Metallic
+MaterialPolycarbonic: Polycarbonic
+Other: Other
+
+#Accessories Selection Page
+NavigateBySeries : Navigate by Series
+NavigateByType : Navigate by Type
+NavigateAll : All Accessories
+AvailableFinishes : Available Finishes 
+DownloadPdfSheet : Download Technical Sheet
+SheetNotAvailable : Technical Sheet Not Available
+SeeMore : See More
+
+#CabinCodeValidationErrors
+EmptyCabinCode : Empty cabin code
+CodeLessThan2Chars : Code Less than two digits
+WrongModelCode : Invalid Model code (digits 1-2)
+WrongLength: Invalid Length (digits 3-4)
+OnlyDashAllowed5 : Only '-' (digit 5)
+WrongFinishCode: Invalid Finish (digit 6)
+WrongGlassFinishCode : Invalid Glass Finish (digit 7)
+OnlyDashAllowed8 : Only '-' (digit 8)
+WrongHeight : Invalid Height (digits 9-10)
+Wrong11Digit : Invalid digit 11
+Wrong12Digit : Invalid digit 12
+Wrong13Digit : Invalid digit 13
+CodeAbove13Chars : Invalid code > 13 digits
+CodeGenerationFailed : Shower Generation from Code Failed
+CabinFromCodeGeneration: Code Generated Shower successful
+UnrecognizedCabin : Unrecognized Cabin
+InvalidCabinCode : Non Recognized Code
+
+#AccessoryCardDialog
+DownloadImage : Download Image
+PleaseLoginToDownload: Please Login to Download
+
+#TEST TRANSLATIONS
+SelectOption : Select Option
+
+#Accessories Strings
+CodeFilter : Code Filter
+ViewOptions : Display Option
+FilterOptions : Filter
+AccessoriesGroupsFilter : Browse Groups
+All: All
+Finishes : Finishes
+NoResultsFound : No Results Found
+ArticleNo: Article No
+Series : Series
+SelectedFinishPref: Selected
+AccessorySheet: Accessory Sheet
+LoadMore: Load More
+RemainingItems : Remaining Items
+PrintItemSheet : Item Sheet
+Photos : Photos
+
+#Basket Page Strings
+RemoveBasketItem : Remove Item
+RemoveBasketItemMessage: Would you like to remove this item  ?
+InitialPrice: Initial Price
+Initial1Price: Initial
+Initial2Price: Price
+MainDiscount: Base Discount
+SecondaryDiscount : Secondary Discount
+TertiaryDiscount : Tertiary Discount
+TotalDiscount : Total Discount
+NetPricePerPiece : Net Price / pc
+TotalNetPrice : Total Net Price
+TotalNetPriceWithVat : Total Price with VAT
+Info: Information
+Discounts : Discounts
+AddToQuoteBasket : Add to Basket
+QuoteBasket: Quote Basket
+SeeMoreDetails : More Details
+QuoteBasketIsEmpty: Your Quotation Basket is currently empty. 
+PleaseAddProductsToBasket: Please add products to proceed with generating a quote.
+Quantity: Quantity
+AccessoryAddSuccess: Added To Basket
+Pcs: Pcs
+pcs: pcs
+pc: pc
+CataloguePriceMin : Catalogue Pr.
+CustomPriceMin : Custom
+FirstDisc : 1st
+SecondDisc : 2nd
+ThirdDisc : 3rd
+Add: Add
+RestoreCataloguePrice: Restore Catalogue Price
+RestoreDiscountsToDefaults: Restore Discounts to Defaults
+DefaultDiscountsMin : Defaults
+CustomDiscountsMin : Custom
+ManualDiscount : Manual Discount
+RulesDiscount : Rules Discount
+OverwriteBasket : An entry with the same basket quote name already exists. Would you like to overwrite it?
+BasketSaveError : An error occurred while saving the Quote Basket. Please try again.
+BasketRetrievalError : An error occurred while retrieving the list of saved baskets. Please try again.
+SavedBaskets : Saved Basket Quotes
+SaveBasket : Save Quote
+ThereAreNoSavedBaskets : There are not any saved Quotes to Display
+BasketName : Quote Name
+InputName : Input Name
+Date : Date
+BasketItemsQuantity : Total Quantity
+BasketRestored: Quote Restored
+RetrieveBasket : Load Quote
+ClearBasket : Clear Quote
+DeleteBasketQuestion : Are you sure you want to delete this quote?
+ExceptionRulesEnabled : Rules Enabled
+ExceptionRulesDisabled : Rules Disabled
+UneditablePricesRulesActive : Price Rules Active. Deactivate them to Modify Pricing.
+AcceptChanges: Confirm
+ScrapChanges: Cancel
+Quote: Quotation
+ImagesEnabled: Images Enabled
+ImagesDisabled: Images Disabled
+WithoutExtraDiscounts : Without Extra Discounts
+SheetsIncludedInQuote : Technical sheets attached to the quote
+SheetsNotIncludedInQuote : Without attachment of technical sheets
+ClearDiscountsQuestion : Are you sure you want to clear all discounts from the items in the Retail Table?
+ClearRetailDiscounts : Clear Retail Discounts
+DisablesRules : Disables Price Rules to all table's items
+SetsCataloguePrice : Sets Catalogue Price to all table's items
+ClearsDiscounts : Clears Discounts from all table's items (0%)
+DoYouWantToContinue: Do you want to continue ?
+RevertsPricingToDefault : Reverts Pricing , Discounts , Rules to Defaults
+AdditionalDiscount : Additional Discount
+AdditionalDiscountMin : Add.Disc.
+RemoveLine : Remove Line
+EditLine : Edit Line
+ApplySelectedDiscountToAllItems : Apply selected discount to all items
+OtherOptions : Other Options
+SelectedOptionsAreEmptyPrompt : No Rule Sets are currently selected. Please Select a Rule Set first.
+ApplyNewOptions : Apply Selected Rule Set
+ApplyNewOptionsQuestion1 : Do you want to change the discount rules? To Rules =>  
+ApplyNewOptionsQuestion2 : -------- CHANGES --------
+ApplyNewOptionsQuestion3 : 1. Initial Prices for items subject to wholesale rules
+ApplyNewOptionsQuestion4 : 2. Discounts for items subject to wholesale rules
+ApplyNewOptionsQuestion5 : 3. Initial Prices for items with retail catalog prices
+ApplyNewOptionsQuestion6 : 4. Final prices for all items in wholesale and retail.
+SelectRuleSets : Pricing Rules Selection
+SelectedRules : Selected Rules
+QuoteNotes : Quote Notes
+AutoPriceOff : Auto Price Off
+AutoPriceOn : Auto Price On
+TableButtons : Table Buttons
+Others : Other
+AddAccessoriesByCode: Add Accessories By SKU
+PleaseSelectAnAccessoryFirstPrompt : No Accessory Has been selected . Please Select one First to Proceed .
+NewTryMe : New! Try me!
+CannotDisplayThisPageinSmallScreens : Quote Basket Managment can only be done in bigger screens
+MoreOptions : More Options
+CopyTable : Copy Table
+TableCopied : Table Copied
+CloseEditsBeforeCopyMessage : Please close any open Row Edits before proceeding with copying the table
+AllAccessoriesReport : All Accessories Report
+ReportGenerated : Report Generated
+CreatingFilterableTable... : Creating Filterable Table...
+CreatingPriceables... : Creating Priceables...

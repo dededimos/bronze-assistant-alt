@@ -1,0 +1,440 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.Modals.EditUserInfoModalUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.Modals"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:b="clr-namespace:BronzeFactoryApplication.Helpers.Behaviours"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels.ModalViewModels"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=vm:EditUsersInfoModalViewModel}">
+    <!--Triggers a Command when the Loaded Event Triggers for the UserControl-->
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding InitilizeCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid x:Name="MainGrid">
+        <Grid.Resources>
+            <CollectionViewSource x:Key="UsersViewSource"
+                                  Source="{Binding Users}"
+                                  Filter="CollectionViewSource_Filter" />
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <!--#region ALL ROWS AND COLUMNS . Progress Circle -->
+        <Border Panel.ZIndex="5"
+                Grid.Column="0"
+                Grid.Row="0"
+                Grid.RowSpan="3"
+                Grid.ColumnSpan="2"
+                Background="{DynamicResource RegionBrush}"
+                Opacity="0.9"
+                Visibility="{Binding IsBusy, Converter={StaticResource Boolean2VisibilityConverter}}"
+                d:Visibility="Collapsed">
+            <StackPanel Margin="20"
+                        VerticalAlignment="Center">
+                <hc:CircleProgressBar IsIndeterminate="True" />
+                <TextBlock Text="Loading ..."
+                           Foreground="{DynamicResource PrimaryBrush}"
+                           HorizontalAlignment="Center"
+                           Margin="0,10"
+                           FontSize="20"
+                           Padding="20,0,0,0" />
+            </StackPanel>
+        </Border>
+        <!--#endregion-->
+
+        <!--#region Users DataGrid -->
+        <TextBlock Text="{StaticResource lngUsers}"
+                   Style="{StaticResource CHeaderTextBlock}"
+                   HorizontalAlignment="Center"
+                   Margin="0,10"
+                   Grid.Row="0"
+                   Grid.Column="0" />
+        <DockPanel Grid.Row="1"
+                   Grid.Column="0"
+                   HorizontalAlignment="Stretch"
+                   LastChildFill="False"
+                   Margin="10,0">
+            <Button hc:IconElement.Geometry="{StaticResource AccountDetailsGeometry}"
+                    Content="{StaticResource lngSyncWithGraph}"
+                    ToolTip="{StaticResource lngSyncWithGraphTooltip}"
+                    Foreground="{DynamicResource SecondaryBrush}"
+                    DockPanel.Dock="Left"
+                    Command="{Binding GetAllocateGraphUsersCommand}" />
+            <Button hc:IconElement.Geometry="{StaticResource SettingsGeometry}"
+                    Content="{StaticResource lngUserAccOptions}"
+                    ToolTip="{StaticResource lngUserAccOptionsTooltip}"
+                    Foreground="{DynamicResource SecondaryBrush}"
+                    DockPanel.Dock="Right"
+                    Command="{Binding OpenEditAccessoriesOptionsCommand}" />
+        </DockPanel>
+        <StackPanel Orientation="Vertical"
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Margin="10,0">
+            <DataGrid ItemsSource="{Binding Source={StaticResource UsersViewSource}}"
+                      AutoGenerateColumns="False"
+                      SelectedItem="{Binding SelectedUserInfo}"
+                      CellStyle="{StaticResource CenteredDataGridCellSmall}"
+                      Style="{StaticResource CDataGrid}"
+                      RowStyle="{StaticResource DataGridRowStyle}"
+                      FontSize="15"
+                      ColumnHeaderStyle="{StaticResource CenteredDataGridColumnHeaderSmall}"
+                      HorizontalAlignment="Stretch"
+                      EnableRowVirtualization="True"
+                      hc:DataGridAttach.ShowRowNumber="True"
+                      Height="650"
+                      Padding="20,20,20,0"
+                      BorderThickness="4"
+                      VerticalAlignment="Top">
+                <DataGrid.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel />
+                    </ItemsPanelTemplate>
+                </DataGrid.ItemsPanel>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="{StaticResource lngUserName}"
+                                        Binding="{Binding UserName}" />
+                    <DataGridTextColumn Header="{StaticResource lngUserDisplayName}"
+                                        Binding="{Binding GraphUserDisplayName}" />
+                    <DataGridCheckBoxColumn Header="{StaticResource lngIsGraphUser}"
+                                            Binding="{Binding IsGraphUser}" />
+                </DataGrid.Columns>
+            </DataGrid>
+            <!--#region Filters -->
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Bottom"
+                        Margin="0,20">
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center">
+                    <TextBlock Style="{StaticResource CHeaderTextBlock}"
+                               Text="{StaticResource lngFilters}" />
+                    <Button Style="{StaticResource ButtonIcon}"
+                            hc:IconElement.Geometry="{StaticResource DeleteFillCircleGeometry}"
+                            Foreground="{DynamicResource SecondaryBrush}"
+                            Click="ClearFiltersClick" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal"
+                            Margin="0,10">
+                    <StackPanel Margin="5,0">
+                        <TextBlock Style="{StaticResource TitleTextBlockStyle}">
+                            <Run Text="{StaticResource lngUserName}" />
+                            <Run Text=" / " />
+                            <Run Text="{StaticResource lngUserDisplayName}" />
+                        </TextBlock>
+                        <TextBox x:Name="NameFilterTextBox"
+                                 Width="340"
+                                 KeyDown="NameFilterTextBox_KeyDown" />
+                    </StackPanel>
+                    <Button Style="{StaticResource ButtonIcon}"
+                            hc:IconElement.Geometry="{StaticResource SearchGeometry}"
+                            Foreground="{DynamicResource SecondaryBrush}"
+                            Click="ApplyFilters"
+                            VerticalAlignment="Bottom" />
+                </StackPanel>
+            </StackPanel>
+            <!--#endregion-->
+        </StackPanel>
+        <!--#endregion-->
+
+        <!--#region Edit User Area -->
+        <!--#region Title -->
+        <TextBlock HorizontalAlignment="Center"
+                   Margin="10"
+                   Grid.Row="0"
+                   Grid.Column="1">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock"
+                       BasedOn="{StaticResource CHeaderTextBlock}">
+                    <Setter Property="Text"
+                            Value="{StaticResource lngSelectedUser}" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsSelectedUserNew}"
+                                     Value="True">
+                            <Setter Property="Text"
+                                    Value="{StaticResource lngNewUser}" />
+                            <Setter Property="Foreground"
+                                    Value="{DynamicResource SecondaryBrush}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+        <!--#endregion-->
+
+        <!--#region User Options Buttons -->
+        <DockPanel Grid.Row="1"
+                   Grid.Column="1"
+                   HorizontalAlignment="Stretch"
+                   LastChildFill="False"
+                   Margin="10,0">
+            <Button Style="{StaticResource SaveButton}"
+                    Foreground="{DynamicResource SecondaryBrush}"
+                    DockPanel.Dock="Left"
+                    IsEnabled="{Binding CanEditUser}"
+                    Command="{Binding SaveUserCommand}" />
+            <Button Content="{StaticResource lngDeleteUser}"
+                    Foreground="{DynamicResource DangerBrush}"
+                    hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
+                    DockPanel.Dock="Right"
+                    IsEnabled="{Binding IsSelectedUserNew , Converter={StaticResource Boolean2BooleanReConverter}}"
+                    Command="{Binding DeleteUserCommand}" />
+        </DockPanel>
+        <!--#endregion-->
+
+        <!--#region User Options Properties -->
+        <Border Grid.Row="2"
+                Grid.Column="1"
+                Margin="10,0"
+                Width="800"
+                IsEnabled="{Binding CanEditUser}"
+                Padding="10">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="BorderBrush"
+                            Value="{DynamicResource BorderBrush}" />
+                    <Setter Property="BorderThickness"
+                            Value="4" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsSelectedUserNew}"
+                                     Value="True">
+                            <Setter Property="BorderBrush"
+                                    Value="{DynamicResource SecondaryBrush}" />
+                            <Setter Property="BorderThickness"
+                                    Value="1" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <StackPanel>
+
+                <!--#region Is GraphUser - User Id - User Display Name -->
+                <DockPanel Margin="0,10">
+
+                    <!--#region User Object Id -->
+                    <StackPanel DockPanel.Dock="Left">
+                        <DockPanel>
+                            <cc:Icon ToolTip="{StaticResource lngUserObjectIdTooltip}"
+                                     Style="{StaticResource CInfoTooltipIcon}" />
+                            <TextBlock Style="{StaticResource TitleTextBlockStyle}"
+                                       Text="{StaticResource lngUserObjectId}">
+                            </TextBlock>
+                        </DockPanel>
+                        <Border BorderBrush="{DynamicResource BorderBrush}"
+                                BorderThickness="1"
+                                Padding="5">
+                            <StackPanel Orientation="Horizontal"
+                                        Margin="5,0,0,0">
+                                <TextBlock Text="{Binding UserInfoUnderEdit.GraphUserObjectId}"
+                                           Margin="0,0,5,0"
+                                           d:Text="00000000-0000-0000-0000-000000000000" />
+                                <Button Style="{StaticResource CopyToClipboardButton}"
+                                        CommandParameter="{Binding UserInfoUnderEdit.GraphUserObjectId}"
+                                        Height="12" />
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                    <!--#endregion-->
+
+                    <!--#region User Display Name -->
+                    <StackPanel Margin="15,0"
+                                HorizontalAlignment="Left">
+                        <DockPanel>
+                            <cc:Icon ToolTip="{StaticResource lngUserDisplayName}"
+                                     Style="{StaticResource CInfoTooltipIcon}" />
+                            <TextBlock Style="{StaticResource TitleTextBlockStyle}"
+                                       Text="{StaticResource lngUserDisplayName}">
+                            </TextBlock>
+                        </DockPanel>
+                        <Border BorderBrush="{DynamicResource BorderBrush}"
+                                BorderThickness="1"
+                                Padding="5">
+                            <StackPanel Orientation="Horizontal"
+                                        Margin="5,0,0,0">
+                                <TextBlock Text="{Binding UserInfoUnderEdit.GraphUserDisaplayName}"
+                                           Width="200"
+                                           d:Text="Some Customer"
+                                           Margin="0,0,5,0" />
+                                <Button Style="{StaticResource CopyToClipboardButton}"
+                                        CommandParameter="{Binding UserInfoUnderEdit.GraphUserDisaplayName}"
+                                        Height="12" />
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                    <!--#endregion-->
+
+                    <!--#region Is Graph User -->
+                    <DockPanel Margin="15,20,0,0"
+                               HorizontalAlignment="Left"
+                               DockPanel.Dock="Left">
+                        <cc:Icon ToolTip="{StaticResource lngIsGraphUserTooltip}"
+                                 Style="{StaticResource CInfoTooltipIcon}"
+                                 Margin="10,0,5,0" />
+                        <CheckBox IsChecked="{Binding UserInfoUnderEdit.IsGraphUser}"
+                                  Content="{StaticResource lngIsGraphUser}"
+                                  IsEnabled="False" />
+                    </DockPanel>
+                    <!--#endregion-->
+
+                </DockPanel>
+                <!--#endregion-->
+
+                <!--#region UserName Local - Id Database -->
+                <DockPanel Margin="0,10">
+
+                    <!--#region Database Id -->
+                    <StackPanel DockPanel.Dock="Left">
+                        <DockPanel>
+                            <cc:Icon ToolTip="{StaticResource lngDatabaseIdTooltip}"
+                                     Style="{StaticResource CInfoTooltipIcon}" />
+                            <TextBlock Style="{StaticResource TitleTextBlockStyle}"
+                                       Text="{StaticResource lngDatabaseId}">
+                            </TextBlock>
+                        </DockPanel>
+                        <Border BorderBrush="{DynamicResource BorderBrush}"
+                                BorderThickness="1"
+                                Padding="5">
+                            <StackPanel Orientation="Horizontal"
+                                        Margin="5,0,0,0">
+                                <TextBlock Text="{Binding UserInfoUnderEdit.BaseEntity.IdAsString}"
+                                           Margin="0,0,5,0"
+                                           d:Text="00000000-0000-0000-0000-000000000000" />
+                                <Button Style="{StaticResource CopyToClipboardButton}"
+                                        CommandParameter="{Binding UserInfoUnderEdit.BaseEntity.IdAsString}"
+                                        Height="12" />
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                    <!--#endregion-->
+
+                    <!--#region UserName (Local) -->
+                    <StackPanel Margin="15,0"
+                                HorizontalAlignment="Left">
+                        <DockPanel>
+                            <cc:Icon ToolTip="{StaticResource lngUserNameTooltip}"
+                                     Style="{StaticResource CInfoTooltipIcon}" />
+                            <TextBlock Style="{StaticResource TitleTextBlockStyle}"
+                                       Text="{StaticResource lngUserName}">
+                            </TextBlock>
+                        </DockPanel>
+                        <TextBox Text="{Binding UserInfoUnderEdit.UserName}"
+                                 Width="290"
+                                 MaxLength="30"
+                                 d:Text="Some UserName"
+                                 Margin="0,0,5,0" />
+                    </StackPanel>
+                    <!--#endregion-->
+
+                    <!--#region Is Enabled -->
+                    <DockPanel Margin="15,20,0,0"
+                               HorizontalAlignment="Left"
+                               DockPanel.Dock="Left">
+                        <cc:Icon ToolTip="{StaticResource lngEnabledTooltip}"
+                                 Style="{StaticResource CInfoTooltipIcon}"
+                                 Margin="10,0,5,0" />
+                        <CheckBox IsChecked="{Binding UserInfoUnderEdit.IsEnabled}"
+                                  Content="{StaticResource lngEnabled}" />
+                    </DockPanel>
+                    <!--#endregion-->
+
+                </DockPanel>
+                <!--#endregion-->
+
+                <!--#region Accessories Options - Registered Machine -->
+                <DockPanel LastChildFill="False">
+                    
+                    <!--#region Accessories Options ComboBox -->
+                    <StackPanel HorizontalAlignment="Left">
+                        <DockPanel>
+                            <cc:Icon ToolTip="{StaticResource lngUserAccOptionsTooltip}"
+                                     Style="{StaticResource CInfoTooltipIcon}" />
+                            <TextBlock x:Name="AddSecondaryTypeTextBlock"
+                                       Style="{StaticResource TitleTextBlockStyle}"
+                                       Text="{StaticResource lngUserAccOptions}">
+                            </TextBlock>
+                        </DockPanel>
+                        <hc:ComboBox x:Name="AllOptionsComboBoxSize"
+                                     ItemsSource="{Binding UserInfoUnderEdit.AccessoriesOptions}"
+                                     SelectedItem="{Binding UserInfoUnderEdit.SelectedAccessoriesOptions}"
+                                     Width="200"
+                                     FontSize="14"
+                                     VerticalAlignment="Center"
+                                     hc:InfoElement.ShowClearButton="True">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name,Converter={StaticResource LocalizedStringConverter}}"
+                                               ToolTip="{Binding OptionsSummaryString,Mode=OneWay}"
+                                               ToolTipService.Placement="Right"
+                                               ToolTipService.InitialShowDelay="0"
+                                               HorizontalAlignment="Stretch"
+                                               TextAlignment="Left" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </hc:ComboBox>
+                    </StackPanel>
+                    <!--#endregion-->
+
+                    <!--#region Registered Machine -->
+                    <CheckBox IsChecked="{Binding UserInfoUnderEdit.IsMachineRegistered , Mode=OneWay}"
+                              Content="Registered Machine"
+                              DockPanel.Dock="Right"
+                              Margin="10" IsEnabled="False"/>
+                    <Button Style="{StaticResource CopyToClipboardButton}"
+                            CommandParameter="{Binding UserInfoUnderEdit.RegisteredMachine}"
+                            IsEnabled="{Binding UserInfoUnderEdit.CanCopyMachineRegistry}"
+                            Height="12"
+                            ToolTip="Copy Machine Registry - Valid only while setting the Registry for the First Time"
+                            DockPanel.Dock="Right" Margin="0,0,10,0"/>
+                    <Button Content="Register Machine" DockPanel.Dock="Right"
+                            IsEnabled="{Binding UserInfoUnderEdit.IsMachineRegistered , Converter={StaticResource Boolean2BooleanReConverter}}"
+                            ToolTip="Register a new Machine Id for this User , Enabled only when User not already Registered"
+                            Command="{Binding UserInfoUnderEdit.RegisterMachineCommand}"
+                            Margin="10"/>
+                    <!--#endregion-->
+                </DockPanel>
+                <!--#endregion-->
+
+                <!--#region Notes -->
+                <DockPanel Margin="0"
+                           LastChildFill="True">
+                    <TextBlock Text="{StaticResource lngNotes}"
+                               Style="{StaticResource CHeaderTextBlock}"
+                               DockPanel.Dock="Top"
+                               Margin="0,0,0,5" />
+                    <TextBox MaxLength="2000"
+                             DockPanel.Dock="Top"
+                             VerticalAlignment="Stretch"
+                             Width="auto"
+                             Height="180"
+                             Padding="5"
+                             ScrollViewer.VerticalScrollBarVisibility="Auto"
+                             TextAlignment="Center"
+                             VerticalContentAlignment="Center"
+                             FontSize="14"
+                             TextWrapping="Wrap"
+                             AcceptsReturn="True"
+                             d:Text="Test Notes"
+                             Text="{Binding UserInfoUnderEdit.BaseEntity.Notes, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                </DockPanel>
+                <!--#endregion-->
+
+            </StackPanel>
+        </Border>
+        <!--#endregion-->
+
+        <!--#endregion-->
+
+    </Grid>
+</UserControl>

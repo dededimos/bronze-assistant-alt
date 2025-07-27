@@ -1,0 +1,15 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <sys:String x:Key="ThemeDictionaryName">CustomLightDictionary</sys:String>
+    <SolidColorBrush x:Key="CDarkBlackLightWhite" Color="White"/>
+    <SolidColorBrush x:Key="CTextBrushPrimary" Color="Black"/>
+    <SolidColorBrush x:Key="CBackgroundColor" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="CBackgroundSecondaryColor" Color="#EAEAEA"/>
+    <SolidColorBrush x:Key="CBackgroundTertiaryColor" Color="#D5D5D5"/>
+    <SolidColorBrush x:Key="CAccentColor" Color="#326cf3"/>
+    <SolidColorBrush x:Key="CAccent2Color" Color="#CD5B45"/>
+    <SolidColorBrush x:Key="CHeaderBackground" Color="LightSlateGray"/>
+    <SolidColorBrush x:Key="CHeaderText" Color="White"/>
+    <SolidColorBrush x:Key="CMaskColor" Color="#20000000"/>
+</ResourceDictionary>

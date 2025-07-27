@@ -1,0 +1,56 @@
+﻿@namespace BronzeArtWebApplication.Pages.CabinsPage.Components.Dialogs
+@using ShowerEnclosuresModelsLibrary.Enums
+@using ShowerEnclosuresModelsLibrary.Enums.ShowerDrawEnums
+@using static BronzeArtWebApplication.Shared.Helpers.StaticInfoCabins
+@using static BronzeArtWebApplication.Shared.Helpers.StylesStaticInfoCabins
+@inject ILanguageContainerService lc
+
+<MudDialog @bind-Visible:get="@IsVisible" @bind-Visible:set="@IsVisibleChanged" Gutters="@(false)" Class="ma-4" Style="max-width:95vw">
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            @lc.Keys["DialogChooseDrawNumber"]
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudContainer Style="@(DialogContentContainerStyle)">
+            <div class="d-flex flex-wrap justify-center">
+                @if (SelectedModel is not null)
+                {
+                    @foreach (CabinDrawNumber draw in DrawCombinationsPerModel[(CabinModelEnum)SelectedModel])
+                    {
+                         <MudButton Variant="Variant.Filled"
+                                    FullWidth="false"
+                                    Style="text-transform:none;"
+                                    Class="ma-2"
+                                    OnClick = "@(()=>{OnChoosingDrawClick.InvokeAsync(draw);IsVisible = false;})">
+                             <MudContainer Class="d-flex justify-center flex-column ma-1 pa-1" Style="max-width:90%;">
+                                 <img src="@(CabinDrawNumberSketchImagePath[draw])"
+                                      alt="@(CabinDrawNumberDescKey[draw])"
+                                      class="rounded-lg"
+                                      style="max-width:350px"/>
+                                 <MudText Typo="Typo.subtitle1">
+                                     @(lc.Keys[CabinDrawNumberDescKey[draw]])
+                                 </MudText>
+                             </MudContainer>
+                         </MudButton>
+                    }
+                }
+            </div>
+        </MudContainer>
+    </DialogContent>
+    <DialogActions>
+        <MudContainer Class="d-flex justify-center align-center">
+            <MudButton Variant="@ActionButtonVariantCabin"
+                       Color="@ActionButtonColorCabin"
+                       Style="text-transform:none"
+                       Class="ma-4"
+                       OnClick="(() => IsVisible = false)">
+                @lc.Keys["DialogActionButtonClose"]
+            </MudButton>
+        </MudContainer>
+    </DialogActions>
+</MudDialog>
+
+@code {
+
+}

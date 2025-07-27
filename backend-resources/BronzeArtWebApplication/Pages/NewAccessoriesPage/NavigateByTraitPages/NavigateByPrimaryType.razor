@@ -1,0 +1,56 @@
+﻿@using BathAccessoriesModelsLibrary;
+@using BathAccessoriesModelsLibrary.Services;
+@using BronzeArtWebApplication.Shared.ViewModels.AccessoriesPageViewModels;
+@using BronzeArtWebApplication.Shared.Layouts;
+
+@layout AccessoriesLayout
+@inject AccessoriesPageViewModel Vm
+@inject NavigationManager NavManager
+@inject IAccessoriesMemoryRepository Repo
+@inject AccessoriesUrlHelper PhotoHelper
+
+@if (string.IsNullOrEmpty(PrimaryTypeCode))
+{
+    <div class="typeContainer">
+        @foreach (var type in Repo.TraitsByType[TypeOfTrait.PrimaryTypeTrait])
+        {
+            <MudButton OnClick="@(()=> NavManager.NavigateTo($"{RoutesStash.AccessoriesMain}/{TypeOfTrait.PrimaryTypeTrait}/{type.Code}"))">
+                <div class="typeButtonContainer">
+                    <img src="@($"{PhotoHelper.GetMediumPhoto(type.PhotoURL)}")"
+                         class="typeImage rounded-lg"
+                         loading="lazy" />
+                    <MudText Align="@(Align.Center)" Typo="@(Typo.h6)">@(type.Trait)</MudText>
+                </div>
+            </MudButton>
+        }
+    </div>
+}
+else
+{
+    if(GetSelectedPrimaryType() is null)
+    {
+        <MudText>Selected resource has been Removed/Edited or is non Existent</MudText>
+    }
+    else
+    {
+        <AccessoriesView Accessories="@(Repo.GetAccessoriesByPrimaryType(PrimaryTypeCode))" 
+                         FilterBySecondaryType="@(true)" 
+                         ShowNameCard="@(true)"
+                         ShowSeriesCard="@(true)"
+                         ShowDimensionsCard="@(true)"
+                         ShowFinishes="@(true)" 
+                         FilterByFinishType="@(true)"/>
+    }
+}
+
+
+@code {
+    [Parameter]
+    public string PrimaryTypeCode { get; set; } = string.Empty;
+
+    private AccessoryTrait GetSelectedPrimaryType()
+    {
+        var selectedType = Repo.GetTraitClass(TypeOfTrait.PrimaryTypeTrait).Traits.Values.FirstOrDefault(t => t.Code == PrimaryTypeCode);
+        return selectedType;
+    }
+}

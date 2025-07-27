@@ -1,0 +1,1098 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.MirrorObjectsViews.MirrorConstraintsViewUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.MirrorObjectsViews"
+             xmlns:vmBase="clr-namespace:BronzeFactoryApplication.ViewModels.HelperViewModels"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels.MirrorsViewModels"
+             xmlns:vw="clr-namespace:BronzeFactoryApplication.Views.HelperViews"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:mirrElements="clr-namespace:MirrorsLib.MirrorElements;assembly=MirrorsLib"
+             xmlns:globalCommands="clr-namespace:BronzeFactoryApplication.Helpers"
+             xmlns:EnumSource="clr-namespace:BronzeFactoryApplication.Helpers.MarkupExtensions"
+             xmlns:mirrorEnum="clr-namespace:MirrorsLib.Enums;assembly=MirrorsLib"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=vm:MirrorConstraintsEditorViewModel}">
+
+    <Grid VerticalAlignment="Top">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.Resources>
+            <!--#region AddItem Button -->
+            <Style TargetType="Button"
+                   BasedOn="{StaticResource ButtonIconCircular.Small}"
+                   x:Key="AddItemButtonStyle">
+                <Setter Property="VerticalAlignment"
+                        Value="Bottom" />
+                <Setter Property="ToolTip"
+                        Value="{StaticResource lngAdd}" />
+                <Setter Property="Foreground"
+                        Value="{DynamicResource SuccessBrush}" />
+                <Setter Property="hc:IconElement.Geometry"
+                        Value="{StaticResource AddGeometry}" />
+                <Setter Property="DockPanel.Dock"
+                        Value="Right" />
+                <Setter Property="Margin"
+                        Value="8,0,0,3" />
+                <Setter Property="HorizontalAlignment"
+                        Value="Left" />
+                <Setter Property="DockPanel.Dock"
+                        Value="Right" />
+            </Style>
+            <!--#endregion-->
+            <!--#region RemoveItem Button -->
+            <Style TargetType="Button"
+                   BasedOn="{StaticResource ButtonIconCircular.Small}"
+                   x:Key="RemoveItemButtonStyle">
+                <Setter Property="hc:IconElement.Geometry"
+                        Value="{StaticResource RemoveGeometry}" />
+                <Setter Property="hc:IconElement.Height"
+                        Value="8" />
+                <Setter Property="Foreground"
+                        Value="{DynamicResource DangerBrush}" />
+                <Setter Property="BorderBrush"
+                        Value="{DynamicResource DangerBrush}" />
+                <Setter Property="Grid.Column"
+                        Value="0" />
+                <Setter Property="Margin"
+                        Value="0,0,10,0" />
+            </Style>
+            <!--#endregion-->
+            <!--#region Code TextBlock -->
+            <Style TargetType="TextBlock"
+                   BasedOn="{StaticResource TextBlockDefault}"
+                   x:Key="CodeTextBlockStyle">
+                <Setter Property="HorizontalAlignment"
+                        Value="Left" />
+                <Setter Property="Margin"
+                        Value="5,0" />
+                <Setter Property="VerticalAlignment"
+                        Value="Center" />
+                <Setter Property="Grid.Column"
+                        Value="1" />
+                <Setter Property="TextTrimming"
+                        Value="CharacterEllipsis" />
+                <Setter Property="MaxWidth"
+                        Value="100" />
+            </Style>
+            <!--#endregion-->
+            <!--#region Description TextBlock -->
+            <Style TargetType="TextBlock"
+                   BasedOn="{StaticResource TextBlockDefault}"
+                   x:Key="DescriptionTextBlockStyle">
+                <Setter Property="HorizontalAlignment"
+                        Value="Left" />
+                <Setter Property="Margin"
+                        Value="5,0" />
+                <Setter Property="VerticalAlignment"
+                        Value="Center" />
+                <Setter Property="Grid.Column"
+                        Value="2" />
+                <Setter Property="TextTrimming"
+                        Value="CharacterEllipsis" />
+                <Setter Property="MaxWidth"
+                        Value="100" />
+            </Style>
+            <!--#endregion-->
+            <!--#region ListBox -->
+            <Style TargetType="vw:TasListBox"
+                   BasedOn="{StaticResource BaseStyle}">
+                <Setter Property="Width"
+                        Value="250" />
+                <Setter Property="HorizontalAlignment"
+                        Value="Left" />
+                <Setter Property="Margin"
+                        Value="0" />
+                <!--Add here Properties to Constraint-->
+            </Style>
+            <!--#endregion-->
+            <!--#region Add Item ComboBox -->
+            <Style TargetType="vw:TasComboBox"
+                   x:Key="AddComboBoxStyle"
+                   BasedOn="{StaticResource BaseStyle}">
+                <Setter Property="DropDownElementConsistentWidth"
+                        Value="False" />
+                <Setter Property="ShowClearButton"
+                        Value="True" />
+                <Setter Property="HorizontalAlignment"
+                        Value="Stretch" />
+                <Setter Property="Margin"
+                        Value="0" />
+                <Setter Property="DockPanel.Dock"
+                        Value="Left" />
+            </Style>
+            <!--#endregion-->
+            <!--#region AddUniformSpacing Panel -->
+            <Style TargetType="hc:UniformSpacingPanel"
+                   x:Key="AddUniformSpacingPanelStyle">
+                <Setter Property="Spacing"
+                        Value="10" />
+                <Setter Property="Orientation"
+                        Value="Vertical" />
+                <Setter Property="Margin"
+                        Value="0,0" />
+            </Style>
+            <!--#endregion-->
+        </Grid.Resources>
+
+        <hc:ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                         VerticalScrollBarVisibility="Visible">
+            <DockPanel VerticalAlignment="Top">
+                <hc:UniformSpacingPanel Spacing="20"
+                                        Margin="0,20,0,0"
+                                        VerticalAlignment="Top"
+                                        DockPanel.Dock="Top"
+                                        ChildWrapping="Wrap">
+                    <!--#region Concerning Shape and Can Have Light -->
+
+                    <hc:UniformSpacingPanel Spacing="10"
+                                            Orientation="Vertical">
+                        <vw:TasComboBox ItemsSource="{Binding Source={EnumSource:BindingSourceEnumValuesNoZero {x:Type mirrorEnum:BronzeMirrorShape}}}"
+                                        SelectedItem="{Binding ConcerningMirrorShape}"
+                                        ComboBoxTitle="{StaticResource lngConcerningMirrorShape}"
+                                        IconToolTip="{StaticResource lngConcerningMirrorShapeTooltip}"
+                                        DropDownElementConsistentWidth="False">
+                            <vw:TasComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding . ,Converter={StaticResource languageConverter}}" />
+                                </DataTemplate>
+                            </vw:TasComboBox.ItemTemplate>
+                        </vw:TasComboBox>
+                    </hc:UniformSpacingPanel>
+
+                    <!--#endregion-->
+
+                    <!--#region Max Length -->
+                    <vw:TasNumericTextBox Text="{Binding MaxMirrorLength}"
+                                          MaxLength="5"
+                                          TextBoxTitle="{StaticResource lngMaxMirrorLength}"
+                                          IconTooltip="{StaticResource lngMaxMirrorLengthTooltip}"
+                                          Precision="0"
+                                          InputMode="DigitInput"
+                                          JustPositiveInput="True" />
+                    <!--#endregion-->
+
+                    <!--#region Min Length -->
+                    <vw:TasNumericTextBox Text="{Binding MinMirrorLength}"
+                                          MaxLength="5"
+                                          TextBoxTitle="{StaticResource lngMinMirrorLength}"
+                                          IconTooltip="{StaticResource lngMinMirrorLengthTooltip}"
+                                          Precision="0"
+                                          InputMode="DigitInput"
+                                          JustPositiveInput="True" />
+                    <!--#endregion-->
+
+                    <!--#region Max Height -->
+                    <vw:TasNumericTextBox Text="{Binding MaxMirrorHeight}"
+                                          MaxLength="5"
+                                          TextBoxTitle="{StaticResource lngMaxMirrorHeight}"
+                                          IconTooltip="{StaticResource lngMaxMirrorHeightTooltip}"
+                                          Precision="0"
+                                          InputMode="DigitInput"
+                                          JustPositiveInput="True" />
+                    <!--#endregion-->
+
+                    <!--#region Min Height -->
+                    <vw:TasNumericTextBox Text="{Binding MinMirrorHeight}"
+                                          MaxLength="5"
+                                          TextBoxTitle="{StaticResource lngMinMirrorHeight}"
+                                          IconTooltip="{StaticResource lngMinMirrorHeightTooltip}"
+                                          Precision="0"
+                                          InputMode="DigitInput"
+                                          JustPositiveInput="True" />
+                    <!--#endregion-->
+
+                    <!--#region Max Watt -->
+                    <vw:TasNumericTextBox Text="{Binding MaxAllowedWattage}"
+                                          MaxLength="5"
+                                          TextBoxTitle="{StaticResource lngMaxAllowedWattage}"
+                                          IconTooltip="{StaticResource lngMaxAllowedWattageTooltip}"
+                                          Precision="0"
+                                          InputMode="DigitInput"
+                                          JustPositiveInput="True" />
+                    <!--#endregion-->
+
+                </hc:UniformSpacingPanel>
+                <hc:Divider Orientation="Horizontal"
+                            Margin="0,20"
+                            DockPanel.Dock="Top" />
+                <hc:UniformSpacingPanel DockPanel.Dock="Top"
+                                        ChildWrapping="Wrap"
+                                        MaxWidth="1350"
+                                        HorizontalAlignment="Left"
+                                        HorizontalSpacing="20"
+                                        VerticalSpacing="10">
+                    <!--#region Allowed Glass Types -->
+                    <hc:UniformSpacingPanel Style="{StaticResource AddUniformSpacingPanelStyle}">
+
+                        <!--#region ListBox -->
+                        <vw:TasListBox ListBoxTitle="{StaticResource lngAllowedGlassTypes}"
+                                       IconTooltip="{StaticResource lngAllowedGlassTypesTooltip}"
+                                       ItemsSource="{Binding SelectedAllowedGlassTypes}"
+                                       Height="175">
+                            <vw:TasListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <DockPanel LastChildFill="True">
+                                        <Button Style="{StaticResource ButtonIconCircular.Small}"
+                                                Foreground="{DynamicResource DangerBrush}"
+                                                hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
+                                                hc:IconElement.Height="8"
+                                                BorderBrush="{DynamicResource DangerBrush}"
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor} , Path=DataContext.RemoveGlassTypeCommand}"
+                                                CommandParameter="{Binding .}" />
+                                        <TextBlock Text="{Binding . ,Converter={StaticResource languageConverter}}"
+                                                   VerticalAlignment="Center"
+                                                   TextAlignment="Center"
+                                                   Margin="10,0" />
+                                    </DockPanel>
+                                </DataTemplate>
+                            </vw:TasListBox.ItemTemplate>
+                        </vw:TasListBox>
+                        <!--#endregion-->
+                        <!--#region Add ComboBox -->
+                        <DockPanel>
+                            <Button Command="{Binding AddGlassTypeCommand}"
+                                    Style="{StaticResource AddItemButtonStyle}" />
+                            <vw:TasComboBox ComboBoxTitle="{StaticResource lngGlassTypeToAdd}"
+                                            IconToolTip="{StaticResource lngGlassTypeToAddTooltip}"
+                                            ItemsSource="{Binding SelectableAllowedGlassTypes}"
+                                            SelectedItem="{Binding SelectedGlassTypeToAdd ,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                            Style="{StaticResource AddComboBoxStyle}"
+                                            MaxWidth="225">
+                                <vw:TasComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding . ,Converter={StaticResource languageConverter}}" />
+                                    </DataTemplate>
+                                </vw:TasComboBox.ItemTemplate>
+                            </vw:TasComboBox>
+                        </DockPanel>
+                        <!--#endregion-->
+                    </hc:UniformSpacingPanel>
+                    <!--#endregion-->
+
+                    <hc:Divider Orientation="Vertical"
+                                Margin="0,0" />
+
+                    <!--#region Allowed Glass Thicknesses -->
+                    <hc:UniformSpacingPanel Style="{StaticResource AddUniformSpacingPanelStyle}">
+
+                        <!--#region ListBox -->
+                        <vw:TasListBox ListBoxTitle="{StaticResource lngAllowedGlassThicknesses}"
+                                       IconTooltip="{StaticResource lngAllowedGlassThicknessesTooltip}"
+                                       ItemsSource="{Binding SelectedAllowedGlassThicknesses}"
+                                       Width="320"
+                                       Height="175">
+                            <vw:TasListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <DockPanel LastChildFill="True">
+                                        <Button Style="{StaticResource ButtonIconCircular.Small}"
+                                                Foreground="{DynamicResource DangerBrush}"
+                                                hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
+                                                hc:IconElement.Height="8"
+                                                BorderBrush="{DynamicResource DangerBrush}"
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor} , Path=DataContext.RemoveGlassThicknessCommand}"
+                                                CommandParameter="{Binding .}" />
+                                        <TextBlock Text="{Binding .,Converter={StaticResource languageConverter}}"
+                                                   VerticalAlignment="Center"
+                                                   TextAlignment="Center"
+                                                   Margin="10,0" />
+                                    </DockPanel>
+                                </DataTemplate>
+                            </vw:TasListBox.ItemTemplate>
+                        </vw:TasListBox>
+                        <!--#endregion-->
+                        <!--#region Add ComboBox -->
+                        <DockPanel>
+                            <Button Command="{Binding AddGlassThicknessCommand}"
+                                    Style="{StaticResource AddItemButtonStyle}" />
+                            <vw:TasComboBox ComboBoxTitle="{StaticResource lngGlassThicknessToAdd}"
+                                            IconToolTip="{StaticResource lngGlassThicknessToAddTooltip}"
+                                            ItemsSource="{Binding SelectableAllowedGlassThicknesses}"
+                                            SelectedItem="{Binding SelectedGlassThicknessToAdd}"
+                                            Style="{StaticResource AddComboBoxStyle}"
+                                            Width="290"
+                                            HorizontalAlignment="Left">
+                                <vw:TasComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding . ,Converter={StaticResource languageConverter}}" />
+                                    </DataTemplate>
+                                </vw:TasComboBox.ItemTemplate>
+                            </vw:TasComboBox>
+                        </DockPanel>
+                        <!--#endregion-->
+                    </hc:UniformSpacingPanel>
+                    <!--#endregion-->
+
+                    <hc:Divider Orientation="Vertical"
+                                Margin="0,0" />
+
+                    <!--#region Allowed Sandblasts -->
+                    <hc:UniformSpacingPanel Style="{StaticResource AddUniformSpacingPanelStyle}">
+
+                        <!--#region ListBox -->
+                        <vw:TasListBox ListBoxTitle="{StaticResource lngAllowedSandblasts}"
+                                       IconTooltip="{StaticResource lngAllowedSandblastsTooltip}"
+                                       ItemsSource="{Binding SelectedSandblasts}"
+                                       Width="300">
+                            <vw:TasListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel Grid.IsSharedSizeScope="True" />
+                                </ItemsPanelTemplate>
+                            </vw:TasListBox.ItemsPanel>
+                            <vw:TasListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition SharedSizeGroup="1" />
+                                            <ColumnDefinition SharedSizeGroup="2" />
+                                            <ColumnDefinition SharedSizeGroup="3" />
+                                        </Grid.ColumnDefinitions>
+                                        <Button Style="{StaticResource RemoveItemButtonStyle}"
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor} , Path=DataContext.RemoveSandblastCommand}"
+                                                CommandParameter="{Binding .}" />
+                                        <TextBlock Text="{Binding Code}"
+                                                   Style="{StaticResource CodeTextBlockStyle}" />
+                                        <TextBlock Text="{Binding LocalizedDescriptionInfo.Name,Converter={StaticResource LocalizedStringMinifiedConverter},ConverterParameter='30'}"
+                                                   Style="{StaticResource DescriptionTextBlockStyle}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </vw:TasListBox.ItemTemplate>
+                        </vw:TasListBox>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Content="{StaticResource lngAcceptsWithoutSandblast}"
+                                      IsChecked="{Binding AcceptsMirrorsWithoutSandblast}" />
+                            <cc:Icon Style="{StaticResource CInfoTooltipIcon}"
+                                     Margin="5,0,0,0"
+                                     ToolTip="{StaticResource lngAcceptsWithoutSandblastTooltip}" />
+                        </StackPanel>
+                        <!--#endregion-->
+                        <!--#region Add ComboBox -->
+                        <DockPanel>
+                            <Button Command="{Binding AddSandblastCommand}"
+                                    Style="{StaticResource AddItemButtonStyle}" />
+                            <vw:TasComboBox ComboBoxTitle="{StaticResource lngSandblastToAdd}"
+                                            IconToolTip="{StaticResource lngSandblastToAddTooltip}"
+                                            ItemsSource="{Binding SelectableSandblasts}"
+                                            SelectedItem="{Binding SelectedSandblastToAdd}"
+                                            Style="{StaticResource AddComboBoxStyle}"
+                                            Width="270"
+                                            HorizontalAlignment="Left">
+                                <vw:TasComboBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel Grid.IsSharedSizeScope="True" />
+                                    </ItemsPanelTemplate>
+                                </vw:TasComboBox.ItemsPanel>
+                                <vw:TasComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid HorizontalAlignment="Left">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition SharedSizeGroup="CodeGroup"
+                                                                  Width="auto" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition SharedSizeGroup="DescriptionGroup"
+                                                                  Width="auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="{Binding Code}"
+                                                       Grid.Column="0" />
+                                            <TextBlock Text=":"
+                                                       Margin="10,0"
+                                                       Grid.Column="1" />
+                                            <TextBlock Text="{Binding LocalizedDescriptionInfo.Name,Converter={StaticResource LocalizedStringMinifiedConverter},ConverterParameter='30'}"
+                                                       Grid.Column="2" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </vw:TasComboBox.ItemTemplate>
+                            </vw:TasComboBox>
+                        </DockPanel>
+                        <!--#endregion-->
+                    </hc:UniformSpacingPanel>
+                    <!--#endregion-->
+
+                    <hc:Divider Orientation="Vertical"
+                                Margin="0,0" />
+
+                    <!--#region Allowed Supports -->
+                    <hc:UniformSpacingPanel Style="{StaticResource AddUniformSpacingPanelStyle}">
+
+                        <!--#region ListBox -->
+                        <vw:TasListBox ListBoxTitle="{StaticResource lngAllowedSupports}"
+                                       IconTooltip="{StaticResource lngAllowedSupportsTooltip}"
+                                       ItemsSource="{Binding SelectedSupports}"
+                                       Width="330">
+                            <vw:TasListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel Grid.IsSharedSizeScope="True" />
+                                </ItemsPanelTemplate>
+                            </vw:TasListBox.ItemsPanel>
+                            <vw:TasListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition SharedSizeGroup="Button" />
+                                            <ColumnDefinition SharedSizeGroup="Code" />
+                                            <ColumnDefinition SharedSizeGroup="Description" />
+                                        </Grid.ColumnDefinitions>
+                                        <Button Style="{StaticResource RemoveItemButtonStyle}"
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor} , Path=DataContext.RemoveSupportCommand}"
+                                                CommandParameter="{Binding .}" />
+                                        <TextBlock Text="{Binding Code}"
+                                                   Style="{StaticResource CodeTextBlockStyle}" />
+                                        <TextBlock Text="{Binding LocalizedDescriptionInfo.Name,Converter={StaticResource LocalizedStringMinifiedConverter},ConverterParameter='30'}"
+                                                   Style="{StaticResource DescriptionTextBlockStyle}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </vw:TasListBox.ItemTemplate>
+                        </vw:TasListBox>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Content="{StaticResource lngAcceptsWithoutSupport}"
+                                      IsChecked="{Binding AcceptsMirrorsWithoutSupport}" />
+                            <cc:Icon Style="{StaticResource CInfoTooltipIcon}"
+                                     Margin="5,0,0,0"
+                                     ToolTip="{StaticResource lngAcceptsWithoutSupportTooltip}" />
+                        </StackPanel>
+                        <!--#endregion-->
+                        <!--#region Add ComboBox -->
+                        <DockPanel>
+                            <Button Command="{Binding AddSupportCommand}"
+                                    Style="{StaticResource AddItemButtonStyle}" />
+                            <vw:TasComboBox ComboBoxTitle="{StaticResource lngSupportToAdd}"
+                                            IconToolTip="{StaticResource lngSupportToAddTooltip}"
+                                            ItemsSource="{Binding SelectableSupports}"
+                                            SelectedItem="{Binding SelectedSupportToAdd}"
+                                            Style="{StaticResource AddComboBoxStyle}"
+                                            Width="300"
+                                            HorizontalAlignment="Left">
+                                <vw:TasComboBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel Grid.IsSharedSizeScope="True" />
+                                    </ItemsPanelTemplate>
+                                </vw:TasComboBox.ItemsPanel>
+                                <vw:TasComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid HorizontalAlignment="Left">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition SharedSizeGroup="CodeGroup"
+                                                                  Width="auto" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition SharedSizeGroup="DescriptionGroup"
+                                                                  Width="auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="{Binding Code}"
+                                                       Grid.Column="0" />
+                                            <TextBlock Text=":"
+                                                       Margin="10,0"
+                                                       Grid.Column="1" />
+                                            <TextBlock Text="{Binding LocalizedDescriptionInfo.Name,Converter={StaticResource LocalizedStringMinifiedConverter},ConverterParameter='30'}"
+                                                       Grid.Column="2" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </vw:TasComboBox.ItemTemplate>
+                            </vw:TasComboBox>
+                        </DockPanel>
+                        <!--#endregion-->
+                    </hc:UniformSpacingPanel>
+                    <!--#endregion-->
+
+                    <hc:Divider Orientation="Horizontal"
+                                Width="1290"
+                                Margin="0,10" />
+
+                    <!--#region Allowed Lights -->
+                    <hc:UniformSpacingPanel Style="{StaticResource AddUniformSpacingPanelStyle}">
+
+                        <!--#region ListBox -->
+                        <vw:TasListBox ListBoxTitle="{StaticResource lngAllowedLights}"
+                                       IconTooltip="{StaticResource lngAllowedLightsTooltip}"
+                                       ItemsSource="{Binding SelectedLights}"
+                                       Height="105">
+                            <vw:TasListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel Grid.IsSharedSizeScope="True" />
+                                </ItemsPanelTemplate>
+                            </vw:TasListBox.ItemsPanel>
+                            <vw:TasListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition SharedSizeGroup="Button" />
+                                            <ColumnDefinition SharedSizeGroup="Code" />
+                                            <ColumnDefinition SharedSizeGroup="Description" />
+                                        </Grid.ColumnDefinitions>
+                                        <Button Style="{StaticResource RemoveItemButtonStyle}"
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor} , Path=DataContext.RemoveLightCommand}"
+                                                CommandParameter="{Binding .}" />
+                                        <TextBlock Text="{Binding Code}"
+                                                   Style="{StaticResource CodeTextBlockStyle}" />
+                                        <TextBlock Text="{Binding LocalizedDescriptionInfo.Name,Converter={StaticResource LocalizedStringMinifiedConverter},ConverterParameter='30'}"
+                                                   Style="{StaticResource DescriptionTextBlockStyle}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </vw:TasListBox.ItemTemplate>
+                        </vw:TasListBox>
+                        <!--#endregion-->
+                        <!--#region Add ComboBox -->
+                        <DockPanel>
+                            <Button Command="{Binding AddLightCommand}"
+                                    Style="{StaticResource AddItemButtonStyle}" />
+                            <vw:TasComboBox ComboBoxTitle="{StaticResource lngLightToAdd}"
+                                            IconToolTip="{StaticResource lngLightToAddTooltip}"
+                                            ItemsSource="{Binding SelectableLights}"
+                                            SelectedItem="{Binding SelectedLightToAdd}"
+                                            Style="{StaticResource AddComboBoxStyle}"
+                                            Width="220"
+                                            DropDownElementConsistentWidth="False"
+                                            HorizontalAlignment="Left">
+                                <vw:TasComboBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel Grid.IsSharedSizeScope="True" />
+                                    </ItemsPanelTemplate>
+                                </vw:TasComboBox.ItemsPanel>
+                                <vw:TasComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid HorizontalAlignment="Left">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition SharedSizeGroup="CodeGroup"
+                                                                  Width="auto" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition SharedSizeGroup="DescriptionGroup"
+                                                                  Width="auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="{Binding Code}"
+                                                       Grid.Column="0" />
+                                            <TextBlock Text=":"
+                                                       Margin="10,0"
+                                                       Grid.Column="1" />
+                                            <TextBlock Text="{Binding LocalizedDescriptionInfo.Name,Converter={StaticResource LocalizedStringMinifiedConverter},ConverterParameter='30'}"
+                                                       Grid.Column="2" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </vw:TasComboBox.ItemTemplate>
+                            </vw:TasComboBox>
+                        </DockPanel>
+                        <!--#endregion-->
+                        <!--#region Illuminations Checkboxes -->
+                        <hc:UniformSpacingPanel Orientation="Vertical"
+                                                HorizontalSpacing="10"
+                                                MaxWidth="255">
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox Content="{StaticResource lngAcceptsWithoutLight}"
+                                          IsChecked="{Binding AcceptsMirrorsWithoutLight}" />
+                                <cc:Icon Style="{StaticResource CInfoTooltipIcon}"
+                                         Margin="5,0,0,0"
+                                         ToolTip="{StaticResource lngAcceptsWithoutLightTooltip}" />
+                            </StackPanel>
+                            <TextBlock Text="{StaticResource lngAllowsLighting}"
+                                       HorizontalAlignment="Center"
+                                       TextDecorations="Underline"
+                                       Style="{StaticResource CMediumInfoTextBlock}"
+                                       Margin="0,15,0,10" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="auto" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <DockPanel Grid.Row="0"
+                                           Grid.Column="0"
+                                           LastChildFill="False"
+                                           Margin="0,0,10,0">
+                                    <CheckBox Content="{StaticResource MirrorPerimeterIllumination}"
+                                              IsChecked="{Binding PerimeterIllumination}" />
+                                    <cc:Icon Style="{StaticResource CInfoTooltipIcon}"
+                                             Margin="5,0,0,0"
+                                             ToolTip="{StaticResource MirrorPerimeterIlluminationTooltip}"
+                                             DockPanel.Dock="Right" />
+                                </DockPanel>
+                                <DockPanel Grid.Row="0"
+                                           Grid.Column="1"
+                                           LastChildFill="False">
+                                    <CheckBox Content="{StaticResource SandblastIllumination}"
+                                              IsChecked="{Binding SandblastIllumination}" />
+                                    <cc:Icon Style="{StaticResource CInfoTooltipIcon}"
+                                             Margin="5,0,0,0"
+                                             DockPanel.Dock="Right"
+                                             ToolTip="{StaticResource SandblastIlluminationTooltip}" />
+                                </DockPanel>
+                                
+                                <DockPanel Grid.Row="1"
+                                           Grid.Column="0"
+                                           LastChildFill="False"
+                                           Margin="0,0,10,0">
+                                    <CheckBox Content="{StaticResource Magnifyer1Illumination}"
+                                              IsChecked="{Binding MagnifierIllumination}" />
+                                    <cc:Icon Style="{StaticResource CInfoTooltipIcon}"
+                                             Margin="5,0,0,0"
+                                             DockPanel.Dock="Right"
+                                             ToolTip="{StaticResource Magnifyer1IlluminationTooltip}" />
+                                </DockPanel>
+                                <DockPanel Grid.Row="1"
+                                           Grid.Column="1"
+                                           LastChildFill="False">
+                                    <CheckBox Content="{StaticResource Magnifyer2Illumination}"
+                                              IsChecked="{Binding Magnifier2Illumination}" />
+                                    <cc:Icon Style="{StaticResource CInfoTooltipIcon}"
+                                             Margin="5,0,0,0"
+                                             DockPanel.Dock="Right"
+                                             ToolTip="{StaticResource Magnifyer2IlluminationTooltip}" />
+                                </DockPanel>
+                                
+                                <DockPanel Grid.Row="2"
+                                           Grid.Column="0"
+                                           LastChildFill="False"
+                                           Margin="0,0,10,0">
+                                    <CheckBox Content="{StaticResource MirrorTopIllumination}"
+                                              IsChecked="{Binding TopIllumination}" />
+                                    <cc:Icon Style="{StaticResource CInfoTooltipIcon}"
+                                             Margin="5,0,0,0"
+                                             DockPanel.Dock="Right"
+                                             ToolTip="{StaticResource MirrorTopIlluminationTooltip}" />
+                                </DockPanel>
+                                <DockPanel Grid.Row="2"
+                                           Grid.Column="1"
+                                           LastChildFill="False">
+                                    <CheckBox Content="{StaticResource MirrorBottomIllumination}"
+                                              IsChecked="{Binding BottomIllumination}" />
+                                    <cc:Icon Style="{StaticResource CInfoTooltipIcon}"
+                                             Margin="5,0,0,0"
+                                             DockPanel.Dock="Right"
+                                             ToolTip="{StaticResource MirrorBottomIlluminationTooltip}" />
+                                </DockPanel>
+                                
+                                <DockPanel Grid.Row="3"
+                                           Grid.Column="0"
+                                           LastChildFill="False"
+                                           Margin="0,0,10,0">
+                                    <CheckBox Content="{StaticResource MirrorRightIllumination}"
+                                              IsChecked="{Binding RightIllumination}" />
+                                    <cc:Icon Style="{StaticResource CInfoTooltipIcon}"
+                                             Margin="5,0,0,0"
+                                             DockPanel.Dock="Right"
+                                             ToolTip="{StaticResource MirrorRightIlluminationTooltip}" />
+                                </DockPanel>
+                                <DockPanel Grid.Row="3"
+                                           Grid.Column="1"
+                                           LastChildFill="False">
+                                    <CheckBox Content="{StaticResource MirrorLeftIllumination}"
+                                              IsChecked="{Binding LeftIllumination}" />
+                                    <cc:Icon Style="{StaticResource CInfoTooltipIcon}"
+                                             Margin="5,0,0,0"
+                                             DockPanel.Dock="Right"
+                                             ToolTip="{StaticResource MirrorLeftIlluminationTooltip}" />
+                                </DockPanel>
+                                
+                            </Grid>
+                        </hc:UniformSpacingPanel>
+                        <!--#endregion-->
+                    </hc:UniformSpacingPanel>
+                    <!--#endregion-->
+
+                    <hc:Divider Orientation="Vertical"
+                                Margin="0,0" />
+
+                    <!--#region Allowed Modules -->
+                    <hc:UniformSpacingPanel Style="{StaticResource AddUniformSpacingPanelStyle}">
+
+                        <!--#region ListBox -->
+                        <vw:TasListBox ListBoxTitle="{StaticResource lngAllowedModules}"
+                                       IconTooltip="{StaticResource lngAllowedModulesTooltip}"
+                                       ItemsSource="{Binding SelectedModules}"
+                                       Width="320"
+                                       Height="190">
+                            <vw:TasListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel Grid.IsSharedSizeScope="True" />
+                                </ItemsPanelTemplate>
+                            </vw:TasListBox.ItemsPanel>
+                            <vw:TasListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition SharedSizeGroup="Button" />
+                                            <ColumnDefinition SharedSizeGroup="Code" />
+                                            <ColumnDefinition SharedSizeGroup="Info" />
+                                            <ColumnDefinition SharedSizeGroup="IsObligatory" />
+                                        </Grid.ColumnDefinitions>
+                                        <Button Style="{StaticResource RemoveItemButtonStyle}"
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor} , Path=DataContext.RemoveModuleCommand}"
+                                                CommandParameter="{Binding .}" />
+                                        <TextBlock Text="{Binding Module.Code}"
+                                                   Style="{StaticResource CodeTextBlockStyle}" />
+                                        <TextBlock Text="{Binding Module.LocalizedDescriptionInfo.Name,Converter={StaticResource LocalizedStringMinifiedConverter},ConverterParameter='30'}"
+                                                   Style="{StaticResource DescriptionTextBlockStyle}" />
+                                        <TextBlock Grid.Column="4"
+                                                   FontSize="12"
+                                                   MinWidth="50"
+                                                   TextAlignment="Center"
+                                                   VerticalAlignment="Center">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Text"
+                                                            Value=" - " />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsObligatory}"
+                                                                     Value="True">
+                                                            <Setter Property="Text"
+                                                                    Value="{StaticResource lngIsObligatory}" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </Grid>
+                                </DataTemplate>
+                            </vw:TasListBox.ItemTemplate>
+                        </vw:TasListBox>
+                        <!--#endregion-->
+                        <!--#region Add ComboBox -->
+                        <DockPanel>
+                            <vw:TasComboBox ComboBoxTitle="{StaticResource lngModuleToAdd}"
+                                            IconToolTip="{StaticResource lngModuleToAddTooltip}"
+                                            ItemsSource="{Binding SelectableModules}"
+                                            SelectedItem="{Binding SelectedModuleToAdd}"
+                                            Style="{StaticResource AddComboBoxStyle}"
+                                            DockPanel.Dock="Top"
+                                            Width="320"
+                                            DropDownElementConsistentWidth="False"
+                                            HorizontalAlignment="Left">
+                                <vw:TasComboBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel Grid.IsSharedSizeScope="True" />
+                                    </ItemsPanelTemplate>
+                                </vw:TasComboBox.ItemsPanel>
+                                <vw:TasComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid HorizontalAlignment="Left">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition SharedSizeGroup="CodeGroup" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition SharedSizeGroup="DescriptionGroup" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="{Binding Code}"
+                                                       Grid.Column="0" />
+                                            <TextBlock Text=":"
+                                                       Margin="20,0"
+                                                       Grid.Column="1" />
+                                            <TextBlock Text="{Binding LocalizedDescriptionInfo.Name,Converter={StaticResource LocalizedStringMinifiedConverter},ConverterParameter='30'}"
+                                                       Grid.Column="2" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </vw:TasComboBox.ItemTemplate>
+                            </vw:TasComboBox>
+                            <DockPanel DockPanel.Dock="Bottom"
+                                       Margin="0,10,0,0"
+                                       LastChildFill="False">
+                                <CheckBox Content="{StaticResource lngIsObligatory}"
+                                          IsChecked="{Binding IsSelectedModuleObligatory}"
+                                          DockPanel.Dock="Left" />
+                                <cc:Icon Style="{StaticResource CInfoTooltipIcon}"
+                                         Margin="5,0,0,0"
+                                         ToolTip="{StaticResource lngIsObligatory}"
+                                         DockPanel.Dock="Left" />
+                                <Button Command="{Binding AddModuleCommand}"
+                                        Style="{StaticResource AddItemButtonStyle}"
+                                        DockPanel.Dock="Right" />
+                            </DockPanel>
+                        </DockPanel>
+                        <!--#endregion-->
+                    </hc:UniformSpacingPanel>
+                    <!--#endregion-->
+
+                    <hc:Divider Orientation="Vertical"
+                                Margin="0,0" />
+
+                    <!--#region Allowed Custom Elements -->
+                    <hc:UniformSpacingPanel Style="{StaticResource AddUniformSpacingPanelStyle}">
+
+                        <!--#region ListBox -->
+                        <vw:TasListBox ListBoxTitle="{StaticResource lngAllowedCustomElements}"
+                                       IconTooltip="{StaticResource lngAllowedCustomElementsTooltip}"
+                                       ItemsSource="{Binding SelectedCustomElements}"
+                                       Height="140"
+                                       Width="300">
+                            <vw:TasListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel Grid.IsSharedSizeScope="True" />
+                                </ItemsPanelTemplate>
+                            </vw:TasListBox.ItemsPanel>
+                            <vw:TasListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition SharedSizeGroup="Button" />
+                                            <ColumnDefinition SharedSizeGroup="Code" />
+                                            <ColumnDefinition SharedSizeGroup="Info" />
+                                            <ColumnDefinition SharedSizeGroup="IsObligatory" />
+                                        </Grid.ColumnDefinitions>
+                                        <Button Style="{StaticResource RemoveItemButtonStyle}"
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor} , Path=DataContext.RemoveCustomElementCommand}"
+                                                CommandParameter="{Binding .}" />
+                                        <TextBlock Text="{Binding CustomElement.Code}"
+                                                   Style="{StaticResource CodeTextBlockStyle}" />
+                                        <TextBlock Text="{Binding CustomElement.LocalizedDescriptionInfo.Name,Converter={StaticResource LocalizedStringMinifiedConverter},ConverterParameter='30'}"
+                                                   Style="{StaticResource DescriptionTextBlockStyle}" />
+                                        <TextBlock Grid.Column="4"
+                                                   FontSize="12"
+                                                   VerticalAlignment="Center">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Text"
+                                                            Value=" - " />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsObligatory}"
+                                                                     Value="True">
+                                                            <Setter Property="Text"
+                                                                    Value="{StaticResource lngIsObligatory}" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </Grid>
+                                </DataTemplate>
+                            </vw:TasListBox.ItemTemplate>
+                        </vw:TasListBox>
+                        <!--#endregion-->
+                        <!--#region Add ComboBoxes -->
+                        <DockPanel>
+                            <!--#region Custom Element Type Combobox -->
+                            <vw:TasComboBox ComboBoxTitle="{StaticResource lngCustomElementType}"
+                                            IconToolTip="{StaticResource lngCustomElementTypeTooltip}"
+                                            ItemsSource="{Binding CustomElementTypes}"
+                                            SelectedItem="{Binding SelectedCustomElementType}"
+                                            Style="{StaticResource AddComboBoxStyle}"
+                                            DockPanel.Dock="Top"
+                                            HorizontalAlignment="Left"
+                                            Width="300"
+                                            Margin="0,0,0,5"
+                                            DropDownElementConsistentWidth="False">
+                                <vw:TasComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding .,Converter={StaticResource LocalizedStringMinifiedConverter},ConverterParameter='30'}"
+                                                   Style="{StaticResource DescriptionTextBlockStyle}"
+                                                   Margin="0" />
+                                    </DataTemplate>
+                                </vw:TasComboBox.ItemTemplate>
+                            </vw:TasComboBox>
+                            <!--#endregion-->
+                            <!--#region Custom Element ComboBox -->
+                            <vw:TasComboBox ComboBoxTitle="{StaticResource lngCustomElementToAdd}"
+                                            IconToolTip="{StaticResource lngCustomElementToAddTooltip}"
+                                            ItemsSource="{Binding SelectableCustomElements}"
+                                            SelectedItem="{Binding SelectedCustomElementToAdd}"
+                                            Style="{StaticResource AddComboBoxStyle}"
+                                            DockPanel.Dock="Top"
+                                            Width="300"
+                                            DropDownElementConsistentWidth="False"
+                                            HorizontalAlignment="Left">
+                                <vw:TasComboBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel Grid.IsSharedSizeScope="True" />
+                                    </ItemsPanelTemplate>
+                                </vw:TasComboBox.ItemsPanel>
+                                <vw:TasComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid HorizontalAlignment="Left">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition SharedSizeGroup="CodeGroup" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition SharedSizeGroup="DescriptionGroup" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="{Binding Code}"
+                                                       Grid.Column="0" />
+                                            <TextBlock Text=":"
+                                                       Margin="20,0"
+                                                       Grid.Column="1" />
+                                            <TextBlock Text="{Binding LocalizedDescriptionInfo.Name,Converter={StaticResource LocalizedStringMinifiedConverter},ConverterParameter='30'}"
+                                                       HorizontalAlignment="Left"
+                                                       Grid.Column="2" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </vw:TasComboBox.ItemTemplate>
+                            </vw:TasComboBox>
+                            <!--#endregion-->
+                            <DockPanel DockPanel.Dock="Top"
+                                       Margin="0,10,0,0"
+                                       LastChildFill="False">
+                                <CheckBox Content="{StaticResource lngIsObligatory}"
+                                          IsChecked="{Binding IsSelectedCustomElementObligatory}"
+                                          DockPanel.Dock="Left" />
+                                <cc:Icon Style="{StaticResource CInfoTooltipIcon}"
+                                         Margin="5,0,0,0"
+                                         ToolTip="{StaticResource lngIsObligatory}"
+                                         DockPanel.Dock="Left" />
+                                <Button Command="{Binding AddCustomElementCommand}"
+                                        Style="{StaticResource AddItemButtonStyle}"
+                                        DockPanel.Dock="Right" />
+                            </DockPanel>
+                        </DockPanel>
+                        <!--#endregion-->
+                    </hc:UniformSpacingPanel>
+                    <!--#endregion-->
+
+                    <hc:Divider Orientation="Vertical"
+                                Margin="0,0" />
+
+                    <!--#region Exclusive Elements -->
+                    <hc:UniformSpacingPanel Style="{StaticResource AddUniformSpacingPanelStyle}"
+                                            ItemHorizontalAlignment="Stretch">
+
+                        <!--#region ListBox -->
+                        <vw:TasListBox ListBoxTitle="{StaticResource lngExclusiveSets}"
+                                       IconTooltip="{StaticResource lngExclusiveSetsTooltip}"
+                                       ItemsSource="{Binding ExclusiveSets}"
+                                       Width="330"
+                                       Height="140">
+                            <vw:TasListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel Grid.IsSharedSizeScope="True" />
+                                </ItemsPanelTemplate>
+                            </vw:TasListBox.ItemsPanel>
+                            <vw:TasListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition SharedSizeGroup="Button" />
+                                            <ColumnDefinition SharedSizeGroup="Code1" />
+                                            <ColumnDefinition SharedSizeGroup="Code2" />
+                                            <ColumnDefinition SharedSizeGroup="AreExclusive" />
+                                        </Grid.ColumnDefinitions>
+                                        <Button Style="{StaticResource RemoveItemButtonStyle}"
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor} , Path=DataContext.RemoveExclusiveSetCommand}"
+                                                CommandParameter="{Binding .}" />
+                                        <TextBlock Text="{Binding Element1.Code}"
+                                                   Style="{StaticResource CodeTextBlockStyle}" />
+                                        <TextBlock Text="{Binding Element2.Code}"
+                                                   Style="{StaticResource CodeTextBlockStyle}"
+                                                   Grid.Column="2" />
+                                        <TextBlock Grid.Column="4"
+                                                   FontSize="12"
+                                                   Margin="5,0,0,0"
+                                                   VerticalAlignment="Center">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Text"
+                                                            Value="{StaticResource lngMutuallyInclusive}" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding AreExclusive}"
+                                                                     Value="True">
+                                                            <Setter Property="Text"
+                                                                    Value="{StaticResource lngMutuallyExclusive}" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </Grid>
+                                </DataTemplate>
+                            </vw:TasListBox.ItemTemplate>
+                        </vw:TasListBox>
+                        <!--#endregion-->
+                        <!--#region Add ComboBoxes -->
+                        <DockPanel>
+                            <!--#region Element1 Combobox -->
+                            <vw:TasComboBox ComboBoxTitle="{StaticResource lngExclusiveElement1}"
+                                            IconToolTip="{StaticResource lngExclusiveElement1Tooltip}"
+                                            ItemsSource="{Binding SelectableMirrorElements}"
+                                            SelectedItem="{Binding SelectedExclusiveElement1}"
+                                            Style="{StaticResource AddComboBoxStyle}"
+                                            HorizontalAlignment="Left"
+                                            DockPanel.Dock="Top"
+                                            Width="330"
+                                            Margin="0,0,0,5"
+                                            DropDownElementConsistentWidth="False">
+                                <vw:TasComboBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel Grid.IsSharedSizeScope="True" />
+                                    </ItemsPanelTemplate>
+                                </vw:TasComboBox.ItemsPanel>
+                                <vw:TasComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid HorizontalAlignment="Left">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition SharedSizeGroup="CodeGroup" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition SharedSizeGroup="DescriptionGroup" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="{Binding Code}"
+                                                       Grid.Column="0" />
+                                            <TextBlock Text=":"
+                                                       Margin="20,0"
+                                                       Grid.Column="1" />
+                                            <TextBlock Text="{Binding LocalizedDescriptionInfo.Name,Converter={StaticResource LocalizedStringMinifiedConverter},ConverterParameter='30'}"
+                                                       Grid.Column="2" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </vw:TasComboBox.ItemTemplate>
+                            </vw:TasComboBox>
+                            <!--#endregion-->
+                            <!--#region Element2 ComboBox -->
+                            <vw:TasComboBox ComboBoxTitle="{StaticResource lngExclusiveElement2}"
+                                            IconToolTip="{StaticResource lngExclusiveElement2Tooltip}"
+                                            ItemsSource="{Binding SelectableMirrorElements}"
+                                            SelectedItem="{Binding SelectedExclusiveElement2}"
+                                            Style="{StaticResource AddComboBoxStyle}"
+                                            HorizontalAlignment="Left"
+                                            Width="330"
+                                            DockPanel.Dock="Top">
+                                <vw:TasComboBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel Grid.IsSharedSizeScope="True" />
+                                    </ItemsPanelTemplate>
+                                </vw:TasComboBox.ItemsPanel>
+                                <vw:TasComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid HorizontalAlignment="Left">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition SharedSizeGroup="CodeGroup" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition SharedSizeGroup="DescriptionGroup" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="{Binding Code}"
+                                                       Grid.Column="0" />
+                                            <TextBlock Text=":"
+                                                       Margin="20,0"
+                                                       Grid.Column="1" />
+                                            <TextBlock Text="{Binding LocalizedDescriptionInfo.Name,Converter={StaticResource LocalizedStringMinifiedConverter},ConverterParameter='30'}"
+                                                       Grid.Column="2" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </vw:TasComboBox.ItemTemplate>
+                            </vw:TasComboBox>
+                            <DockPanel DockPanel.Dock="Top"
+                                       Margin="0,10,0,0"
+                                       LastChildFill="False">
+                                <CheckBox Content="{StaticResource lngAreMutuallyExclusive}"
+                                          IsChecked="{Binding AreSelectedElementsExclusive}"
+                                          DockPanel.Dock="Left" />
+                                <cc:Icon Style="{StaticResource CInfoTooltipIcon}"
+                                         Margin="5,0,0,0"
+                                         ToolTip="{StaticResource lngAreMutuallyExclusiveTooltip}"
+                                         DockPanel.Dock="Left" />
+                                <Button Command="{Binding AddExclusiveSetCommand}"
+                                        Style="{StaticResource AddItemButtonStyle}"
+                                        DockPanel.Dock="Right" />
+                            </DockPanel>
+                            <!--#endregion-->
+                        </DockPanel>
+
+                        <!--#endregion-->
+                    </hc:UniformSpacingPanel>
+                    <!--#endregion-->
+
+                </hc:UniformSpacingPanel>
+                <hc:Divider Orientation="Horizontal"
+                            Margin="0,20,0,0"
+                            DockPanel.Dock="Top" />
+            </DockPanel>
+        </hc:ScrollViewer>
+
+    </Grid>
+</UserControl>

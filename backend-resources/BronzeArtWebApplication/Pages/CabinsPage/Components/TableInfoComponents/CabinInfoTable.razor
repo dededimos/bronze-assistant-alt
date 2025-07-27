@@ -1,0 +1,137 @@
+﻿@*A small Table Containing Cabin Information*@
+@using BronzeArtWebApplication.Components.SVGComponents
+@using BronzeRulesPricelistLibrary.Models
+@using ShowerEnclosuresModelsLibrary.Enums
+@using ShowerEnclosuresModelsLibrary.Enums.ShowerDrawEnums
+@using ShowerEnclosuresModelsLibrary.Models
+@using ShowerEnclosuresModelsLibrary.Enums.CabinCategories
+@using static BronzeArtWebApplication.Shared.Helpers.StaticInfoCabins
+@namespace BronzeArtWebApplication.Pages.CabinsPage.Components.TableInfoComponents
+@inject ILanguageContainerService lc
+
+<MudSimpleTable Elevation="4"
+                Class="rounded-lg my-2"
+                Outlined="@(true)"
+                Dense="@(true)">
+    <thead class="tableHead">
+        <tr>
+            @*Rounding upper left and right Corners to Match Table Border*@
+            <td class="tableCell rounded-tl-lg" style="border:0px">@(lc.Keys["Code"])</td>
+            <td class="tableCell" style="min-width:120px">@(lc.Keys["Length"])<br />@("(cm)")</td>
+            <td class="tableCell">@(lc.Keys["Height"])<br />@("(cm)")</td>
+            <td class="tableCell">@(lc.Keys["Opening"])<br />@("(cm)")</td>
+            <td class="tableCell" style="min-width:120px">@(lc.Keys["Type"])<br />@(lc.Keys["OfGlass"])</td>
+            <td class="tableCell">@(lc.Keys["Thickness"])<br />@(lc.Keys["OfGlass"])</td>
+            <td class="tableCell rounded-tr-lg">@(lc.Keys["Finish"])</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Cabin cabin in Synthesis.GetCabinList())
+        {
+            <tr>
+                @*MODEL DESCRIPTION*@
+                <td class="tableCell" style="min-width:120px">@(cabin.Model != null ? lc.Keys[CabinModelEnumDescKey[(CabinModelEnum)cabin.Model]] : "?")</td>
+                
+                @*LENGTH AND TOLLERANCE*@
+                <td class="tableCell">
+                    @($"{(cabin.NominalLength/10d).ToString("0.0")}")
+                    @*Display Tollerance levels only if they Exist*@
+                    @if (cabin.TolleranceMinus != 0 || cabin.TollerancePlus != 0)
+                    {
+                        <br />
+                        @($"({(cabin.LengthMin/10d).ToString("0.0")}-{(cabin.LengthMax/10d).ToString("0.0")})")
+                    }
+                </td>
+
+                @*HEIGHT*@
+                <td class="tableCell">@($"{(cabin.Height/10d).ToString("0.0")}")</td>
+
+                @*OPENING - CELLS OF OPENING*@
+                @if (Synthesis.TypeOfOpening is SynthesisTypeOfOpening.None)
+                {
+                    <td class="tableCell">-</td>
+                }
+
+                else if (Synthesis.TypeOfOpening is SynthesisTypeOfOpening.SinglePiece)
+                {
+                    <td class="tableCell">@($"{(cabin.Opening != 0 ? (cabin.Opening/10d).ToString("0.0") : "-")}")</td>
+                }
+
+                else if (Synthesis.TypeOfOpening is SynthesisTypeOfOpening.Diagonal)
+                {
+                    @*Converts the two first cells into one -- Primary and Secondary Always -- The Third Cell is always without Opening*@
+                    @if (cabin.SynthesisModel is CabinSynthesisModel.Primary)
+                    {
+                        <td class="tableCell" rowspan="2" style="border-bottom:0px;">
+                            <div class="d-flex flex-column">
+                                @(lc.Keys["Diagonal"])
+                                <br />
+                                @($"{(Synthesis.GetOpening()/10d).ToString("0.0")}")
+                            </div>
+                        </td>
+                    }
+                    else if (cabin.SynthesisModel is CabinSynthesisModel.Tertiary)
+                    {
+                        <td class="tableCell">-</td>
+                    }
+                }
+
+                else if (Synthesis.TypeOfOpening is SynthesisTypeOfOpening.StraightTwoPiece)
+                {
+                    @*Converts the two first cells into one -- Primary and Secondary Always -- The Third Cell is always without Opening*@
+                    @if (cabin.SynthesisModel is CabinSynthesisModel.Primary)
+                    {
+                        <td class="tableCell" rowspan="2" style="border-bottom:0px;">
+                            <div class="d-flex flex-column">
+                                @(lc.Keys["Total"])
+                                <br />
+                                @($"{(Synthesis.GetOpening()/10d).ToString("0.0")}")
+                            </div>
+                        </td>
+                    }
+                    else if (cabin.SynthesisModel is CabinSynthesisModel.Tertiary)
+                    {
+                        <td class="tableCell">-</td>
+                    }
+                }
+
+                else if (Synthesis.TypeOfOpening is SynthesisTypeOfOpening.Flipper)
+                {
+                    @if (cabin.SynthesisModel is CabinSynthesisModel.Primary or CabinSynthesisModel.Tertiary)
+                    {
+                        <td class="tableCell">-</td>
+                    }
+                    else if (cabin.SynthesisModel is CabinSynthesisModel.Secondary)
+                    {
+                        <td class="tableCell">@($"{(Synthesis.GetOpening()/10d).ToString("0.0")}")</td>
+                    }
+                }
+
+                @*CELLS WITH GLASS TYPE-THICKNESS AND METAL FINISH*@
+                @if (cabin.SynthesisModel is CabinSynthesisModel.Primary)
+                {
+                    <td rowspan="@(Synthesis.NumberOfSides)" style="border-bottom:0px;">
+                        <div class="d-flex flex-column">
+                            @*<MudText Class="mx-auto" Typo="@(Typo.caption)">@(Synthesis.Primary.GlassFinish != null ? lc.Keys[GlassFinishEnumDescKey[(GlassFinishEnum)Synthesis.Primary.GlassFinish]] :"")</MudText>*@
+                            <img class="rounded-xl my-auto mx-auto" style="width:90px;height:90px" src="@(Synthesis.Primary.GlassFinish != null ? GlassFinishImagePath[(GlassFinishEnum)Synthesis.Primary.GlassFinish] : "?")" />
+                        </div>
+                    </td>
+                    <td rowspan="@(Synthesis.NumberOfSides)" style="border-bottom:0px;">
+                        <div class="mx-auto my-auto" style="height:70px;width:70px">
+                            <GlassThicknessSVG Thickness="@(Synthesis.Primary.Thicknesses)" />
+                        </div>
+                    </td>
+                    <td rowspan="@(Synthesis.NumberOfSides)" style="border-bottom:0px;">
+                        <div class="mx-auto my-auto" style="height:90px;width:90px">
+                            <img class="rounded-xl my-auto mx-auto" style="width:90px;height:90px" src="@(Synthesis.Primary.MetalFinish != null ? CabinFinishEnumImagePath[(CabinFinishEnum)Synthesis.Primary.MetalFinish] : "?")" />
+                        </div>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</MudSimpleTable>
+
+@code {
+
+}

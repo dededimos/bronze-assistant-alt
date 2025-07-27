@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0, user-scalable=yes" />
+    <base href="/" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
+    <link href="BronzeArtWebApplication.styles.css" rel="stylesheet" />
+    <link href="CSS/CustomSheet.css" rel="stylesheet" />
+    <link href="CSS/TablesSheet.css" rel="stylesheet" />
+    <link href="CSS/PrintingStyles.css" rel="stylesheet" />
+    <link href="CSS/customAnimations.css" rel="stylesheet" />
+
+    <link rel="canonical" href="https://www.bronzeapp.eu" />
+    <meta name="description" content="Showers - Mirrors - Bath Accessories - Bronze Art Application" />
+    <meta name="robots" content="index, follow" />
+
+    <link rel="alternate" hreflang="en" href="https://www.bronzeapp.eu/en" />
+    <link rel="alternate" hreflang="it" href="https://www.bronzeapp.eu/it" />
+    <link rel="alternate" hreflang="el" href="https://www.bronzeapp.eu/el" />
+    <title>Bronze Art Web Application</title>
+    <script src="https://kit.fontawesome.com/c279fab05c.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div id="app" style="">
+        <div class="bronze-loading-container">
+            <div id="espa" class="bronze-espa-banners"></div>
+            <script>
+                if (window.location.origin != "https://papapolitis.bronzeapp.gr" && window.location.origin != "https://lakiotis.bronzeapp.gr") {
+                    let espaBanner1 = document.createElement('img');
+                    let espaBanner2 = document.createElement('img');
+                    espaBanner1.src = 'https://storagebronze.blob.core.windows.net/bronzewebapp-images/EspaBanners/EspaBannerEN.jpg';
+                    espaBanner1.className = 'bronze-espa-banner';
+                    espaBanner1.alt = "ESPA Banner English";
+
+                    espaBanner2.src = 'https://storagebronze.blob.core.windows.net/bronzewebapp-images/EspaBanners/EspaBannerGR.jpg';
+                    espaBanner2.className = 'bronze-espa-banner';
+                    espaBanner2.alt = "ESPA Banner Greek";
+
+                    document.getElementById('espa').appendChild(espaBanner1);
+                    document.getElementById('espa').appendChild(espaBanner2);
+                }
+            </script>
+            <div class="bronze-logo-container">
+                <img id="BronzeStartingLogo" src="Images/Logos/BAGold.png" class="bronze-brand-logo" alt="Bronze Art Logo">
+                <img src="Images/Logos/DGLogo.png" class="bronze-secondary-logo" alt="Dededimos Group Logo">
+            </div>
+
+            <div class="bronze-title-container">
+                <h1 class="bronze-app-title">Bronze Web B2B Application&copy;</h1>
+                <h2 class="bronze-app-version">Version 2.15 - 21-04-2025</h2>
+            </div>
+
+            <div class="bronze-spinner-container">
+                <i class="fa-solid fa-gear fa-spin bronze-loading-icon" aria-label="Loading"></i>
+            </div>
+
+            <div class="bronze-loading-messages">
+                <!-- English messages -->
+                <div class="bronze-message-box">
+                    <h3 class="bronze-message-title">English</h3>
+                    <p class="bronze-message-text">Please wait While Application is Loading...</p>
+                    <p class="bronze-message-text">First time may take up more than 20 seconds.</p>
+                </div>
+
+                <!-- Greek messages -->
+                <div class="bronze-message-box">
+                    <h3 class="bronze-message-title">Ελληνικά</h3>
+                    <p class="bronze-message-text">Περιμένετε όσο φορτώνεται η εφαρμογή...</p>
+                    <p class="bronze-message-text">Η πρώτη φορά ίσως χρειαστεί περισσότερο από 20 δευτερόλεπτα.</p>
+                </div>
+
+                <!-- Italian messages -->
+                <div class="bronze-message-box">
+                    <h3 class="bronze-message-title">Italiano</h3>
+                    <p class="bronze-message-text">Attendere mentre si carica l'applicazione...</p>
+                    <p class="bronze-message-text">Il primo utilizzo potrebbe richiedere più di 20 secondi.</p>
+                </div>
+            </div>
+            <!-- Placeholder for whitelabel logo -->
+            <div id="whitelabel-container"></div>
+            <script>
+                if (window.location.origin === "https://lakiotis.bronzeapp.gr") {
+                    let whitelabelLogo = document.createElement('img');
+                    whitelabelLogo.src = 'Images/Logos/Whitelabel1.svg';
+                    whitelabelLogo.className = 'bronze-whitelabel-logo';
+                    whitelabelLogo.alt = "Lakiotis Logo";
+                    document.getElementById('whitelabel-container').appendChild(whitelabelLogo);
+                }
+                // Add a smooth fade-in effect
+                document.addEventListener('DOMContentLoaded', function () {
+                    document.querySelector('.bronze-loading-container').style.opacity = '0';
+                    document.querySelector('.bronze-loading-container').style.transition = 'opacity 0.2s ease-in-out';
+                    setTimeout(function () {
+                        document.querySelector('.bronze-loading-container').style.opacity = '1';
+                    }, 100);
+                });
+            </script>
+        </div>
+    </div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+
+    <!--Apply versioning query string -->
+    <script src="_framework/blazor.webassembly.js?v=20920032025"></script>
+    <script src="_content/Microsoft.Authentication.WebAssembly.Msal/AuthenticationService.js?v=20920032025"></script>
+    <script src="_content/MudBlazor/MudBlazor.min.js?v=80020032025"></script>
+    <script src="CustomScripts/CustomJavaScripts.js?v=20920032025"></script>
+    <script src="CustomScripts/MirrorDrawScripts.js?v=20920032025"></script>
+    <script src="CustomScripts/BlazorDb.js?v=15042025"></script>
+</body>
+
+</html>

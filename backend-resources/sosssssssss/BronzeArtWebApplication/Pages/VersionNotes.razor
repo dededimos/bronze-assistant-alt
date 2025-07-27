@@ -1,0 +1,75 @@
+﻿@page "/VersionNotes"
+@inject ILanguageContainerService languageContainer
+
+<PageTitle>@(languageContainer.Keys["VersionNotesPageTitle"])</PageTitle>
+
+<AuthorizeView>
+    <Authorized>
+        @if (patchNotes.Keys.Count is 0)
+        {
+            <MudContainer Class="d-flex flex-column justify-center align-center mt-5" Style="width:100%">
+                @for (int i = 0; i < 15; i++)
+            {
+                <MudSkeleton Width="80%" Class="pa-2"/>
+            }
+            </MudContainer>
+        }
+        else
+        {
+            <MudText Typo="Typo.h3" Align="@Align.Center"> Application Patch Notes </MudText>
+            <MudContainer Class="d-flex flex-column justify-self-center">
+                @foreach (string version in patchNotes.Keys)
+                {
+                    <MudPaper Class="d-flex flex-column ma-2 pa-2 justify-left align-left">
+                        <MudText Typo="Typo.h6"> @version </MudText>
+                        @foreach (var note in patchNotes[version])
+                        {
+                            <MudText Typo="Typo.caption">@note</MudText>
+                        }
+                    </MudPaper>
+                }
+            </MudContainer>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <h1>@languageContainer.Keys["ViewNeedsLogIn"]</h1>
+    </NotAuthorized>
+</AuthorizeView>
+
+
+
+
+@code {
+
+
+    //Side Notes For Current Version:
+    /*
+    1.Removed Drawn Side from all IMirrorDraws only the Main Draw Contains it
+    2.Removed the Bounding Box from IMirrorDraw interface  (We will implement this after building the Whole models for all draws)
+    3.Added PathData to IMirrorDraws (All draws have a PathData)
+    */
+
+    //To Change :
+    //1.Beautify Mirror Draw Page
+    //2.Add Draw to Printed Offer
+    //3.Circular Mirrors with Light DO NOT HAVE PERIMETRICAL SUPPORT (They Have Perimetrical Lighting).
+    //4.There is a small Price Bug for this Catalogue Mirror ==> Code = "60H7-90-657",
+    //5.Double Support and Front Supports Are not Shown or Calculated in The Draws or the Draw Buidler
+    //6.Add Help Support Page or Dialog for each Page
+    //7.Place the Draws of Extras AFTER THE BUILDER BUILDS THEM BY MANIPULATING THEIR STRAT X,Y in the Mirror Draw
+    //A Placer Onject/Function can be made to do this work
+    //Even All items can be drawn from 0.0 and placed After the builder !!!
+    //This way the Builder is Dicoupled from the Measures Object and only takes the Mirror Dimensions & Mirror Standards Dimensions.
+    //The Builder will Build Shapes ! and Return a Draw Shapoe in the End Representing the Extra !
+    //Also it will be much easier to Add new Items like this in the Future and Arrange Collisions.
+    //8.Double Supports and Front Supports Draws
+    //9.Circular Mirror Dimensions Draws
+    //10.Rest Mirror Dimensions
+
+    //11. The Extras Boundary Area when we have DOUBLE SUPPORTS in a Circular Mirror is the Same as when we have a Visible Frame which is Mistaken
+    //12. The ShapecenterX and Y for the LineDraws is Broken and Not Working .All placements of Dimension Lines must be done through the StartX,EndY e.t.c.
+
+    //13.Visiting the Offer Page Reruns the MainLayout OnInitialized -- Because the Offer Page does not Use a Layout ... Meaning all Claims are recalcuated from Scratch
+
+
+}

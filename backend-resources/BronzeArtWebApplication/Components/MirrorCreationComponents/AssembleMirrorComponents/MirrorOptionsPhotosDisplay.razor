@@ -1,0 +1,69 @@
+﻿@*Display the Photos of the Selected Options*@
+@namespace BronzeArtWebApplication.Components.MirrorCreationComponents.AssembleMirrorComponents
+@inject AssembleMirrorViewModel Vm
+
+<div class="d-flex flex-wrap justify-center" style="background-color:transparent;" >
+    
+    <!--Light Photo-->
+    @if (Vm.Light != null)
+     {
+         <MudPaper Elevation="0"
+                   Outlined="false"
+                   Class="ma-1 pa-1"
+                   Style="background-color:transparent">
+             <img src="@(LightImagePaths[(MirrorLight)Vm.Light])"
+                  style="max-height:90px;"
+                  class="rounded-lg" />
+         </MudPaper>
+     }
+    
+     
+    <!--Extras Photos-->
+    @foreach (string photoPath in OptionsPhotoPaths)
+      {
+         <MudPaper Elevation="0" Outlined="false" Class="ma-1 pa-1" Style="background-color:transparent">
+             <img src="@photoPath" style="max-height: 90px;"
+                  class="rounded-lg" />
+         </MudPaper>
+      }
+    
+    <!--Supports Photos According to Finish-->
+    @if (Vm.Support != null & Vm.Shape != null)
+      {
+          <MudPaper Elevation="0"
+                    Outlined="false"
+                    Class="ma-1 pa-1"
+                    Style="background-color:transparent">
+              <img src="@(SupportImagePaths[((MirrorSupport)Vm.Support,(MirrorShape)Vm.Shape)])"
+                   style="max-height:90px;border:1px solid black;border-radius:5px;padding:5px;"
+                   class="rounded-lg" />
+          </MudPaper>
+      }
+    
+    @if (Vm.FinishType == SupportFinishType.Painted && Vm.PaintFinish != null)
+      {
+          <MudPaper Elevation="0"
+                    Outlined="false"
+                    Class="ma-1 pa-1"
+                    Style="background-color:transparent">
+              <img src="@(PaintFinishPaths[(SupportPaintFinish)Vm.PaintFinish])"
+                   style="max-height:90px;" />
+          </MudPaper>
+      }
+    
+    else if (Vm.FinishType == SupportFinishType.Electroplated && Vm.ElectroplatedFinish != null)
+      {
+          <MudPaper Elevation="0"
+                    Outlined="false"
+                    Class="ma-1 pa-1"
+                    Style="background-color:transparent">
+              <img src="@(ElectroplatingFinishPaths[(SupportElectroplatedFinish)Vm.ElectroplatedFinish])"
+                   style="max-height:90px;" />
+          </MudPaper>
+      }
+     
+</div>
+
+@code {
+
+}

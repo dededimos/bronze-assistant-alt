@@ -1,0 +1,127 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.MirrorObjectsViews.MirrorModulesViews.SandblastedMagnifierModuleInfoViewUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.MirrorObjectsViews.MirrorModulesViews"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels.MirrorsViewModels.ModulesViewModels"
+             xmlns:vw="clr-namespace:BronzeFactoryApplication.Views.HelperViews"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:mirrElements="clr-namespace:MirrorsLib.MirrorElements;assembly=MirrorsLib"
+             xmlns:globalCommands="clr-namespace:BronzeFactoryApplication.Helpers"
+             xmlns:EnumSource="clr-namespace:BronzeFactoryApplication.Helpers.MarkupExtensions"
+             xmlns:mirrorEnum="clr-namespace:MirrorsLib.Enums;assembly=MirrorsLib"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=vm:MagnifierSandblastedModuleEditorViewModel}">
+    <Grid>
+        <DockPanel HorizontalAlignment="Center">
+            <DockPanel DockPanel.Dock="Top">
+                <vw:TasNumericTextBox Text="{Binding Magnification}"
+                                      TextBoxTitle="{StaticResource lngMagnification}"
+                                      IconTooltip="{StaticResource lngMagnificationTooltip}"
+                                      Precision="0"
+                                      JustPositiveInput="True"
+                                      InputMode="DigitInput"
+                                      MaxLength="2" 
+                                      Margin="10"/>
+                <vw:TasNumericTextBox Text="{Binding MinDistanceFromSupport}"
+                                      TextBoxTitle="{StaticResource lngPositionableMinDistanceFromSupport}"
+                                      IconTooltip="{StaticResource lngPositionableMinDistanceFromSupportTooltip}"
+                                      Precision="0"
+                                      JustPositiveInput="True"
+                                      InputMode="DigitInput"
+                                      MaxLength="4"
+                                      Margin="10" />
+                <vw:TasNumericTextBox Text="{Binding MinDistanceFromSandblast}"
+                                      TextBoxTitle="{StaticResource lngPositionableMinDistanceFromSandblast}"
+                                      IconTooltip="{StaticResource lngPositionableMinDistanceFromSandblastTooltip}"
+                                      Precision="0"
+                                      JustPositiveInput="True"
+                                      InputMode="DigitInput"
+                                      MaxLength="4"
+                                      Margin="10" />
+                <vw:TasNumericTextBox Text="{Binding MinDistanceFromOtherModules}"
+                                      TextBoxTitle="{StaticResource lngPositionableMinDistanceFromOtherModules}"
+                                      IconTooltip="{StaticResource lngPositionableMinDistanceFromOtherModulesTooltip}"
+                                      Precision="0"
+                                      JustPositiveInput="True"
+                                      InputMode="DigitInput"
+                                      MaxLength="4"
+                                      Margin="10" />
+            </DockPanel>
+            <DockPanel HorizontalAlignment="Center">
+                <Button Command="{Binding EditMagnifierDimensionsCommand}"
+                        CommandParameter="{Binding MagnifierDimensions}"
+                        FontSize="12"
+                        Height="auto"
+                        BorderBrush="{DynamicResource SecondaryBorderBrush}"
+                        BorderThickness="1"
+                        ToolTip="{StaticResource lngMagnifierDimensionsTooltip}"
+                        Margin="10">
+                    <DockPanel>
+                        <TextBlock Text="{StaticResource lngMagnifierDimensions}"
+                                   DockPanel.Dock="Top"
+                                   TextAlignment="Center" />
+                        <TextBlock TextAlignment="Center"
+                                   Margin="0,3,0,0">
+                        <Run Text="{StaticResource lngDiameter}" />
+                        <Run Text=": Φ" />
+                        <Run Text="{Binding MagnifierDimensions.Diameter,Mode=OneWay}" />
+                        <Run Text="mm" />
+                        </TextBlock>
+                    </DockPanel>
+                </Button>
+                <Button Command="{Binding EditMagnifierDimensionsCommand}"
+                        CommandParameter="{Binding VisibleMagnifierDimensions}"
+                        FontSize="12"
+                        Height="auto"
+                        BorderBrush="{DynamicResource SecondaryBorderBrush}"
+                        BorderThickness="1"
+                        ToolTip="{StaticResource lngVisibleMagnifierDimensionsTooltip}"
+                        Margin="10">
+                    <DockPanel>
+                        <TextBlock Text="{StaticResource lngVisibleMagnifierDimensions}"
+                                   DockPanel.Dock="Top"
+                                   TextAlignment="Center" />
+                        <TextBlock TextAlignment="Center"
+                                   Margin="0,3,0,0">
+                        <Run Text="{StaticResource lngDiameter}" />
+                        <Run Text=": Φ" />
+                        <Run Text="{Binding VisibleMagnifierDimensions.Diameter,Mode=OneWay}" />
+                        <Run Text="mm" />
+                        </TextBlock>
+                    </DockPanel>
+                </Button>
+                <Button Command="{Binding EditSandblastedMagnifierDimensionsCommand}"
+                        CommandParameter="{Binding SandblastDimensions}"
+                        FontSize="12"
+                        Height="auto"
+                        BorderBrush="{DynamicResource SecondaryBorderBrush}"
+                        BorderThickness="1"
+                        ToolTip="{StaticResource lngMagnifierSandblastDimensionsTooltip}"
+                        Margin="10">
+                    <DockPanel>
+                        <TextBlock Text="{StaticResource lngMagnifierSandblastDimensions}"
+                                   DockPanel.Dock="Top"
+                                   TextAlignment="Center" />
+                        <TextBlock TextAlignment="Center"
+                                   Margin="0,3,0,0">
+                            <Run Text="{StaticResource lngDiameter}" />
+                            <Run Text=": Φ" />
+                            <Run Text="{Binding SandblastDimensions.Diameter,Mode=OneWay}" />
+                            <Run Text="mm , " />
+                        </TextBlock>
+                        <TextBlock TextAlignment="Center"
+                                   Margin="5,3,0,0">
+                            <Run Text="{StaticResource lngThickness}" />
+                            <Run Text=": " />
+                            <Run Text="{Binding SandblastDimensions.Thickness,Mode=OneWay}" />
+                            <Run Text="mm" />
+                        </TextBlock>
+                    </DockPanel>
+                </Button>
+            </DockPanel>
+        </DockPanel>
+    </Grid>
+</UserControl>

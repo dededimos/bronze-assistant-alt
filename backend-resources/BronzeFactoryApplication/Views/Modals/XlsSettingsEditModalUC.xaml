@@ -1,0 +1,54 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.Modals.XlsSettingsEditModalUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.Modals"
+             xmlns:b="clr-namespace:BronzeFactoryApplication.Helpers.Behaviours"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels.ModalViewModels"
+             xmlns:vw="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.SettingsUcs.XlsSettingsUcs"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance Type=vm:XlsSettingsEditModalViewModel}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0" Grid.RowSpan="2"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Panel.ZIndex="2"
+                Visibility="{Binding IsDefaultSetting ,Converter={StaticResource Boolean2VisibilityConverter}}">
+            <Border.Background>
+                <SolidColorBrush Color="{StaticResource RegionColor}" Opacity="0.95"/>
+            </Border.Background>
+            <TextBlock Style="{StaticResource CHeaderTextBlock}"
+                   Text="{StaticResource lngCannotEditDefaultSettings}"/>
+        </Border>
+        <vw:XlsSettingsGlassesUC DataContext="{Binding Settings}"
+                                 Grid.Row="0"/>
+        <StackPanel Grid.Row="1"
+                    HorizontalAlignment="Center"
+                    Margin="20"
+                    Orientation="Horizontal">
+            <!--#region 1.Cancel Button -->
+            <Button Content="{StaticResource lngCancel}"
+                    hc:IconElement.Geometry="{StaticResource CancelGeometry}"
+                    Command="{Binding CancelEditCommand}"
+                    Foreground="{DynamicResource SecondaryBrush}"
+                    Margin="40,0"/>
+            <!--#endregion-->
+
+            <!--#region 2.Save Edits Button -->
+            <Button Content="{StaticResource lngSave}"
+                    hc:IconElement.Geometry="{StaticResource SaveGeometry}"
+                    Command="{Binding SaveEditsCommand}"
+                    Foreground="{DynamicResource SecondaryBrush}"
+                    Margin="40,0"/>
+            <!--#endregion-->
+        </StackPanel>
+    </Grid>
+</UserControl>

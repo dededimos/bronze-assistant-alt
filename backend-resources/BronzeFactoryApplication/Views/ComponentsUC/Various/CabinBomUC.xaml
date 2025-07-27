@@ -1,0 +1,202 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.ComponentsUC.Various.CabinBomUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.Various"
+             xmlns:b="clr-namespace:BronzeFactoryApplication.Helpers.Behaviours"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels.CabinsViewModels"
+             xmlns:profiles="clr-namespace:ShowerEnclosuresModelsLibrary.Models.CabinAllParts.PartsModels.ProfilesModels;assembly=ShowerEnclosuresModelsLibrary"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:cachedImage="clr-namespace:CachedImage.Core;assembly=CachedImage.Core"
+             xmlns:draws="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.DrawsRelevantUcs"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=vm:CabinBomViewModel}"
+             x:Name="BomElement"
+             UseLayoutRounding="True"
+             Margin="0"
+             Width="2100"
+             Height="2970"
+             HorizontalAlignment="Stretch"
+             FontSize="28"
+             Background="White"
+             Foreground="Black"
+             Padding="20,20">
+    <!--Height is always a Ratio of the Width equal to the A4 Page Ratio 2970/2100-->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <!--#region GLASSES DRAWS -->
+        <DockPanel Grid.Row="1">
+
+            <!--#region 1.Cabin Notes Table -->
+            <Border BorderBrush="Gray"
+                    BorderThickness="1"
+                    Margin="0,50,50,50"
+                    DockPanel.Dock="Right"
+                    Width="400"
+                    VerticalAlignment="Top"
+                    Padding="20"
+                    CornerRadius="20">
+                <StackPanel>
+                    <TextBlock Text="{Binding Code}"
+                               FontSize="40"
+                               HorizontalAlignment="Center"
+                               TextDecorations="Underline"
+                               Margin="0,0,0,20" />
+                    <DockPanel>
+                        <DockPanel.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="BorderBrush"
+                                        Value="Gray" />
+                                <Setter Property="BorderThickness"
+                                        Value="0,0,0,1" />
+                            </Style>
+                        </DockPanel.Resources>
+                        <hc:UniformSpacingPanel Orientation="Vertical"
+                                                Spacing="10"
+                                                DockPanel.Dock="Right">
+                            <Border>
+                                <TextBlock Text="{Binding NominalLength, StringFormat={}{0}mm}"
+                                           HorizontalAlignment="Right" />
+                            </Border>
+                            <Border>
+                                <TextBlock Text="{Binding Height, StringFormat={}{0}mm}"
+                                           HorizontalAlignment="Right" />
+                            </Border>
+                            <Border>
+                                <TextBlock Text="{Binding Thicknesses, Converter={StaticResource languageConverter}}"
+                                           HorizontalAlignment="Right" />
+                            </Border>
+                            <Border>
+                                <TextBlock Text="{Binding GlassFinish, Converter={StaticResource languageConverter}}"
+                                           HorizontalAlignment="Right" />
+                            </Border>
+                            <Border Visibility="{Binding HasStep, Converter={StaticResource Boolean2VisibilityConverter}}">
+                                <TextBlock HorizontalAlignment="Right">
+                                    <Run Text="{Binding Step.StepLength, Mode=OneWay}" />
+                                    <Run Text="x" />
+                                    <Run Text="{Binding Step.StepHeight, Mode=OneWay}" />
+                                </TextBlock>
+                            </Border>
+                        </hc:UniformSpacingPanel>
+                        <hc:UniformSpacingPanel Orientation="Vertical"
+                                                Spacing="10"
+                                                DockPanel.Dock="Left">
+                            <Border>
+                                <DockPanel>
+                                    <TextBlock Text="{StaticResource lngLength}" />
+                                    <TextBlock Text=": "
+                                               HorizontalAlignment="Right" />
+                                </DockPanel>
+                            </Border>
+                            <Border>
+                                <DockPanel>
+                                    <TextBlock Text="{StaticResource lngHeight}" />
+                                    <TextBlock Text=": "
+                                               HorizontalAlignment="Right" />
+                                </DockPanel>
+                            </Border>
+                            <Border>
+                                <DockPanel>
+                                    <TextBlock Text="{StaticResource lngThickness}" />
+                                    <TextBlock Text=": "
+                                               HorizontalAlignment="Right" />
+                                </DockPanel>
+                            </Border>
+                            <Border>
+                                <DockPanel>
+                                    <TextBlock Text="{StaticResource lngGlassFinish}" />
+                                    <TextBlock Text=": "
+                                               HorizontalAlignment="Right" />
+                                </DockPanel>
+                            </Border>
+                            <Border Visibility="{Binding HasStep, Converter={StaticResource Boolean2VisibilityConverter}}">
+                                <TextBlock Text="{StaticResource lngStepCut}" />
+                            </Border>
+                        </hc:UniformSpacingPanel>
+                    </DockPanel>
+                    <StackPanel Orientation="Vertical"
+                                VerticalAlignment="Bottom"
+                                HorizontalAlignment="Center"
+                                Margin="0,20,0,0">
+                        <TextBlock FontSize="30"
+                                   TextDecorations="Underline"
+                                   Text="{StaticResource lngNotes}" />
+                        <TextBlock Text="{Binding Notes}"
+                                   TextWrapping="Wrap"
+                                   Height="630" />
+                    </StackPanel>
+                </StackPanel>
+
+            </Border>
+            <!--#endregion-->
+
+            <!--#region 2.Glass Draws Control -->
+            <ItemsControl ItemsSource="{Binding GlassesDraws}"
+                          HorizontalAlignment="Center"
+                          Margin="0,50,0,50"
+                          DockPanel.Dock="Left">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <Border BorderThickness="1"
+                                    BorderBrush="Gray"
+                                    Margin="0,0,50,40"
+                                    HorizontalAlignment="Center"
+                                    Padding="20,5"
+                                    CornerRadius="20">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock>
+                                    <Run Text="{StaticResource lngDraw}" />
+                                    <Run Text=":" />
+                                    </TextBlock>
+                                    <TextBlock Text="{Binding GlassDrawString}"
+                                               HorizontalAlignment="Center" />
+                                    <TextBlock Text="{StaticResource lngFromStock}"
+                                               Visibility="{Binding GlassRow.IsFromStock, Converter={StaticResource Boolean2VisibilityConverter}}" />
+                                </StackPanel>
+                            </Border>
+                            <draws:DrawContainerUC DimensionsFillStroke="Black"
+                                                   DataContext="{Binding GlassDraw}"
+                                                   ViewBoxMaxHeight="900"
+                                                   VerticalAlignment="Top"
+                                                   Margin="20" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <!--#endregion-->
+
+        </DockPanel>
+        <!--#endregion-->
+
+        <!--#region PARTS BILL OF MATERIALS ITEMS CONTROL -->
+        <ItemsControl ItemsSource="{Binding Parts}"
+                      Grid.Row="2">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <local:CabinBomPartCard Margin="5,5" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <!--#endregion-->
+
+    </Grid>
+</UserControl>

@@ -1,0 +1,237 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.ComponentsUC.Various.CabinsGlassMatchesUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:b="clr-namespace:BronzeFactoryApplication.Helpers.Behaviours"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels.ComponentsUCViewModels"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.Various"
+             xmlns:variousUc="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.Various"
+             xmlns:settingsUc="clr-namespace:BronzeFactoryApplication.Views.SettingsUCs"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=vm:CabinsGlassMatchesViewModel}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+        </Grid.ColumnDefinitions>
+
+        <!--#region 0.Cabins ListBox Chooser -->
+        <DockPanel Grid.Row="0"
+                    Grid.ColumnSpan="2"
+                   HorizontalAlignment="Stretch"
+                   LastChildFill="False">
+            <ListBox ItemsSource="{Binding CabinsList}"
+                     SelectedItem="{Binding SelectedCabinVm, Mode=TwoWay}"
+                     DockPanel.Dock="Left">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel HorizontalAlignment="Center"
+                                    Margin="5">
+                            <variousUc:CabinSideImageUC DrawNumber="{Binding DrawNumber}"
+                                                        SynthesisModel="{Binding SynthesisModel}" />
+                            <TextBlock Text="{Binding .}"
+                                       HorizontalAlignment="Center"
+                                       Margin="0,5,0,0" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <!--#region Matching Settings Table -->
+            <StackPanel HorizontalAlignment="Center" DockPanel.Dock="Right">
+                <TextBlock Text="{StaticResource lngMatchingOptions}"
+                           Margin="5"
+                           Style="{StaticResource TextBlockTitle}" />
+                <settingsUc:GlassesStockSettingsUC Orientation="Horizontal"
+                                                   HorizontalAlignment="Center"
+                                                   DataContext="{Binding SelectedSettingsVm}" />
+                <Button Content="{StaticResource lngMatchGlasses }"
+                        Margin="10"
+                        Foreground="{DynamicResource SecondaryBrush}"
+                        Command="{Binding RedoGlassMatchingCommand}" />
+            </StackPanel>
+            <!--#endregion-->
+        </DockPanel>
+        <!--#endregion-->
+
+        <!--#region 1.Glasses DataGrid -->
+        <StackPanel Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="10">
+            <TextBlock HorizontalAlignment="Center"
+                       Text="{StaticResource lngGlasses}"
+                       Style="{StaticResource CHeaderTextBlock}" />
+            <DataGrid x:Name="GlassesDataGrid"
+                      Margin="5"
+                      ItemsSource="{Binding SelectedCabinVmGlasses}"
+                      SelectedItem="{Binding SelectedGlass}"
+                      Style="{StaticResource CDataGridSmall}"
+                      MaxHeight="250"
+                      VerticalAlignment="Top"
+                      SelectionMode="Single"
+                      HorizontalAlignment="Center"
+                      CellStyle="{StaticResource CCenteredDatagridCell}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="{StaticResource lngInformation}"
+                                        Binding="{Binding Converter={StaticResource GlassToStringConverter}, Path=.}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+        <!--#endregion-->
+
+
+
+        <!--#region 1.New Cabins ListBox -->
+        <StackPanel Grid.Row="2"
+                    Grid.Column="0"
+                    Margin="10">
+            <TextBlock HorizontalAlignment="Center"
+                       Text="{StaticResource lngModifiedCabins}"
+                       Style="{StaticResource CHeaderTextBlock}" />
+            <ListBox Grid.Row="2"
+                     ItemsSource="{Binding SwappedCabinsList}"
+                     HorizontalAlignment="Center">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel HorizontalAlignment="Center"
+                                    Orientation="Horizontal">
+                            <variousUc:CabinSideImageUC DrawNumber="{Binding IsPartOfDraw}"
+                                                        SynthesisModel="{Binding SynthesisModel}"
+                                                        ImageHeight="70" />
+                            <TextBlock Text="{Binding .}"
+                                       Margin="5,0"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center" />
+                            <ListBox ItemsSource="{Binding Glasses}"
+                                     Margin="5"
+                                     SelectedItem="{x:Null}"
+                                     IsHitTestVisible="False"
+                                     VerticalAlignment="Center">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Converter={StaticResource GlassToStringConverter}, Path=.}"
+                                                       Margin="0,5,0,0" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
+        <!--#endregion-->
+
+        <!--#region 3.Matches DataGrid -->
+        <StackPanel Grid.Row="1"
+                    Grid.RowSpan="2"
+                    Grid.Column="1"
+                    Margin="10">
+            <TextBlock HorizontalAlignment="Center"
+                       Text="{StaticResource lngGlassMatches}"
+                       Style="{StaticResource CHeaderTextBlock}" />
+            <DataGrid x:Name="MatchesDataGrid"
+                      Margin="5"
+                      ItemsSource="{Binding SelectedMatch.MatchedGlasses}"
+                      SelectedItem="{Binding SelectedStock}"
+                      Style="{StaticResource CDataGridSmall}"
+                      Height="500"
+                      VerticalAlignment="Top"
+                      SelectionMode="Single"
+                      HorizontalAlignment="Center"
+                      CellStyle="{StaticResource CCenteredDatagridCell}">
+                <DataGrid.Columns>
+                    <!--#region A.Draw Column -->
+                    <DataGridTextColumn Header="{StaticResource lngDraw}"
+                                        Binding="{Binding Glass.Draw, Converter={StaticResource languageConverter}}" />
+                    <!--#endregion-->
+
+                    <!--#region B.Length Column -->
+                    <DataGridTextColumn Header="{StaticResource lngLength}"
+                                        Binding="{Binding Glass.Length}" />
+                    <!--#endregion-->
+
+                    <!--#region C.Height Column -->
+                    <DataGridTextColumn Header="{StaticResource lngHeight}"
+                                        Binding="{Binding Glass.Height}" />
+                    <!--#endregion-->
+
+                    <!--#region D.Glass Thickness Column -->
+                    <DataGridTextColumn Header="{StaticResource lngThickness}"
+                                        Binding="{Binding Glass.Thickness, Converter={StaticResource languageConverter}}" />
+                    <!--#endregion-->
+
+                    <!--#region E.Glass Thickness Column -->
+                    <DataGridTextColumn Header="{StaticResource lngGlassFinish}"
+                                        Binding="{Binding Glass.Finish, Converter={StaticResource languageConverter}}" />
+                    <!--#endregion-->
+
+                    <!--#region F.Has Step Column -->
+                    <DataGridCheckBoxColumn HeaderTemplate="{StaticResource DatagridStepCutHeaderTemplate}"
+                                            Binding="{Binding Glass.HasStep ,Mode=OneWay}" />
+                    <!--#endregion-->
+
+                    <!--#region G.Notes Column -->
+                    <DataGridTemplateColumn HeaderTemplate="{StaticResource DatagridNotesHeaderTemplate}">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <cc:Icon ToolTip="{Binding Notes}"
+                                         ToolTipService.ShowOnDisabled="False"
+                                         ToolTipService.Placement="Top"
+                                         ToolTipService.HorizontalOffset="0"
+                                         ToolTipService.BetweenShowDelay="0">
+                                    <cc:Icon.Style>
+                                        <Style TargetType="cc:Icon"
+                                               BasedOn="{StaticResource CInfoTooltipIcon}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Notes}"
+                                                             Value="">
+                                                    <Setter Property="Opacity"
+                                                            Value="0.3" />
+                                                    <Setter Property="IsEnabled"
+                                                            Value="False" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </cc:Icon.Style>
+                                </cc:Icon>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <!--#endregion-->
+
+                    <!--#region H.Swap Button Column -->
+                    <DataGridTemplateColumn Header="{StaticResource SwapCommand}">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button hc:IconElement.Geometry="{StaticResource ImportGeometry}"
+                                        Foreground="{DynamicResource SecondaryBrush}"
+                                        Style="{StaticResource ButtonIcon}"
+                                        ToolTip="Swap This Glass"
+                                        Command="{Binding RelativeSource={RelativeSource AncestorType=DataGrid}, Path=DataContext.SwapGlassCommand}"
+                                        CommandParameter="{Binding .}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <!--#endregion-->
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+        <!--#endregion-->
+
+    </Grid>
+</UserControl>

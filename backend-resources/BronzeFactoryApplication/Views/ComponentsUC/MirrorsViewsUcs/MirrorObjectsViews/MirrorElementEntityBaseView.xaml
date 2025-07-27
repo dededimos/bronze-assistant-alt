@@ -1,0 +1,237 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.MirrorObjectsViews.MirrorElementEntityBaseView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.MirrorObjectsViews"
+             mc:Ignorable="d"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:vwElements="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.MirrorObjectsViews"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:vw="clr-namespace:BronzeFactoryApplication.Views.HelperViews"
+             xmlns:vmEntities="clr-namespace:BronzeFactoryApplication.ViewModels.MirrorsViewModels.EntitiesViewModels"
+             xmlns:photoSizeEnum="clr-namespace:AzureBlobStorageLibrary;assembly=AzureBlobStorageLibrary"
+             xmlns:templateSelectors="clr-namespace:BronzeFactoryApplication.Helpers.TemplateSelectors"
+             d:DataContext="{d:DesignInstance Type=vmEntities:CustomMirrorElementEntityEditorViewModel}">
+    <UserControl.Resources>
+        <templateSelectors:MirrorElementTraitEntityTemplateSelector x:Key="mirrorElementTraitEntityTemplateSelector" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Border BorderBrush="{DynamicResource SecondaryBorderBrush}"
+                BorderThickness="0,0,0,1"
+                Padding="0,0,0,15"
+                Grid.Row="0"
+                VerticalAlignment="Top">
+            <hc:UniformSpacingPanel HorizontalSpacing="30"
+                                    ChildWrapping="Wrap"
+                                    ItemVerticalAlignment="Center">
+                <hc:UniformSpacingPanel HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        ItemHorizontalAlignment="Left"
+                                        Orientation="Vertical"
+                                        Spacing="10">
+                    <DockPanel HorizontalAlignment="Stretch">
+                        <vw:TasTextBox Text="{Binding Code, Mode=TwoWay}"
+                                       TextBoxTitle="{StaticResource lngCode}"
+                                       IconTooltip="{StaticResource lngCode}"
+                                       MaxLength="20"
+                                       Width="140"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Center" 
+                                       DockPanel.Dock="Left"/>
+                        <vw:TasTextBox Text="{Binding ShortCode, Mode=TwoWay}"
+                                       TextBoxTitle="{StaticResource lngShortCode}"
+                                       IconTooltip="{StaticResource lngShortCode}"
+                                       MaxLength="10"
+                                       Width="110"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Center"
+                                       DockPanel.Dock="Left"
+                                       Margin="10,0" />
+                        <vw:TasTextBox Text="{Binding MinimalCode, Mode=TwoWay}"
+                                       TextBoxTitle="{StaticResource lngMinimalCode}"
+                                       IconTooltip="{StaticResource lngMinimalCode}"
+                                       MaxLength="5"
+                                       Width="100"
+                                       HorizontalAlignment="Right"
+                                       VerticalAlignment="Center"
+                                       DockPanel.Dock="Right" />
+                        <!--<CheckBox Content="{StaticResource lngIsOverriddenElement}"
+                                  ToolTip="{StaticResource lngIsOverriddenElementTooltip}"
+                                  IsChecked="{Binding IsOverriddenElement}"
+                                  Margin="25,20,0,0" 
+                                  DockPanel.Dock="Right"
+                                  HorizontalAlignment="Right"/>-->
+                    </DockPanel>
+                    <vw:TasLocalizedStringView LocalizedString="{Binding Name}"
+                                               EditCommand="{Binding EditLocalizedStringCommand}"
+                                               CommandParameter="{Binding Name}"
+                                               PropertyName="{StaticResource lngName}"
+                                               Style="{StaticResource DescriptionInfoLocalziedStringViewStyle}" />
+                    <vw:TasLocalizedStringView LocalizedString="{Binding Description}"
+                                               EditCommand="{Binding EditLocalizedStringCommand}"
+                                               CommandParameter="{Binding Description}"
+                                               PropertyName="{StaticResource lngDescription}"
+                                               Style="{StaticResource DescriptionInfoLocalziedStringViewStyle}" />
+                    <vw:TasLocalizedStringView LocalizedString="{Binding ExtendedDescription}"
+                                               EditCommand="{Binding EditLocalizedStringCommand}"
+                                               CommandParameter="{Binding ExtendedDescription}"
+                                               PropertyName="{StaticResource lngExtendedDescription}"
+                                               Style="{StaticResource DescriptionInfoLocalziedStringViewStyle}" />
+                </hc:UniformSpacingPanel>
+                <vw:TasPhotoUpload ImageUrl="{Binding PhotoUrl,Converter={StaticResource mirrorsBlobUrlConverter}, ConverterParameter={x:Static photoSizeEnum:BlobPhotoSize.MediumSizePhoto} , FallbackValue={StaticResource DefaultNoImageStringPath}}"
+                                   ControlTitle="{StaticResource lngPhotoUrl1}" />
+                <vw:TasPhotoUpload ImageUrl="{Binding PhotoUrl2,Converter={StaticResource mirrorsBlobUrlConverter}, ConverterParameter={x:Static photoSizeEnum:BlobPhotoSize.MediumSizePhoto} , FallbackValue={StaticResource DefaultNoImageStringPath}}"
+                                   ControlTitle="{StaticResource lngPhotoUrl2}" />
+                <vw:TasPhotoUpload ImageUrl="{Binding IconUrl,Converter={StaticResource mirrorsBlobUrlConverter}, ConverterParameter={x:Static photoSizeEnum:BlobPhotoSize.FullSizePhoto} , FallbackValue={StaticResource DefaultNoImageStringPath}}"
+                                   ControlTitle="{StaticResource lngIconUrl}" />
+            </hc:UniformSpacingPanel>
+        </Border>
+        <ContentControl Content="{Binding .}"
+                        ContentTemplateSelector="{StaticResource mirrorElementTraitEntityTemplateSelector}"
+                        Margin="0,10"
+                        Grid.Row="1">
+            <ContentControl.Resources>
+                <!--Datatype here only for type safety reasons because base class is generic and cannot accept it here 
+                    The Template selector is what chooses the Datatemplate here anyways -->
+                <DataTemplate x:Key="MirrorElementTraitEntityTemplate"
+                              DataType="{x:Type vmEntities:MirrorCustomTraitEntityEditorViewModel}">
+                    <DataTemplate.Resources>
+                        <Style TargetType="Button"
+                               BasedOn="{StaticResource ButtonIconCircular.Small}"
+                               x:Key="AddItemButton">
+                            <Setter Property="VerticalAlignment"
+                                    Value="Bottom" />
+                            <Setter Property="ToolTip"
+                                    Value="{StaticResource lngAdd}" />
+                            <Setter Property="Foreground"
+                                    Value="{DynamicResource SuccessBrush}" />
+                            <Setter Property="hc:IconElement.Geometry"
+                                    Value="{StaticResource AddGeometry}" />
+                            <Setter Property="DockPanel.Dock"
+                                    Value="Right" />
+                            <Setter Property="Margin"
+                                    Value="8,0,0,3" />
+                            <Setter Property="HorizontalAlignment"
+                                    Value="Left" />
+                        </Style>
+                    </DataTemplate.Resources>
+                    <DockPanel>
+                        <!--#region Target Elements -->
+                        <hc:UniformSpacingPanel Spacing="10"
+                                                Orientation="Vertical"
+                                                Width="400">
+                            <!--#region Add ComboBox -->
+                            <DockPanel>
+                                <vw:TasComboBox ComboBoxTitle="{StaticResource lngTargetElementToAdd}"
+                                                IconToolTip="{StaticResource lngTargetElementToAddTooltip}"
+                                                ItemsSource="{Binding SelectableElements}"
+                                                SelectedItem="{Binding SelectedElementToAdd}"
+                                                DropDownElementConsistentWidth="False"
+                                                Width="360">
+                                    <vw:TasComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding Code}"
+                                                           Width="145" />
+                                                <TextBlock Text=" : " />
+                                                <TextBlock Text="{Binding LocalizedDescriptionInfo.Name,Converter={StaticResource LocalizedStringMinifiedConverter},ConverterParameter='30'}"
+                                                           HorizontalAlignment="Left" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </vw:TasComboBox.ItemTemplate>
+                                </vw:TasComboBox>
+                                <Button Command="{Binding AddSelectedElementCommand}"
+                                        Style="{StaticResource AddItemButton}" />
+                            </DockPanel>
+                            <!--#endregion-->
+                            <!--#region ListBox -->
+                            <vw:TasListBox ListBoxTitle="{StaticResource lngTargetElements}"
+                                           IconTooltip="{StaticResource lngTargetElementsTooltip}"
+                                           ItemsSource="{Binding TargetElements}">
+                                <vw:TasListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <DockPanel LastChildFill="True">
+                                            <Button Style="{StaticResource ButtonIconCircular.Small}"
+                                                    Foreground="{DynamicResource DangerBrush}"
+                                                    hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
+                                                    hc:IconElement.Height="8"
+                                                    BorderBrush="{DynamicResource DangerBrush}"
+                                                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor} , Path=DataContext.RemoveTargetElementCommand}"
+                                                    CommandParameter="{Binding .}" />
+                                            <TextBlock Text="{Binding Code}"
+                                                       VerticalAlignment="Center"
+                                                       TextAlignment="Center"
+                                                       Margin="10,0"
+                                                       Width="150" />
+                                            <TextBlock Text="{Binding LocalizedDescriptionInfo.Name,Converter={StaticResource LocalizedStringMinifiedConverter},ConverterParameter='30'}"
+                                                       VerticalAlignment="Center"
+                                                       TextAlignment="Center"
+                                                       TextTrimming="CharacterEllipsis"
+                                                       Margin="10,0"
+                                                       Width="150" />
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </vw:TasListBox.ItemTemplate>
+                            </vw:TasListBox>
+                            <!--#endregion-->
+                        </hc:UniformSpacingPanel>
+                        <!--#endregion-->
+                        <!--#region Target Types -->
+                        <hc:UniformSpacingPanel Spacing="10"
+                                                Margin="10,0"
+                                                Orientation="Vertical"
+                                                Width="400"
+                                                HorizontalAlignment="Left">
+                            <!--#region Add ComboBox -->
+                            <DockPanel>
+                                <vw:TasComboBox ComboBoxTitle="{StaticResource lngTargetTypeToAdd}"
+                                                IconToolTip="{StaticResource lngTargetTypeToAddTooltip}"
+                                                ItemsSource="{Binding SelectableTypes}"
+                                                SelectedItem="{Binding SelectedTypeToAdd}"
+                                                DropDownElementConsistentWidth="False"
+                                                Width="360">
+                                </vw:TasComboBox>
+                                <Button Command="{Binding AddSelectedTypeCommand}"
+                                        Style="{StaticResource AddItemButton}" />
+                            </DockPanel>
+                            <!--#endregion-->
+                            <!--#region ListBox -->
+                            <vw:TasListBox ListBoxTitle="{StaticResource lngTargetTypes}"
+                                           IconTooltip="{StaticResource lngTargetTypesTooltip}"
+                                           ItemsSource="{Binding TargetTypes}">
+                                <vw:TasListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <DockPanel LastChildFill="True">
+                                            <Button Style="{StaticResource ButtonIconCircular.Small}"
+                                                    Foreground="{DynamicResource DangerBrush}"
+                                                    hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
+                                                    hc:IconElement.Height="8"
+                                                    BorderBrush="{DynamicResource DangerBrush}"
+                                                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor} , Path=DataContext.RemoveTargetTypeCommand}"
+                                                    CommandParameter="{Binding .}" />
+                                            <TextBlock Text="{Binding .}"
+                                                       VerticalAlignment="Center"
+                                                       TextAlignment="Center"
+                                                       Margin="10,0"
+                                                       Width="150" />
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </vw:TasListBox.ItemTemplate>
+                            </vw:TasListBox>
+                            <!--#endregion-->
+                        </hc:UniformSpacingPanel>
+                        <!--#endregion-->
+                    </DockPanel>
+                </DataTemplate>
+            </ContentControl.Resources>
+        </ContentControl>
+    </Grid>
+</UserControl>

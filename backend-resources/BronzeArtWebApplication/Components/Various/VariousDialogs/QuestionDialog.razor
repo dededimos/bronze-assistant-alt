@@ -1,0 +1,43 @@
+﻿@using BronzeArtWebApplication.Shared.Services;
+
+<MudDialog>
+    <DialogContent>
+        <div class="d-flex flex-column justify-center align-start">
+            @foreach (var textLine in Question.Split(Environment.NewLine, StringSplitOptions.None))
+            {
+                <span>@(string.IsNullOrEmpty(textLine) ? " " : textLine)</span>
+            }
+        </div>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Variant="@(Variant.Outlined)"
+                   Color="@(Color.Primary)"
+                   Style="text-transform:none"
+                   Class="ma-4"
+                   OnClick="@(()=> CloseDialog(MessageResult.Ok))">
+            @(OkButtonText)
+        </MudButton>
+        <MudButton Variant="@(Variant.Outlined)"
+                   Color="@(Color.Primary)"
+                   Style="text-transform:none"
+                   Class="ma-4"
+                   OnClick="@(()=> CloseDialog(MessageResult.Cancel))">
+            @(CancelButtonText)
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+
+@code {
+    [CascadingParameter]
+    public IMudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public string Question { get; set; } = "??";
+    [Parameter]
+    public string OkButtonText { get; set; } = "Ok";
+    [Parameter]
+    public string CancelButtonText { get; set; } = "Cancel";
+    
+    void CloseDialog(MessageResult result) => MudDialog.Close(result);
+}

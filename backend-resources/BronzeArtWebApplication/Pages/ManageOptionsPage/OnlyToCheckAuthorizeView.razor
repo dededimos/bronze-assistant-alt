@@ -1,0 +1,45 @@
+﻿@*A Page to Manage Various Options of the Application*@
+@* @attribute [Authorize(Roles = "Admin,SiteManager")] *@
+@*To Edit Properties
+<AccessoryPropertyDialog @bind-IsVisible="@(isPropertiesDialogVisible)"
+                         PropertyToEdit="@(PropertyToEdit)"
+                         OnClose="@(async() => await GetAccessoriesProperties(true))" />*@
+
+@*To Insert Accessories
+<AccessoryEditDialog @bind-IsVisible="@(isAccessoryEditDialogVisible)"
+                     AccessoryToEdit="@(AccessoryToEdit)"
+                     BackUpAccessoryToEdit="@(BackupOfAccessoryToEdit)"
+                     OnDialogClose="@(async()=> await GetAccessories(true) )"
+                     OnAccessoryPropertyAddClick="@((propertyType)=> HandleEditPropertySelectionFromDialog(propertyType))" />*@
+
+  
+    @*Backup
+    <AuthorizeView Roles="Admin">
+        <Authorized>
+            <MudMenu FullWidth="true"
+                     MaxHeight="250"
+                     AnchorOrigin="@(Origin.BottomLeft)"
+                     TransformOrigin="@(Origin.BottomLeft)"
+                     PopoverClass="mud-theme-dark"
+                     Class="ma-1">
+                <ActivatorContent>
+                    <MudButton Style="text-transform:none;width:150px"
+                               StartIcon="@(Icons.Material.Filled.Backup)"
+                               EndIcon="@(Icons.Material.Filled.KeyboardArrowDown)"
+                               Color="@(Color.Info)"
+                               Variant="@(Variant.Filled)">
+                               Backup
+                    </MudButton>
+                </ActivatorContent>
+                <ChildContent>
+                    <MudMenuItem OnClick="@(()=> DownloadBackUp())">1.Backup Locally</MudMenuItem>
+                    <MudDivider />
+                    <MudMenuItem OnClick="@(()=> {return;})">2.Backup To Blob</MudMenuItem>
+                    <MudDivider />
+                </ChildContent>
+            </MudMenu>
+        </Authorized>
+    </AuthorizeView>*@
+
+
+

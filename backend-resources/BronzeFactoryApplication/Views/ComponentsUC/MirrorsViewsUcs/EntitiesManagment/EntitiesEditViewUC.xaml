@@ -1,0 +1,447 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.EntitiesManagment.EntitiesEditViewUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.EntitiesManagment"
+             xmlns:vmBase="clr-namespace:BronzeFactoryApplication.ViewModels.HelperViewModels"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels.MirrorsViewModels"
+             xmlns:vmEntities="clr-namespace:BronzeFactoryApplication.ViewModels.MirrorsViewModels.EntitiesViewModels"
+             xmlns:vw="clr-namespace:BronzeFactoryApplication.Views.HelperViews"
+             xmlns:vwDraw="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.DrawsRelevantUcs"
+             xmlns:vwElements="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.MirrorObjectsViews"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:globalCommands="clr-namespace:BronzeFactoryApplication.Helpers"
+             xmlns:EnumSource="clr-namespace:BronzeFactoryApplication.Helpers.MarkupExtensions"
+             xmlns:mirrorEnum="clr-namespace:MirrorsLib.Enums;assembly=MirrorsLib"
+             xmlns:commonEntities="clr-namespace:MongoDbCommonLibrary.CommonEntities;assembly=MongoDbCommonLibrary"
+             xmlns:templateSelectors="clr-namespace:BronzeFactoryApplication.Helpers.TemplateSelectors"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=vmBase:MongoEntityBaseUndoEditorViewModel}">
+
+    <UserControl.Resources>
+        <templateSelectors:MirrorElementEntityTemplateSelector x:Key="mirrorElementEntityTemplateSelector" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!--#region 1.Base Entity Properties -->
+
+        <Border BorderBrush="{DynamicResource SecondaryBorderBrush}"
+                BorderThickness="0,0,0,1"
+                Grid.Row="0"
+                VerticalAlignment="Top">
+            <DockPanel>
+                <DockPanel DockPanel.Dock="Left"
+                           VerticalAlignment="Center"
+                           LastChildFill="False">
+                    <vw:TasTextBox Text="{Binding BaseEntity.Id, Mode=OneWay}"
+                                   d:Text="Id"
+                                   TextBoxTitle="{StaticResource lngDatabaseId}"
+                                   IconTooltip="{StaticResource lngDatabaseIdTooltip}"
+                                   IsReadOnly="True"
+                                   DockPanel.Dock="Left"
+                                   Width="250"
+                                   TextBoxBackground="{DynamicResource OddEvenRegionBrush}"
+                                   TextBoxForeground="{DynamicResource SecondaryTextBrush}" />
+                    <Button Command="{x:Static globalCommands:GlobalCommands.CopyToClipboardCommand}"
+                            CommandParameter="{Binding BaseEntity.Id}"
+                            VerticalAlignment="Bottom"
+                            BorderBrush="Transparent"
+                            hc:IconElement.Geometry="{StaticResource CopyToClipboardGeometry}"
+                            ToolTip="{StaticResource lngCopyToClipboard}"
+                            hc:IconElement.Height="12"
+                            Foreground="{DynamicResource SecondaryBrush}"
+                            Padding="0"
+                            Margin="2,0,20,0"
+                            Background="Transparent"
+                            DockPanel.Dock="Right" />
+                </DockPanel>
+                <vw:TasTextBox Text="{Binding BaseEntity.Created,Mode=OneWay,StringFormat='dd-MM-yyyy'}"
+                               IsReadOnly="True"
+                               Margin="20,0"
+                               VerticalAlignment="Center"
+                               TextBoxTitle="{StaticResource lngCreationDate}"
+                               IconTooltip="{StaticResource lngCreationDateTooltip}"
+                               TextBoxBackground="{DynamicResource OddEvenRegionBrush}"
+                               TextBoxForeground="{DynamicResource SecondaryTextBrush}"
+                               d:Text="15/05/1990" />
+                <vw:TasTextBox Text="{Binding BaseEntity.LastModified,Mode=OneWay,StringFormat='dd-MM-yyyy'}"
+                               IsReadOnly="True"
+                               Margin="20,0"
+                               VerticalAlignment="Center"
+                               TextBoxTitle="{StaticResource lngLastModifiedDate}"
+                               IconTooltip="{StaticResource lngLastModifiedDateTooltip}"
+                               d:Text="15/05/1990"
+                               TextBoxBackground="{DynamicResource OddEvenRegionBrush}"
+                               TextBoxForeground="{DynamicResource SecondaryTextBrush}" />
+                <DockPanel>
+                    <TextBlock Text="{StaticResource lngNotes}"
+                               FontSize="12"
+                               Margin="5,0,0,5"
+                               DockPanel.Dock="Top">
+                    </TextBlock>
+                    <hc:TextBox MaxLength="2000"
+                                HorizontalAlignment="Stretch"
+                                Width="auto"
+                                Height="50"
+                                Padding="5"
+                                Margin="0,0,0,10"
+                                hc:InfoElement.Placeholder="Notes"
+                                hc:InfoElement.ShowClearButton="True"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                TextAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                FontSize="12"
+                                TextWrapping="Wrap"
+                                AcceptsReturn="True"
+                                d:Text="Test Notes"
+                                Text="{Binding BaseEntity.Notes}">
+                    </hc:TextBox>
+                </DockPanel>
+            </DockPanel>
+        </Border>
+        <!--#endregion-->
+
+        <!--#region 2. MirrorElementEntity Properties -->
+        <ContentControl Content="{Binding .}"
+                        Grid.Row="1"
+                        ContentTemplateSelector="{StaticResource mirrorElementEntityTemplateSelector}">
+            <ContentControl.Resources>
+                <DataTemplate x:Key="MirrorElementEntityTemplate">
+                    <vwElements:MirrorElementEntityBaseView Margin="0,10" />
+                </DataTemplate>
+            </ContentControl.Resources>
+        </ContentControl>
+        <!--1.Define the Template Selector and the Datatemplate it selects here (They will not be used elsewhere)
+            2.Set the Desing instance as the Dummy Custom Mirror Element to have type safety for the binded properties-->
+        <!--#endregion-->
+
+        <!--#region 3.Specific Info -->
+        <ScrollViewer Grid.Row="2">
+            <ContentControl Content="{Binding .}">
+                <ContentControl.Resources>
+
+                    <!--#region Constraints -->
+                    <DataTemplate DataType="{x:Type vmEntities:MirrorConstraintsEntityEditorViewModel}">
+                        <vwElements:MirrorConstraintsViewUC DataContext="{Binding Constraints}"
+                                                            VerticalAlignment="Top"
+                                                            Height="auto" />
+                    </DataTemplate>
+                    <!--#endregion-->
+
+                    <!--#region Sandblast -->
+                    <DataTemplate DataType="{x:Type vmEntities:MirrorSandblastEntityEditorViewModel}">
+                        <StackPanel>
+                            <vw:TasComboBox ComboBoxTitle="{StaticResource lngSandblastType}"
+                                            IconToolTip="{StaticResource lngSandblastType}"
+                                            ItemsSource="{Binding Source={EnumSource:BindingSourceEnumValuesNoZero {x:Type mirrorEnum:MirrorSandblastType}}}"
+                                            SelectedItem="{Binding SandblastType ,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                            HorizontalAlignment="Center">
+                                <vw:TasComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding . ,Converter={StaticResource languageConverter}}" />
+                                    </DataTemplate>
+                                </vw:TasComboBox.ItemTemplate>
+                            </vw:TasComboBox>
+                            <vwElements:SandblastInfoViewUC DataContext="{Binding Sandblast}"
+                                                            VerticalAlignment="Top"
+                                                            Height="auto"
+                                                            Margin="0,10,0,0" />
+                        </StackPanel>
+                    </DataTemplate>
+                    <!--#endregion-->
+
+                    <!--#region Supports -->
+                    <DataTemplate DataType="{x:Type vmEntities:MirrorSupportEntityEditorViewModel}">
+                        <ScrollViewer>
+                            <StackPanel>
+                                <DockPanel HorizontalAlignment="Center">
+                                    <!--#region Support Type -->
+                                    <vw:TasComboBox ComboBoxTitle="{StaticResource lngSupportType}"
+                                                    IconToolTip="{StaticResource lngSupportTypeTooltip}"
+                                                    ItemsSource="{Binding Source={EnumSource:BindingSourceEnumValuesNoZero {x:Type mirrorEnum:MirrorSupportType}}}"
+                                                    SelectedItem="{Binding SupportType ,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                                    Margin="0,0,10,0">
+                                        <vw:TasComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding . ,Converter={StaticResource languageConverter}}" />
+                                            </DataTemplate>
+                                        </vw:TasComboBox.ItemTemplate>
+                                    </vw:TasComboBox>
+                                    <!--#endregion-->
+                                    <!--#region Default Finish -->
+                                    <vw:TasComboBox ComboBoxTitle="{StaticResource lngDefaultMirrorFinishElement}"
+                                                    IconToolTip="{StaticResource lngDefaultMirrorFinishElementTooltip}"
+                                                    ItemTemplate="{StaticResource MirrorElementFinishComboBoxItemDataTemplate}"
+                                                    SelectedItem="{Binding SelectedDefaultFinish,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                                    SelectedValue="{Binding SelectedDefaultFinish.ElementId,Mode=OneWay}"
+                                                    SelectedValuePath="ElementId"
+                                                    ItemsSource="{Binding SelectableFinishes, UpdateSourceTrigger=PropertyChanged , Mode=OneWay}"
+                                                    DropDownElementConsistentWidth="False">
+                                        <vw:TasComboBox.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <VirtualizingStackPanel Grid.IsSharedSizeScope="True" />
+                                            </ItemsPanelTemplate>
+                                        </vw:TasComboBox.ItemsPanel>
+                                    </vw:TasComboBox>
+                                    <!--#endregion-->
+                                    <hc:UniformSpacingPanel Spacing="10"
+                                                            Margin="10,0"
+                                                            Orientation="Vertical"
+                                                            Width="400"
+                                                            HorizontalAlignment="Left">
+                                        <hc:UniformSpacingPanel.Resources>
+                                            <Style TargetType="Button"
+                                                   BasedOn="{StaticResource ButtonIconCircular.Small}"
+                                                   x:Key="AddItemButton">
+                                                <Setter Property="VerticalAlignment"
+                                                        Value="Bottom" />
+                                                <Setter Property="ToolTip"
+                                                        Value="{StaticResource lngAdd}" />
+                                                <Setter Property="Foreground"
+                                                        Value="{DynamicResource SuccessBrush}" />
+                                                <Setter Property="hc:IconElement.Geometry"
+                                                        Value="{StaticResource AddGeometry}" />
+                                                <Setter Property="DockPanel.Dock"
+                                                        Value="Right" />
+                                                <Setter Property="Margin"
+                                                        Value="8,0,0,3" />
+                                                <Setter Property="HorizontalAlignment"
+                                                        Value="Left" />
+                                            </Style>
+                                        </hc:UniformSpacingPanel.Resources>
+                                        <!--#region Add ComboBox -->
+                                        <DockPanel>
+                                            <vw:TasComboBox ComboBoxTitle="{StaticResource lngMirrorFinishElementToAdd}"
+                                                            IconToolTip="{StaticResource lngMirrorFinishElementToAddTooltip}"
+                                                            ItemsSource="{Binding SelectableAllowedFinishes}"
+                                                            SelectedItem="{Binding SelectedAllowedFinishToAdd}"
+                                                            DropDownElementConsistentWidth="False"
+                                                            ItemTemplate="{StaticResource MirrorElementFinishComboBoxItemDataTemplate}"
+                                                            Width="360">
+                                                <vw:TasComboBox.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <VirtualizingStackPanel Grid.IsSharedSizeScope="True" />
+                                                    </ItemsPanelTemplate>
+                                                </vw:TasComboBox.ItemsPanel>
+                                            </vw:TasComboBox>
+                                            <Button Command="{Binding AddAllowedFinishCommand}"
+                                                    Style="{StaticResource AddItemButton}" />
+                                        </DockPanel>
+                                        <!--#endregion-->
+                                        <!--#region ListBox -->
+                                        <vw:TasListBox ListBoxTitle="{StaticResource lngAllowedMirrorFinishElements}"
+                                                       IconTooltip="{StaticResource lngAllowedMirrorFinishElementsTooltip}"
+                                                       ItemsSource="{Binding AllowedFinishes}"
+                                                       MaxHeight="100">
+                                            <vw:TasListBox.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <VirtualizingStackPanel Grid.IsSharedSizeScope="True" />
+                                                </ItemsPanelTemplate>
+                                            </vw:TasListBox.ItemsPanel>
+                                            <vw:TasListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid HorizontalAlignment="Left">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition SharedSizeGroup="RemoveGroup" />
+                                                            <ColumnDefinition SharedSizeGroup="CodeGroup" />
+                                                            <ColumnDefinition />
+                                                            <ColumnDefinition SharedSizeGroup="DescriptionGroup" />
+                                                            <ColumnDefinition SharedSizeGroup="ColorGroup" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <Button Style="{StaticResource ButtonIconCircular.Small}"
+                                                                Foreground="{DynamicResource DangerBrush}"
+                                                                hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
+                                                                hc:IconElement.Height="8"
+                                                                BorderBrush="{DynamicResource DangerBrush}"
+                                                                Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor} , Path=DataContext.RemoveAllowedFinishCommand}"
+                                                                CommandParameter="{Binding .}"
+                                                                Grid.Column="0"
+                                                                Margin="0,0,10,0" />
+                                                        <TextBlock Text="{Binding Code}"
+                                                                   Grid.Column="1"
+                                                                   VerticalAlignment="Center" />
+                                                        <TextBlock Text=":"
+                                                                   Margin="20,0"
+                                                                   Grid.Column="2"
+                                                                   VerticalAlignment="Center" />
+                                                        <TextBlock Text="{Binding LocalizedDescriptionInfo.Name,Converter={StaticResource LocalizedStringMinifiedConverter},ConverterParameter='30'}"
+                                                                   Grid.Column="3"
+                                                                   VerticalAlignment="Center" />
+                                                        <Rectangle Width="60"
+                                                                   Height="15"
+                                                                   RadiusX="7"
+                                                                   RadiusY="7"
+                                                                   Grid.Column="4"
+                                                                   Fill="{Binding FinishColorBrush ,Converter={StaticResource drawBrushToBrushConverter}}"
+                                                                   Margin="20,0" />
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </vw:TasListBox.ItemTemplate>
+                                        </vw:TasListBox>
+                                        <!--#endregion-->
+                                    </hc:UniformSpacingPanel>
+                                </DockPanel>
+                                <vwElements:MirrorSupportInfoViewUC DataContext="{Binding Support}"
+                                                                    VerticalAlignment="Top"
+                                                                    Height="auto"
+                                                                    Margin="0,10,0,0" />
+                            </StackPanel>
+                        </ScrollViewer>
+                    </DataTemplate>
+                    <!--#endregion-->
+
+                    <!--#region Modules -->
+                    <DataTemplate DataType="{x:Type vmEntities:MirrorModuleEntityEditorViewModel}">
+                        <DockPanel HorizontalAlignment="Stretch">
+                            <vw:TasComboBox ComboBoxTitle="{StaticResource lngMirrorModuleType}"
+                                            IconToolTip="{StaticResource lngMirrorModuleType}"
+                                            ItemsSource="{Binding Source={EnumSource:BindingSourceEnumValuesNoZero {x:Type mirrorEnum:MirrorModuleType}}}"
+                                            SelectedItem="{Binding ModuleType ,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                            HorizontalAlignment="Center"
+                                            DockPanel.Dock="Top">
+                                <vw:TasComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding . ,Converter={StaticResource languageConverter}}" />
+                                    </DataTemplate>
+                                </vw:TasComboBox.ItemTemplate>
+                            </vw:TasComboBox>
+                            <vwElements:MirrorModuleInfoViewUC DataContext="{Binding Module}"
+                                                               VerticalAlignment="Top"
+                                                               Height="auto"
+                                                               Margin="0,10,0,0" />
+                        </DockPanel>
+                    </DataTemplate>
+                    <!--#endregion-->
+
+                    <!--#region Positions -->
+                    <DataTemplate DataType="{x:Type vmEntities:MirrorElementPositionEntityEditorViewModel}">
+                        <DockPanel HorizontalAlignment="Stretch">
+                            <vw:TasComboBox ComboBoxTitle="{StaticResource lngInstructionsType}"
+                                            IconToolTip="{StaticResource lngInstructionsTypeTooltip}"
+                                            ItemsSource="{Binding Source={EnumSource:BindingSourceEnumValuesNoZero {x:Type mirrorEnum:PositionInstructionsType}}}"
+                                            SelectedItem="{Binding InstructionsType ,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                            HorizontalAlignment="Center"
+                                            DockPanel.Dock="Top">
+                                <vw:TasComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding . ,Converter={StaticResource languageConverter}}" />
+                                    </DataTemplate>
+                                </vw:TasComboBox.ItemTemplate>
+                            </vw:TasComboBox>
+                            <vwElements:PositionInstructionsViewUC DataContext="{Binding Instructions}"
+                                                                   VerticalAlignment="Top"
+                                                                   Height="auto"
+                                                                   Margin="0,10,0,0" />
+                        </DockPanel>
+                    </DataTemplate>
+                    <!--#endregion-->
+
+                    <!--#region Lights -->
+                    <DataTemplate DataType="{x:Type vmEntities:MirrorLightElementEntityEditorViewModel}">
+                        <vwElements:MirrorLightInfoViewUC DataContext="{Binding LightInfo}"
+                                                          VerticalAlignment="Top"
+                                                          Height="auto" />
+                    </DataTemplate>
+                    <!--#endregion-->
+
+                    <!--#region Custom Elements -->
+                    <DataTemplate DataType="{x:Type vmEntities:CustomMirrorElementEntityEditorViewModel}">
+                        <vw:TasLocalizedStringView LocalizedString="{Binding CustomElementType}"
+                                                   EditCommand="{Binding EditLocalizedStringCommand}"
+                                                   CommandParameter="{Binding CustomElementType}"
+                                                   PropertyName="{StaticResource lngCustomElementType}"
+                                                   Style="{StaticResource DescriptionInfoLocalziedStringViewStyle}"
+                                                   HorizontalAlignment="Left"
+                                                   VerticalAlignment="Top" />
+                    </DataTemplate>
+                    <!--#endregion-->
+
+                    <!--#region Mirror Finish -->
+                    <DataTemplate DataType="{x:Type vmEntities:MirrorFinishElementEntityEditorViewModel}">
+                        <ScrollViewer>
+                            <vwDraw:DrawBrushEditView DataContext="{Binding FinishBrush}"
+                                                      HorizontalAlignment="Left"
+                                                      VerticalAlignment="Top" />
+                        </ScrollViewer>
+                    </DataTemplate>
+                    <!--#endregion-->
+
+                    <!--#region Custom Trait -->
+                    <DataTemplate DataType="{x:Type vmEntities:MirrorCustomTraitEntityEditorViewModel}">
+                        <vw:TasLocalizedStringView LocalizedString="{Binding CustomTraitType}"
+                                                   EditCommand="{Binding EditLocalizedStringCommand}"
+                                                   CommandParameter="{Binding CustomTraitType}"
+                                                   PropertyName="{StaticResource lngCustomElementType}"
+                                                   Style="{StaticResource DescriptionInfoLocalziedStringViewStyle}"
+                                                   HorizontalAlignment="Left"
+                                                   VerticalAlignment="Top" />
+                    </DataTemplate>
+                    <!--#endregion-->
+
+                    <!--#region Series -->
+                    <DataTemplate DataType="{x:Type vmEntities:MirrorSeriesElementEntityEditorViewModel}">
+                        <vwElements:MirrorSeriesInfoViewUC DataContext="{Binding SeriesInfo}"
+                                                           VerticalAlignment="Top"
+                                                           Height="auto" />
+                    </DataTemplate>
+                    <!--#endregion-->
+
+                    <!--#region MirrorApplication Options -->
+                    <DataTemplate DataType="{x:Type vmEntities:MirrorApplicationOptionsEntityEditorViewModel}">
+                        <DockPanel HorizontalAlignment="Stretch"
+                                   LastChildFill="True">
+                            <hc:UniformSpacingPanel Spacing="20" DockPanel.Dock="Top" Margin="0,0,0,10">
+                                <vw:TasComboBox ComboBoxTitle="{StaticResource lngOptionsType}"
+                                                IconToolTip="{StaticResource lngOptionsType}"
+                                                ItemsSource="{Binding OptionsTypes}"
+                                                SelectedItem="{Binding SelectedOptionsType}"
+                                                HorizontalAlignment="Left"
+                                                DockPanel.Dock="Top"
+                                                DropDownElementConsistentWidth="False"
+                                                Margin="0,5">
+                                    <vw:TasComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding OptionsTranslation}" />
+                                        </DataTemplate>
+                                    </vw:TasComboBox.ItemTemplate>
+                                </vw:TasComboBox>
+                                <vw:TasComboBox ComboBoxTitle="{StaticResource lngConcerningApplication}"
+                                                IconToolTip="{StaticResource lngConcerningApplication}"
+                                                ItemsSource="{Binding Source={EnumSource:BindingSourceEnumValuesNoZero {x:Type commonEntities:BronzeApplicationType}}}"
+                                                SelectedItem="{Binding ConcerningApplication}"
+                                                HorizontalAlignment="Left"
+                                                DockPanel.Dock="Top"
+                                                DropDownElementConsistentWidth="False"
+                                                Margin="0,5">
+                                    <vw:TasComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding .,Converter={StaticResource languageConverter}}" />
+                                        </DataTemplate>
+                                    </vw:TasComboBox.ItemTemplate>
+                                </vw:TasComboBox>
+                            </hc:UniformSpacingPanel>
+                            <vwElements:MirrorApplicationOptionsViewUC DataContext="{Binding Options}"
+                                                                       VerticalAlignment="Top"
+                                                                       Height="auto"
+                                                                       DockPanel.Dock="Bottom" />
+                        </DockPanel>
+                    </DataTemplate>
+                    <!--#endregion-->
+
+                </ContentControl.Resources>
+            </ContentControl>
+        </ScrollViewer>
+        <!--#endregion-->
+
+    </Grid>
+</UserControl>

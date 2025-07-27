@@ -1,0 +1,86 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.HelperViews.TasColorPicker"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.HelperViews"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             mc:Ignorable="d"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             x:Name="Container"
+             MinWidth="200"
+             d:Height="auto">
+    <Grid VerticalAlignment="Top">
+        <StackPanel>
+            <DockPanel>
+                <cc:Icon ToolTip="{Binding ElementName=Container ,Path=IconTooltip}"
+                         Style="{StaticResource CInfoTooltipIcon}" />
+                <TextBlock x:Name="FontColorTextBlock"
+                           Style="{StaticResource CTasTitleTextBlockStyle}"
+                           Text="{Binding ElementName=Container , Path=ColorPickerTitle}"
+                           d:Text="{Binding ElementName=Container,Path=ColorPickerTitle,FallbackValue='ControlTitle'}" />
+            </DockPanel>
+            <Border Background="{DynamicResource RegionBrush}"
+                    CornerRadius="7">
+                <DockPanel>
+                    <Border Height="20"
+                            VerticalAlignment="Center"
+                            Width="90"
+                            Background="{Binding ElementName=Container , Path=SelectedColor , Mode=OneWay}"
+                            BorderBrush="{DynamicResource BorderBrush}"
+                            BorderThickness="1"
+                            d:Background="Red"
+                            CornerRadius="7" IsHitTestVisible="True"
+                            x:Name="FontColorContainer"
+                            MouseEnter="Button_MouseEnter"
+                            MouseLeave="Button_MouseLeave">
+                        <Border.InputBindings>
+                            <MouseBinding Gesture="LeftClick"
+                                          Command="{Binding ElementName=Container, Path=OpenCloseColorPickerCommand}" />
+                        </Border.InputBindings>
+                    </Border>
+                    <TextBox Text="{Binding ElementName=Container,Path=SelectedColor , Converter={StaticResource solidColorBrushToHexadecimalStringConverter},Mode=TwoWay}"
+                             d:Text="#FFFFFFFF"
+                             TextAlignment="Center"
+                             Foreground="{Binding ElementName=Container, Path=SelectedColor,Mode=OneWay,UpdateSourceTrigger=LostFocus}"
+                             TextBlock.FontWeight="Bold"
+                             Margin="10,0,0,0" />
+                </DockPanel>
+            </Border>
+        </StackPanel>
+
+        <Popup AllowsTransparency="True"
+               Placement="Left"
+               x:Name="ColorPickerPopUp"
+               HorizontalOffset="-10"
+               VerticalOffset="-150"
+               PopupAnimation="Fade">
+            <Border Background="{DynamicResource SecondaryRegionBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}"
+                    CornerRadius="0"
+                    BorderThickness="2"
+                    UseLayoutRounding="True"
+                    Padding="0"
+                    Margin="10">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="10"
+                                      ShadowDepth="10"
+                                      Color="Black"
+                                      Opacity="0.5" />
+                </Border.Effect>
+                <StackPanel>
+                    <Button HorizontalAlignment="Right"
+                            Foreground="Red"
+                            hc:IconElement.Geometry="{StaticResource CloseGeometry}"
+                            Click="ColorPickerControl_Canceled"
+                            Margin="0" BorderThickness="0"
+                            Background="Transparent" />
+                    <hc:ColorPicker x:Name="ColorPickerControl"
+                                    Confirmed="ColorPickerControl_Confirmed"
+                                    Canceled="ColorPickerControl_Canceled" 
+                                    SelectedBrush="{Binding ElementName=Container, Path=SelectedColor,Mode=TwoWay}"/>
+                </StackPanel>
+            </Border>
+        </Popup>
+    </Grid>
+</UserControl>

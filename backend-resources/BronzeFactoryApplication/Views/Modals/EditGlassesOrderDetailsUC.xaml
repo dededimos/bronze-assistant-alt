@@ -1,0 +1,120 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.Modals.EditGlassesOrderDetailsUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:b="clr-namespace:BronzeFactoryApplication.Helpers.Behaviours"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.Modals"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels.ModalViewModels"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance Type=vm:EditGlassesOrderDetailsModalViewModel}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        
+        <!--#region 1.PA0/PAM BOX -->
+        <GroupBox Style="{StaticResource GroupBoxCabinProperties}"
+                  Header="{StaticResource lngOrderId}"
+                  Grid.Row="0"
+                  Grid.Column="0">
+            <DockPanel x:Name="OrderIdDockPanel">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Loaded">
+                        <i:InvokeCommandAction Command="{Binding GetLatestIdCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <TextBlock DockPanel.Dock="Bottom"
+                           FontStyle="Italic"
+                           Style="{StaticResource CSmallInfoTextBlock}"
+                           Visibility="{Binding IsBusy, Converter={StaticResource Boolean2VisibilityReConverter}}">
+                    <Run Text="{StaticResource lngLastOrder}"/>
+                    <Run Text=": "/>
+                    <Run Text="{Binding LastOrderId,Mode=OneWay}"/>
+                </TextBlock>
+                <hc:LoadingLine DockPanel.Dock="Bottom" IsRunning="{Binding IsBusy}" Visibility="{Binding IsBusy , Converter={StaticResource Boolean2VisibilityConverter}}"/>
+                <hc:TextBox x:Name="OrderIdTextbox"
+                            IsEnabled="{Binding IsNewOrder}"
+                            Text="{Binding OrderId, Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}"
+                            hc:InfoElement.Placeholder="..."
+                            FontSize="20" 
+                            TextAlignment="Center"
+                            MaxLength="9"
+                            Width="130"
+                            DockPanel.Dock="Top"
+                            Loaded="OrderIdTextbox_Loaded">
+                    <!--FOCUS TO OrderId on Opening-->
+                </hc:TextBox>
+            </DockPanel>
+        </GroupBox>
+        <!--#endregion-->
+
+        <!--#region 2. Notes -->
+        <GroupBox Style="{StaticResource GroupBoxCabinProperties}"
+                      Header="{StaticResource lngOrderNotes}"
+                      Grid.Row="0"
+                      Grid.Column="1">
+            <TextBox x:Name="NotesTextBox" 
+                     Text="{Binding Notes , UpdateSourceTrigger=PropertyChanged}" 
+                     AcceptsReturn="True"
+                     Height="110"
+                     Width="400"
+                     VerticalContentAlignment="Top"
+                     HorizontalContentAlignment="Left"
+                     MaxLength="400"
+                     Loaded="NotesTextBox_Loaded"/>
+        </GroupBox>
+        <!--#endregion-->
+
+        <!--#region 3. Count Properties -->
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal" Margin="20,0">
+                <TextBlock Text="{StaticResource lngGlasses}"/>
+                <TextBlock Text=" : "/>
+                <TextBlock Text="{Binding GlassesCount}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="20,0">
+                <TextBlock Text="{StaticResource lngCabins}"/>
+                <TextBlock Text=" : "/>
+                <TextBlock Text="{Binding CabinsCount}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="20,0">
+                <TextBlock Text="{StaticResource lngOrders}"/>
+                <TextBlock Text=" : "/>
+                <TextBlock Text="{Binding PA0Count}"/>
+            </StackPanel>
+        </StackPanel>
+        <!--#endregion-->
+
+        <!--#region 4. Add Button -->
+        <StackPanel Orientation="Horizontal"
+                    Grid.Row="2"
+                    Grid.ColumnSpan="2"
+                    HorizontalAlignment="Center"
+                    Margin="0,20,0,0">
+            <Button Style="{StaticResource UndoButton}"
+                    ToolTip="{StaticResource lngUndo}"
+                    ToolTipService.Placement="Top"
+                    Command="{Binding UndoEditsCommand}"/>
+
+            <Button Command="{Binding SaveAndCloseCommand}"
+                    Margin="30,0,0,0"
+                    HorizontalAlignment="Center"
+                    hc:IconElement.Geometry="{StaticResource SaveGeometry}"
+                    Content="{StaticResource lngSave}"
+                    Foreground="{DynamicResource SecondaryBrush}">
+            </Button>
+        </StackPanel>
+
+        <!--#endregion-->
+    </Grid>
+</UserControl>

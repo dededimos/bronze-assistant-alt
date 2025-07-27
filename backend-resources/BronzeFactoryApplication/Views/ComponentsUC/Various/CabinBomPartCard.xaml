@@ -1,0 +1,124 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.ComponentsUC.Various.CabinBomPartCard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.Various"
+             xmlns:b="clr-namespace:BronzeFactoryApplication.Helpers.Behaviours"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:model="clr-namespace:ShowerEnclosuresModelsLibrary.Models.CabinAllParts.PartsModels;assembly=ShowerEnclosuresModelsLibrary"
+             xmlns:profiles="clr-namespace:ShowerEnclosuresModelsLibrary.Models.CabinAllParts.PartsModels.ProfilesModels;assembly=ShowerEnclosuresModelsLibrary"
+             xmlns:glassStrips="clr-namespace:ShowerEnclosuresModelsLibrary.Models.CabinAllParts.PartsModels.StripsModels;assembly=ShowerEnclosuresModelsLibrary"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:cachedImage="clr-namespace:CachedImage.Core;assembly=CachedImage.Core"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=model:CabinPart}">
+    <UserControl.Resources>
+        <d:ObjectDataProvider x:Key="designTimeProfile"
+                              ObjectType="{x:Type profiles:Profile}">
+            <ObjectDataProvider.ConstructorParameters>
+                <model:CabinPartType>Profile</model:CabinPartType>
+                <profiles:CabinProfileType>WallProfile</profiles:CabinProfileType>
+            </ObjectDataProvider.ConstructorParameters>
+        </d:ObjectDataProvider>
+        <Style TargetType="cachedImage:Image">
+            <Setter Property="FailedImage"
+                    Value="{StaticResource DefaultNoImage}" />
+            <Setter Property="MaxWidth"
+                    Value="290" />
+            <Setter Property="MaxHeight"
+                    Value="300" />
+            <Setter Property="Stretch"
+                    Value="Uniform" />
+            <Setter Property="Margin"
+                    Value="5" />
+        </Style>
+    </UserControl.Resources>
+
+    <Border BorderBrush="Black"
+            BorderThickness="4"
+            CornerRadius="20"
+            Width="495"
+            Height="290">
+        <DockPanel LastChildFill="True">
+            <Border BorderThickness="0,0,1,0"
+                    BorderBrush="Black">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <cachedImage:Image ImageUrl="{Binding PhotoPath}"
+                                       Width="180"
+                                       Stretch="Uniform"
+                                       Margin="5"/>
+                    <TextBlock HorizontalAlignment="Right"
+                               VerticalAlignment="Bottom"
+                               Panel.ZIndex="15"
+                               Background="White"
+                               DockPanel.Dock="Bottom"
+                               Text="{Binding Quantity, StringFormat={}x{0}}"
+                               Margin="10,5"
+                               FontSize="45"
+                               FontWeight="Bold" 
+                               Grid.Row="1"/>
+                </Grid>
+            </Border>
+            <DockPanel>
+                <Image Source="{Binding Code , Converter={StaticResource stringToBarcodeImageConverter}}"
+                       HorizontalAlignment="Center"
+                       Height="150"
+                       VerticalAlignment="Top"
+                       DockPanel.Dock="Top"
+                       Margin="10,10,10,0" />
+                <TextBlock HorizontalAlignment="Center"
+                           Text="{Binding Description}"
+                           DockPanel.Dock="Top"
+                           TextWrapping="Wrap"
+                           TextAlignment="Center"
+                           Margin="5" />
+                <ContentControl Content="{Binding .}"
+                                d:DataContext="{StaticResource designTimeProfile}">
+                    <ContentControl.Resources>
+                        <!--#region 1.Profile DataTempalte -->
+                        <DataTemplate DataType="{x:Type profiles:Profile}">
+                            <StackPanel Orientation="Vertical"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center">
+                                <TextBlock Text="{StaticResource lngCutLength}"
+                                           HorizontalAlignment="Center"
+                                           FontWeight="DemiBold" />
+                                <TextBlock Text="{Binding CutLength, StringFormat={}{0}mm}"
+                                           HorizontalAlignment="Center"
+                                           FontWeight="DemiBold" />
+                            </StackPanel>
+                        </DataTemplate>
+                        <!--#endregion-->
+                        <!--#region 2.Strip DataTempalte -->
+                        <DataTemplate DataType="{x:Type glassStrips:GlassStrip}">
+                            <StackPanel Orientation="Vertical"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center">
+                                <TextBlock Text="{StaticResource lngCutLength}"
+                                           HorizontalAlignment="Center"
+                                           FontWeight="DemiBold" />
+                                <TextBlock Text="{Binding CutLength, StringFormat={}{0}mm}"
+                                           HorizontalAlignment="Center"
+                                           FontWeight="DemiBold" />
+                            </StackPanel>
+                        </DataTemplate>
+                        <!--#endregion-->
+
+                        <!--#region 3.CabinPart DataTemplate -->
+                        <DataTemplate DataType="{x:Type model:CabinPart}">
+
+                        </DataTemplate>
+                        <!--#endregion-->
+
+                    </ContentControl.Resources>
+                </ContentControl>
+            </DockPanel>
+        </DockPanel>
+    </Border>
+</UserControl>

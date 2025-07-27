@@ -1,0 +1,568 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.Modals.EditCustomPriceRuleModalUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.Modals"
+             xmlns:EnumSource="clr-namespace:BronzeFactoryApplication.Helpers.MarkupExtensions"
+             xmlns:Enums="clr-namespace:BathAccessoriesModelsLibrary.AccessoriesUserOptions;assembly=BathAccessoriesModelsLibrary"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:b="clr-namespace:BronzeFactoryApplication.Helpers.Behaviours"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels.ModalViewModels"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=vm:EditCustomPriceRulesModalViewModel}">
+    <Grid x:Name="MainGrid">
+        <Grid.Resources>
+            <CollectionViewSource x:Key="RulesViewSource"
+                                  Source="{Binding Rules}"
+                                  Filter="CollectionViewSource_Filter" />
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <!--#region Rules DataGrid -->
+        <TextBlock Text="{StaticResource lngCustomPriceRules}"
+                   Style="{StaticResource CHeaderTextBlock}"
+                   HorizontalAlignment="Center"
+                   Margin="0,10"
+                   Grid.Row="0"
+                   Grid.Column="0" />
+        <StackPanel Orientation="Vertical"
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Margin="10,0">
+            <DataGrid ItemsSource="{Binding Source={StaticResource RulesViewSource}}"
+                      AutoGenerateColumns="False"
+                      SelectedItem="{Binding SelectedRule}"
+                      CellStyle="{StaticResource CenteredDataGridCellSmall}"
+                      Style="{StaticResource CDataGrid}"
+                      RowStyle="{StaticResource DataGridRowStyle}"
+                      FontSize="15"
+                      ColumnHeaderStyle="{StaticResource CenteredDataGridColumnHeaderSmall}"
+                      HorizontalAlignment="Stretch"
+                      EnableRowVirtualization="True"
+                      hc:DataGridAttach.ShowRowNumber="True"
+                      Height="650"
+                      Padding="20,20,20,0"
+                      BorderThickness="4"
+                      VerticalAlignment="Top">
+                <DataGrid.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel />
+                    </ItemsPanelTemplate>
+                </DataGrid.ItemsPanel>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="{StaticResource lngName}"
+                                        Binding="{Binding Name ,Converter={StaticResource LocalizedStringConverter}}" />
+                    <DataGridTextColumn Header="{StaticResource lngRuleValueType}"
+                                        Binding="{Binding RuleValueType,Converter={StaticResource languageConverter}}" />
+                    <DataGridTextColumn Header="{StaticResource lngRuleValue}"
+                                        Binding="{Binding RuleValue}" />
+                    <DataGridCheckBoxColumn Header="{StaticResource lngEnabled}"
+                                            Binding="{Binding IsEnabled}" />
+                </DataGrid.Columns>
+            </DataGrid>
+            <!--#region Filters -->
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Bottom"
+                        Margin="0,20">
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center">
+                    <TextBlock Style="{StaticResource CHeaderTextBlock}"
+                               Text="{StaticResource lngFilters}" />
+                    <Button Style="{StaticResource ButtonIcon}"
+                            hc:IconElement.Geometry="{StaticResource DeleteFillCircleGeometry}"
+                            Foreground="{DynamicResource SecondaryBrush}"
+                            Click="ClearFiltersClick" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal"
+                            Margin="0,10">
+                    <StackPanel Margin="5,0">
+                        <TextBlock Style="{StaticResource TitleTextBlockStyle}"
+                                   Text="{StaticResource lngName}" />
+                        <TextBox x:Name="NameFilterTextBox"
+                                 Width="200"
+                                 KeyDown="NameFilterTextBox_KeyDown" />
+                    </StackPanel>
+                    <Button Style="{StaticResource ButtonIcon}"
+                            hc:IconElement.Geometry="{StaticResource SearchGeometry}"
+                            Foreground="{DynamicResource SecondaryBrush}"
+                            Click="ApplyFilters"
+                            VerticalAlignment="Bottom" />
+                </StackPanel>
+            </StackPanel>
+            <!--#endregion-->
+        </StackPanel>
+        <!--#endregion-->
+
+        <!--#region Edit Rules Area -->
+        <!--#region Title -->
+        <TextBlock HorizontalAlignment="Center"
+                   Margin="10"
+                   Grid.Row="0"
+                   Grid.Column="1">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock"
+                       BasedOn="{StaticResource CHeaderTextBlock}">
+                    <Setter Property="Text"
+                            Value="{StaticResource lngSelectedRule}" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsSelectedRuleNew}"
+                                     Value="True">
+                            <Setter Property="Text"
+                                    Value="{StaticResource lngNewRule}" />
+                            <Setter Property="Foreground"
+                                    Value="{DynamicResource SecondaryBrush}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+        <!--#endregion-->
+
+        <!--#region Rule Options Buttons -->
+        <DockPanel Grid.Row="1"
+                   Grid.Column="1"
+                   HorizontalAlignment="Stretch"
+                   LastChildFill="False"
+                   Margin="10,0">
+            <Button Style="{StaticResource SaveButton}"
+                    Foreground="{DynamicResource SecondaryBrush}"
+                    DockPanel.Dock="Left"
+                    IsEnabled="{Binding CanEditRule}"
+                    Command="{Binding SaveRuleCommand}" />
+            <Button Content="{StaticResource lngNewRule}"
+                    Margin="10,0"
+                    Foreground="{DynamicResource SecondaryBrush}"
+                    hc:IconElement.Geometry="{StaticResource AddGeometry}"
+                    DockPanel.Dock="Left"
+                    Command="{Binding CreateNewRuleCommand}" />
+            <Button Content="{StaticResource lngDeleteRule}"
+                    Foreground="{DynamicResource DangerBrush}"
+                    hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
+                    DockPanel.Dock="Right"
+                    IsEnabled="{Binding IsSelectedRuleNew , Converter={StaticResource Boolean2BooleanReConverter}}"
+                    Command="{Binding DeleteRuleCommand}" />
+        </DockPanel>
+        <!--#endregion-->
+
+        <!--#region Rule Properties -->
+        <Border Grid.Row="2"
+                Grid.Column="1"
+                Margin="10,0"
+                Width="800"
+                IsEnabled="{Binding CanEditRule}"
+                Padding="10">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="BorderBrush"
+                            Value="{DynamicResource BorderBrush}" />
+                    <Setter Property="BorderThickness"
+                            Value="4" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsSelectedRuleNew}"
+                                     Value="True">
+                            <Setter Property="BorderBrush"
+                                    Value="{DynamicResource SecondaryBrush}" />
+                            <Setter Property="BorderThickness"
+                                    Value="1" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <StackPanel>
+
+                <!--#region Is Enabled -->
+                <DockPanel Margin="0,10"
+                           HorizontalAlignment="Left"
+                           DockPanel.Dock="Left">
+                    <cc:Icon ToolTip="{StaticResource lngEnabledTooltip}"
+                             Style="{StaticResource CInfoTooltipIcon}"
+                             Margin="10,0,5,0" />
+                    <CheckBox IsChecked="{Binding RuleUnderEdit.IsEnabled}"
+                              Content="{StaticResource lngEnabled}" />
+                </DockPanel>
+                <!--#endregion-->
+
+                <!--#region Name -->
+                <StackPanel Orientation="Horizontal"
+                            x:Name="NameStackPanel">
+                    <Button Style="{StaticResource EditLocalizedStringVmButtonStyle}"
+                            Command="{Binding OpenEditLocalizedStringCommand}"
+                            CommandParameter="Name" />
+                    <TextBlock Text="{StaticResource lngName}"
+                               Width="150"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Center" />
+                    <TextBlock Text=" : "
+                               VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding RuleUnderEdit.BaseDescriptiveEntity.Name.MinifiedDefaultValue}"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+                <!--#endregion-->
+
+                <!--#region Description -->
+                <StackPanel Orientation="Horizontal">
+                    <Button Style="{StaticResource EditLocalizedStringVmButtonStyle}"
+                            Command="{Binding OpenEditLocalizedStringCommand}"
+                            CommandParameter="Description" />
+                    <TextBlock Text="{StaticResource lngDescription}"
+                               Width="150"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Center" />
+                    <TextBlock Text=" : "
+                               VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding RuleUnderEdit.BaseDescriptiveEntity.Description.MinifiedDefaultValue}"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+                <!--#endregion-->
+
+                <!--#region Extended Description -->
+                <StackPanel Orientation="Horizontal">
+                    <Button Style="{StaticResource EditLocalizedStringVmButtonStyle}"
+                            Command="{Binding OpenEditLocalizedStringCommand}"
+                            CommandParameter="ExtendedDescription" />
+                    <TextBlock Text="{StaticResource lngExtendedDescription}"
+                               Width="150"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Center" />
+                    <TextBlock Text=" : "
+                               VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding RuleUnderEdit.BaseDescriptiveEntity.ExtendedDescription.MinifiedDefaultValue}"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+                <!--#endregion-->
+
+                <!--#region SortNo -->
+                <StackPanel x:Name="SortNoStackPanel"
+                            Margin="0,10">
+                    <DockPanel>
+                        <cc:Icon ToolTip="{StaticResource lngSortNoTooltip}"
+                                 Style="{StaticResource CInfoTooltipIcon}" />
+                        <TextBlock x:Name="SortNoTextBlock"
+                                   Style="{StaticResource TitleTextBlockStyle}"
+                                   Text="{StaticResource lngSortNo}">
+                        </TextBlock>
+                    </DockPanel>
+                    <TextBox x:Name="SortNoTextBox"
+                             d:Text="99999"
+                             Text="{Binding RuleUnderEdit.SortNo ,Mode=TwoWay, TargetNullValue=''}"
+                             MaxLength="5">
+                        <i:Interaction.Behaviors>
+                            <b:TextBoxNumericInputBehavior Precision="0"
+                                                           InputMode="DigitInput" />
+                        </i:Interaction.Behaviors>
+                    </TextBox>
+                </StackPanel>
+                <!--#endregion-->
+
+                <!--#region RuleTypeValue and RuleValue -->
+                <StackPanel HorizontalAlignment="Center"
+                            Orientation="Horizontal">
+
+                    <!--#region RuleValueType -->
+                    <StackPanel Margin="30,0">
+                        <DockPanel>
+                            <cc:Icon ToolTip="{StaticResource lngRuleValueTooltip}"
+                                     Style="{StaticResource CInfoTooltipIcon}" />
+                            <TextBlock Style="{StaticResource TitleTextBlockStyle}"
+                                       Text="{StaticResource lngRuleValueType}">
+                            </TextBlock>
+                        </DockPanel>
+                        <ComboBox ItemsSource="{Binding Source={EnumSource:BindingSourceEnumValues {x:Type Enums:CustomRuleValueType}}}"
+                                  SelectedItem="{Binding RuleUnderEdit.RuleValueType}"
+                                  Width="210"
+                                  VerticalAlignment="Center">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding . ,Converter={StaticResource languageConverter} , TargetNullValue=''}" 
+                                               ToolTip="{Binding .,Converter={StaticResource languageTooltipConverter}}"
+                                               ToolTipService.InitialShowDelay="0"
+                                               ToolTipService.Placement="Left"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+                    <!--#endregion-->
+
+                    <!--#region RuleValue -->
+                    <StackPanel Margin="30,0">
+                        <DockPanel>
+                            <cc:Icon ToolTip="{StaticResource lngRuleValueTooltip}"
+                                     Style="{StaticResource CInfoTooltipIcon}" />
+                            <TextBlock Text="{Binding RuleUnderEdit.RuleValueType,Converter={StaticResource languageConverter}}"
+                                       Style="{StaticResource TitleTextBlockStyle}"
+                                       d:Text="Some Value">
+                            </TextBlock>
+                        </DockPanel>
+                        <TextBox d:Text="0.5"
+                                 MaxLength="15"
+                                 TextAlignment="Right">
+                            <TextBox.Style>
+                                <Style TargetType="TextBox"
+                                       BasedOn="{StaticResource TextBoxBaseStyle}">
+                                    <Setter Property="Text"
+                                            Value="{Binding RuleUnderEdit.RuleValue,Mode=TwoWay}" />
+                                    <Setter Property="IsEnabled"
+                                            Value="True" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding RuleUnderEdit.RuleValueType}"
+                                                     Value="Undefined">
+                                            <Setter Property="IsEnabled"
+                                                    Value="False" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding RuleUnderEdit.RuleValueType}"
+                                                     Value="TotalDiscountType">
+                                            <Setter Property="Text"
+                                                    Value="{Binding RuleUnderEdit.RuleValue, Converter={StaticResource decimalToPercentDiscountConverter},Mode=TwoWay}" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding RuleUnderEdit.RuleValueType}"
+                                                     Value="ExtraDiscountType">
+                                            <Setter Property="Text"
+                                                    Value="{Binding RuleUnderEdit.RuleValue, Converter={StaticResource decimalToPercentDiscountConverter},Mode=TwoWay}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBox.Style>
+                            <i:Interaction.Behaviors>
+                                <b:TextBoxNumericInputBehavior Precision="5"
+                                                               InputMode="DecimalInput" />
+                            </i:Interaction.Behaviors>
+                        </TextBox>
+                    </StackPanel>
+                    <!--#endregion-->
+
+                </StackPanel>
+                <!--#endregion-->
+
+                <!--#region Rule Conditions -->
+                <StackPanel Margin="0,10">
+                    <TextBlock Text="{StaticResource lngRuleConditions}"
+                               Style="{StaticResource CHeaderTextBlock}"
+                               DockPanel.Dock="Top"
+                               Margin="0,0,0,5" />
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center">
+
+                        <!--#region ComboBoxes with Add Button -->
+                        <StackPanel HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Margin="0,0,20,0">
+                            <!--#region AppliesTo Condition ComboBox -->
+                            <StackPanel>
+                                <DockPanel>
+                                    <cc:Icon ToolTip="{StaticResource lngAppliesToTooltip}"
+                                             Style="{StaticResource CInfoTooltipIcon}" />
+                                    <TextBlock Style="{StaticResource TitleTextBlockStyle}"
+                                               Text="{StaticResource lngAppliesTo}">
+                                    </TextBlock>
+                                </DockPanel>
+                                <ComboBox ItemsSource="{Binding Source={EnumSource:BindingSourceEnumValues {x:Type Enums:AppliesTo}}}"
+                                          SelectedItem="{Binding RuleUnderEdit.SelectedConditionApplication}"
+                                          VerticalAlignment="Center"
+                                          Width="320">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding . ,Converter={StaticResource languageConverter} , TargetNullValue=''}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                            </StackPanel>
+                            <!--#endregion-->
+
+                            <!--#region ConditionTargetValue ComboBoxes -->
+                            <StackPanel Margin="0,10" Visibility="{Binding RuleUnderEdit.IsConditionWhenNeeded ,Converter={StaticResource Boolean2VisibilityReConverter}}">
+                                <DockPanel>
+                                    <cc:Icon ToolTip="{StaticResource lngTargetOfConditionTooltip}"
+                                             Style="{StaticResource CInfoTooltipIcon}" />
+                                    <TextBlock x:Name="AddSeriesTextBlock"
+                                               Style="{StaticResource TitleTextBlockStyle}"
+                                               Text="{StaticResource lngTargetOfCondition}">
+                                    </TextBlock>
+                                </DockPanel>
+                                <ComboBox x:Name="AccessoriesCombobox"
+                                          d:Visibility="Visible"
+                                          Visibility="{Binding RuleUnderEdit.IsAccessoriesListEnabled,Converter={StaticResource Boolean2VisibilityConverter}}"
+                                          ItemsSource="{Binding RuleUnderEdit.TargetConditionListAccessories}"
+                                          SelectedValue="{Binding RuleUnderEdit.SelectedAccessoryId}"
+                                          SelectedValuePath="IdAsString"
+                                          Width="320"
+                                          IsEditable="True"
+                                          VerticalAlignment="Center"
+                                          IsTextSearchEnabled="True"
+                                          IsTextSearchCaseSensitive="False"
+                                          TextSearch.TextPath="Code"
+                                          DisplayMemberPath="Code">
+                                </ComboBox>
+                                <ComboBox x:Name="TraitsCombobox"
+                                          d:Visibility="Collapsed"
+                                          Visibility="{Binding RuleUnderEdit.IsTraitsListEnabled,Converter={StaticResource Boolean2VisibilityConverter}}"
+                                          ItemsSource="{Binding RuleUnderEdit.TargetConditionListTraits}"
+                                          SelectedValue="{Binding RuleUnderEdit.SelectedTraitId}"
+                                          SelectedValuePath="IdAsString"
+                                          Width="320"
+                                          VerticalAlignment="Center">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Trait,Converter={StaticResource LocalizedStringConverter} }" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                                <ComboBox x:Name="TraitGroupsCombobox"
+                                          d:Visibility="Collapsed"
+                                          Visibility="{Binding RuleUnderEdit.IsTraitsGroupsListEnabled,Converter={StaticResource Boolean2VisibilityConverter}}"
+                                          ItemsSource="{Binding RuleUnderEdit.TargetConditionListTraitGroups}"
+                                          SelectedValue="{Binding RuleUnderEdit.SelectedTraitGroupId}"
+                                          SelectedValuePath="IdAsString"
+                                          Width="320"
+                                          VerticalAlignment="Center">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Name,Converter={StaticResource LocalizedStringConverter} }" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                            </StackPanel>
+                            <!--#endregion-->
+                            <!--#region When Condition Properties -->
+                            <StackPanel Orientation="Horizontal"
+                                        Visibility="{Binding RuleUnderEdit.IsConditionWhenNeeded , Converter={StaticResource Boolean2VisibilityConverter}}">
+                                <StackPanel>
+                                    <DockPanel>
+                                        <cc:Icon ToolTip="{StaticResource lngAppliesWhenTooltip}"
+                                                 Style="{StaticResource CInfoTooltipIcon}" />
+                                        <TextBlock Style="{StaticResource TitleTextBlockStyle}"
+                                                   Text="{StaticResource lngAppliesWhen}">
+                                        </TextBlock>
+                                    </DockPanel>
+                                    <ComboBox ItemsSource="{Binding Source={EnumSource:BindingSourceEnumValues {x:Type Enums:AppliesWhen}}}"
+                                              SelectedItem="{Binding RuleUnderEdit.ConditionWhen}"
+                                              VerticalAlignment="Center"
+                                              Width="180" FontSize="14">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding . ,Converter={StaticResource languageConverter} , TargetNullValue=''}" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                </StackPanel>
+                                <StackPanel Margin="10,0,0,0">
+                                    <DockPanel>
+                                        <cc:Icon ToolTip="{StaticResource lngConditionWhenTargetValueTooltip}"
+                                                 Style="{StaticResource CInfoTooltipIcon}" />
+                                        <TextBlock Style="{StaticResource TitleTextBlockStyle}"
+                                                   Text="{StaticResource lngConditionWhenTargetValue}">
+                                        </TextBlock>
+                                    </DockPanel>
+                                    <TextBox d:Text="10"
+                                             Text="{Binding RuleUnderEdit.ConditionWhenTargetValue ,Mode=TwoWay}"
+                                             MaxLength="15"
+                                             Width="130"
+                                             TextAlignment="Right">
+                                        <i:Interaction.Behaviors>
+                                            <b:TextBoxNumericInputBehavior Precision="4"
+                                                                           InputMode="DecimalInput" />
+                                        </i:Interaction.Behaviors>
+                                    </TextBox>
+                                </StackPanel>
+                            </StackPanel>
+                            <!--#endregion-->
+                            <Button Style="{StaticResource ButtonIconCircular}"
+                                    hc:IconElement.Geometry="{StaticResource AddGeometry}"
+                                    Foreground="{DynamicResource SuccessBrush}"
+                                    Command="{Binding RuleUnderEdit.AddConditionCommand}"
+                                    VerticalAlignment="Bottom"
+                                    Margin="0,10"
+                                    ToolTip="{StaticResource lngAdd}" />
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region ListBox with Title -->
+                        <StackPanel VerticalAlignment="Center">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngRuleConditions}"
+                                         Style="{StaticResource CInfoTooltipIcon}" />
+                                <TextBlock x:Name="SeriesTextBlock"
+                                           Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="{StaticResource lngRuleConditions}">
+                                </TextBlock>
+                            </DockPanel>
+                            <ListBox ItemsSource="{Binding RuleUnderEdit.Conditions}"
+                                     Height="180"
+                                     Width="400">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <DockPanel LastChildFill="True">
+                                            <Button Style="{StaticResource ButtonIconCircular.Small}"
+                                                    Foreground="{DynamicResource DangerBrush}"
+                                                    hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
+                                                    hc:IconElement.Height="8"
+                                                    BorderBrush="{DynamicResource DangerBrush}"
+                                                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor} , Path=DataContext.RuleUnderEdit.RemoveConditionCommand}"
+                                                    CommandParameter="{Binding .}" />
+                                            <TextBlock Text="{Binding Condition , Converter={StaticResource languageConverter}}"
+                                                       VerticalAlignment="Center"
+                                                       TextAlignment="Center"
+                                                       Margin="10,0"
+                                                       Width="120"
+                                                       HorizontalAlignment="Left" />
+                                            <TextBlock Text="{Binding ConditionTargetDescription}"
+                                                       Margin="10,0"
+                                                       TextAlignment="Left"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center" />
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                    </StackPanel>
+
+                </StackPanel>
+                <!--#endregion-->
+
+                <!--#region Notes -->
+                <DockPanel Grid.Row="10"
+                           Grid.ColumnSpan="3"
+                           Margin="0,10"
+                           LastChildFill="True">
+                    <TextBlock Text="{StaticResource lngNotes}"
+                               Style="{StaticResource CHeaderTextBlock}"
+                               DockPanel.Dock="Top"
+                               Margin="0,0,0,5" />
+                    <TextBox MaxLength="2000"
+                             DockPanel.Dock="Top"
+                             VerticalAlignment="Stretch"
+                             Width="auto"
+                             Height="180"
+                             Padding="5"
+                             ScrollViewer.VerticalScrollBarVisibility="Auto"
+                             TextAlignment="Center"
+                             VerticalContentAlignment="Center"
+                             FontSize="14"
+                             TextWrapping="Wrap"
+                             AcceptsReturn="True"
+                             d:Text="Test Notes"
+                             Text="{Binding RuleUnderEdit.BaseDescriptiveEntity.BaseEntity.Notes, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                </DockPanel>
+                <!--#endregion-->
+
+            </StackPanel>
+        </Border>
+        <!--#endregion-->
+
+        <!--#endregion-->
+
+    </Grid>
+</UserControl>

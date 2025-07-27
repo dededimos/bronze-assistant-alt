@@ -1,0 +1,40 @@
+﻿@* The Main Navigation Menu for Accessories - Selecting a Type Of Navigation Series-PrimaryType-Finish e.t.c. *@
+@using BathAccessoriesModelsLibrary.Services;
+@using BathAccessoriesModelsLibrary;
+@using BronzeArtWebApplication.Shared.ViewModels.AccessoriesPageViewModels;
+
+@inject AccessoriesPageViewModel Vm
+@inject IAccessoriesMemoryRepository Repo
+@inject AccessoriesUrlHelper PhotosHelper
+@inject NavigationManager NavManager
+
+<div id="menuContainer">
+    <MudButton OnClick="@(()=> NavManager.NavigateTo($"/Accessories/{TypeOfTrait.SeriesTrait}"))">
+        <div id="menuButtonContainer">
+            <img src="https://storagebronze.blob.core.windows.net/accessories-images/VariousSiteData/BySeries.jpg"
+                 id="buttonImage"
+                 loading="lazy"/>
+            <MudText Align="@(Align.Center)" Typo="@(Typo.h6)">@(Repo.GetTraitClassName(TypeOfTrait.SeriesTrait))</MudText>
+        </div>
+    </MudButton>
+    <MudButton OnClick="@(()=> NavManager.NavigateTo($"/Accessories/{TypeOfTrait.PrimaryTypeTrait}"))">
+       <div id="menuButtonContainer">
+                <img src="https://storagebronze.blob.core.windows.net/accessories-images/VariousSiteData/ByType.jpg"
+                id="buttonImage" 
+                loading="lazy"/>
+                <MudText Align="@(Align.Center)" Typo="@(Typo.h6)">@(Repo.GetTraitClassName(TypeOfTrait.PrimaryTypeTrait))</MudText>
+       </div>
+    </MudButton>
+    <MudButton OnClick="@(()=> NavManager.NavigateTo($"/Accessories/{TypeOfTrait.FinishTrait}"))">
+       <div id="menuButtonContainer">
+                <img src="https://storagebronze.blob.core.windows.net/accessories-images/VariousSiteData/ByFinish.jpg"
+                id="buttonImage" 
+                loading="lazy"/>
+                <MudText Align="@(Align.Center)" Typo="@(Typo.h6)" Class="mt-2">@(Repo.GetTraitClassName(TypeOfTrait.FinishTrait))</MudText>
+       </div>
+    </MudButton>
+</div>
+
+@code {
+
+}

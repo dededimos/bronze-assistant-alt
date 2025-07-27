@@ -1,0 +1,450 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.Modals.StockedGlassesModalUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.Modals"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels.ModalViewModels"
+             xmlns:cuc="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.CabinPropertiesUserControls"
+             xmlns:draws="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.DrawsRelevantUcs"
+             xmlns:b="clr-namespace:BronzeFactoryApplication.Helpers.Behaviours"
+             xmlns:EnumSource="clr-namespace:BronzeFactoryApplication.Helpers.MarkupExtensions"
+             xmlns:drawEnum="clr-namespace:ShowerEnclosuresModelsLibrary.Enums;assembly=ShowerEnclosuresModelsLibrary"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=vm:GlassesStockModalViewModel}">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding RefreshListCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid x:Name="StockListWindowGrid"
+          Loaded="StockListWindowGrid_Loaded">
+        <Grid.Resources>
+            <CollectionViewSource x:Key="GlassesStockViewSource"
+                                  Source="{Binding StockList}" />
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+        </Grid.ColumnDefinitions>
+
+        <!--#region 1.BUSY LOADER -->
+        <DockPanel Grid.Row="0"
+                   Grid.RowSpan="2"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2"
+                   d:Visibility="Collapsed"
+                   Panel.ZIndex="2"
+                   Visibility="{Binding IsBusy, Converter={StaticResource Boolean2VisibilityConverter}}">
+            <DockPanel.Background>
+                <SolidColorBrush Color="{DynamicResource SecondaryRegionColor}"
+                                 Opacity="0.9" />
+            </DockPanel.Background>
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                <hc:LoadingCircle Height="50"
+                                  Width="50" />
+                <TextBlock Text="{Binding BusyPrompt}"
+                           Margin="10"
+                           FontSize="18"
+                           Style="{StaticResource CLoaderTextBlock}" />
+            </StackPanel>
+        </DockPanel>
+        <!--#endregion-->
+
+        <!--#region 0.Menu Buttons -->
+        <DockPanel Grid.Row="0"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2"
+                   Margin="0,5"
+                   LastChildFill="False">
+
+            <!--#region 1.Add Glass to Stock Button -->
+            <Button DockPanel.Dock="Left"
+                    Margin="10,-20,0,0"
+                    Padding="0"
+                    Command="{Binding AddGlassToStockCommand}"
+                    Style="{StaticResource CToolBarBigButtonStyle}"
+                    ToolTip="{StaticResource lngAdd}">
+                <DockPanel LastChildFill="True">
+                    <TextBlock Text="{StaticResource lngAdd}"
+                               Style="{StaticResource CButtonTextBlock}"
+                               DockPanel.Dock="Bottom" />
+                    <Image Source="{StaticResource AddImage}"
+                           Height="70"
+                           Style="{StaticResource CBigToolBarButtonImage}" />
+                </DockPanel>
+            </Button>
+            <!--#endregion-->
+            <!--#region 2.Refresh -->
+            <Button DockPanel.Dock="Right"
+                    Margin="0,-20,10,0"
+                    Padding="0"
+                    Command="{Binding RefreshListCommand}"
+                    Style="{StaticResource CToolBarBigButtonStyle}"
+                    ToolTip="{StaticResource lngRefresh}">
+                <DockPanel LastChildFill="True">
+                    <TextBlock Text="{StaticResource lngRefresh}"
+                               Style="{StaticResource CButtonTextBlock}"
+                               DockPanel.Dock="Bottom" />
+                    <Image Source="{StaticResource SyncIcon}"
+                           Style="{StaticResource CBigToolBarButtonImage}" />
+                </DockPanel>
+            </Button>
+            <!--#endregion-->
+            
+            <!--#region 3. Save To Excel -->
+            <Button DockPanel.Dock="Right"
+                    Margin="0,-20,50,0"
+                    Padding="0"
+                    Command="{Binding SaveListToExcelCommand}"
+                    Style="{StaticResource CToolBarBigButtonStyle}"
+                    ToolTip="{StaticResource lngSaveListToXls}">
+                <DockPanel LastChildFill="True">
+                    <TextBlock Text="{StaticResource lngSaveListToXls}"
+                               Style="{StaticResource CButtonTextBlock}"
+                               DockPanel.Dock="Bottom" />
+                    <Image Source="{StaticResource ExcelImage}"
+                           Style="{StaticResource CBigToolBarButtonImage}" />
+                </DockPanel>
+            </Button>
+            <!--#endregion-->
+
+        </DockPanel>
+        <!--#endregion-->
+
+        <!--#region A.Glass Add/Edit Panel -->
+        <StackPanel Orientation="Horizontal"
+                    Grid.Row="1"
+                    Grid.Column="0">
+            <DockPanel>
+
+                <!--#region 1.Glass Properties -->
+                <cuc:GlassUC DataContext="{Binding GlassRowToAdd}"
+                             AllowDrawEdit="True"
+                             DockPanel.Dock="Top"
+                             Width="370"
+                             PreviewMouseDown="GlassUC_PreviewMouseDown" />
+                <!--#endregion-->
+
+                <!--#region 2. Quantity and Notes -->
+                <GroupBox Style="{StaticResource GroupBoxCabinProperties}"
+                          Header="{StaticResource lngInformation}">
+                    <StackPanel>
+
+                        <!--#region A. Quantity -->
+                        <StackPanel x:Name="QuantityGlassStackPanel"
+                                    Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngQuantityGlassTooltip}" />
+                                <TextBlock x:Name="QuantityGlassTextBlock"
+                                           Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="{StaticResource lngQuantity}">
+                                </TextBlock>
+                            </DockPanel>
+                            <TextBox x:Name="QuantityGlassTextBox"
+                                     d:Text="1000"
+                                     Text="{Binding Quantity ,Mode=TwoWay , TargetNullValue=''}"
+                                     MaxLength="4">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior Precision="0"
+                                                                   InputMode="DigitInput"
+                                                                   JustPositivDecimalInput="True" />
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region B. Notes -->
+                        <StackPanel x:Name="NotesStackPanel"
+                                    Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngGlassOrderRowNotesTooltip}" />
+                                <TextBlock x:Name="NotesTextBlock"
+                                           Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="{StaticResource lngNotes}">
+                                </TextBlock>
+                            </DockPanel>
+                            <TextBox x:Name="NotesTextBox"
+                                     d:Text="1000"
+                                     Text="{Binding Notes ,Mode=TwoWay , TargetNullValue=''}"
+                                     MaxLength="150"
+                                     HorizontalAlignment="Left"
+                                     Width="325"
+                                     AcceptsReturn="True"
+                                     Height="150"
+                                     VerticalContentAlignment="Top">
+
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+                    </StackPanel>
+                </GroupBox>
+                <!--#endregion-->
+            </DockPanel>
+
+            <!--#region 3. Glass Draw -->
+            <GroupBox Style="{StaticResource GroupBoxCabinProperties}"
+                      ClipToBounds="True">
+                <GroupBox.HeaderTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <cc:Icon GeometryData="{StaticResource LeftArrowGeometry}"
+                                     Height="18" HorizontalAlignment="Left"
+                                     Fill="{DynamicResource SecondaryBrush}" 
+                                     Margin="-160,0"
+                                     Visibility="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=DataContext.IsDrawToList, Converter={StaticResource Boolean2VisibilityReConverter}}"/>
+                            <cc:Icon GeometryData="{StaticResource RightArrowGeometry}"
+                                     Height="18"
+                                     HorizontalAlignment="Right"
+                                     Fill="{DynamicResource SecondaryBrush}" 
+                                     Margin="-160,0"
+                                     Visibility="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=DataContext.IsDrawToList, Converter={StaticResource Boolean2VisibilityConverter}}"/>
+                            <TextBlock Text="{StaticResource lngGlass}"
+                                       FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                    </DataTemplate>
+                </GroupBox.HeaderTemplate>
+                <draws:DrawContainerUC x:Name="GlassDrawContainer"
+                                       DataContext="{Binding GlassDraw}"
+                                       Margin="30"
+                                       Width="350"
+                                       Padding="30,30,0,0" />
+            </GroupBox>
+            <!--#endregion-->
+
+        </StackPanel>
+        <!--#endregion-->
+
+        <!--#region B.StockList DataGrid -->
+        <StackPanel Grid.Row="1"
+                    Grid.Column="2"
+                    x:Name="StockListStackPanel"
+                    PreviewMouseDown="StockListStackPanel_PreviewMouseDown">
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center">
+
+                <!--#region A. Draw Filter -->
+                <StackPanel Margin="10,5">
+                    <DockPanel>
+                        <cc:Icon Style="{StaticResource CInfoTooltipIcon}"
+                                 ToolTip="{StaticResource lngGlassDrawFilter}" />
+                        <TextBlock Text="{StaticResource lngGlassDrawFilter}"
+                                   Style="{StaticResource TitleTextBlockStyle}" />
+                    </DockPanel>
+                    <hc:ComboBox x:Name="FilterGlassDrawComboBox"
+                                 ItemsSource="{Binding Source={EnumSource:BindingSourceEnumValues {x:Type drawEnum:GlassDrawEnum}}}"
+                                 SelectionChanged="FilterGlassDrawComboBox_SelectionChanged"
+                                 HorizontalAlignment="Center"
+                                 Width="120"
+                                 HorizontalContentAlignment="Center"
+                                 Foreground="{DynamicResource SecondaryBrush}"
+                                 hc:InfoElement.ShowClearButton="True">
+                        <hc:ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Converter={StaticResource languageConverter}}" />
+                            </DataTemplate>
+                        </hc:ComboBox.ItemTemplate>
+                    </hc:ComboBox>
+                </StackPanel>
+                <!--#endregion-->
+
+                <!--#region B.Length Filter -->
+                <StackPanel Margin="10,5">
+                    <DockPanel>
+                        <cc:Icon Style="{StaticResource CInfoTooltipIcon}"
+                                 ToolTip="{StaticResource lngLengthFilter}" />
+                        <TextBlock Text="{StaticResource lngLengthFilter}"
+                                   Style="{StaticResource TitleTextBlockStyle}" />
+                    </DockPanel>
+                    <hc:TextBox x:Name="FilterGlassLengthTextBox"
+                                TextChanged="FilterGlassTextBox_TextChanged"
+                                HorizontalAlignment="Center"
+                                Width="120"
+                                HorizontalContentAlignment="Center"
+                                MaxLength="5"
+                                Foreground="{DynamicResource SecondaryBrush}"
+                                hc:InfoElement.ShowClearButton="True">
+                        <i:Interaction.Behaviors>
+                            <b:TextBoxNumericInputBehavior Precision="0"
+                                                           JustPositivDecimalInput="True"
+                                                           InputMode="DigitInput" />
+                        </i:Interaction.Behaviors>
+                    </hc:TextBox>
+                </StackPanel>
+                <!--#endregion-->
+
+                <!--#region C.Height Filter -->
+                <StackPanel Margin="10,5">
+                    <DockPanel>
+                        <cc:Icon Style="{StaticResource CInfoTooltipIcon}"
+                                 ToolTip="{StaticResource lngHeightFilter}" />
+                        <TextBlock Text="{StaticResource lngHeightFilter}"
+                                   Style="{StaticResource TitleTextBlockStyle}" />
+                    </DockPanel>
+                    <hc:TextBox x:Name="FilterGlassHeightTextBox"
+                                TextChanged="FilterGlassTextBox_TextChanged"
+                                HorizontalAlignment="Center"
+                                Width="120"
+                                HorizontalContentAlignment="Center"
+                                MaxLength="5"
+                                Foreground="{DynamicResource SecondaryBrush}"
+                                hc:InfoElement.ShowClearButton="True">
+                        <i:Interaction.Behaviors>
+                            <b:TextBoxNumericInputBehavior Precision="0"
+                                                           JustPositivDecimalInput="True"
+                                                           InputMode="DigitInput" />
+                        </i:Interaction.Behaviors>
+                    </hc:TextBox>
+                </StackPanel>
+                <!--#endregion-->
+
+                <!--#region Thickness Filter -->
+                <StackPanel Margin="10,5">
+                    <DockPanel>
+                        <cc:Icon Style="{StaticResource CInfoTooltipIcon}"
+                                 ToolTip="{StaticResource lngThicknessFilter}" />
+                        <TextBlock Text="{StaticResource lngThicknessFilter}"
+                                   Style="{StaticResource TitleTextBlockStyle}" />
+                    </DockPanel>
+                    <hc:ComboBox x:Name="FilterGlassThicknessComboBox"
+                                 ItemsSource="{Binding Source={EnumSource:BindingSourceEnumValues {x:Type drawEnum:GlassThicknessEnum}}}"
+                                 SelectionChanged="FilterGlassDrawComboBox_SelectionChanged"
+                                 HorizontalAlignment="Center"
+                                 Width="120"
+                                 HorizontalContentAlignment="Center"
+                                 Foreground="{DynamicResource SecondaryBrush}"
+                                 hc:InfoElement.ShowClearButton="True">
+                        <hc:ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Converter={StaticResource languageConverter}}" />
+                            </DataTemplate>
+                        </hc:ComboBox.ItemTemplate>
+                    </hc:ComboBox>
+                </StackPanel>
+                <!--#endregion-->
+            </StackPanel>
+            <DataGrid x:Name="StockedGlassesDataGrid"
+                      ItemsSource="{Binding Source={StaticResource GlassesStockViewSource}}"
+                      SelectedItem="{Binding SelectedRow}"
+                      Style="{StaticResource CDataGridSmall}"
+                      CellStyle="{StaticResource CCenteredDatagridCell}"
+                      Margin="10,10"
+                      Height="700">
+                <DataGrid.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel />
+                    </ItemsPanelTemplate>
+                </DataGrid.ItemsPanel>
+                <DataGrid.Columns>
+                    <!--#region A.Draw Column -->
+                    <DataGridTextColumn Header="{StaticResource lngDraw}"
+                                        Binding="{Binding Glass.Draw, Converter={StaticResource languageConverter}}" />
+                    <!--#endregion-->
+
+                    <!--#region A1.Draw Column -->
+                    <DataGridTextColumn Header="{StaticResource lngType}"
+                                        Binding="{Binding Glass.GlassType, Converter={StaticResource languageConverter}}" />
+                    <!--#endregion-->
+
+                    <!--#region B.Length Column -->
+                    <DataGridTextColumn Header="{StaticResource lngLength}"
+                                        Binding="{Binding Glass.Length}" />
+                    <!--#endregion-->
+
+                    <!--#region C.Height Column -->
+                    <DataGridTextColumn Header="{StaticResource lngHeight}"
+                                        Binding="{Binding Glass.Height}" />
+                    <!--#endregion-->
+
+                    <!--#region D.Glass Thickness Column -->
+                    <DataGridTextColumn Header="{StaticResource lngThickness}"
+                                        Binding="{Binding Glass.Thickness, Converter={StaticResource languageConverter}}" />
+                    <!--#endregion-->
+
+                    <!--#region E.Glass Thickness Column -->
+                    <DataGridTextColumn Header="{StaticResource lngGlassFinish}"
+                                        Binding="{Binding Glass.Finish, Converter={StaticResource languageConverter}}" />
+                    <!--#endregion-->
+
+                    <!--#region F.Has Step Column -->
+                    <DataGridCheckBoxColumn HeaderTemplate="{StaticResource DatagridStepCutHeaderTemplate}"
+                                            Binding="{Binding Glass.HasStep ,Mode=OneWay}" />
+                    <!--#endregion-->
+
+                    <!--#region G.Notes Column -->
+                    <DataGridTemplateColumn HeaderTemplate="{StaticResource DatagridNotesHeaderTemplate}">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <cc:Icon ToolTip="{Binding Notes}"
+                                         ToolTipService.ShowOnDisabled="False"
+                                         ToolTipService.Placement="Top"
+                                         ToolTipService.HorizontalOffset="0"
+                                         ToolTipService.BetweenShowDelay="0">
+                                    <cc:Icon.Style>
+                                        <Style TargetType="cc:Icon"
+                                               BasedOn="{StaticResource CInfoTooltipIcon}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Notes}"
+                                                             Value="">
+                                                    <Setter Property="Opacity"
+                                                            Value="0.3" />
+                                                    <Setter Property="IsEnabled"
+                                                            Value="False" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </cc:Icon.Style>
+                                </cc:Icon>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <!--#endregion-->
+
+                    <!--#region H.Quantity Column -->
+                    <DataGridTextColumn Header="{StaticResource lngQuantity}"
+                                        Binding="{Binding Quantity}" />
+                    <!--#endregion-->
+
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Style="{StaticResource ButtonIconCircular.Small}"
+                                            hc:IconElement.Geometry="{StaticResource AddGeometry}"
+                                            hc:IconElement.Height="10"
+                                            Margin="0,0,5,0"
+                                            Foreground="{DynamicResource SecondaryBrush}"
+                                            Command="{Binding RelativeSource={RelativeSource AncestorType=DataGrid}, Path=DataContext.AddQuantityToStockCommand}"
+                                            CommandParameter="{Binding .}"/>
+                                    <Button Style="{StaticResource ButtonIconCircular.Small}"
+                                            hc:IconElement.Geometry="{StaticResource DeductGeometry}"
+                                            hc:IconElement.Width="10"
+                                            Margin="0,0,5,0"
+                                            Foreground="{DynamicResource SecondaryBrush}"
+                                            Command="{Binding RelativeSource={RelativeSource AncestorType=DataGrid}, Path=DataContext.RemoveQuantityFromStockCommand}"
+                                            CommandParameter="{Binding .}" />
+                                    <Button Style="{StaticResource ButtonIconCircular.Small}"
+                                            hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
+                                            hc:IconElement.Height="10"
+                                            Foreground="{DynamicResource DangerBrush}"
+                                            Command="{Binding RelativeSource={RelativeSource AncestorType=DataGrid}, Path=DataContext.RemoveGlassFromStockCommand}"
+                                            CommandParameter="{Binding .}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+        <!--#endregion-->
+
+    </Grid>
+</UserControl>

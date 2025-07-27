@@ -1,0 +1,67 @@
+﻿@using BathAccessoriesModelsLibrary.Services;
+@using BathAccessoriesModelsLibrary;
+@inject AccessoriesUrlHelper photosHelper
+
+<div class="imagePresenterContainer">
+    @if (!string.IsNullOrEmpty(DirectImageUrl))
+    {
+        @*Show the Image if it exists*@
+        <img src="@($"{photosHelper.GetPhoto(DirectImageUrl,PhotoSize)}")"
+             class="mainImageElement noselect"
+             loading="lazy" />
+        @if (OtherSizeToLoadHidden is not null && OtherSizeToLoadHidden != PhotoSize)
+        {
+            <div style="display:none" class="noselect">
+                <img src="@($"{photosHelper.GetPhoto(DirectImageUrl,(PhotoSize)OtherSizeToLoadHidden)}")"
+                     class="noselect">
+            </div>
+        }
+    }
+    else if (Accessory.HasFinishPhoto(ShownAccessoryFinishCode))
+    {
+        @*Show the Image if it exists*@
+        <img src="@($"{photosHelper.GetPhoto(Accessory.GetPhotoUrlFromFinish(ShownAccessoryFinishCode),PhotoSize)}")"
+             class="mainImageElement noselect"
+             loading="lazy" />
+        @if (OtherSizeToLoadHidden is not null && OtherSizeToLoadHidden != PhotoSize)
+        {
+            <div style="display:none" class="noselect">
+                <img src="@($"{photosHelper.GetPhoto(Accessory.GetPhotoUrlFromFinish(ShownAccessoryFinishCode),(PhotoSize)OtherSizeToLoadHidden)}")"
+                     class="noselect" />
+
+            </div>
+        }
+    }
+    else
+    {
+        @*Otherwise show the Basic Finish*@
+        <img src="@($"{photosHelper.GetPhoto(Accessory.GetAccessoryBasicFinishUrl(),PhotoSize)}")"
+             class="mainImageElement noselect"
+             loading="lazy" />
+        <img src="@($"{photosHelper.GetThumbnail(Accessory.AvailableFinishes.FirstOrDefault(af=>af.Finish.Code == (ShownAccessoryFinishCode))?.Finish.PhotoURL) ?? string.Empty}")"
+             class="@(PhotoSize != PhotoSize.Thumbnail ? "secondaryImageElement" : "secondaryImageElementSmall") noselect"
+             loading="lazy" />
+        @if (OtherSizeToLoadHidden is not null && OtherSizeToLoadHidden != PhotoSize)
+        {
+            <div style="display:none" class="noselect">
+                <img src="@($"{photosHelper.GetPhoto(Accessory.GetAccessoryBasicFinishUrl(),(PhotoSize)OtherSizeToLoadHidden)}")"/>
+            </div>
+        }
+    }
+</div>
+
+@code {
+    [Parameter]
+    public BathroomAccessory Accessory { get; set; }
+    [Parameter]
+    public string DirectImageUrl { get; set; }
+    [Parameter]
+    public string ShownAccessoryFinishCode { get; set; }
+    [Parameter]
+    public PhotoSize PhotoSize { get; set; }
+    /// <summary>
+    /// Weather to also load another size of the image HIDDEN for printing purposes
+    /// </summary>
+    [Parameter]
+    public PhotoSize? OtherSizeToLoadHidden { get; set; } = null;
+}

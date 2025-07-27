@@ -1,0 +1,409 @@
+﻿@page "/AssembleMirror"
+@page "/AssembleMirror/{MirrorQueryString}"
+@using BronzeArtWebApplication.Components.SVGComponents
+@using BronzeArtWebApplication.Components.UniversalComponents
+@using BronzeArtWebApplication.Shared
+@using static MirrorsModelsLibrary.Helpers.EnumExtensions
+@using static BronzeArtWebApplication.Shared.Helpers.StaticInfoMirror
+@using System.Reflection
+@using MirrorsModelsLibrary.DrawsBuilder
+@using BronzeArtWebApplication.Shared.Helpers
+@using MirrorsModelsLibrary.StaticData
+@using static BronzeArtWebApplication.Components.MirrorCreationComponents.Dialogs.DimensionsDialog
+@implements IDisposable
+@inject ILanguageContainerService languageContainer
+@inject NavigationManager navigationManager
+@inject IDialogService ds
+@inject ISnackbar snackbar
+@inject BronzeUser user
+<PageTitle>@(languageContainer.Keys["AssembleMirrorPageTitle"])</PageTitle>
+
+<!-- INITIALIZATION OVERLAY -->
+<MudOverlay DarkBackground="true" AutoClose="false" @bind-Visible="@(isInitializing)">
+    <MudPaper Class="d-flex align-center justify-center flex-column pa-8">
+        <MudText>Initializing Please Bare with us a while longer...</MudText>
+        <i class="fas fa-spin fa-cog fa-4x" style="color: #EBB852"></i>
+    </MudPaper>
+</MudOverlay>
+
+<!-- CREATE MIRROR / CHOOSE CATALOGUE MIRROR / RETAIL-WHOLESALE SELECTOR -->
+<MudGrid Justify="Justify.Center" Class="mt-2 mb-1" Spacing="2">
+    <MudItem xs="12" sm="12" md="9" lg="9" xl="9" xxl="9" Class="mt-1 d-flex flex-row" Style="width:100%">
+        @if (Vm.Shape == null)
+        {
+            <MudButton Variant="Variant.Filled"
+            FullWidth="true"
+            Style="text-transform:none;width:100%;height:40px;background-image:linear-gradient(90deg,var(--customLightPrimary) 0%,var(--customPrimary) 60%);">
+                <BronzeArtLogoSVG />
+            </MudButton>
+        }
+        else
+        {
+            <MudButton OnClick="(() => { dialogNav.InStoryMode = true; dialogNav.GoToDialog(dialogNav.CurrentDialog);})"
+            Variant="Variant.Filled"
+            Color="Color.Primary"
+            FullWidth="true"
+            Class="mr-6"
+            Style="text-transform:none;width:100%;height:40px"
+            EndIcon="fas fa-pencil-ruler">
+                <MudText Typo="@(Typo.subtitle2)" Class="my-1">
+                    @(languageContainer.Keys["MainButton"])
+                </MudText>
+            </MudButton>
+            <div style="width:100%;" class="d-flex flex-row">
+                <MudButton OnClick="@(()=>navigationManager.NavigateTo("/MirrorCatalog"))"
+                EndIcon="@(Icons.Material.Filled.MenuBook)"
+                FullWidth="true"
+                Class="ml-n4"
+                Color="Color.Primary"
+                Variant="Variant.Filled"
+                Style="text-transform:none;height:40px;width:100%;">
+                    @languageContainer.Keys["DialogFixedSizeMirror"]
+                </MudButton>
+                <MudTooltip>
+                    <TooltipContent>
+                        @languageContainer.Keys["Reset"]
+                    </TooltipContent>
+                    <ChildContent>
+                        <MudIconButton Icon="fas fa-undo"
+                        Size="@(Size.Small)"
+                        Color="@(Color.Primary)"
+                        Variant="@(Variant.Filled)"
+                        OnClick="(() => ResetChoices())"
+                        Style="height:40px;"
+                        Class="ml-1" />
+                    </ChildContent>
+                </MudTooltip>
+            </div>
+        }
+    </MudItem>
+
+    <MudItem xs="12" sm="12" md="3" lg="3" xl="3" xxl="3" Style="width:100%;" Class="d-flex flex-row justify-center align-center">
+        <!--RETAIL - WHOLESALE SELECTOR-->
+        <BronzeAppModeSelector />
+    </MudItem>
+</MudGrid>
+
+@if (Vm.Shape == null)
+{
+    <!--CAROUSEL AND BUTTONS WHEN MIRROR IS NULL-->
+    <div class="bronze-FadeIn d-flex justify-center mud-elevation-9 rounded-lg mainWindowContainer my-2" style="height:100%">
+        <MudGrid Justify="Justify.Center" Spacing="2" Class="px-5 py-5" Style="width:100%;height:100%">
+            <MudItem xs="12" sm="12" md="8" lg="8" xl="8" xxl="8">
+                <MirrorsCarousel />
+            </MudItem>
+            <MudItem xs="6" sm="6" md="2" lg="2" xl="2" xxl="2">
+                <MudButton Variant="Variant.Text"
+                FullWidth="true"
+                Color="@(Color.Primary)"
+                Style="text-transform:none;height:100%"
+                Class="pa-2 mirrorButton"
+                OnClick="(() => { dialogNav.InStoryMode = true; dialogNav.GoToDialog(MirrorDialog.ChooseShape);})">
+                    <MudContainer Class="d-flex justify-center flex-column ma-1 pa-1" Style="max-width:90%">
+                        <i class="fas fa-tools fa-7x d-none d-sm-inline mirrorButton-Icon"></i>
+                        <i class="fas fa-tools fa-5x d-inline d-sm-none mirrorButton-Icon"></i>
+                        <MudText Typo="Typo.subtitle1">
+                            @(languageContainer.Keys["MainButton"])
+                        </MudText>
+                    </MudContainer>
+                </MudButton>
+            </MudItem>
+            <MudItem xs="6" sm="6" md="2" lg="2" xl="2" xxl="2">
+                <MudButton Variant="Variant.Text"
+                FullWidth="true"
+                Color="@(Color.Primary)"
+                Style="text-transform:none;height:100%;"
+                Class="pa-2 mirrorButton"
+                OnClick="@(()=>navigationManager.NavigateTo("/MirrorCatalog"))">
+                    <MudContainer Class="d-flex justify-center flex-column ma-1 pa-1" Style="max-width:90%">
+                        <i class="fas fa-book fa-7x d-none d-sm-inline mirrorButton-Icon"></i>
+                        <i class="fas fa-book fa-5x d-inline d-sm-none mirrorButton-Icon"></i>
+                        <MudText Typo="Typo.subtitle1">
+                            @(languageContainer.Keys["DialogFixedSizeMirror"])
+                        </MudText>
+                    </MudContainer>
+                </MudButton>
+            </MudItem>
+        </MudGrid>
+    </div>
+}
+else
+{
+    <!-- MAIN BODY GRID -->
+    <MudGrid Class="mb-5" Spacing="4">
+        <!--PHOTOS AND PRICING TABLE-->
+        <MudItem xs="12" sm="12" md="8" lg="9" xl="9" xxl="9">
+
+            <div class="d-flex rounded-lg bronze-FadeIn" id="centralContainer" style="height:100%;background-color:lightgray">
+                <MudGrid Spacing="1">
+
+                    <!--MIRROR PHOTO - OPTIONS PHOTOS - DRAW BUTTON-->
+                    <MudItem xs="12" Class="d-flex flex-column ">
+                        <MudGrid Spacing="2">
+
+                            <!--MIRROR PHOTO-->
+                            <MudItem lg="6" id="mirrorPhotoMudItem">
+                                <img src="@Vm.GetSelectedMirrorPhotoPath()"
+                                alt="@Vm.GetAltSelectedMirrorPhotoPath()"
+                                style="margin:auto"
+                                class="rounded-lg" />
+                            </MudItem>
+                            <MudItem lg="6" Class="d-flex flex-column" Style="width:100%">
+
+                                <!--OPTIONS PHOTOS-->
+                                <MirrorOptionsPhotosDisplay OptionsPhotoPaths="Vm.GetSelectedOptionsPhotoPath()" />
+
+                                <!--DRAW BUTTON-->
+                                <div id="drawButtonContainer" style="width:100%;height:100%;background-color:inherit;" class="pa-5 d-flex justify-center align-center">
+                                    <MudButton Color="Color.Primary"
+                                    Variant="Variant.Outlined"
+                                    OnClick="@(()=> GoToMirroDrawPage())"
+                                    Style="text-transform:none"
+                                    Class="mud-elevation-2">
+                                        @languageContainer.Keys["ClickToObserveDraw"]
+                                    </MudButton>
+                                </div>
+
+                                <div id="smallLogoContainer" style="width: 100%;height:75px;position: relative;" class="mt-auto">
+                                    <BrandLogo Style="width:120px;position:absolute;right:5px;bottom:5px"
+                                    IsVisibleBronzeLogoRetail="@(true)"
+                                    StyleBronzeLogo="width:100px;position:absolute;left:5px;bottom:10px" />
+                                </div>
+                                <hr />
+
+                            </MudItem>
+                        </MudGrid>
+                    </MudItem>
+
+                    <!--PRICING TABLE-->
+                    <MudItem xs="12" Style="width:100%">
+                        <div id="pricingTableDimensionsPanelContainer" class="d-flex flex-column align-center justify-center ma-2" style="background-color:transparent;">
+
+                            <!--DIMENSIONS & DISCOUNT BOXES-->
+                            <MudPaper Elevation="0" Outlined="false" Class="d-flex flex-row align-center justify-center" Style="background-color: lightgray; flex: 1 1 auto">
+                                @if (DimensionsDialog.GetHasFixedDimensions(Vm.Series))
+                                {
+                                    <MudButton Variant="@(Variant.Outlined)"
+                                               Color="@(Color.Primary)"
+                                               Style="text-transform:none"
+                                               Class="d-none d-lg-inline-flex mt-1"
+                                               OnClick="@(()=> dialogNav.GoToDialog(MirrorDialog.ChooseDimensions))"
+                                               StartIcon="@(Icons.Material.Filled.Straighten)" >
+                                        @languageContainer.Keys["FixedDimensionsLegend"]
+                                    </MudButton>
+                                }
+                                @if (Vm.Shape is not MirrorShape.Circular)
+                                {
+                                    <DimensionInputBox MaxDimension="@(Mirror.MaxLength)"
+                                                       MinDimension="@(Mirror.MinLength)"
+                                                       Label="@languageContainer.Keys["Length"]"
+                                                       @bind-Dimension="@Vm.Length"
+                                                       Disabled="@(DimensionsDialog.GetHasFixedDimensions(Vm.Series))" />
+                                    <DimensionInputBox MaxDimension="@(Mirror.MaxHeight)"
+                                                       MinDimension="@(Mirror.MinDiameter)"
+                                                       Label="@languageContainer.Keys["Height"]"
+                                                       @bind-Dimension="@Vm.Height"
+                                                       Disabled="@(DimensionsDialog.GetHasFixedDimensions(Vm.Series))" />
+                                }
+                                else
+                                {
+                                    <DimensionInputBox MaxDimension="@(Mirror.MaxDiameter)"
+                                                       MinDimension="@(Mirror.MinDiameter)"
+                                                       Label="@languageContainer.Keys["Diameter"]"
+                                                       @bind-Dimension="@Vm.Diameter" 
+                                                       Disabled="@(DimensionsDialog.GetHasFixedDimensions(Vm.Series))" />
+                                }
+
+                                <DiscountInputBox @bind-PrimaryDiscount="@(user.SelectedPrimaryDiscount)"
+                                                  @bind-SecondaryDiscount="@(user.SelectedSecondaryDiscount)"
+                                                  @bind-TertiaryDiscount="@(user.SelectedTertiaryDiscount)" />
+
+                            </MudPaper>
+
+                            <!--TABLE WITH PRICES OR VALIDATION MESSAGES-->
+                            @if (Vm.ValidateMirrorInputs().IsValid)
+                            {
+                                <div style="width: 100%;margin-right:5px; margin-left: 5px;">
+                                    <MirrorPricingTable Priceables="@(Vm.GetPriceables())" />
+                                </div>
+                                <MudGrid Justify="@(Justify.Center)">
+                                    <MudItem xs="12" sm="12" md="12" lg="6" xl="6" xxl="6">
+                                        <div class="d-flex flex-column my-5">
+                                            <MudText Class="ml-2" Typo="@(Typo.caption)">@($"{languageContainer.Keys["Notes"]} :")</MudText>
+                                            <MudTextField T="string" Style="width:100%"
+                                                          Variant="@(Variant.Outlined)"
+                                                          @bind-Text="@(Vm.NotesText)"
+                                                          Margin="@(Margin.Dense)"
+                                                          Lines="4" Clearable="@(true)" />
+                                        </div>
+                                    </MudItem>
+                                    <MudItem xs="12" sm="12" md="12" lg="6" xl="6" xxl="6" Class="d-flex justify-center align-center">
+                                        <div class="d-flex flex-row justify-center align-center pt-4 pb-2 my-auto" style="width:100%">
+                                            <MudTooltip>
+                                                <TooltipContent>
+                                                    @languageContainer.Keys["PrintSaveOffer"]
+                                                </TooltipContent>
+                                                <ChildContent>
+                                                    <MudButton StartIcon="fas fa-print"
+                                                               Class="mud-elevation-2 justify-center align-center" IconClass="ma-0"
+                                                               Color="@(Color.Primary)"
+                                                               Variant="@(Variant.Outlined)" Style="text-transform:none"
+                                                               OnClick="@(()=>Printpage())">
+                                                        <div class="d-none d-sm-flex ml-2">@languageContainer.Keys["PrintSaveOffer"]</div>
+                                                    </MudButton>
+                                                </ChildContent>
+                                            </MudTooltip>
+                                            <div style="width:50px;height:1px;border-bottom:1px solid var(--customPrimary)" class="ma-2" />
+                                            <MudTooltip>
+                                                <TooltipContent>
+                                                    @languageContainer.Keys["CreateLinkInformation"]
+                                                </TooltipContent>
+                                                <ChildContent>
+                                                    <MudButton StartIcon="@(Icons.Material.Filled.Share)"
+                                                               Class="mud-elevation-2 justify-center align-center" IconClass="ma-0"
+                                                               Color="@(Color.Primary)"
+                                                               Variant="@(Variant.Outlined)"
+                                                               Style="text-transform:none"
+                                                               OnClick="@(()=>CopyLinkToClipboard())">
+                                                        <div class="d-none d-sm-flex ml-2">@languageContainer.Keys["LinkCreation"]</div>
+                                                    </MudButton>
+                                                </ChildContent>
+                                            </MudTooltip>
+                                        </div>
+                                    </MudItem>
+                                </MudGrid>
+                            }
+                            else
+                            {
+                                <MudPaper Class="pa-5 ma-3" Elevation="2" Style="background-color:inherit">
+                                    @{
+                                        int failureNo = 1;
+                                    }
+                                    @foreach (var Error in Vm.ValidateMirrorInputs().Errors)
+                                    {
+                                        <MudText Typo="Typo.body2" Color="Color.Primary" Align="@Align.Left">@($"{failureNo++}.{Error.ErrorMessage}")</MudText>
+                                    }
+                                </MudPaper>
+                            }
+                        </div>
+                    </MudItem>
+                </MudGrid>
+            </div>
+
+        </MudItem>
+
+        <!--MIRROR PROPERTIES PANEL-->
+        <MudItem xs="12" sm="12" md="4" lg="3" xl="3" xxl="3" Class="d-flex justify-top mb-auto">
+            <MirrorPropertiesButtonPanel ButtonIconColor=@ButtonIconColor
+                                         OptionButtonVariant=@optionButtonVariant
+                                         OnOptionButtonClick="@((mirrorDialog)=>dialogNav.GoToDialog(mirrorDialog))"
+                                         ResetButtonClick="@(() => ResetChoices())">
+            </MirrorPropertiesButtonPanel>
+        </MudItem>
+    </MudGrid>
+}
+<!-- SHAPE DIALOG -->
+<ShapeDialog @bind-IsVisible="@dialogNav.IsDialogOpen[MirrorDialog.ChooseShape]"
+             OnShapeClick="((shape)=> {Vm.Shape = shape;dialogNav.GoToNextDialog();})" />
+
+<!-- LIGHT DIALOG -->
+<LightsDialog @bind-IsVisible="@dialogNav.IsDialogOpen[MirrorDialog.ChooseLight]"
+              OnLightClick="((light)=>{Vm.Light = light;dialogNav.GoToNextDialog();})"
+              OnPreviousClick="(()=>dialogNav.GoToPreviousDialog())"
+              Series="@(Vm.Series)" />
+
+<!-- SUPPORTS DIALOG -->
+<SupportsDialog @bind-IsVisible="@dialogNav.IsDialogOpen[MirrorDialog.ChooseSupport]"
+                @bind-SelectedSupport="@Vm.Support"
+                OnPreviousClick="(() => dialogNav.GoToPreviousDialog())"
+                OnNextClick="(()=> dialogNav.GoToNextDialog())"
+                Shape="@Vm.Shape"
+                SelectableSupports="@(StaticInfoMirror.GetSelectableSupports(Vm.Series))" />
+
+<!-- FRAME FINISH DIALOG -->
+<FrameFinishDialog @bind-IsVisible="@dialogNav.IsDialogOpen[MirrorDialog.ChooseFrameFinish]"
+                   @bind-SelectedFinishType="@Vm.FinishType"
+                   @bind-SelectedPaintFinish="@Vm.PaintFinish"
+                   PriceIncreaseFactor="user.SelectedPriceIncreaseFactor"
+                   MirrorHeight="@(Vm.Shape is MirrorShape.Circular ? Vm.Diameter : Vm.Height)"
+                   MirrorLength="@(Vm.Shape is MirrorShape.Circular ? Vm.Diameter :Vm.Length)"
+                   OnPreviousClick="(() => dialogNav.GoToPreviousDialog())"
+                   OnNextClick="(()=> dialogNav.GoToNextDialog())" />
+
+<!-- DIMENSIONS DIALOG -->
+<DimensionsDialog @bind-IsVisible="@dialogNav.IsDialogOpen[MirrorDialog.ChooseDimensions]"
+                  @bind-Length="@Vm.Length"
+                  @bind-Height="@Vm.Height"
+                  @bind-Diameter="@Vm.Diameter"
+                  Shape="@Vm.Shape"
+                  HasFixedDimensions="@(DimensionsDialog.GetHasFixedDimensions(Vm.Series))"
+                  FixedDimensions="@(MirrorsStaticData.CatalogueMirrors.Where(m => m.Series == Vm.Series).Select(m => new MirrorDimension() { Length = m.Length ?? 0, Height = m.Height ?? 0, Diameter = m.Diameter ?? 0,}).ToList())"
+                  SelectedFixedDimension="@(new MirrorDimension() { Length = Vm.Length ?? 0, Height = Vm.Height ?? 0, Diameter = Vm.Diameter ?? 0})"
+                  OnPreviousClick="(()=>dialogNav.GoToPreviousDialog())"
+                  OnNextClick="(()=>dialogNav.GoToNextDialog())" />
+
+<!-- SANDBLAST DIALOG -->
+<SandblastDialog @bind-IsVisible="@dialogNav.IsDialogOpen[MirrorDialog.ChooseSandblast]"
+                 Sandblasts="@(StaticInfoMirror.GetSelectableSandblasts(Vm.Series))"
+                 OnSandblastClick="((sandblast)=> {Vm.Sandblast = sandblast;dialogNav.GoToNextDialog();})"
+                 OnPreviousClick="(()=> dialogNav.GoToPreviousDialog())" />
+
+<!-- TOUCH DIALOG -->
+<TouchDialog @bind-IsVisible="@dialogNav.IsDialogOpen[MirrorDialog.ChooseSwitch]"
+             @bind-HasSwitch="@Vm.HasSwitch"
+             @bind-HasDimmer="@Vm.HasDimmer"
+             @bind-HasSensor="@Vm.HasSensor"
+             SelectableTouchSwitches="@(StaticInfoMirror.GetSelectableTouchOptions(Vm.Series))"
+             PriceIncreaseFactor="@(user.SelectedPriceIncreaseFactor)"
+             OnPreviousClick="(()=> dialogNav.GoToPreviousDialog())"
+             OnNextClick="(()=> dialogNav.GoToNextDialog())" />
+
+<!-- ANTI-FOG DIALOG -->
+<FogDialog @bind-IsVisible="@(dialogNav.IsDialogOpen[MirrorDialog.ChooseFog])"
+           @bind-HasFog16="@(Vm.HasFog16)"
+           @bind-HasFog24="@(Vm.HasFog24)"
+           @bind-HasFog55="@(Vm.HasFog55)"
+           @bind-HasFogSwitch="@(Vm.HasFogSwitch)"
+           @bind-HasEcoTouch="@(Vm.HasEcoFogSwitch)"
+           SelectableFogOptions="StaticInfoMirror.GetSelectableFogOptions(Vm.Series)"
+           SelectableFogSwitchOptions="StaticInfoMirror.GetSelectableFogSwitchOptions(Vm.Series)"
+           PriceIncreaseFactor="@(user.SelectedPriceIncreaseFactor)"
+           Light="@Vm.Light"
+           OnPreviousClick="(()=> dialogNav.GoToPreviousDialog())"
+           OnNextClick="(()=> dialogNav.GoToNextDialog())" />
+
+<!-- MAGNIFYER DIALOG -->
+<MagnifyerDialog @bind-IsVisible="@dialogNav.IsDialogOpen[MirrorDialog.ChooseMagnifyer]"
+                 @bind-HasMagnifyer="@Vm.HasMagnifyer"
+                 @bind-HasMagnifyerLed="@Vm.HasMagnifyerLed"
+                 @bind-HasMagnifyerLedTouch="@Vm.HasMagnifyerLedTouch"
+                 PriceIncreaseFactor="@(user.SelectedPriceIncreaseFactor)"
+                 SelectableMagnifyerOptions="@(StaticInfoMirror.GetSelectableMagnifierOptions(Vm.Series))"
+                 OnPreviousClick="(()=> dialogNav.GoToPreviousDialog())"
+                 OnNextClick="(()=> dialogNav.GoToNextDialog())" />
+
+<!-- SCREENS DIALOG -->
+<ScreenDialog @bind-IsVisible="@dialogNav.IsDialogOpen[MirrorDialog.ChooseScreen]"
+              @bind-HasClock="@Vm.HasClock"
+              @bind-HasBluetooth="@Vm.HasBluetooth"
+              @bind-HasDisplay11="@Vm.HasDisplay11"
+              @bind-HasDisplay19="@Vm.HasDisplay19"
+              @bind-HasDisplay20="@Vm.HasDisplay20"
+              @bind-HasDisplay11Black="@Vm.HasDisplay11Black"
+              SelectableScreenOptions="@(StaticInfoMirror.GetSelectableMediaOptions(Vm.Series))"
+              PriceIncreaseFactor="@(user.SelectedPriceIncreaseFactor)"
+              OnPreviousClick="(()=> dialogNav.GoToPreviousDialog())"
+              OnNextClick="(()=> dialogNav.GoToNextDialog())" />
+
+<!-- VARIOUS EXTRAS DIALOG -->
+<VariousExtrasDialog @bind-IsVisible="@dialogNav.IsDialogOpen[MirrorDialog.ChooseVarious]"
+                     @bind-HasLid="@Vm.HasLid"
+                     @bind-HasRounding="@Vm.HasRounding"
+                     PriceIncreaseFactor="@(user.SelectedPriceIncreaseFactor)"
+                     SelectableExtras="@(StaticInfoMirror.GetSelectableExtraOptions(Vm.Series))"
+                     OnPreviousClick="(()=> dialogNav.GoToPreviousDialog())"
+                     OnNextClick="(() => dialogNav.GoToDialog(MirrorDialog.None))" />
+
+@code {
+
+}

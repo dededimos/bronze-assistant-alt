@@ -1,0 +1,66 @@
+﻿@*The Window to Choose a FixedPanel Opening*@
+@namespace BronzeArtWebApplication.Pages.CabinsPage.Components.WindowsComponents.OpeningsWindows.SecondStep
+@using ShowerEnclosuresModelsLibrary.Enums.CabinCategories
+@using static BronzeArtWebApplication.Shared.Helpers.StaticInfoCabins
+@using static BronzeArtWebApplication.Shared.Helpers.StylesStaticInfoCabins
+@inject ILanguageContainerService lc
+@inject AssembleCabinViewModel vm
+
+<StoryContainer Title = "@(lc.Keys["FixedPanelWindowTitle"])" 
+                @bind-IsVisible = "@(vm.IsWindowVisible[StoryWindow.FixedPanelOpenings])" 
+                IsNextButtonVisible = "@(false)"
+                IsPreviousButtonVisible = "@(true)"
+                OnPreviousClick = "@(()=> vm.ShowWindow(StoryWindow.OpeningPrimary,StoryWindow.FixedPanelOpenings))"
+                OnResetClick = "@(()=> vm.ResetViewModel())">
+    <MainContent>
+        <MudGrid Justify="Justify.Center" Spacing="2" Class="px-5 py-5">
+                @foreach (FixedPanelType fixedPanelType in Enum.GetValues(typeof(FixedPanelType)))
+                    {
+                        <!--For the Main Panels 8W & 8E Put them in Bigger Boxes-->
+                        @if (fixedPanelType is FixedPanelType.WallPanel or FixedPanelType.FreeStandingPanel )
+                        {
+                            <MudItem sm="6" md="6" lg="6" xxl="6" Class="d-flex justify-center align-center">
+                                <MudButton Variant="Variant.Filled"
+                                           FullWidth="true"
+                                           Style="text-transform:none;height:100%"
+                                           Class="ma-2"
+                                           OnClick = "@(()=> HandleSelection(fixedPanelType))">
+                                    <MudContainer Class="d-flex justify-center flex-column ma-1 pa-1" Style="max-width:90%">
+                                        <img src="@(FixedPanelTypeImagePaths[fixedPanelType])"
+                                             alt="@lc.Keys[FixedPanelTypeDescKey[fixedPanelType]]"
+                                             class="rounded-lg" />
+                                        <MudText Typo="Typo.subtitle1">
+                                            @lc.Keys[FixedPanelTypeDescKey[fixedPanelType]]
+                                        </MudText>
+                                    </MudContainer>
+                                </MudButton>
+                            </MudItem>
+                        }
+                        <!--Else Put the Synthesis Pieces in half the Boxes-->
+                        else
+                        {
+                            <MudItem xs="6" sm="4" md="4" lg="2" xxl="2" Class="d-flex justify-center align-center">
+                                <MudButton Variant="Variant.Filled"
+                                           FullWidth="true"
+                                           Style="text-transform:none;height:100%"
+                                           Class="ma-2"
+                                           OnClick = "@(()=> HandleSelection(fixedPanelType))">
+                                    <MudContainer Class="d-flex justify-center flex-column ma-1 pa-1" Style="max-width:90%">
+                                        <img src="@(FixedPanelTypeImagePaths[fixedPanelType])"
+                                             alt="@lc.Keys[FixedPanelTypeDescKey[fixedPanelType]]"
+                                             class="rounded-lg" />
+                                        <MudText Typo="Typo.subtitle1">
+                                            @lc.Keys[FixedPanelTypeDescKey[fixedPanelType]]
+                                        </MudText>
+                                    </MudContainer>
+                                </MudButton>
+                            </MudItem>
+                        }
+                    }
+        </MudGrid>    
+    </MainContent>
+</StoryContainer>
+
+@code {
+
+}

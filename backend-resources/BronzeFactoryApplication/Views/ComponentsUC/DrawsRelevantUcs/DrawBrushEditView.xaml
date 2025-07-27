@@ -1,0 +1,122 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.ComponentsUC.DrawsRelevantUcs.DrawBrushEditView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.DrawsRelevantUcs"
+             mc:Ignorable="d"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels.ComponentsUCViewModels.DrawsViewModels"
+             xmlns:drawingVm="clr-namespace:BronzeFactoryApplication.ViewModels.DrawingsViewModels"
+             xmlns:helperVw="clr-namespace:BronzeFactoryApplication.Views.HelperViews"
+             xmlns:modelsPresOpt="clr-namespace:DrawingLibrary.Models.PresentationOptions;assembly=DrawingLibrary"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             x:Name="drawingContainerOptionsView"
+             d:DataContext="{d:DesignInstance Type=drawingVm:DrawBrushVm}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <!--#region Solid Color Controls-->
+        <StackPanel IsEnabled="{Binding IsSolidColor}"
+                    HorizontalAlignment="Center"
+                    Grid.Row="0"
+                    x:Name="IsSolidColorStackPanel">
+            <TextBlock Text="{StaticResource lngSolidColor}"
+                       HorizontalAlignment="Center"
+                       Style="{StaticResource TitleTextBlockStyle}">
+            </TextBlock>
+            <helperVw:TasColorPicker ColorPickerTitle="{StaticResource lngColor}"
+                                     IconTooltip="{StaticResource lngColorTooltip}"
+                                     SelectedColor="{Binding Color,Converter={StaticResource StringToBrushConverter},Mode=TwoWay}" />
+        </StackPanel>
+        <Border Grid.Row="0"
+                Background="{DynamicResource RegionBrush}"
+                d:Visibility="Visible"
+                Opacity="0.90"
+                CornerRadius="0"
+                Panel.ZIndex="10"
+                Visibility="{Binding ElementName=IsSolidColorStackPanel, Path=IsEnabled , Converter={StaticResource Boolean2VisibilityReConverter}}" />
+        <!--#endregion-->
+
+        <Expander Header="{StaticResource lngGradient}"
+                  Grid.Row="4"
+                  Width="525"
+                  BorderThickness="2"
+                  Margin="0,10,0,0"
+                  IsExpanded="{Binding IsSolidColor , Converter={StaticResource Boolean2BooleanReConverter},Mode=OneTime}">
+            <!--#region Gradient Controls -->
+            <Border BorderThickness="0"
+                    BorderBrush="{DynamicResource BorderBrush}"
+                    Padding="10">
+                <StackPanel>
+                    <helperVw:TasNumericTextBox DockPanel.Dock="Right"
+                                                VerticalAlignment="Top"
+                                                Margin="0,0,0,10"
+                                                TextBoxTitle="{StaticResource lngGradientAngleDegrees}"
+                                                IconTooltip="{StaticResource lngGradientAngleDegreesTooltip}"
+                                                Text="{Binding GradientAngleDegrees}"
+                                                Precision="0"
+                                                MaxLength="3"
+                                                InputMode="DigitInput" />
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Vertical"
+                                    VerticalAlignment="Top"
+                                    Margin="0,0,10,0">
+                            <helperVw:TasColorPicker ColorPickerTitle="{StaticResource lngGradientStopColorToAdd}"
+                                                     IconTooltip="{StaticResource lngGradientStopColorToAddTooltip}"
+                                                     SelectedColor="{Binding ColorStopToAdd,Converter={StaticResource StringToBrushConverter},Mode=TwoWay}" />
+                            <helperVw:TasNumericTextBox TextBoxTitle="{StaticResource lngGradientStopOffset}"
+                                                        IconTooltip="{StaticResource lngGradientStopOffsetTooltip}"
+                                                        Text="{Binding OffsetStopToAdd}"
+                                                        Precision="2"
+                                                        MaxLength="4"
+                                                        Margin="0,10,0,0"
+                                                        InputMode="DecimalInput"
+                                                        VerticalAlignment="Top" />
+                            <Button Style="{StaticResource ButtonIconCircular}"
+                                    hc:IconElement.Geometry="{StaticResource AddGeometry}"
+                                    VerticalAlignment="Bottom"
+                                    Foreground="{DynamicResource SuccessBrush}"
+                                    Margin="0,10,0,0"
+                                    ToolTip="{StaticResource lngAdd}"
+                                    Command="{Binding AddStopCommand}" />
+                        </StackPanel>
+                        <helperVw:TasListBox ItemsSource="{Binding GradientStops}"
+                                             ListBoxTitle="{StaticResource lngGradientStops}"
+                                             IconTooltip="{StaticResource lngGradientStopsTooltip}"
+                                             MaxHeight="145"
+                                             VerticalAlignment="Top">
+                            <helperVw:TasListBox.ItemTemplate>
+                                <DataTemplate DataType="{x:Type modelsPresOpt:DrawGradientStop}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Color, Mode=OneWay}"
+                                                   Foreground="{Binding Color,Mode=OneWay,Converter={StaticResource StringToBrushConverter}}"
+                                                   Width="100"
+                                                   HorizontalAlignment="Left" />
+                                        <TextBlock Margin="30,0,0,0"
+                                                   Text="Offset : " />
+                                        <TextBlock Text="{Binding Offset,Mode=OneWay}"
+                                                   Width="60" />
+                                        <Button Style="{StaticResource ButtonIconCircular.Small}"
+                                                Foreground="{DynamicResource DangerBrush}"
+                                                hc:IconElement.Geometry="{StaticResource CloseGeometry}"
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=helperVw:TasListBox}, Path=DataContext.RemoveStopCommand}"
+                                                CommandParameter="{Binding .}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </helperVw:TasListBox.ItemTemplate>
+                        </helperVw:TasListBox>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+            <!--#endregion-->
+        </Expander>
+
+    </Grid>
+</UserControl>

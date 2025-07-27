@@ -1,0 +1,122 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.MirrorObjectsViews.MirrorLightInfoViewUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.MirrorObjectsViews"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels.MirrorsViewModels"
+             xmlns:vw="clr-namespace:BronzeFactoryApplication.Views.HelperViews"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:mirrElements="clr-namespace:MirrorsLib.MirrorElements;assembly=MirrorsLib"
+             xmlns:globalCommands="clr-namespace:BronzeFactoryApplication.Helpers"
+             xmlns:EnumSource="clr-namespace:BronzeFactoryApplication.Helpers.MarkupExtensions"
+             xmlns:mirrorEnum="clr-namespace:MirrorsLib.Enums;assembly=MirrorsLib"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=vm:MirrorLightInfoEditorViewModel}">
+    <Grid>
+        <Grid.Resources>
+            <Style TargetType="Button"
+                   BasedOn="{StaticResource ButtonIconCircular.Small}"
+                   x:Key="AddItemButton">
+                <Setter Property="VerticalAlignment"
+                        Value="Bottom" />
+                <Setter Property="ToolTip"
+                        Value="{StaticResource lngAdd}" />
+                <Setter Property="Foreground"
+                        Value="{DynamicResource SuccessBrush}" />
+                <Setter Property="hc:IconElement.Geometry"
+                        Value="{StaticResource AddGeometry}" />
+                <Setter Property="DockPanel.Dock"
+                        Value="Right" />
+                <Setter Property="Margin"
+                        Value="8,0,0,3" />
+                <Setter Property="HorizontalAlignment"
+                        Value="Left" />
+            </Style>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <hc:UniformSpacingPanel VerticalAlignment="Top"
+                                HorizontalAlignment="Center"
+                                ItemVerticalAlignment="Center"
+                                Spacing="20"
+                                ChildWrapping="Wrap">
+            <hc:UniformSpacingPanel Orientation="Vertical" Spacing="10" Margin="0,0,20,0">
+                <!--#region Watt per Meter -->
+                <vw:TasNumericTextBox Text="{Binding WattPerMeter}"
+                                      TextBoxTitle="{StaticResource lngWattPerMeter}"
+                                      IconTooltip="{StaticResource lngWattPerMeterTooltip}"
+                                      Precision="0"
+                                      JustPositiveInput="True"
+                                      InputMode="DigitInput"
+                                      MaxLength="4" />
+                <!--#endregion-->
+                <!--#region Lumen -->
+                <vw:TasNumericTextBox Text="{Binding Lumen}"
+                                      TextBoxTitle="{StaticResource lngLumen}"
+                                      IconTooltip="{StaticResource lngLumenTooltip}"
+                                      Precision="0"
+                                      JustPositiveInput="True"
+                                      InputMode="DigitInput"
+                                      MaxLength="6" />
+                <!--#endregion-->
+                <!--#region IP Rating -->
+                <Button Command="{Binding EditIPRatingCommand}"
+                        FontSize="12"
+                        Height="auto"
+                        BorderBrush="{DynamicResource SecondaryBorderBrush}"
+                        BorderThickness="1"
+                        Content="{Binding IP.Rating}"
+                        d:Content="IP65"
+                        ToolTip="{StaticResource lngEditIP}">
+                </Button>
+                <!--#endregion-->
+            </hc:UniformSpacingPanel>
+            <!--#region Kelvin List -->
+
+            <hc:UniformSpacingPanel Spacing="10"
+                                    Orientation="Vertical">
+                <!--#region Add ComboBox -->
+                <DockPanel LastChildFill="True" Margin="0,0,0,10">
+                    <Button Command="{Binding AddKelvinCommand}"
+                            Style="{StaticResource AddItemButton}" DockPanel.Dock="Right"/>
+                    <vw:TasNumericTextBox Text="{Binding KelvinToAdd}"
+                                          TextBoxTitle="{StaticResource lngKelvinToAdd}"
+                                          IconTooltip="{StaticResource lngKelvinToAddTooltip}"
+                                          Precision="0"
+                                          JustPositiveInput="True"
+                                          InputMode="DigitInput"
+                                          MaxLength="5" 
+                                          DockPanel.Dock="Left"/>
+                </DockPanel>
+                <!--#endregion-->
+                <vw:TasListBox ListBoxTitle="{StaticResource lngKelvin}"
+                               IconTooltip="{StaticResource lngKelvinTooltip}"
+                               ItemsSource="{Binding Kelvin}">
+                    <vw:TasListBox.ItemTemplate>
+                        <DataTemplate>
+                            <DockPanel LastChildFill="True">
+                                <Button Style="{StaticResource ButtonIconCircular.Small}"
+                                        Foreground="{DynamicResource DangerBrush}"
+                                        hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
+                                        hc:IconElement.Height="8"
+                                        BorderBrush="{DynamicResource DangerBrush}"
+                                        Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor} , Path=DataContext.RemoveKelvinCommand}"
+                                        CommandParameter="{Binding .}" />
+                                <TextBlock Text="{Binding .}"
+                                           VerticalAlignment="Center"
+                                           TextAlignment="Center"
+                                           Margin="10,0"
+                                           Width="50" />
+                            </DockPanel>
+                        </DataTemplate>
+                    </vw:TasListBox.ItemTemplate>
+                </vw:TasListBox>
+            </hc:UniformSpacingPanel>
+
+            <!--#endregion-->
+        </hc:UniformSpacingPanel>
+    </Grid>
+</UserControl>

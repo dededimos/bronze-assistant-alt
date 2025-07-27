@@ -1,0 +1,2365 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.ComponentsUC.CabinPropertiesUserControls.CabinPropertiesUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.CabinPropertiesUserControls"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:b="clr-namespace:BronzeFactoryApplication.Helpers.Behaviours"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:vw="clr-namespace:BronzeFactoryApplication.Views"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels.CabinsViewModels"
+             xmlns:vmc="clr-namespace:BronzeFactoryApplication.ViewModels.CabinsViewModels.ModelsViewModels"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:partsUc="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.EditModelUserControl"
+             xmlns:PresentationOptions="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
+             xmlns:spotEnum="clr-namespace:ShowerEnclosuresModelsLibrary.Models.SeriesModels;assembly=ShowerEnclosuresModelsLibrary"
+             xmlns:doubleEnumSpot="clr-namespace:BronzeFactoryApplication.Helpers.Converters"
+             d:DataContext="{d:DesignInstance Type=vm:CabinViewModel}"
+             x:Name="CabinPropsContainer"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <!--A Struct made to hold two Part Spots - Used to Determine weather a CloseProfile or a CloseStrip are Valid for a Structure -->
+        <doubleEnumSpot:DoublePartSpot x:Key="DoubleSpotClosers"
+                                       PartSpot1="CloseProfile"
+                                       PartSpot2="CloseStrip" />
+    </UserControl.Resources>
+    <Grid IsEnabled="{Binding IsInSwapGlassMode, Converter={StaticResource Boolean2BooleanReConverter}}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <GroupBox Style="{StaticResource GroupBoxCabinProperties}"
+                  Margin="0"
+                  MinWidth="515"
+                  Header="{Binding Model ,Converter={StaticResource languageConverter} ,Mode=OneWay}">
+            <GroupBox.HeaderTemplate>
+                <DataTemplate>
+                    <TextBlock Foreground="{DynamicResource CHeaderText}">
+                        <Run Text="{StaticResource lngModel}" />
+                        <Run Text="" />
+                        <Run Text="{Binding Mode=OneWay}" />
+                    </TextBlock>
+                </DataTemplate>
+            </GroupBox.HeaderTemplate>
+            <Grid x:Name="GroupBoxGrid">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+
+                <!--#region 0. Step Small Modal -->
+
+                <Border x:Name="StepInputContainer"
+                        Grid.Row="0"
+                        Grid.RowSpan="4"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Panel.ZIndex="5"
+                        BorderBrush="{DynamicResource LightPrimaryBrush}"
+                        BorderThickness="2"
+                        CornerRadius="15">
+                    <Border.Background>
+                        <SolidColorBrush Color="{DynamicResource SecondaryRegionColor}"
+                                         Opacity="0.96" />
+                    </Border.Background>
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="Visibility"
+                                    Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:CabinPropertiesUC}, Path=DataContext.IsStepUnderEdit , TargetNullValue='False',FallbackValue='False'}"
+                                             Value="True">
+                                    <Setter Property="Visibility"
+                                            Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <DockPanel>
+
+                        <!--#region A. Title and Close Button Container -->
+
+                        <DockPanel DockPanel.Dock="Top">
+                            <Button VerticalAlignment="Top"
+                                    HorizontalAlignment="Right"
+                                    DockPanel.Dock="Right"
+                                    Margin="6"
+                                    Background="Transparent"
+                                    hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
+                                    Foreground="{StaticResource DangerBrush}"
+                                    hc:BorderElement.CornerRadius="20"
+                                    x:Name="CloseStepInputButton"
+                                    Command="{Binding CloseEditStepCommand}" />
+                            <Button Style="{StaticResource ButtonIcon}"
+                                    hc:IconElement.Geometry="{StaticResource TrashGeometry}"
+                                    VerticalAlignment="Center"
+                                    DockPanel.Dock="Left"
+                                    HorizontalAlignment="Center"
+                                    Foreground="{StaticResource DangerBrush}"
+                                    Margin="10,0"
+                                    Command="{Binding RemoveStepCommand}"
+                                    ToolTip="{StaticResource lngRemoveStepTooltip}"
+                                    ToolTipService.HorizontalOffset="-25"
+                                    ToolTipService.Placement="Top"
+                                    ToolTipService.InitialShowDelay="0" />
+                            <TextBlock Text="{StaticResource lngStepModalTitle}"
+                                       VerticalAlignment="Center"
+                                       Foreground="{DynamicResource PrimaryTextBrush}"
+                                       Opacity="1"
+                                       HorizontalAlignment="Center"
+                                       TextDecorations="Underline"
+                                       DockPanel.Dock="Left" />
+                        </DockPanel>
+
+                        <!--#endregion-->
+
+                        <!--#region B. Step DRAW -->
+                        <Viewbox MaxHeight="300"
+                                 MaxWidth="350">
+                            <Grid>
+                                <Path Stroke="{DynamicResource PrimaryBrush}"
+                                      StrokeThickness="1"
+                                      Data="{Binding ElementName=CabinPropsContainer, Path=StepGeometry}"
+                                      Fill="{StaticResource HatchPattern}"
+                                      PresentationOptions:Freeze="True" />
+                                <Path Stroke="{DynamicResource PrimaryBrush}"
+                                      StrokeThickness="1"
+                                      Data="{Binding ElementName=CabinPropsContainer, Path=Floor}"
+                                      Fill="{StaticResource HatchPattern}"
+                                      PresentationOptions:Freeze="True" />
+                                <Path Stroke="{DynamicResource PrimaryBrush}"
+                                      StrokeThickness="1"
+                                      Data="{Binding ElementName=CabinPropsContainer, Path=LeftWall}"
+                                      Fill="{StaticResource HatchPattern}"
+                                      PresentationOptions:Freeze="True" />
+
+                                <!--#region A. StepLength TextBox -->
+
+                                <StackPanel x:Name="StepLengthStackPanel"
+                                            Margin="85,55,0,0"
+                                            ToolTipService.InitialShowDelay="0"
+                                            ToolTipService.Placement="Top"
+                                            ToolTipService.HorizontalOffset="-55"
+                                            ToolTip="{StaticResource lngStepLengthTooltip}"
+                                            HorizontalAlignment="Left">
+                                    <TextBlock x:Name="StepLengthTextBlock"
+                                               Style="{StaticResource TitleTextBlockStyle}"
+                                               Text="{StaticResource lngStepLength}" />
+                                    <TextBox x:Name="StepLengthTextBox"
+                                             Width="75"
+                                             HorizontalContentAlignment="Center"
+                                             Text="{Binding InputStepLength ,Mode=TwoWay , UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}">
+                                        <TextBox.Style>
+                                            <Style TargetType="TextBox"
+                                                   BasedOn="{StaticResource TextBoxExtend}">
+                                                <Setter Property="BorderBrush"
+                                                        Value="{DynamicResource SecondaryBorderBrush}" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsFocused}"
+                                                                 Value="True">
+                                                        <Setter Property="BorderBrush"
+                                                                Value="{DynamicResource SecondaryBrush}" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBox.Style>
+                                        <i:Interaction.Behaviors>
+                                            <b:TextBoxNumericInputBehavior Precision="0"
+                                                                           InputMode="DigitInput"
+                                                                           JustPositivDecimalInput="True" />
+                                        </i:Interaction.Behaviors>
+                                    </TextBox>
+                                </StackPanel>
+
+                                <!--#endregion-->
+
+                                <!--#region A2. Length Dimension Path -->
+                                <Path x:Name="DimensionLinePath"
+                                      StrokeThickness="1"
+                                      Data="{Binding ElementName=CabinPropsContainer, Path=DimensionStepLength}">
+                                    <Path.Style>
+                                        <Style TargetType="Path">
+                                            <Setter Property="Stroke"
+                                                    Value="{DynamicResource PrimaryBrush}" />
+                                            <Setter Property="Fill"
+                                                    Value="{DynamicResource PrimaryBrush}" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ElementName=StepLengthTextBox, Path=IsFocused}"
+                                                             Value="True">
+                                                    <Setter Property="Stroke"
+                                                            Value="{StaticResource SecondaryBrush}" />
+                                                    <Setter Property="Fill"
+                                                            Value="{StaticResource SecondaryBrush}" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Path.Style>
+                                </Path>
+                                <!--#endregion-->
+
+                                <!--#region B. StepHeight TextBox -->
+
+                                <StackPanel x:Name="StepHeightStackPanel"
+                                            Margin="223,180,0,0"
+                                            ToolTipService.InitialShowDelay="0"
+                                            ToolTipService.Placement="Top"
+                                            ToolTipService.HorizontalOffset="-55"
+                                            ToolTip="{StaticResource lngStepHeightTooltip}"
+                                            HorizontalAlignment="Left">
+                                    <TextBlock x:Name="StepHeightTextBlock"
+                                               Margin="1,5"
+                                               Style="{StaticResource TitleTextBlockStyle}"
+                                               Text="{StaticResource lngStepHeight}" />
+                                    <TextBox x:Name="StepHeightTextBox"
+                                             Width="60"
+                                             HorizontalContentAlignment="Center"
+                                             Text="{Binding InputStepHeight ,Mode=TwoWay , UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}">
+                                        <TextBox.Style>
+                                            <Style TargetType="TextBox"
+                                                   BasedOn="{StaticResource TextBoxExtend}">
+                                                <Setter Property="BorderBrush"
+                                                        Value="{DynamicResource SecondaryBorderBrush}" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsFocused}"
+                                                                 Value="True">
+                                                        <Setter Property="BorderBrush"
+                                                                Value="{DynamicResource SecondaryBrush}" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBox.Style>
+                                        <i:Interaction.Behaviors>
+                                            <b:TextBoxNumericInputBehavior Precision="0"
+                                                                           InputMode="DigitInput"
+                                                                           JustPositivDecimalInput="True" />
+                                        </i:Interaction.Behaviors>
+                                    </TextBox>
+                                </StackPanel>
+
+                                <!--#endregion-->
+
+                                <!--#region B2. Height Dimension Path -->
+
+                                <Path StrokeThickness="1"
+                                      Data="{Binding ElementName=CabinPropsContainer, Path=DimensionStepHeight}">
+                                    <Path.Style>
+                                        <Style TargetType="Path">
+                                            <Setter Property="Stroke"
+                                                    Value="{DynamicResource PrimaryBrush}" />
+                                            <Setter Property="Fill"
+                                                    Value="{DynamicResource PrimaryBrush}" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ElementName=StepHeightTextBox, Path=IsFocused}"
+                                                             Value="True">
+                                                    <Setter Property="Stroke"
+                                                            Value="{StaticResource SecondaryBrush}" />
+                                                    <Setter Property="Fill"
+                                                            Value="{StaticResource SecondaryBrush}" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Path.Style>
+                                </Path>
+
+                                <!--#endregion-->
+
+                                <Path Stroke="{DynamicResource PrimaryBrush}"
+                                      StrokeThickness="1"
+                                      StrokeDashArray="5,2"
+                                      Data="{Binding ElementName=CabinPropsContainer, Path=HelpLine1}" />
+                                <Path Stroke="{DynamicResource PrimaryBrush}"
+                                      StrokeThickness="1"
+                                      StrokeDashArray="5,2"
+                                      Data="{Binding ElementName=CabinPropsContainer, Path=HelpLine2}" />
+                            </Grid>
+                        </Viewbox>
+                        <!--#endregion-->
+
+                    </DockPanel>
+                </Border>
+
+                <!--#endregion-->
+
+                <!--#region 1. DIMENSIONS GROUPBOX-->
+                <GroupBox x:Name="DimensionsGroupBox"
+                          Style="{StaticResource GroupBoxCabinProperties}"
+                          MinWidth="200"
+                          Grid.Row="0"
+                          Grid.Column="0"
+                          hc:TitleElement.Background="Transparent"
+                          BorderThickness="1">
+                    <GroupBox.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <cc:Icon GeometryData="{StaticResource FullScreenGeometry}"
+                                         Height="15"
+                                         Fill="{DynamicResource PrimaryBrush}" />
+                                <TextBlock Text="{StaticResource lngDimensions}"
+                                           VerticalAlignment="Center"
+                                           Margin="10,1,0,0">
+                                </TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </GroupBox.HeaderTemplate>
+                    <StackPanel x:Name="DimensionsStackPanel">
+
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Center">
+                            <!--#region 1. Nominal Length -->
+
+                            <StackPanel x:Name="NominalLengthStackPanel"
+                                        Margin="5,2"
+                                        ToolTipService.Placement="Top"
+                                        ToolTip="{StaticResource lngNominalLengthTooltip}">
+                                <TextBlock x:Name="NominalLengthTextBlock"
+                                           Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="{StaticResource lngNominalLength}" />
+                                <TextBox x:Name="NominalLengthTextBox"
+                                         Width="65"
+                                         HorizontalContentAlignment="Center"
+                                         Text="{Binding InputNominalLength ,Mode=TwoWay , UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}">
+                                    <i:Interaction.Behaviors>
+                                        <b:TextBoxNumericInputBehavior Precision="0"
+                                                                       InputMode="DigitInput"
+                                                                       JustPositivDecimalInput="True" />
+                                    </i:Interaction.Behaviors>
+                                </TextBox>
+                            </StackPanel>
+
+                            <!--#endregion-->
+
+                            <!--#region 2.Min Length -->
+
+                            <StackPanel x:Name="MinLengthStackPanel"
+                                        Margin="5,2"
+                                        ToolTipService.Placement="Top"
+                                        ToolTip="{StaticResource lngMinLengthTooltip}">
+                                <TextBlock x:Name="MinLengthTextBlock"
+                                           Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="{StaticResource lngMinLength}" />
+                                <TextBox x:Name="MinLengthTextBox"
+                                         Width="65"
+                                         HorizontalContentAlignment="Center"
+                                         Text="{Binding InputMinLength ,Mode=TwoWay , UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}">
+                                    <i:Interaction.Behaviors>
+                                        <b:TextBoxNumericInputBehavior Precision="0"
+                                                                       InputMode="DigitInput"
+                                                                       JustPositivDecimalInput="True" />
+                                    </i:Interaction.Behaviors>
+                                </TextBox>
+                            </StackPanel>
+
+                            <!--#endregion-->
+
+                            <!--#region 3. Max Length -->
+                            <StackPanel x:Name="MaxLengthStackPanel"
+                                        Margin="5,2"
+                                        ToolTipService.Placement="Top"
+                                        ToolTip="{StaticResource lngMaxLengthTooltip}">
+                                <TextBlock x:Name="MaxLengthTextBlock"
+                                           Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="{StaticResource lngMaxLength}" />
+                                <TextBox x:Name="MaxLengthTextBox"
+                                         Width="65"
+                                         HorizontalContentAlignment="Center"
+                                         Text="{Binding InputMaxLength ,Mode=TwoWay , UpdateSourceTrigger=PropertyChanged , Delay=600, TargetNullValue=''}">
+                                    <i:Interaction.Behaviors>
+                                        <b:TextBoxNumericInputBehavior Precision="0"
+                                                                       InputMode="DigitInput"
+                                                                       JustPositivDecimalInput="True" />
+                                    </i:Interaction.Behaviors>
+                                </TextBox>
+                            </StackPanel>
+                            <!--#endregion-->
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Center"
+                                    Margin="0,5,0,0">
+
+                            <!--#region 4. Height -->
+                            <DockPanel x:Name="HeightWithCheckBoxStackPanel"
+                                       LastChildFill="True"
+                                       HorizontalAlignment="Center">
+                                <StackPanel x:Name="HeightStackPanel"
+                                            Margin="0,5">
+                                    <StackPanel Orientation="Horizontal"
+                                                HorizontalAlignment="Center">
+                                        <ToggleButton x:Name="HeightSameToggleButton"
+                                                      Style="{StaticResource LockToggleButton}"
+                                                      IsChecked="{Binding IsInputHeightAsPrimary}"
+                                                      Visibility="{Binding CanConnectWithPrimary , Converter={StaticResource Boolean2VisibilityConverter}}"
+                                                      ToolTip="{StaticResource lngSameAsPrimaryTooltip}"
+                                                      d:Visibility="Visible" />
+                                        <TextBlock x:Name="HeightTextBlock"
+                                                   Style="{StaticResource TitleTextBlockStyle}"
+                                                   Text="{StaticResource lngHeightmm}"
+                                                   Margin="0,2" />
+                                    </StackPanel>
+                                    <TextBox x:Name="HeightTextBox"
+                                             HorizontalContentAlignment="Center"
+                                             MinWidth="85"
+                                             Text="{Binding InputHeight ,Mode=TwoWay , UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}"
+                                             IsEnabled="{Binding IsInputHeightAsPrimary, Converter={StaticResource Boolean2BooleanReConverter}}">
+                                        <i:Interaction.Behaviors>
+                                            <b:TextBoxNumericInputBehavior Precision="0"
+                                                                           InputMode="DigitInput"
+                                                                           JustPositivDecimalInput="True" />
+                                        </i:Interaction.Behaviors>
+                                    </TextBox>
+                                </StackPanel>
+                            </DockPanel>
+                            <!--#endregion-->
+
+                            <!--#region 5. StepButton -->
+
+                            <Button x:Name="OpenStepInputButton"
+                                    VerticalAlignment="Center"
+                                    Height="auto"
+                                    Width="auto"
+                                    Margin="20,20,0,0"
+                                    ToolTip="{StaticResource lngStepCut}"
+                                    ToolTipService.InitialShowDelay="0"
+                                    ToolTipService.Placement="Right"
+                                    ToolTipService.VerticalOffset="-7"
+                                    IsEnabled="{Binding Constraints.CanHaveStep}"
+                                    Command="{Binding OpenEditStepCommand}">
+                                <StackPanel>
+                                    <cc:Icon GeometryData="{StaticResource StepCutGeometry}"
+                                             Fill="{DynamicResource SecondaryBrush}"
+                                             Height="18"
+                                             Width="18">
+                                    </cc:Icon>
+                                </StackPanel>
+                            </Button>
+                            <StackPanel Margin="5,30,0,0"
+                                        Visibility="{Binding HasStep , Converter={StaticResource Boolean2VisibilityConverter}}">
+                                <DockPanel LastChildFill="True">
+                                    <TextBlock FontSize="10"
+                                               DockPanel.Dock="Left"
+                                               HorizontalAlignment="Left"
+                                               Text="{StaticResource lngStepLengthShort}" />
+                                    <TextBlock FontSize="10"
+                                               DockPanel.Dock="Right"
+                                               HorizontalAlignment="Right"
+                                               Margin="5,0,0,0"
+                                               Text="{Binding Mode=OneWay, Path=InputStepLength,StringFormat={}{0}mm}" />
+                                </DockPanel>
+                                <DockPanel LastChildFill="True">
+                                    <TextBlock FontSize="10"
+                                               DockPanel.Dock="Left"
+                                               Text="{StaticResource lngStepHeightShort}" />
+                                    <TextBlock Text="{Binding Mode=OneWay, Path=InputStepHeight ,StringFormat={}{0}mm}"
+                                               FontSize="10"
+                                               Margin="5,0,0,0"
+                                               HorizontalAlignment="Right"
+                                               DockPanel.Dock="Right" />
+                                </DockPanel>
+                            </StackPanel>
+
+                            <!--#endregion-->
+
+                        </StackPanel>
+
+                    </StackPanel>
+                </GroupBox>
+                <!--#endregion-->
+
+                <!--#region 2.GLASSPROPERTIES GROUPBOX -->
+                <GroupBox x:Name="GlassGroupBox"
+                          Style="{StaticResource GroupBoxCabinProperties}"
+                          MinWidth="180"
+                          Grid.Column="1"
+                          Grid.Row="0"
+                          hc:TitleElement.Background="Transparent">
+                    <GroupBox.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <cc:Icon GeometryData="{StaticResource MirrorGeometry}"
+                                         Height="15"
+                                         Fill="{DynamicResource PrimaryBrush}" />
+                                <TextBlock Text="{StaticResource lngGlass}"
+                                           VerticalAlignment="Center"
+                                           Margin="10,1,0,0" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </GroupBox.HeaderTemplate>
+                    <StackPanel x:Name="GlassStackPanel">
+
+                        <!--#region 1.Thicknesses Input -->
+                        <DockPanel x:Name="GlassThicknessWithCheckBoxStackPanel"
+                                   LastChildFill="True">
+                            <StackPanel x:Name="GlassThicknessStackPanel"
+                                        Margin="0,5">
+                                <StackPanel Orientation="Horizontal">
+                                    <ToggleButton x:Name="GlassThicknessSameToggleButton"
+                                                  Style="{StaticResource LockToggleButton}"
+                                                  Visibility="{Binding CanConnectWithPrimary, Converter={StaticResource Boolean2VisibilityConverter}}"
+                                                  IsChecked="{Binding IsThicknessesAsPrimary}"
+                                                  ToolTip="{StaticResource lngSameAsPrimaryTooltip}"
+                                                  d:Visibility="Visible">
+                                    </ToggleButton>
+                                    <TextBlock x:Name="GlassThicknessTextBlock"
+                                               Style="{StaticResource TitleTextBlockStyle}"
+                                               Text="{StaticResource lngGlassThickness}" />
+                                </StackPanel>
+                                <ComboBox x:Name="GlassThicknessComboBox"
+                                          ItemsSource="{Binding Constraints.ValidThicknesses}"
+                                          SelectedItem="{Binding Thicknesses , Mode=TwoWay}"
+                                          IsEditable="False"
+                                          IsEnabled="{Binding IsThicknessesAsPrimary, Converter={StaticResource Boolean2BooleanReConverter}}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Converter={StaticResource languageConverter} , TargetNullValue=''}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                            </StackPanel>
+                        </DockPanel>
+                        <!--#endregion-->
+
+                        <!--#region 2. Glass Finish Input -->
+                        <DockPanel x:Name="GlassFinishWithCheckBoxStackPanel"
+                                   LastChildFill="True">
+                            <StackPanel x:Name="GlassFinishStackPanel"
+                                        Margin="0,5">
+                                <StackPanel Orientation="Horizontal">
+                                    <ToggleButton x:Name="GlassFinishSameToggleButton"
+                                                  Style="{StaticResource LockToggleButton}"
+                                                  IsChecked="{Binding IsGlassFinishAsPrimary}"
+                                                  Visibility="{Binding CanConnectWithPrimary , Converter={StaticResource Boolean2VisibilityConverter}}"
+                                                  ToolTip="{StaticResource lngSameAsPrimaryTooltip}"
+                                                  d:Visibility="Visible" />
+                                    <TextBlock x:Name="GlassFinishTextBlock"
+                                               Style="{StaticResource TitleTextBlockStyle}"
+                                               Text="{StaticResource lngGlassFinish}" />
+                                </StackPanel>
+                                <ComboBox x:Name="GlassFinishComboBox"
+                                          ItemsSource="{Binding Constraints.ValidGlassFinishes}"
+                                          SelectedItem="{Binding GlassFinish}"
+                                          IsEditable="False"
+                                          IsEnabled="{Binding IsGlassFinishAsPrimary,Converter={StaticResource Boolean2BooleanReConverter}}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Converter={StaticResource languageConverter}}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                            </StackPanel>
+                        </DockPanel>
+                        <!--#endregion-->
+
+                    </StackPanel>
+                </GroupBox>
+
+                <!--#endregion-->
+
+                <DockPanel Grid.Row="2"
+                           Grid.ColumnSpan="2"
+                           LastChildFill="True"
+                           HorizontalAlignment="Center">
+
+                    <!--#region 3. Photo And Options Button -->
+
+                    <DockPanel HorizontalAlignment="Center"
+                               LastChildFill="True"
+                               Margin="10,0">
+                        <Button Command="{Binding ElementName=CabinPropsContainer, Path=OpenAdvancedCommand}"
+                                CommandParameter="{Binding .}"
+                                hc:IconElement.Geometry="{StaticResource SettingsGeometry2}"
+                                ToolTip="{StaticResource lngAdvanced}"
+                                ToolTipService.InitialShowDelay="0"
+                                Foreground="{DynamicResource SecondaryBrush}"
+                                Margin="0,10"
+                                MinWidth="70"
+                                DockPanel.Dock="Top">
+                            <!--Button Is not Visible when there is no Command Set-->
+                            <Button.Style>
+                                <Style TargetType="Button"
+                                       BasedOn="{StaticResource ButtonDefault}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ElementName=CabinPropsContainer , Path=OpenAdvancedCommand}"
+                                                     Value="{x:Null}">
+                                            <Setter Property="Visibility"
+                                                    Value="Collapsed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                        <Image MaxHeight="150"
+                               DockPanel.Dock="Top"
+                               d:Height="150">
+                            <Image.Source>
+                                <MultiBinding Converter="{StaticResource DrawSideSketchMultiConverter}"
+                                              TargetNullValue="{StaticResource DefaultNoImage}"
+                                              FallbackValue="{StaticResource DefaultNoImage}">
+                                    <!--Bind to Model and Synthesis and let Converter get proper Image-->
+                                    <Binding Path="DrawNumber" />
+                                    <Binding Path="SynthesisModel" />
+                                </MultiBinding>
+                            </Image.Source>
+                        </Image>
+                    </DockPanel>
+
+                    <!--#endregion-->
+
+                    <!--#region 4. EXTRA OPTIONS-->
+
+                    <GroupBox x:Name="PartsGroupBox"
+                              Style="{StaticResource GroupBoxCabinProperties}"
+                              MinWidth="200"
+                              HorizontalAlignment="Center"
+                              DockPanel.Dock="Right"
+                              hc:TitleElement.Background="Transparent">
+                        <GroupBox.HeaderTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <cc:Icon GeometryData="{StaticResource ToolsGeometry}"
+                                             Height="15"
+                                             Fill="{StaticResource PrimaryBrush}" />
+                                    <TextBlock Text="{StaticResource lngChooseParts}"
+                                               VerticalAlignment="Center"
+                                               Foreground="{DynamicResource CAccent2Color}"
+                                               Margin="10,1,0,0" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </GroupBox.HeaderTemplate>
+
+                        <ContentControl x:Name="PartsContentPresenter"
+                                        Content="{Binding}"
+                                        MinWidth="300"
+                                        d:DataContext="{d:DesignInstance {x:Type vmc:Cabin9FViewModel}, IsDesignTimeCreatable=True}">
+                            <ContentControl.Resources>
+                                <!--#region 0.STYLES -->
+                                <Style x:Key="WithoutCheckBox"
+                                       TargetType="{x:Type CheckBox}"
+                                       BasedOn="{StaticResource CheckBoxBaseStyle}">
+                                    <Setter Property="Margin"
+                                            Value="15,20,10,0" />
+                                    <Setter Property="Content"
+                                            Value="{StaticResource lngWithout}" />
+                                    <Setter Property="DockPanel.Dock"
+                                            Value="Right" />
+                                    <Setter Property="ToolTipService.Placement"
+                                            Value="Right" />
+                                    <Setter Property="ToolTipService.InitialShowDelay"
+                                            Value="0" />
+                                </Style>
+                                <Style TargetType="ComboBox"
+                                       BasedOn="{StaticResource ComboBoxExtend}">
+
+                                </Style>
+                                <Style x:Key="EditPartButtonStyle"
+                                       TargetType="Button"
+                                       BasedOn="{StaticResource ButtonIcon}">
+                                    <Setter Property="hc:IconElement.Geometry"
+                                            Value="{StaticResource SettingsGeometry2}" />
+                                    <Setter Property="Foreground"
+                                            Value="{DynamicResource SecondaryBrush}" />
+                                    <Setter Property="DockPanel.Dock"
+                                            Value="Right" />
+                                    <Setter Property="ToolTip"
+                                            Value="{StaticResource lngEditPartButtonTooltip}" />
+                                </Style>
+                                <Style x:Key="BottomL0Badge"
+                                       TargetType="hc:Badge"
+                                       BasedOn="{StaticResource BadgeBaseStyle}">
+                                    <Setter Property="DockPanel.Dock"
+                                            Value="Right" />
+                                    <Setter Property="Text"
+                                            Value="&#x2193;" />
+                                    <Setter Property="FontSize"
+                                            Value="12" />
+                                    <Setter Property="BadgeMargin"
+                                            Value="0,-5,0,0" />
+                                    <Setter Property="Padding"
+                                            Value="2,0" />
+                                    <Setter Property="BorderBrush"
+                                            Value="{DynamicResource SecondaryBrush}" />
+                                    <Setter Property="Foreground"
+                                            Value="{DynamicResource SecondaryBrush}" />
+                                </Style>
+                                <Style x:Key="TopL0Badge"
+                                       TargetType="hc:Badge"
+                                       BasedOn="{StaticResource BadgeBaseStyle}">
+                                    <Setter Property="DockPanel.Dock"
+                                            Value="Right" />
+                                    <Setter Property="Text"
+                                            Value="&#x2191;" />
+                                    <Setter Property="FontSize"
+                                            Value="12" />
+                                    <Setter Property="BadgeMargin"
+                                            Value="0,-5,0,0" />
+                                    <Setter Property="Padding"
+                                            Value="2,0" />
+                                    <Setter Property="BorderBrush"
+                                            Value="{DynamicResource SecondaryBrush}" />
+                                    <Setter Property="Foreground"
+                                            Value="{DynamicResource SecondaryBrush}" />
+                                </Style>
+                                <!--#endregion-->
+
+                                <!--#region 1. 9S DataTemplate -->
+                                <DataTemplate x:Name="DataTemplate9S"
+                                              DataType="{x:Type vmc:Cabin9SViewModel}">
+                                    <StackPanel x:Name="PartsStackPanel">
+
+                                        <!--#region 1.Horizontal Profile -->
+                                        <StackPanel x:Name="HorizontalProfileStackPanel"
+                                                    Margin="0,5">
+                                            <TextBlock x:Name="HorizontalProfileTextBlock"
+                                                       Style="{StaticResource TitleTextBlockStyle}"
+                                                       Text="{StaticResource lngHorizontalProfile}" />
+                                            <DockPanel>
+                                                <hc:Badge Style="{StaticResource BottomL0Badge}">
+                                                    <Button Style="{StaticResource EditPartButtonStyle}"
+                                                            Command="{Binding Parts.RequestPartEditCommand}"
+                                                            CommandParameter="{x:Static spotEnum:PartSpot.HorizontalGuideBottom}" />
+                                                </hc:Badge>
+                                                <hc:Badge Style="{StaticResource TopL0Badge}">
+                                                    <Button Style="{StaticResource EditPartButtonStyle}"
+                                                            Command="{Binding Parts.RequestPartEditCommand}"
+                                                            CommandParameter="{x:Static spotEnum:PartSpot.HorizontalGuideTop}" />
+                                                </hc:Badge>
+                                                <ComboBox x:Name="HorizontalProfileComboBox"
+                                                          Tag="{x:Static spotEnum:PartSpot.HorizontalGuideTop}"
+                                                          ItemsSource="{Binding Parts.SelectableHorizontalProfiles , Mode=OneWay}"
+                                                          SelectedItem="{Binding Parts.HorizontalProfile , Mode=TwoWay}"
+                                                          SelectedValue="{Binding Parts.HorizontalProfile.Code, Mode=OneWay}"
+                                                          SelectedValuePath="Code"
+                                                          ItemTemplateSelector="{StaticResource ComboBoxPartsTemplateSelector}"
+                                                          ItemContainerStyle="{StaticResource DisablePartWhenNotInListComboboxContainerStyle}"
+                                                          hc:DropDownElement.ConsistentWidth="False">
+                                                </ComboBox>
+                                            </DockPanel>
+                                        </StackPanel>
+                                        <!--#endregion-->
+
+                                        <!--#region 2.Handle -->
+                                        <DockPanel LastChildFill="True">
+                                            <Button Style="{StaticResource EditPartButtonStyle}"
+                                                    Command="{Binding Parts.RequestPartEditCommand}"
+                                                    CommandParameter="{x:Static spotEnum:PartSpot.Handle1}"
+                                                    Margin="0,20,0,0" />
+                                            <CheckBox x:Name="HandleSameCheckBox"
+                                                      DockPanel.Dock="Right"
+                                                      IsChecked="{Binding Parts.IsHandleAsPrimary}"
+                                                      Visibility="{Binding IsPrimaryModel , Converter={StaticResource Boolean2VisibilityReConverter}}"
+                                                      Content="{StaticResource lngSameAsPrimary}"
+                                                      ToolTip="{StaticResource lngSameAsPrimaryTooltip}"
+                                                      ToolTipService.Placement="Right"
+                                                      ToolTipService.InitialShowDelay="0"
+                                                      ToolTipService.VerticalOffset="-10"
+                                                      Margin="10,20,10,0" />
+                                            <StackPanel x:Name="HandleStackPanel"
+                                                        Margin="0,5">
+                                                <TextBlock x:Name="HandleTextBlock"
+                                                           Style="{StaticResource TitleTextBlockStyle}"
+                                                           Text="{StaticResource lngHandle}" />
+                                                <ComboBox x:Name="HandleComboBox"
+                                                          Tag="{x:Static spotEnum:PartSpot.Handle1}"
+                                                          ItemsSource="{Binding Parts.SelectableHandles , Mode=OneTime}"
+                                                          SelectedItem="{Binding Parts.Handle , Mode=TwoWay}"
+                                                          SelectedValue="{Binding Parts.Handle.Code , Mode=OneWay}"
+                                                          SelectedValuePath="Code"
+                                                          ItemTemplateSelector="{StaticResource ComboBoxPartsTemplateSelector}"
+                                                          ItemContainerStyle="{StaticResource DisablePartWhenNotInListComboboxContainerStyle}"
+                                                          hc:DropDownElement.ConsistentWidth="False">
+                                                    <ComboBox.IsEnabled>
+                                                        <MultiBinding Converter="{StaticResource Bool2BoolFirstOrSecondConverter}">
+                                                            <!--If Is Primary is True always returns true-->
+                                                            <Binding Path="IsPrimaryModel" />
+                                                            <!--Otherwise Evaluates the IsChecked to see if Enabled-->
+                                                            <Binding ElementName="HandleSameCheckBox"
+                                                                     Path="IsChecked"
+                                                                     Converter="{StaticResource Boolean2BooleanReConverter}" />
+                                                        </MultiBinding>
+                                                    </ComboBox.IsEnabled>
+                                                </ComboBox>
+                                            </StackPanel>
+                                        </DockPanel>
+                                        <!--#endregion-->
+
+                                    </StackPanel>
+                                </DataTemplate>
+                                <!--#endregion-->
+
+                                <!--#region 2. 94DataTemplate -->
+                                <DataTemplate x:Name="DataTemplate94"
+                                              DataType="{x:Type vmc:Cabin94ViewModel}">
+                                    <StackPanel x:Name="PartsStackPanel">
+
+                                        <!--#region 1.Horizontal Profile -->
+                                        <StackPanel x:Name="HorizontalProfileStackPanel"
+                                                    Margin="0,5">
+                                            <TextBlock x:Name="HorizontalProfileTextBlock"
+                                                       Style="{StaticResource TitleTextBlockStyle}"
+                                                       Text="{StaticResource lngHorizontalProfile}" />
+                                            <DockPanel>
+                                                <hc:Badge Style="{StaticResource BottomL0Badge}">
+                                                    <Button Style="{StaticResource EditPartButtonStyle}"
+                                                            Command="{Binding Parts.RequestPartEditCommand}"
+                                                            CommandParameter="{x:Static spotEnum:PartSpot.HorizontalGuideBottom}" />
+                                                </hc:Badge>
+                                                <hc:Badge Style="{StaticResource TopL0Badge}">
+                                                    <Button Style="{StaticResource EditPartButtonStyle}"
+                                                            Command="{Binding Parts.RequestPartEditCommand}"
+                                                            CommandParameter="{x:Static spotEnum:PartSpot.HorizontalGuideTop}"/>
+                                                </hc:Badge>
+                                                <ComboBox x:Name="HorizontalProfileComboBox"
+                                                          Tag="{x:Static spotEnum:PartSpot.HorizontalGuideTop}"
+                                                          ItemsSource="{Binding Parts.SelectableHorizontalProfiles , Mode=OneWay}"
+                                                          SelectedItem="{Binding Parts.HorizontalProfile , Mode=TwoWay}"
+                                                          SelectedValue="{Binding Parts.HorizontalProfile.Code, Mode=OneWay}"
+                                                          SelectedValuePath="Code"
+                                                          hc:DropDownElement.ConsistentWidth="False"
+                                                          ItemContainerStyle="{StaticResource DisablePartWhenNotInListComboboxContainerStyle}"
+                                                          ItemTemplateSelector="{StaticResource ComboBoxPartsTemplateSelector}">
+                                                </ComboBox>
+                                            </DockPanel>
+                                        </StackPanel>
+                                        <!--#endregion-->
+
+                                        <!--#region 2.Cover Distance -->
+                                        <StackPanel x:Name="CoverDistanceAllOptionsStackPanel"
+                                                    Orientation="Horizontal">
+                                            <StackPanel x:Name="CoverDistanceOptionStackPanel"
+                                                        Margin="0,5"
+                                                        ToolTipService.InitialShowDelay="0"
+                                                        ToolTipService.Placement="Right"
+                                                        ToolTip="{StaticResource lngCoverDistanceOptionTooltip}">
+                                                <TextBlock x:Name="CoverDistanceOptionTextBlock"
+                                                           Style="{StaticResource TitleTextBlockStyle}"
+                                                           Text="{StaticResource lngCoverDistanceOption}" />
+                                                <ComboBox x:Name="CoverDistanceOptionComboBox"
+                                                          ItemsSource="{Binding Constraints.SelectableCoverDistanceOptions, Mode=OneWay}"
+                                                          hc:DropDownElement.ConsistentWidth="False"
+                                                          SelectedItem="{Binding Constraints.CoverDistanceOptionSelection , Mode=TwoWay , UpdateSourceTrigger = PropertyChanged}">
+                                                    <ComboBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding Converter={StaticResource languageConverter}}" />
+                                                        </DataTemplate>
+                                                    </ComboBox.ItemTemplate>
+                                                </ComboBox>
+                                            </StackPanel>
+                                            <CheckBox x:Name="CoverDistanceAutomaticCheckBox"
+                                                      IsChecked="{Binding IsCoverDistanceAutomatic}"
+                                                      Content="{StaticResource lngAutomatic}"
+                                                      ToolTip="{StaticResource lngAutomaticCoverDistanceTooltip}"
+                                                      ToolTipService.Placement="Right"
+                                                      ToolTipService.InitialShowDelay="0"
+                                                      ToolTipService.VerticalOffset="-10"
+                                                      Margin="10,20,10,0" />
+                                        </StackPanel>
+                                        <!--#endregion-->
+
+                                        <!--#region 3.Handle -->
+                                        <DockPanel LastChildFill="True">
+                                            <Button Style="{StaticResource EditPartButtonStyle}"
+                                                    Command="{Binding Parts.RequestPartEditCommand}"
+                                                    CommandParameter="{x:Static spotEnum:PartSpot.Handle1}"
+                                                    Margin="0,20,0,0" />
+                                            <CheckBox x:Name="HandleSameCheckBox"
+                                                      DockPanel.Dock="Right"
+                                                      IsChecked="{Binding Parts.IsHandleAsPrimary}"
+                                                      Visibility="{Binding IsPrimaryModel , Converter={StaticResource Boolean2VisibilityReConverter}}"
+                                                      Content="{StaticResource lngSameAsPrimary}"
+                                                      ToolTip="{StaticResource lngSameAsPrimaryTooltip}"
+                                                      ToolTipService.Placement="Right"
+                                                      ToolTipService.InitialShowDelay="0"
+                                                      ToolTipService.VerticalOffset="-10"
+                                                      Margin="10,20,10,0" />
+                                            <StackPanel x:Name="HandleStackPanel"
+                                                        Margin="0,5">
+                                                <TextBlock x:Name="HandleTextBlock"
+                                                           Style="{StaticResource TitleTextBlockStyle}"
+                                                           Text="{StaticResource lngHandle}" />
+                                                <ComboBox x:Name="HandleComboBox"
+                                                          Tag="{x:Static spotEnum:PartSpot.Handle1}"
+                                                          ItemsSource="{Binding Parts.SelectableHandles , Mode=OneTime}"
+                                                          SelectedItem="{Binding Parts.Handle , Mode=TwoWay}"
+                                                          SelectedValue="{Binding Parts.Handle.Code, Mode=OneWay}"
+                                                          SelectedValuePath="Code"
+                                                          ItemTemplateSelector="{StaticResource ComboBoxPartsTemplateSelector}"
+                                                          ItemContainerStyle="{StaticResource DisablePartWhenNotInListComboboxContainerStyle}"
+                                                          hc:DropDownElement.ConsistentWidth="False">
+                                                    <ComboBox.IsEnabled>
+                                                        <MultiBinding Converter="{StaticResource Bool2BoolFirstOrSecondConverter}">
+                                                            <!--If Is Primary is True always returns true-->
+                                                            <Binding Path="IsPrimaryModel" />
+                                                            <!--Otherwise Evaluates the IsChecked to see if Enabled-->
+                                                            <Binding ElementName="HandleSameCheckBox"
+                                                                     Path="IsChecked"
+                                                                     Converter="{StaticResource Boolean2BooleanReConverter}" />
+                                                        </MultiBinding>
+                                                    </ComboBox.IsEnabled>
+                                                </ComboBox>
+                                            </StackPanel>
+                                        </DockPanel>
+                                        <!--#endregion-->
+
+                                    </StackPanel>
+                                </DataTemplate>
+                                <!--#endregion-->
+
+                                <!--#region 3. 9A DataTemplate -->
+                                <DataTemplate x:Name="DataTemplate9A"
+                                              DataType="{x:Type vmc:Cabin9AViewModel}">
+                                    <StackPanel x:Name="PartsStackPanel">
+
+                                        <!--#region 1.Horizontal Profile -->
+                                        <StackPanel x:Name="HorizontalProfileStackPanel"
+                                                    Margin="0,5">
+                                            <TextBlock x:Name="HorizontalProfileTextBlock"
+                                                       Style="{StaticResource TitleTextBlockStyle}"
+                                                       Text="{StaticResource lngHorizontalProfile}" />
+                                            <DockPanel>
+                                                <hc:Badge Style="{StaticResource BottomL0Badge}">
+                                                    <Button Style="{StaticResource EditPartButtonStyle}"
+                                                            Command="{Binding Parts.RequestPartEditCommand}"
+                                                            CommandParameter="{x:Static spotEnum:PartSpot.HorizontalGuideBottom}" />
+                                                </hc:Badge>
+                                                <hc:Badge Style="{StaticResource TopL0Badge}">
+                                                    <Button Style="{StaticResource EditPartButtonStyle}"
+                                                            Command="{Binding Parts.RequestPartEditCommand}"
+                                                            CommandParameter="{x:Static spotEnum:PartSpot.HorizontalGuideTop}" />
+                                                </hc:Badge>
+                                                <ComboBox x:Name="HorizontalProfileComboBox"
+                                                          Tag="{x:Static spotEnum:PartSpot.HorizontalGuideTop}"
+                                                          ItemsSource="{Binding Parts.SelectableHorizontalProfiles , Mode=OneWay}"
+                                                          SelectedItem="{Binding Parts.HorizontalProfile , Mode=TwoWay}"
+                                                          SelectedValue="{Binding Parts.HorizontalProfile.Code, Mode=OneWay}"
+                                                          SelectedValuePath="Code"
+                                                          ItemTemplateSelector="{StaticResource ComboBoxPartsTemplateSelector}"
+                                                          ItemContainerStyle="{StaticResource DisablePartWhenNotInListComboboxContainerStyle}"
+                                                          hc:DropDownElement.ConsistentWidth="False">
+                                                </ComboBox>
+                                            </DockPanel>
+                                        </StackPanel>
+                                        <!--#endregion-->
+
+                                        <!--#region 2.Angle -->
+                                        <StackPanel x:Name="AngleStackPanel"
+                                                    Margin="0,5"
+                                                    ToolTipService.InitialShowDelay="0"
+                                                    ToolTipService.Placement="Right"
+                                                    ToolTip="{StaticResource lngAngleTooltip}">
+                                            <TextBlock x:Name="AngleTextBlock"
+                                                       Style="{StaticResource TitleTextBlockStyle}"
+                                                       Text="{StaticResource lngAngle}" />
+                                            <DockPanel>
+                                                <Button Style="{StaticResource EditPartButtonStyle}"
+                                                        Command="{Binding Parts.RequestPartEditCommand}"
+                                                        CommandParameter="{x:Static spotEnum:PartSpot.Angle}" />
+                                                <ComboBox x:Name="AngleComboBox"
+                                                          Tag="{x:Static spotEnum:PartSpot.Angle}"
+                                                          ItemsSource="{Binding Parts.SelectableAngles , Mode=OneWay}"
+                                                          SelectedItem="{Binding Parts.Angle , Mode=TwoWay}"
+                                                          SelectedValue="{Binding Parts.Angle.Code, Mode=OneWay}"
+                                                          SelectedValuePath="Code"
+                                                          ItemTemplateSelector="{StaticResource ComboBoxPartsTemplateSelector}"
+                                                          ItemContainerStyle="{StaticResource DisablePartWhenNotInListComboboxContainerStyle}"
+                                                          hc:DropDownElement.ConsistentWidth="False">
+                                                </ComboBox>
+                                            </DockPanel>
+                                        </StackPanel>
+                                        <!--#endregion-->
+
+                                        <!--#region 3.Handle -->
+                                        <DockPanel LastChildFill="True">
+                                            <Button Style="{StaticResource EditPartButtonStyle}"
+                                                    Command="{Binding Parts.RequestPartEditCommand}"
+                                                    CommandParameter="{x:Static spotEnum:PartSpot.Handle1}"
+                                                    Margin="0,20,0,0" />
+                                            <CheckBox x:Name="HandleSameCheckBox"
+                                                      DockPanel.Dock="Right"
+                                                      IsChecked="{Binding Parts.IsHandleAsPrimary}"
+                                                      Visibility="{Binding CanConnectWithPrimary , Converter={StaticResource Boolean2VisibilityConverter}}"
+                                                      Content="{StaticResource lngSameAsPrimary}"
+                                                      ToolTip="{StaticResource lngSameAsPrimaryTooltip}"
+                                                      ToolTipService.Placement="Right"
+                                                      ToolTipService.InitialShowDelay="0"
+                                                      ToolTipService.VerticalOffset="-10"
+                                                      Margin="10,20,10,0" />
+                                            <StackPanel x:Name="HandleStackPanel"
+                                                        Margin="0,5">
+                                                <TextBlock x:Name="HandleTextBlock"
+                                                           Style="{StaticResource TitleTextBlockStyle}"
+                                                           Text="{StaticResource lngHandle}" />
+                                                <ComboBox x:Name="HandleComboBox"
+                                                          Tag="{x:Static spotEnum:PartSpot.Handle1}"
+                                                          ItemsSource="{Binding Parts.SelectableHandles , Mode=OneTime}"
+                                                          SelectedItem="{Binding Parts.Handle , Mode=TwoWay}"
+                                                          SelectedValue="{Binding Parts.Handle.Code, Mode=OneWay}"
+                                                          SelectedValuePath="Code"
+                                                          ItemTemplateSelector="{StaticResource ComboBoxPartsTemplateSelector}"
+                                                          ItemContainerStyle="{StaticResource DisablePartWhenNotInListComboboxContainerStyle}"
+                                                          hc:DropDownElement.ConsistentWidth="False"
+                                                          IsEnabled="{Binding Parts.IsHandleAsPrimary, Converter={StaticResource Boolean2BooleanReConverter}}">
+                                                </ComboBox>
+                                            </StackPanel>
+                                        </DockPanel>
+                                        <!--#endregion-->
+
+                                    </StackPanel>
+                                </DataTemplate>
+                                <!--#endregion-->
+
+                                <!--#region 4. 9B DataTemplate -->
+                                <DataTemplate x:Name="DataTemplate9B"
+                                              DataType="{x:Type vmc:Cabin9BViewModel}">
+                                    <StackPanel x:Name="PartsStackPanel">
+
+                                        <!--#region 1.Horizontal Profile -->
+                                        <StackPanel x:Name="HorizontalProfileStackPanel"
+                                                    Margin="0,5">
+                                            <TextBlock x:Name="HorizontalProfileTextBlock"
+                                                       Style="{StaticResource TitleTextBlockStyle}"
+                                                       Text="{StaticResource lngHorizontalProfile}" />
+                                            <DockPanel>
+                                                <hc:Badge Style="{StaticResource BottomL0Badge}">
+                                                    <Button Style="{StaticResource EditPartButtonStyle}"
+                                                            Command="{Binding Parts.RequestPartEditCommand}"
+                                                            CommandParameter="{x:Static spotEnum:PartSpot.HorizontalGuideBottom}" />
+                                                </hc:Badge>
+                                                <hc:Badge Style="{StaticResource TopL0Badge}">
+                                                    <Button Style="{StaticResource EditPartButtonStyle}"
+                                                            Command="{Binding Parts.RequestPartEditCommand}"
+                                                            CommandParameter="{x:Static spotEnum:PartSpot.HorizontalGuideTop}" />
+                                                </hc:Badge>
+                                                <ComboBox x:Name="HorizontalProfileComboBox"
+                                                          Tag="{x:Static spotEnum:PartSpot.HorizontalGuideTop}"
+                                                          ItemsSource="{Binding Parts.SelectableHorizontalProfiles , Mode=OneWay}"
+                                                          SelectedItem="{Binding Parts.HorizontalProfile , Mode=TwoWay}"
+                                                          SelectedValue="{Binding Parts.HorizontalProfile.Code, Mode=OneWay}"
+                                                          SelectedValuePath="Code"
+                                                          ItemTemplateSelector="{StaticResource ComboBoxPartsTemplateSelector}"
+                                                          ItemContainerStyle="{StaticResource DisablePartWhenNotInListComboboxContainerStyle}"
+                                                          hc:DropDownElement.ConsistentWidth="False">
+                                                </ComboBox>
+                                            </DockPanel>
+                                        </StackPanel>
+                                        <!--#endregion-->
+
+                                        <!--#region 2.Hinge9B -->
+                                        <StackPanel x:Name="Hinge9BStackPanel"
+                                                    Margin="0,5">
+                                            <TextBlock x:Name="Hinge9BTextBlock"
+                                                       Style="{StaticResource TitleTextBlockStyle}"
+                                                       Text="{StaticResource lngHinge9B}" />
+                                            <DockPanel>
+                                                <Button Style="{StaticResource EditPartButtonStyle}"
+                                                        Command="{Binding Parts.RequestPartEditCommand}"
+                                                        CommandParameter="{x:Static spotEnum:PartSpot.PivotHinge}" />
+                                                <ComboBox x:Name="Hinge9BComboBox"
+                                                          Tag="{x:Static spotEnum:PartSpot.PivotHinge}"
+                                                          ItemsSource="{Binding Parts.SelectableHinges , Mode=OneWay}"
+                                                          SelectedItem="{Binding Parts.Hinge , Mode=TwoWay}"
+                                                          SelectedValue="{Binding Parts.Hinge.Code, Mode=OneWay}"
+                                                          SelectedValuePath="Code"
+                                                          ItemTemplateSelector="{StaticResource ComboBoxPartsTemplateSelector}"
+                                                          ItemContainerStyle="{StaticResource DisablePartWhenNotInListComboboxContainerStyle}"
+                                                          hc:DropDownElement.ConsistentWidth="False">
+                                                </ComboBox>
+                                            </DockPanel>
+                                        </StackPanel>
+                                        <!--#endregion-->
+
+                                        <!--#region 3.Handle -->
+                                        <StackPanel x:Name="HandleStackPanel"
+                                                    Margin="0,5">
+                                            <TextBlock x:Name="HandleTextBlock"
+                                                       Style="{StaticResource TitleTextBlockStyle}"
+                                                       Text="{StaticResource lngHandle}" />
+                                            <DockPanel>
+                                                <Button Style="{StaticResource EditPartButtonStyle}"
+                                                        Command="{Binding Parts.RequestPartEditCommand}"
+                                                        CommandParameter="{x:Static spotEnum:PartSpot.Handle1}" />
+                                                <ComboBox x:Name="HandleComboBox"
+                                                          Tag="{x:Static spotEnum:PartSpot.Handle1}"
+                                                          ItemsSource="{Binding Parts.SelectableHandles , Mode=OneWay}"
+                                                          SelectedItem="{Binding Parts.Handle , Mode=TwoWay}"
+                                                          SelectedValue="{Binding Parts.Handle.Code, Mode=OneWay}"
+                                                          SelectedValuePath="Code"
+                                                          ItemTemplateSelector="{StaticResource ComboBoxPartsTemplateSelector}"
+                                                          ItemContainerStyle="{StaticResource DisablePartWhenNotInListComboboxContainerStyle}"
+                                                          hc:DropDownElement.ConsistentWidth="False">
+                                                </ComboBox>
+                                            </DockPanel>
+                                        </StackPanel>
+                                        <!--#endregion-->
+                                    </StackPanel>
+                                </DataTemplate>
+                                <!--#endregion-->
+
+                                <!--#region 5. 9C DataTemplate -->
+                                <DataTemplate x:Name="DataTemplate9C"
+                                              DataType="{x:Type vmc:Cabin9CViewModel}">
+                                    <StackPanel x:Name="PartsStackPanel">
+                                        <!--#region 1.Horizontal Profile -->
+                                        <StackPanel x:Name="HorizontalProfileStackPanel"
+                                                    Margin="0,5">
+                                            <TextBlock x:Name="HorizontalProfileTextBlock"
+                                                       Style="{StaticResource TitleTextBlockStyle}"
+                                                       Text="{StaticResource lngHorizontalProfile}" />
+                                            <DockPanel>
+                                                <Button Style="{StaticResource EditPartButtonStyle}"
+                                                        Command="{Binding Parts.RequestPartEditCommand}"
+                                                        CommandParameter="{x:Static spotEnum:PartSpot.HorizontalGuideTop}" />
+                                                <ComboBox x:Name="HorizontalProfileComboBox"
+                                                          Tag="{x:Static spotEnum:PartSpot.HorizontalGuideTop}"
+                                                          ItemsSource="{Binding Parts.SelectableHorizontalProfiles , Mode=OneWay}"
+                                                          SelectedItem="{Binding Parts.HorizontalProfile , Mode=TwoWay}"
+                                                          SelectedValue="{Binding Parts.HorizontalProfile.Code, Mode=OneWay}"
+                                                          SelectedValuePath="Code"
+                                                          ItemTemplateSelector="{StaticResource ComboBoxPartsTemplateSelector}"
+                                                          ItemContainerStyle="{StaticResource DisablePartWhenNotInListComboboxContainerStyle}"
+                                                          hc:DropDownElement.ConsistentWidth="False">
+                                                </ComboBox>
+                                            </DockPanel>
+                                        </StackPanel>
+                                        <!--#endregion-->
+
+                                        <!--#region 2.Handle -->
+                                        <StackPanel x:Name="HandleStackPanel"
+                                                    Margin="0,5">
+                                            <TextBlock x:Name="HandleTextBlock"
+                                                       Style="{StaticResource TitleTextBlockStyle}"
+                                                       Text="{StaticResource lngHandle}" />
+                                            <DockPanel>
+                                                <Button Style="{StaticResource EditPartButtonStyle}"
+                                                        Command="{Binding Parts.RequestPartEditCommand}"
+                                                        CommandParameter="{x:Static spotEnum:PartSpot.Handle1}" />
+                                                <ComboBox x:Name="HandleComboBox"
+                                                          Tag="{x:Static spotEnum:PartSpot.Handle1}"
+                                                          ItemsSource="{Binding Parts.SelectableHandles , Mode=OneWay}"
+                                                          SelectedItem="{Binding Parts.Handle , Mode=TwoWay}"
+                                                          SelectedValue="{Binding Parts.Handle.Code, Mode=OneWay}"
+                                                          SelectedValuePath="Code"
+                                                          ItemTemplateSelector="{StaticResource ComboBoxPartsTemplateSelector}"
+                                                          ItemContainerStyle="{StaticResource DisablePartWhenNotInListComboboxContainerStyle}"
+                                                          hc:DropDownElement.ConsistentWidth="False">
+                                                </ComboBox>
+                                            </DockPanel>
+                                        </StackPanel>
+                                        <!--#endregion-->
+                                    </StackPanel>
+                                </DataTemplate>
+                                <!--#endregion-->
+
+                                <!--#region 6. 9F DataTemplate -->
+                                <DataTemplate x:Name="DataTemplate9F"
+                                              DataType="{x:Type vmc:Cabin9FViewModel}">
+                                    <StackPanel x:Name="PartsStackPanel">
+
+                                        <!--#region 1.Horizontal Profile -->
+                                        <StackPanel x:Name="HorizontalProfileStackPanel"
+                                                    Margin="0,5">
+                                            <TextBlock x:Name="HorizontalProfileTextBlock"
+                                                       Style="{StaticResource TitleTextBlockStyle}"
+                                                       Text="{StaticResource lngHorizontalProfile}" />
+                                            <DockPanel>
+                                                <hc:Badge Style="{StaticResource BottomL0Badge}">
+                                                    <Button Style="{StaticResource EditPartButtonStyle}"
+                                                            Command="{Binding Parts.RequestPartEditCommand}"
+                                                            CommandParameter="{x:Static spotEnum:PartSpot.HorizontalGuideBottom}" />
+                                                </hc:Badge>
+                                                <hc:Badge Style="{StaticResource TopL0Badge}">
+                                                    <Button Style="{StaticResource EditPartButtonStyle}"
+                                                            Command="{Binding Parts.RequestPartEditCommand}"
+                                                            CommandParameter="{x:Static spotEnum:PartSpot.HorizontalGuideTop}" />
+                                                </hc:Badge>
+                                                <ComboBox x:Name="HorizontalProfileComboBox"
+                                                          Tag="{x:Static spotEnum:PartSpot.HorizontalGuideTop}"
+                                                          ItemsSource="{Binding Parts.SelectableHorizontalProfiles , Mode=OneWay}"
+                                                          SelectedItem="{Binding Parts.HorizontalProfile , Mode=TwoWay}"
+                                                          SelectedValue="{Binding Parts.HorizontalProfile.Code, Mode=OneWay}"
+                                                          SelectedValuePath="Code"
+                                                          ItemTemplateSelector="{StaticResource ComboBoxPartsTemplateSelector}"
+                                                          ItemContainerStyle="{StaticResource DisablePartWhenNotInListComboboxContainerStyle}"
+                                                          hc:DropDownElement.ConsistentWidth="False">
+                                                </ComboBox>
+                                            </DockPanel>
+                                        </StackPanel>
+                                        <!--#endregion-->
+
+                                    </StackPanel>
+                                </DataTemplate>
+                                <!--#endregion-->
+
+                                <!--#region 7. DB DataTemplate -->
+                                <DataTemplate x:Name="DataTemplateDB"
+                                              DataType="{x:Type vmc:CabinDBViewModel}">
+                                    <StackPanel x:Name="PartsStackPanel">
+
+                                        <!--#region 1.Closer -->
+                                        <DockPanel x:Name="CloserDockPanel"
+                                                   LastChildFill="True">
+                                            <Button Style="{StaticResource EditPartButtonStyle}"
+                                                    Command="{Binding Parts.RequestPartEditCommand}"
+                                                    CommandParameter="{x:Static spotEnum:PartSpot.CloseProfile}"
+                                                    Margin="0,20,0,0"
+                                                    IsEnabled="{Binding Parts.IsWithoutCloser, Converter={StaticResource Boolean2BooleanReConverter}}" />
+                                            <CheckBox x:Name="WithoutCloserCheckBox"
+                                                      Style="{StaticResource WithoutCheckBox}"
+                                                      IsChecked="{Binding Parts.IsWithoutCloser , Mode=TwoWay}"
+                                                      ToolTip="{StaticResource lngWithoutCloseProfileTooltip}" />
+                                            <StackPanel x:Name="ComboBoxCloserStackPanel"
+                                                        Margin="0,5"
+                                                        IsEnabled="{Binding Parts.IsWithoutCloser, Converter={StaticResource Boolean2BooleanReConverter}}">
+                                                <TextBlock x:Name="CloserTextBlock"
+                                                           Style="{StaticResource TitleTextBlockStyle}"
+                                                           Text="{StaticResource lngCloseProfile}" />
+                                                <hc:ComboBox x:Name="CloserComboBox"
+                                                             Tag="{StaticResource DoubleSpotClosers}"
+                                                             ItemsSource="{Binding Parts.SelectableClosers , Mode=OneWay}"
+                                                             SelectedItem="{Binding Parts.SelectedCloser , Mode=TwoWay}"
+                                                             SelectedValue="{Binding Parts.SelectedCloser.Code, Mode=OneWay}"
+                                                             SelectedValuePath="Code"
+                                                             ItemTemplateSelector="{StaticResource ComboBoxPartsTemplateSelector}"
+                                                             ItemContainerStyle="{StaticResource DisablePartWhenNotInListComboboxContainerStyle}"
+                                                             hc:DropDownElement.ConsistentWidth="False">
+                                                </hc:ComboBox>
+                                            </StackPanel>
+                                        </DockPanel>
+                                        <!--#endregion-->
+
+                                        <!--#region 2.Handle -->
+                                        <StackPanel x:Name="HandleStackPanel"
+                                                    Margin="0,5">
+                                            <TextBlock x:Name="HandleTextBlock"
+                                                       Style="{StaticResource TitleTextBlockStyle}"
+                                                       Text="{StaticResource lngHandle}" />
+                                            <DockPanel>
+                                                <Button Style="{StaticResource EditPartButtonStyle}"
+                                                        Command="{Binding Parts.RequestPartEditCommand}"
+                                                        CommandParameter="{x:Static spotEnum:PartSpot.Handle1}" />
+                                                <ComboBox x:Name="HandleComboBox"
+                                                          Tag="{x:Static spotEnum:PartSpot.Handle1}"
+                                                          ItemsSource="{Binding Parts.SelectableHandles , Mode=OneWay}"
+                                                          SelectedItem="{Binding Parts.Handle , Mode=TwoWay}"
+                                                          SelectedValue="{Binding Parts.Handle.Code, Mode=OneWay}"
+                                                          SelectedValuePath="Code"
+                                                          ItemTemplateSelector="{StaticResource ComboBoxPartsTemplateSelector}"
+                                                          ItemContainerStyle="{StaticResource DisablePartWhenNotInListComboboxContainerStyle}"
+                                                          hc:DropDownElement.ConsistentWidth="False">
+                                                </ComboBox>
+                                            </DockPanel>
+                                        </StackPanel>
+                                        <!--#endregion-->
+
+                                    </StackPanel>
+                                </DataTemplate>
+                                <!--#endregion-->
+
+                                <!--#region 8. E DataTemplate -->
+                                <DataTemplate x:Name="DataTemplateE"
+                                              DataType="{x:Type vmc:CabinEViewModel}">
+                                    <StackPanel x:Name="PartsStackPanel">
+
+                                        <!--#region 1.Bottom Fixer -->
+                                        <StackPanel x:Name="BottomFixerStackPanel"
+                                                    Margin="0,5"
+                                                    ToolTip="{StaticResource lngBottomFixerTooltip}"
+                                                    ToolTipService.Placement="Right"
+                                                    ToolTipService.InitialShowDelay="0">
+                                            <TextBlock x:Name="BottomFixerTextBlock"
+                                                       Style="{StaticResource TitleTextBlockStyle}"
+                                                       Text="{StaticResource lngBottomFixer}" />
+                                            <DockPanel>
+                                                <Button Style="{StaticResource EditPartButtonStyle}"
+                                                        Command="{Binding Parts.RequestPartEditCommand}"
+                                                        CommandParameter="{x:Static spotEnum:PartSpot.BottomSide1}" />
+                                                <ComboBox x:Name="BottomFixerComboBox"
+                                                          Tag="{x:Static spotEnum:PartSpot.BottomSide1}"
+                                                          ItemsSource="{Binding Parts.SelectableBottomFixers , Mode=OneWay}"
+                                                          SelectedItem="{Binding Parts.BottomFixer , Mode=TwoWay}"
+                                                          SelectedValue="{Binding Parts.BottomFixer.Code, Mode=OneWay}"
+                                                          SelectedValuePath="Code"
+                                                          ItemTemplateSelector="{StaticResource ComboBoxPartsTemplateSelector}"
+                                                          ItemContainerStyle="{StaticResource DisablePartWhenNotInListComboboxContainerStyle}"
+                                                          hc:DropDownElement.ConsistentWidth="False">
+                                                </ComboBox>
+                                            </DockPanel>
+                                        </StackPanel>
+                                        <!--#endregion-->
+
+                                        <!--#region 2.Rounding -->
+                                        <StackPanel x:Name="CornerRadiusStackPanel"
+                                                    Margin="0,5"
+                                                    ToolTipService.InitialShowDelay="0"
+                                                    ToolTipService.Placement="Right"
+                                                    ToolTip="{StaticResource lngCornerRadiusTooltip}">
+                                            <TextBlock x:Name="CornerRadiusTextBlock"
+                                                       Style="{StaticResource TitleTextBlockStyle}"
+                                                       Text="{StaticResource lngCornerRadius}" />
+                                            <TextBox x:Name="CornerRadiusTextBox"
+                                                     Text="{Binding Constraints.CornerRadiusTopEdge ,Mode=TwoWay , UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}">
+                                                <i:Interaction.Behaviors>
+                                                    <b:TextBoxNumericInputBehavior Precision="0"
+                                                                                   InputMode="DigitInput"
+                                                                                   JustPositivDecimalInput="True" />
+                                                </i:Interaction.Behaviors>
+                                            </TextBox>
+                                        </StackPanel>
+                                        <!--#endregion-->
+
+                                    </StackPanel>
+                                </DataTemplate>
+                                <!--#endregion-->
+
+                                <!--#region 9. W DataTemplate -->
+                                <DataTemplate x:Name="DataTemplateW"
+                                              DataType="{x:Type vmc:CabinWViewModel}">
+                                    <StackPanel x:Name="PartsStackPanel">
+
+                                        <!--#region 1.Wall Fixer -->
+                                        <DockPanel x:Name="WallFixerDockPanel"
+                                                   LastChildFill="True">
+                                            <Button Style="{StaticResource EditPartButtonStyle}"
+                                                    Command="{Binding Parts.RequestPartEditCommand}"
+                                                    CommandParameter="{x:Static spotEnum:PartSpot.WallSide1}"
+                                                    Margin="0,20,0,0"
+                                                    IsEnabled="{Binding Parts.IsWithoutWallFixer,Converter={StaticResource Boolean2BooleanReConverter}}" />
+                                            <CheckBox x:Name="WithoutWallFixerCheckBox"
+                                                      Style="{StaticResource WithoutCheckBox}"
+                                                      IsChecked="{Binding Parts.IsWithoutWallFixer , Mode=TwoWay}"
+                                                      ToolTip="{StaticResource lngWithoutWallFixerTooltip}" />
+                                            <StackPanel x:Name="ComboBoxWallFixerStackPanel"
+                                                        Margin="0,5"
+                                                        IsEnabled="{Binding Parts.IsWithoutWallFixer, Converter={StaticResource Boolean2BooleanReConverter}}"
+                                                        ToolTip="{StaticResource lngWallFixerTooltip}"
+                                                        ToolTipService.Placement="Right"
+                                                        ToolTipService.InitialShowDelay="0">
+                                                <TextBlock x:Name="WallFixerTextBlock"
+                                                           Style="{StaticResource TitleTextBlockStyle}"
+                                                           Text="{StaticResource lngWallFixer}" />
+                                                <hc:ComboBox x:Name="WallFixerComboBox"
+                                                             Tag="{x:Static spotEnum:PartSpot.WallSide1}"
+                                                             ItemsSource="{Binding Parts.SelectableWallFixers , Mode=OneWay}"
+                                                             SelectedItem="{Binding Parts.WallSideFixer , Mode=TwoWay}"
+                                                             SelectedValue="{Binding Parts.WallSideFixer.Code, Mode=OneWay}"
+                                                             SelectedValuePath="Code"
+                                                             ItemTemplateSelector="{StaticResource ComboBoxPartsTemplateSelector}"
+                                                             ItemContainerStyle="{StaticResource DisablePartWhenNotInListComboboxContainerStyle}"
+                                                             hc:DropDownElement.ConsistentWidth="False">
+                                                </hc:ComboBox>
+                                            </StackPanel>
+                                        </DockPanel>
+                                        <!--#endregion-->
+
+                                        <!--#region 2.Bottom Fixer -->
+                                        <DockPanel x:Name="BottomFixerDockPanel"
+                                                   LastChildFill="True">
+                                            <Button Style="{StaticResource EditPartButtonStyle}"
+                                                    Command="{Binding Parts.RequestPartEditCommand}"
+                                                    CommandParameter="{x:Static spotEnum:PartSpot.BottomSide1}"
+                                                    Margin="0,20,0,0"
+                                                    IsEnabled="{Binding Parts.IsWithoutBottomFixer,Converter={StaticResource Boolean2BooleanReConverter}}" />
+                                            <CheckBox x:Name="WithoutBottomFixerCheckBox"
+                                                      Style="{StaticResource WithoutCheckBox}"
+                                                      IsChecked="{Binding Parts.IsWithoutBottomFixer , Mode=TwoWay}"
+                                                      ToolTip="{StaticResource lngWithoutBottomFixerTooltip}" />
+                                            <StackPanel x:Name="ComboBoxBottomFixerStackPanel"
+                                                        Margin="0,5"
+                                                        IsEnabled="{Binding Parts.IsWithoutBottomFixer, Converter={StaticResource Boolean2BooleanReConverter}}"
+                                                        ToolTip="{StaticResource lngBottomFixerTooltip}"
+                                                        ToolTipService.Placement="Right"
+                                                        ToolTipService.InitialShowDelay="0">
+                                                <TextBlock x:Name="BottomFixerTextBlock"
+                                                           Style="{StaticResource TitleTextBlockStyle}"
+                                                           Text="{StaticResource lngBottomFixer}" />
+                                                <hc:ComboBox x:Name="BottomFixerComboBox"
+                                                             Tag="{x:Static spotEnum:PartSpot.BottomSide1}"
+                                                             ItemsSource="{Binding Parts.SelectableBottomFixers , Mode=OneWay}"
+                                                             SelectedItem="{Binding Parts.BottomFixer , Mode=TwoWay}"
+                                                             SelectedValue="{Binding Parts.BottomFixer.Code, Mode=OneWay}"
+                                                             SelectedValuePath="Code"
+                                                             ItemTemplateSelector="{StaticResource ComboBoxPartsTemplateSelector}"
+                                                             ItemContainerStyle="{StaticResource DisablePartWhenNotInListComboboxContainerStyle}"
+                                                             hc:DropDownElement.ConsistentWidth="False">
+                                                </hc:ComboBox>
+                                            </StackPanel>
+                                        </DockPanel>
+                                        <!--#endregion-->
+
+                                        <!--#region 3.Top Fixer -->
+                                        <DockPanel x:Name="TopFixerDockPanel"
+                                                   LastChildFill="True">
+                                            <Button Style="{StaticResource EditPartButtonStyle}"
+                                                    Command="{Binding Parts.RequestPartEditCommand}"
+                                                    CommandParameter="{x:Static spotEnum:PartSpot.TopSide}"
+                                                    Margin="0,20,0,0"
+                                                    IsEnabled="{Binding Parts.IsWithoutTopFixer,Converter={StaticResource Boolean2BooleanReConverter}}" />
+                                            <CheckBox x:Name="WithoutTopFixerCheckBox"
+                                                      Style="{StaticResource WithoutCheckBox}"
+                                                      IsChecked="{Binding Parts.IsWithoutTopFixer , Mode=TwoWay}"
+                                                      ToolTip="{StaticResource lngWithoutTopFixerTooltip}" />
+                                            <StackPanel x:Name="TopFixerStackPanel"
+                                                        Margin="0,5"
+                                                        IsEnabled="{Binding Parts.IsWithoutTopFixer, Converter={StaticResource Boolean2BooleanReConverter}}"
+                                                        ToolTip="{StaticResource lngTopFixerTooltip}"
+                                                        ToolTipService.Placement="Right"
+                                                        ToolTipService.InitialShowDelay="0">
+                                                <TextBlock x:Name="TopFixerTextBlock"
+                                                           Style="{StaticResource TitleTextBlockStyle}"
+                                                           Text="{StaticResource lngTopFixer}" />
+                                                <hc:ComboBox x:Name="TopFixerComboBox"
+                                                             Tag="{x:Static spotEnum:PartSpot.TopSide}"
+                                                             ItemsSource="{Binding Parts.SelectableTopFixers , Mode=OneWay}"
+                                                             SelectedItem="{Binding Parts.TopFixer , Mode=TwoWay}"
+                                                             SelectedValue="{Binding Parts.TopFixer.Code, Mode=OneWay}"
+                                                             SelectedValuePath="Code"
+                                                             ItemTemplateSelector="{StaticResource ComboBoxPartsTemplateSelector}"
+                                                             ItemContainerStyle="{StaticResource DisablePartWhenNotInListComboboxContainerStyle}"
+                                                             hc:DropDownElement.ConsistentWidth="False">
+                                                </hc:ComboBox>
+                                            </StackPanel>
+                                        </DockPanel>
+                                        <!--#endregion-->
+
+                                        <!--#region 4.Side Fixer -->
+                                        <DockPanel x:Name="SideFixerDockPanel"
+                                                   LastChildFill="True">
+                                            <Button Style="{StaticResource EditPartButtonStyle}"
+                                                    Command="{Binding Parts.RequestPartEditCommand}"
+                                                    CommandParameter="{x:Static spotEnum:PartSpot.NonWallSide}"
+                                                    Margin="0,20,0,0"
+                                                    IsEnabled="{Binding Parts.IsWithoutSideFixer,Converter={StaticResource Boolean2BooleanReConverter}}" />
+                                            <CheckBox x:Name="WithoutSideFixerCheckBox"
+                                                      Style="{StaticResource WithoutCheckBox}"
+                                                      IsChecked="{Binding Parts.IsWithoutSideFixer , Mode=TwoWay}"
+                                                      ToolTip="{StaticResource lngWithoutSideFixerTooltip}" />
+                                            <StackPanel x:Name="SideFixerStackPanel"
+                                                        Margin="0,5"
+                                                        IsEnabled="{Binding Parts.IsWithoutSideFixer, Converter={StaticResource Boolean2BooleanReConverter}}"
+                                                        ToolTip="{StaticResource lngSideFixerTooltip}"
+                                                        ToolTipService.Placement="Right"
+                                                        ToolTipService.InitialShowDelay="0">
+                                                <TextBlock x:Name="SideFixerTextBlock"
+                                                           Style="{StaticResource TitleTextBlockStyle}"
+                                                           Text="{StaticResource lngSideFixer}" />
+                                                <hc:ComboBox x:Name="SideFixerComboBox"
+                                                             Tag="{x:Static spotEnum:PartSpot.NonWallSide}"
+                                                             ItemsSource="{Binding Parts.SelectableSideFixers , Mode=OneWay}"
+                                                             SelectedItem="{Binding Parts.SideFixer , Mode=TwoWay}"
+                                                             SelectedValue="{Binding Parts.SideFixer.Code, Mode=OneWay}"
+                                                             SelectedValuePath="Code"
+                                                             ItemTemplateSelector="{StaticResource ComboBoxPartsTemplateSelector}"
+                                                             ItemContainerStyle="{StaticResource DisablePartWhenNotInListComboboxContainerStyle}"
+                                                             hc:DropDownElement.ConsistentWidth="False">
+                                                </hc:ComboBox>
+                                            </StackPanel>
+                                        </DockPanel>
+                                        <!--#endregion-->
+
+                                        <!--#region 5.Rounding -->
+                                        <StackPanel x:Name="CornerRadiusStackPanel"
+                                                    Margin="0,5"
+                                                    ToolTipService.InitialShowDelay="0"
+                                                    ToolTipService.Placement="Right"
+                                                    ToolTip="{StaticResource lngCornerRadiusTooltip}">
+                                            <TextBlock x:Name="CornerRadiusTextBlock"
+                                                       Style="{StaticResource TitleTextBlockStyle}"
+                                                       Text="{StaticResource lngCornerRadius}" />
+                                            <TextBox x:Name="CornerRadiusTextBox"
+                                                     Text="{Binding Constraints.CornerRadiusTopEdge ,Mode=TwoWay , UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}">
+                                                <i:Interaction.Behaviors>
+                                                    <b:TextBoxNumericInputBehavior Precision="0"
+                                                                                   InputMode="DigitInput"
+                                                                                   JustPositivDecimalInput="True" />
+                                                </i:Interaction.Behaviors>
+                                            </TextBox>
+                                        </StackPanel>
+                                        <!--#endregion-->
+
+                                    </StackPanel>
+                                </DataTemplate>
+                                <!--#endregion-->
+
+                                <!--#region 10. WFlipper DataTemplate -->
+                                <DataTemplate x:Name="DataTemplateWFlipper"
+                                              DataType="{x:Type vmc:CabinWFlipperViewModel}">
+                                    <StackPanel x:Name="PartsStackPanel">
+
+                                        <!--#region 1.Rounding -->
+                                        <StackPanel x:Name="CornerRadiusStackPanel"
+                                                    Margin="0,5"
+                                                    ToolTipService.InitialShowDelay="0"
+                                                    ToolTipService.Placement="Right"
+                                                    ToolTip="{StaticResource lngCornerRadiusTooltip}">
+                                            <TextBlock x:Name="CornerRadiusTextBlock"
+                                                       Style="{StaticResource TitleTextBlockStyle}"
+                                                       Text="{StaticResource lngCornerRadius}" />
+                                            <TextBox x:Name="CornerRadiusTextBox"
+                                                     Text="{Binding Constraints.CornerRadiusTopEdge ,Mode=TwoWay , UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}">
+                                                <i:Interaction.Behaviors>
+                                                    <b:TextBoxNumericInputBehavior Precision="0"
+                                                                                   InputMode="DigitInput"
+                                                                                   JustPositivDecimalInput="True" />
+                                                </i:Interaction.Behaviors>
+                                            </TextBox>
+                                        </StackPanel>
+                                        <!--#endregion-->
+
+                                    </StackPanel>
+                                </DataTemplate>
+                                <!--#endregion-->
+
+                                <!--#region 11. HB DataTemplate -->
+                                <DataTemplate x:Name="DataTemplateHB"
+                                              DataType="{x:Type vmc:CabinHBViewModel}">
+                                    <StackPanel x:Name="PartsStackPanel">
+
+                                        <!--#region 0.Calculation Length -->
+                                        <DockPanel>
+
+                                            <!--#region a. LengthCalculation -->
+                                            <StackPanel x:Name="LengthCalculationStackPanel"
+                                                        Margin="0,5">
+                                                <DockPanel>
+                                                    <cc:Icon Style="{StaticResource CInfoTooltipIcon}"
+                                                             ToolTip="{StaticResource lngLengthCalculationTooltip}" />
+                                                    <TextBlock x:Name="LengthCalculationTextBlock"
+                                                               DockPanel.Dock="Left"
+                                                               Style="{StaticResource TitleTextBlockStyle}"
+                                                               Text="{StaticResource lngLengthCalculationShort}">
+                                                    </TextBlock>
+                                                </DockPanel>
+                                                <ComboBox x:Name="LengthCalculationComboBox"
+                                                          ItemsSource="{Binding Constraints.SelectableLengthCalculationOptions}"
+                                                          SelectedItem="{Binding Constraints.LengthCalculation , Mode=TwoWay}">
+                                                    <ComboBox.ToolTip>
+                                                        <StackPanel>
+                                                            <TextBlock Text="{StaticResource lngDefaultValue}" />
+                                                            <TextBlock Text="{Binding Constraints.Defaults.LengthCalculation , Converter={StaticResource languageConverter}}" />
+                                                        </StackPanel>
+                                                    </ComboBox.ToolTip>
+                                                    <ComboBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding Converter={StaticResource languageConverter} , TargetNullValue=''}" />
+                                                        </DataTemplate>
+                                                    </ComboBox.ItemTemplate>
+                                                </ComboBox>
+                                            </StackPanel>
+                                            <!--#endregion-->
+
+                                            <!--#region b. PartialLength -->
+                                            <StackPanel x:Name="PartialLengthStackPanel"
+                                                        Margin="30,5,0,5"
+                                                        HorizontalAlignment="Center"
+                                                        MinWidth="100">
+                                                <DockPanel>
+                                                    <cc:Icon Style="{StaticResource CInfoTooltipIcon}"
+                                                             ToolTip="{StaticResource lngPartialLengthTooltip}" />
+                                                    <TextBlock x:Name="PartialLengthTextBlock"
+                                                               Style="{StaticResource TitleTextBlockStyle}"
+                                                               Text="{StaticResource lngPartialLengthShort}">
+                                                    </TextBlock>
+                                                </DockPanel>
+                                                <TextBox x:Name="PartialLengthTextBox"
+                                                         d:Text="1000"
+                                                         Text="{Binding Constraints.PartialLength ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}">
+                                                    <TextBox.ToolTip>
+                                                        <StackPanel>
+                                                            <TextBlock Text="{StaticResource lngDefaultValue}" />
+                                                            <TextBlock Text="{Binding Constraints.Defaults.PartialLength, StringFormat={}{0}mm}" />
+                                                        </StackPanel>
+                                                    </TextBox.ToolTip>
+                                                    <i:Interaction.Behaviors>
+                                                        <b:TextBoxNumericInputBehavior Precision="0"
+                                                                                       InputMode="DigitInput"
+                                                                                       JustPositivDecimalInput="True" />
+                                                    </i:Interaction.Behaviors>
+                                                </TextBox>
+                                            </StackPanel>
+                                            <!--#endregion-->
+                                        </DockPanel>
+                                        <!--#endregion-->
+
+                                        <!--#region 1.Closer -->
+                                        <DockPanel x:Name="CloserDockPanel"
+                                                   LastChildFill="True">
+                                            <Button Style="{StaticResource EditPartButtonStyle}"
+                                                    Command="{Binding Parts.RequestPartEditCommand}"
+                                                    CommandParameter="{x:Static spotEnum:PartSpot.CloseProfile}"
+                                                    Margin="0,20,0,0"
+                                                    IsEnabled="{Binding Parts.IsWithoutCloser,Converter={StaticResource Boolean2BooleanReConverter}}" />
+                                            <CheckBox x:Name="WithoutCloserCheckBox"
+                                                      Style="{StaticResource WithoutCheckBox}"
+                                                      IsChecked="{Binding Parts.IsWithoutCloser , Mode=TwoWay}"
+                                                      ToolTip="{StaticResource lngWithoutCloseProfileTooltip}" />
+                                            <StackPanel x:Name="ComboBoxCloserStackPanel"
+                                                        Margin="0,5"
+                                                        IsEnabled="{Binding Parts.IsWithoutCloser, Converter={StaticResource Boolean2BooleanReConverter}}">
+                                                <TextBlock x:Name="CloserTextBlock"
+                                                           Style="{StaticResource TitleTextBlockStyle}"
+                                                           Text="{StaticResource lngCloseProfile}" />
+                                                <hc:ComboBox x:Name="CloserComboBox"
+                                                             Tag="{StaticResource DoubleSpotClosers}"
+                                                             ItemsSource="{Binding Parts.SelectableClosers , Mode=OneWay}"
+                                                             SelectedItem="{Binding Parts.SelectedCloser , Mode=TwoWay}"
+                                                             SelectedValue="{Binding Parts.SelectedCloser.Code, Mode=OneWay}"
+                                                             SelectedValuePath="Code"
+                                                             ItemTemplateSelector="{StaticResource ComboBoxPartsTemplateSelector}"
+                                                             ItemContainerStyle="{StaticResource DisablePartWhenNotInListComboboxContainerStyle}"
+                                                             hc:DropDownElement.ConsistentWidth="False">
+                                                </hc:ComboBox>
+                                            </StackPanel>
+                                        </DockPanel>
+                                        <!--#endregion-->
+
+                                        <!--#region 2.WallSide Fixer -->
+                                        <StackPanel x:Name="WallFixerStackPanel"
+                                                    Margin="0,5"
+                                                    ToolTip="{StaticResource lngWallFixerTooltip}"
+                                                    ToolTipService.Placement="Right"
+                                                    ToolTipService.InitialShowDelay="0">
+                                            <TextBlock x:Name="WallFixerTextBlock"
+                                                       Style="{StaticResource TitleTextBlockStyle}"
+                                                       Text="{StaticResource lngWallFixer}" />
+                                            <DockPanel>
+                                                <Button Style="{StaticResource EditPartButtonStyle}"
+                                                        Command="{Binding Parts.RequestPartEditCommand}"
+                                                        CommandParameter="{x:Static spotEnum:PartSpot.WallSide1}" />
+                                                <hc:ComboBox x:Name="WallFixerComboBox"
+                                                             Tag="{x:Static spotEnum:PartSpot.WallSide1}"
+                                                             ItemsSource="{Binding Parts.SelectableWallFixers , Mode=OneWay}"
+                                                             SelectedItem="{Binding Parts.WallSideFixer , Mode=TwoWay}"
+                                                             SelectedValue="{Binding Parts.WallSideFixer.Code, Mode=OneWay}"
+                                                             SelectedValuePath="Code"
+                                                             ItemTemplateSelector="{StaticResource ComboBoxPartsTemplateSelector}"
+                                                             ItemContainerStyle="{StaticResource DisablePartWhenNotInListComboboxContainerStyle}"
+                                                             hc:DropDownElement.ConsistentWidth="False">
+                                                </hc:ComboBox>
+                                            </DockPanel>
+                                        </StackPanel>
+                                        <!--#endregion-->
+
+                                        <!--#region 3.Bottom Fixer -->
+                                        <StackPanel x:Name="BottomFixerStackPanel"
+                                                    Margin="0,5"
+                                                    ToolTip="{StaticResource lngBottomFixerTooltip}"
+                                                    ToolTipService.Placement="Right"
+                                                    ToolTipService.InitialShowDelay="0">
+                                            <TextBlock x:Name="BottomFixerTextBlock"
+                                                       Style="{StaticResource TitleTextBlockStyle}"
+                                                       Text="{StaticResource lngBottomFixer}" />
+                                            <DockPanel>
+                                                <Button Style="{StaticResource EditPartButtonStyle}"
+                                                        Command="{Binding Parts.RequestPartEditCommand}"
+                                                        CommandParameter="{x:Static spotEnum:PartSpot.BottomSide1}" />
+                                                <hc:ComboBox x:Name="BottomFixerComboBox"
+                                                             Tag="{x:Static spotEnum:PartSpot.BottomSide1}"
+                                                             ItemsSource="{Binding Parts.SelectableBottomFixers , Mode=OneWay}"
+                                                             SelectedItem="{Binding Parts.BottomFixer , Mode=TwoWay}"
+                                                             SelectedValue="{Binding Parts.BottomFixer.Code, Mode=OneWay}"
+                                                             SelectedValuePath="Code"
+                                                             ItemTemplateSelector="{StaticResource ComboBoxPartsTemplateSelector}"
+                                                             ItemContainerStyle="{StaticResource DisablePartWhenNotInListComboboxContainerStyle}"
+                                                             hc:DropDownElement.ConsistentWidth="False">
+                                                </hc:ComboBox>
+                                            </DockPanel>
+                                        </StackPanel>
+                                        <!--#endregion-->
+
+                                        <!--#region 4.Handle -->
+                                        <StackPanel x:Name="HandleStackPanel"
+                                                    Margin="0,5">
+                                            <TextBlock x:Name="HandleTextBlock"
+                                                       Style="{StaticResource TitleTextBlockStyle}"
+                                                       Text="{StaticResource lngHandle}" />
+                                            <DockPanel>
+                                                <Button Style="{StaticResource EditPartButtonStyle}"
+                                                        Command="{Binding Parts.RequestPartEditCommand}"
+                                                        CommandParameter="{x:Static spotEnum:PartSpot.Handle1}" />
+                                                <ComboBox x:Name="HandleComboBox"
+                                                          Tag="{x:Static spotEnum:PartSpot.Handle1}"
+                                                          ItemsSource="{Binding Parts.SelectableHandles , Mode=OneWay}"
+                                                          SelectedItem="{Binding Parts.Handle , Mode=TwoWay}"
+                                                          SelectedValue="{Binding Parts.Handle.Code, Mode=OneWay}"
+                                                          SelectedValuePath="Code"
+                                                          ItemTemplateSelector="{StaticResource ComboBoxPartsTemplateSelector}"
+                                                          ItemContainerStyle="{StaticResource DisablePartWhenNotInListComboboxContainerStyle}"
+                                                          hc:DropDownElement.ConsistentWidth="False">
+                                                </ComboBox>
+                                            </DockPanel>
+                                        </StackPanel>
+                                        <!--#endregion-->
+
+                                    </StackPanel>
+                                </DataTemplate>
+                                <!--#endregion-->
+
+                                <!--#region 12. V4 DataTemplate -->
+                                <DataTemplate x:Name="DataTemplateV4"
+                                              DataType="{x:Type vmc:CabinV4ViewModel}">
+                                    <StackPanel x:Name="PartsStackPanel">
+
+                                        <!--#region 1.Overlap -->
+                                        <StackPanel x:Name="OverlapStackPanel"
+                                                    Margin="0,5"
+                                                    ToolTipService.InitialShowDelay="0"
+                                                    ToolTipService.Placement="Right"
+                                                    ToolTip="{StaticResource lngOverlapTooltip}">
+                                            <TextBlock x:Name="OverlapTextBlock"
+                                                       Style="{StaticResource TitleTextBlockStyle}"
+                                                       Text="{StaticResource lngOverlap}" />
+                                            <TextBox x:Name="OverlapTextBox"
+                                                     Text="{Binding Constraints.Overlap ,Mode=TwoWay , UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}">
+                                                <i:Interaction.Behaviors>
+                                                    <b:TextBoxNumericInputBehavior Precision="0"
+                                                                                   InputMode="DigitInput"
+                                                                                   JustPositivDecimalInput="True" />
+                                                </i:Interaction.Behaviors>
+                                            </TextBox>
+                                        </StackPanel>
+                                        <!--#endregion-->
+
+                                        <!--#region 2.Wall Side Fixer -->
+                                        <StackPanel x:Name="WallSideFixerStackPanel"
+                                                    Margin="0,5"
+                                                    ToolTip="{StaticResource lngWallFixerTooltip}"
+                                                    ToolTipService.InitialShowDelay="0"
+                                                    ToolTipService.Placement="Right">
+                                            <TextBlock x:Name="WallSideFixerTextBlock"
+                                                       Style="{StaticResource TitleTextBlockStyle}"
+                                                       Text="{StaticResource lngWallFixer}" />
+                                            <DockPanel>
+                                                <Button Style="{StaticResource EditPartButtonStyle}"
+                                                        Command="{Binding Parts.RequestPartEditCommand}"
+                                                        CommandParameter="{x:Static spotEnum:PartSpot.WallSide1}" />
+                                                <ComboBox x:Name="WallSideFixerComboBox"
+                                                          Tag="{x:Static spotEnum:PartSpot.WallSide1}"
+                                                          ItemsSource="{Binding Parts.SelectableWallFixers , Mode=OneWay}"
+                                                          SelectedItem="{Binding Parts.WallSideFixer , Mode=TwoWay}"
+                                                          SelectedValue="{Binding Parts.WallSideFixer.Code, Mode=OneWay}"
+                                                          SelectedValuePath="Code"
+                                                          ItemTemplateSelector="{StaticResource ComboBoxPartsTemplateSelector}"
+                                                          ItemContainerStyle="{StaticResource DisablePartWhenNotInListComboboxContainerStyle}"
+                                                          hc:DropDownElement.ConsistentWidth="False">
+                                                </ComboBox>
+                                            </DockPanel>
+                                        </StackPanel>
+                                        <!--#endregion-->
+
+                                        <!--#region 3.Wall Fixer 2 -->
+                                        <StackPanel x:Name="WallFixer2StackPanel"
+                                                    Margin="0,5"
+                                                    ToolTip="{StaticResource lngSideFixerTooltip}"
+                                                    ToolTipService.InitialShowDelay="0"
+                                                    ToolTipService.Placement="Right">
+                                            <TextBlock x:Name="WallFixer2TextBlock"
+                                                       Style="{StaticResource TitleTextBlockStyle}"
+                                                       Text="{StaticResource lngSideFixer}" />
+                                            <DockPanel>
+                                                <Button Style="{StaticResource EditPartButtonStyle}"
+                                                        Command="{Binding Parts.RequestPartEditCommand}"
+                                                        CommandParameter="{x:Static spotEnum:PartSpot.WallSide2}" />
+                                                <ComboBox x:Name="WallFixer2ComboBox"
+                                                          Tag="{x:Static spotEnum:PartSpot.WallSide2}"
+                                                          ItemsSource="{Binding Parts.SelectableWallFixers2 , Mode=OneWay}"
+                                                          SelectedItem="{Binding Parts.WallFixer2 , Mode=TwoWay}"
+                                                          SelectedValue="{Binding Parts.WallFixer2.Code, Mode=OneWay}"
+                                                          SelectedValuePath="Code"
+                                                          ItemTemplateSelector="{StaticResource ComboBoxPartsTemplateSelector}"
+                                                          ItemContainerStyle="{StaticResource DisablePartWhenNotInListComboboxContainerStyle}"
+                                                          hc:DropDownElement.ConsistentWidth="False">
+                                                </ComboBox>
+                                            </DockPanel>
+                                        </StackPanel>
+                                        <!--#endregion-->
+
+                                        <!--#region 4.Handle -->
+                                        <StackPanel x:Name="HandleStackPanel"
+                                                    Margin="0,5">
+                                            <TextBlock x:Name="HandleTextBlock"
+                                                       Style="{StaticResource TitleTextBlockStyle}"
+                                                       Text="{StaticResource lngHandle}" />
+                                            <DockPanel>
+                                                <Button Style="{StaticResource EditPartButtonStyle}"
+                                                        Command="{Binding Parts.RequestPartEditCommand}"
+                                                        CommandParameter="{x:Static spotEnum:PartSpot.Handle1}" />
+                                                <ComboBox x:Name="HandleComboBox"
+                                                          Tag="{x:Static spotEnum:PartSpot.Handle1}"
+                                                          ItemsSource="{Binding Parts.SelectableHandles , Mode=OneWay}"
+                                                          SelectedItem="{Binding Parts.Handle , Mode=TwoWay}"
+                                                          SelectedValue="{Binding Parts.Handle.Code, Mode=OneWay}"
+                                                          SelectedValuePath="Code"
+                                                          ItemTemplateSelector="{StaticResource ComboBoxPartsTemplateSelector}"
+                                                          ItemContainerStyle="{StaticResource DisablePartWhenNotInListComboboxContainerStyle}"
+                                                          hc:DropDownElement.ConsistentWidth="False">
+                                                </ComboBox>
+                                            </DockPanel>
+                                        </StackPanel>
+                                        <!--#endregion-->
+                                    </StackPanel>
+                                </DataTemplate>
+                                <!--#endregion-->
+
+                                <!--#region 13. VA DataTemplate -->
+                                <DataTemplate x:Name="DataTemplateVA"
+                                              DataType="{x:Type vmc:CabinVAViewModel}">
+                                    <StackPanel x:Name="PartsStackPanel">
+
+                                        <!--#region 1.Overlap -->
+                                        <StackPanel x:Name="OverlapStackPanel"
+                                                    Margin="0,5"
+                                                    ToolTipService.InitialShowDelay="0"
+                                                    ToolTipService.Placement="Right"
+                                                    ToolTip="{StaticResource lngOverlapTooltip}">
+                                            <TextBlock x:Name="OverlapTextBlock"
+                                                       Style="{StaticResource TitleTextBlockStyle}"
+                                                       Text="{StaticResource lngOverlap}" />
+                                            <TextBox x:Name="OverlapTextBox"
+                                                     Text="{Binding Constraints.Overlap ,Mode=TwoWay , UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}">
+                                                <i:Interaction.Behaviors>
+                                                    <b:TextBoxNumericInputBehavior Precision="0"
+                                                                                   InputMode="DigitInput"
+                                                                                   JustPositivDecimalInput="True" />
+                                                </i:Interaction.Behaviors>
+                                            </TextBox>
+                                        </StackPanel>
+                                        <!--#endregion-->
+
+                                        <!--#region 2.Wall Side Fixer -->
+                                        <StackPanel x:Name="WallSideFixerStackPanel"
+                                                    Margin="0,5"
+                                                    ToolTip="{StaticResource lngWallFixerTooltip}"
+                                                    ToolTipService.InitialShowDelay="0"
+                                                    ToolTipService.Placement="Right">
+                                            <TextBlock x:Name="WallSideFixerTextBlock"
+                                                       Style="{StaticResource TitleTextBlockStyle}"
+                                                       Text="{StaticResource lngWallFixer}" />
+                                            <DockPanel>
+                                                <Button Style="{StaticResource EditPartButtonStyle}"
+                                                        Command="{Binding Parts.RequestPartEditCommand}"
+                                                        CommandParameter="{x:Static spotEnum:PartSpot.WallSide1}" />
+                                                <ComboBox x:Name="WallSideFixerComboBox"
+                                                          Tag="{x:Static spotEnum:PartSpot.WallSide1}"
+                                                          ItemsSource="{Binding Parts.SelectableWallFixers , Mode=OneWay}"
+                                                          SelectedItem="{Binding Parts.WallSideFixer , Mode=TwoWay}"
+                                                          SelectedValue="{Binding Parts.WallSideFixer.Code, Mode=OneWay}"
+                                                          SelectedValuePath="Code"
+                                                          ItemTemplateSelector="{StaticResource ComboBoxPartsTemplateSelector}"
+                                                          ItemContainerStyle="{StaticResource DisablePartWhenNotInListComboboxContainerStyle}"
+                                                          hc:DropDownElement.ConsistentWidth="False">
+                                                </ComboBox>
+                                            </DockPanel>
+                                        </StackPanel>
+                                        <!--#endregion-->
+
+                                        <!--#region 3.Handle -->
+                                        <StackPanel x:Name="HandleStackPanel"
+                                                    Margin="0,5">
+                                            <TextBlock x:Name="HandleTextBlock"
+                                                       Style="{StaticResource TitleTextBlockStyle}"
+                                                       Text="{StaticResource lngHandle}" />
+                                            <DockPanel>
+                                                <Button Style="{StaticResource EditPartButtonStyle}"
+                                                        Command="{Binding Parts.RequestPartEditCommand}"
+                                                        CommandParameter="{x:Static spotEnum:PartSpot.Handle1}" />
+                                                <ComboBox x:Name="HandleComboBox"
+                                                          Tag="{x:Static spotEnum:PartSpot.Handle1}"
+                                                          ItemsSource="{Binding Parts.SelectableHandles , Mode=OneWay}"
+                                                          SelectedItem="{Binding Parts.Handle , Mode=TwoWay}"
+                                                          SelectedValue="{Binding Parts.Handle.Code, Mode=OneWay}"
+                                                          SelectedValuePath="Code"
+                                                          ItemTemplateSelector="{StaticResource ComboBoxPartsTemplateSelector}"
+                                                          ItemContainerStyle="{StaticResource DisablePartWhenNotInListComboboxContainerStyle}"
+                                                          hc:DropDownElement.ConsistentWidth="False">
+                                                </ComboBox>
+                                            </DockPanel>
+                                        </StackPanel>
+                                        <!--#endregion-->
+
+                                    </StackPanel>
+                                </DataTemplate>
+                                <!--#endregion-->
+
+                                <!--#region 14. VF DataTemplate -->
+                                <DataTemplate x:Name="DataTemplateVF"
+                                              DataType="{x:Type vmc:CabinVFViewModel}">
+                                    <StackPanel x:Name="PartsStackPanel">
+
+                                        <!--#region 1.Wall Side Fixer -->
+                                        <StackPanel x:Name="WallSideFixerStackPanel"
+                                                    Margin="0,5"
+                                                    ToolTip="{StaticResource lngWallFixerTooltip}"
+                                                    ToolTipService.InitialShowDelay="0"
+                                                    ToolTipService.Placement="Right">
+                                            <TextBlock x:Name="WallSideFixerTextBlock"
+                                                       Style="{StaticResource TitleTextBlockStyle}"
+                                                       Text="{StaticResource lngWallFixer}" />
+                                            <DockPanel>
+                                                <Button Style="{StaticResource EditPartButtonStyle}"
+                                                        Command="{Binding Parts.RequestPartEditCommand}"
+                                                        CommandParameter="{x:Static spotEnum:PartSpot.WallSide1}" />
+                                                <ComboBox x:Name="WallSideFixerComboBox"
+                                                          Tag="{x:Static spotEnum:PartSpot.WallSide1}"
+                                                          ItemsSource="{Binding Parts.SelectableWallFixers , Mode=OneWay}"
+                                                          SelectedItem="{Binding Parts.WallSideFixer , Mode=TwoWay}"
+                                                          SelectedValue="{Binding Parts.WallSideFixer.Code, Mode=OneWay}"
+                                                          SelectedValuePath="Code"
+                                                          ItemTemplateSelector="{StaticResource ComboBoxPartsTemplateSelector}"
+                                                          ItemContainerStyle="{StaticResource DisablePartWhenNotInListComboboxContainerStyle}"
+                                                          hc:DropDownElement.ConsistentWidth="False">
+                                                </ComboBox>
+                                            </DockPanel>
+                                        </StackPanel>
+                                        <!--#endregion-->
+
+                                        <!--#region 2.BottomFixer -->
+                                        <DockPanel x:Name="BottomFixerDockPanel"
+                                                   LastChildFill="True">
+                                            <Button Style="{StaticResource EditPartButtonStyle}"
+                                                    Command="{Binding Parts.RequestPartEditCommand}"
+                                                    CommandParameter="{x:Static spotEnum:PartSpot.BottomSide1}"
+                                                    Margin="0,20,0,0"
+                                                    IsEnabled="{Binding Parts.IsWithoutBottomFixer,Converter={StaticResource Boolean2BooleanReConverter}}" />
+                                            <CheckBox x:Name="WithoutBottomFixerCheckBox"
+                                                      Style="{StaticResource WithoutCheckBox}"
+                                                      IsChecked="{Binding Parts.IsWithoutBottomFixer , Mode=TwoWay}"
+                                                      ToolTip="{StaticResource lngWithoutBottomFixerTooltip}" />
+                                            <StackPanel x:Name="ComboBoxBottomFixerStackPanel"
+                                                        Margin="0,5"
+                                                        IsEnabled="{Binding Parts.IsWithoutBottomFixer, Converter={StaticResource Boolean2BooleanReConverter}}"
+                                                        ToolTip="{StaticResource lngBottomFixerTooltip}"
+                                                        ToolTipService.Placement="Right"
+                                                        ToolTipService.InitialShowDelay="0">
+                                                <TextBlock x:Name="BottomFixerTextBlock"
+                                                           Style="{StaticResource TitleTextBlockStyle}"
+                                                           Text="{StaticResource lngBottomFixer}" />
+                                                <hc:ComboBox x:Name="BottomFixerComboBox"
+                                                             Tag="{x:Static spotEnum:PartSpot.BottomSide1}"
+                                                             ItemsSource="{Binding Parts.SelectableBottomFixers , Mode=OneWay}"
+                                                             SelectedItem="{Binding Parts.BottomFixer , Mode=TwoWay}"
+                                                             SelectedValue="{Binding Parts.BottomFixer.Code, Mode=OneWay}"
+                                                             SelectedValuePath="Code"
+                                                             ItemTemplateSelector="{StaticResource ComboBoxPartsTemplateSelector}"
+                                                             ItemContainerStyle="{StaticResource DisablePartWhenNotInListComboboxContainerStyle}"
+                                                             hc:DropDownElement.ConsistentWidth="False">
+                                                </hc:ComboBox>
+                                            </StackPanel>
+                                        </DockPanel>
+                                        <!--#endregion-->
+
+                                    </StackPanel>
+                                </DataTemplate>
+                                <!--#endregion-->
+
+                                <!--#region 15. VS DataTemplate -->
+                                <DataTemplate x:Name="DataTemplateVS"
+                                              DataType="{x:Type vmc:CabinVSViewModel}">
+                                    <StackPanel x:Name="PartsStackPanel">
+
+                                        <!--#region 1.Overlap -->
+                                        <StackPanel x:Name="OverlapStackPanel"
+                                                    Margin="0,5"
+                                                    ToolTipService.InitialShowDelay="0"
+                                                    ToolTipService.Placement="Right"
+                                                    ToolTip="{StaticResource lngOverlapTooltip}">
+                                            <TextBlock x:Name="OverlapTextBlock"
+                                                       Style="{StaticResource TitleTextBlockStyle}"
+                                                       Text="{StaticResource lngOverlap}" />
+                                            <TextBox x:Name="OverlapTextBox"
+                                                     Text="{Binding Constraints.Overlap ,Mode=TwoWay , UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}">
+                                                <i:Interaction.Behaviors>
+                                                    <b:TextBoxNumericInputBehavior Precision="0"
+                                                                                   InputMode="DigitInput"
+                                                                                   JustPositivDecimalInput="True" />
+                                                </i:Interaction.Behaviors>
+                                            </TextBox>
+                                        </StackPanel>
+                                        <!--#endregion-->
+
+                                        <!--#region 2.Closer -->
+                                        <StackPanel x:Name="CloserStackPanel"
+                                                    Margin="0,5">
+                                            <TextBlock x:Name="CloserTextBlock"
+                                                       Style="{StaticResource TitleTextBlockStyle}"
+                                                       Text="{StaticResource lngCloseProfile}" />
+                                            <DockPanel>
+                                                <Button Style="{StaticResource EditPartButtonStyle}"
+                                                        Command="{Binding Parts.RequestPartEditCommand}"
+                                                        CommandParameter="{x:Static spotEnum:PartSpot.CloseProfile}" />
+                                                <ComboBox x:Name="CloserComboBox"
+                                                          Tag="{StaticResource DoubleSpotClosers}"
+                                                          ItemsSource="{Binding Parts.SelectableClosers , Mode=OneWay}"
+                                                          SelectedItem="{Binding Parts.SelectedCloser , Mode=TwoWay}"
+                                                          SelectedValue="{Binding Parts.SelectedCloser.Code, Mode=OneWay}"
+                                                          SelectedValuePath="Code"
+                                                          ItemTemplateSelector="{StaticResource ComboBoxPartsTemplateSelector}"
+                                                          ItemContainerStyle="{StaticResource DisablePartWhenNotInListComboboxContainerStyle}"
+                                                          hc:DropDownElement.ConsistentWidth="False">
+                                                </ComboBox>
+                                            </DockPanel>
+                                        </StackPanel>
+                                        <!--#endregion-->
+
+                                        <!--#region 3.Wall Side Fixer -->
+                                        <StackPanel x:Name="WallSideFixerStackPanel"
+                                                    Margin="0,5"
+                                                    ToolTip="{StaticResource lngWallFixerTooltip}"
+                                                    ToolTipService.InitialShowDelay="0"
+                                                    ToolTipService.Placement="Right">
+                                            <TextBlock x:Name="WallSideFixerTextBlock"
+                                                       Style="{StaticResource TitleTextBlockStyle}"
+                                                       Text="{StaticResource lngWallFixer}" />
+                                            <DockPanel>
+                                                <Button Style="{StaticResource EditPartButtonStyle}"
+                                                        Command="{Binding Parts.RequestPartEditCommand}"
+                                                        CommandParameter="{x:Static spotEnum:PartSpot.WallSide1}" />
+                                                <ComboBox x:Name="WallSideFixerComboBox"
+                                                          Tag="{x:Static spotEnum:PartSpot.WallSide1}"
+                                                          ItemsSource="{Binding Parts.SelectableWallFixers , Mode=OneWay}"
+                                                          SelectedItem="{Binding Parts.WallSideFixer , Mode=TwoWay}"
+                                                          SelectedValue="{Binding Parts.WallSideFixer.Code, Mode=OneWay}"
+                                                          SelectedValuePath="Code"
+                                                          ItemTemplateSelector="{StaticResource ComboBoxPartsTemplateSelector}"
+                                                          ItemContainerStyle="{StaticResource DisablePartWhenNotInListComboboxContainerStyle}"
+                                                          hc:DropDownElement.ConsistentWidth="False">
+                                                </ComboBox>
+                                            </DockPanel>
+                                        </StackPanel>
+                                        <!--#endregion-->
+
+                                        <!--#region 4.Handle -->
+                                        <StackPanel x:Name="HandleStackPanel"
+                                                    Margin="0,5">
+                                            <TextBlock x:Name="HandleTextBlock"
+                                                       Style="{StaticResource TitleTextBlockStyle}"
+                                                       Text="{StaticResource lngHandle}" />
+                                            <DockPanel>
+                                                <Button Style="{StaticResource EditPartButtonStyle}"
+                                                        Command="{Binding Parts.RequestPartEditCommand}"
+                                                        CommandParameter="{x:Static spotEnum:PartSpot.Handle1}" />
+                                                <ComboBox x:Name="HandleComboBox"
+                                                          Tag="{x:Static spotEnum:PartSpot.Handle1}"
+                                                          ItemsSource="{Binding Parts.SelectableHandles , Mode=OneWay}"
+                                                          SelectedItem="{Binding Parts.Handle , Mode=TwoWay}"
+                                                          SelectedValue="{Binding Parts.Handle.Code, Mode=OneWay}"
+                                                          SelectedValuePath="Code"
+                                                          ItemTemplateSelector="{StaticResource ComboBoxPartsTemplateSelector}"
+                                                          ItemContainerStyle="{StaticResource DisablePartWhenNotInListComboboxContainerStyle}"
+                                                          hc:DropDownElement.ConsistentWidth="False">
+                                                </ComboBox>
+                                            </DockPanel>
+                                        </StackPanel>
+                                        <!--#endregion-->
+
+                                    </StackPanel>
+                                </DataTemplate>
+                                <!--#endregion-->
+
+                                <!--#region 16. NB DataTemplate -->
+                                <DataTemplate x:Name="DataTemplateNB"
+                                              DataType="{x:Type vmc:CabinNBViewModel}">
+                                    <StackPanel x:Name="PartsStackPanel">
+
+                                        <!--#region 1.Closer -->
+                                        <DockPanel x:Name="CloserDockPanel"
+                                                   LastChildFill="True">
+                                            <Button Style="{StaticResource EditPartButtonStyle}"
+                                                    Command="{Binding Parts.RequestPartEditCommand}"
+                                                    CommandParameter="{x:Static spotEnum:PartSpot.CloseProfile}"
+                                                    Margin="0,20,0,0"
+                                                    IsEnabled="{Binding Parts.IsWithoutCloser,Converter={StaticResource Boolean2BooleanReConverter}}" />
+                                            <CheckBox x:Name="WithoutCloserCheckBox"
+                                                      Style="{StaticResource WithoutCheckBox}"
+                                                      IsChecked="{Binding Parts.IsWithoutCloser , Mode=TwoWay}"
+                                                      ToolTip="{StaticResource lngWithoutCloseProfileTooltip}" />
+                                            <StackPanel x:Name="ComboBoxCloserStackPanel"
+                                                        Margin="0,5"
+                                                        IsEnabled="{Binding Parts.IsWithoutCloser, Converter={StaticResource Boolean2BooleanReConverter}}">
+                                                <TextBlock x:Name="CloserTextBlock"
+                                                           Style="{StaticResource TitleTextBlockStyle}"
+                                                           Text="{StaticResource lngCloseProfile}" />
+                                                <hc:ComboBox x:Name="CloserComboBox"
+                                                             Tag="{StaticResource DoubleSpotClosers}"
+                                                             ItemsSource="{Binding Parts.SelectableClosers , Mode=OneWay}"
+                                                             SelectedItem="{Binding Parts.SelectedCloser , Mode=TwoWay}"
+                                                             SelectedValue="{Binding Parts.SelectedCloser.Code, Mode=OneWay}"
+                                                             SelectedValuePath="Code"
+                                                             ItemTemplateSelector="{StaticResource ComboBoxPartsTemplateSelector}"
+                                                             ItemContainerStyle="{StaticResource DisablePartWhenNotInListComboboxContainerStyle}"
+                                                             hc:DropDownElement.ConsistentWidth="False">
+                                                </hc:ComboBox>
+                                            </StackPanel>
+                                        </DockPanel>
+                                        <!--#endregion-->
+
+                                        <!--#region 2.Handle -->
+                                        <DockPanel x:Name="HandleDockPanel"
+                                                   LastChildFill="True">
+                                            <Button Style="{StaticResource EditPartButtonStyle}"
+                                                    Command="{Binding Parts.RequestPartEditCommand}"
+                                                    CommandParameter="{x:Static spotEnum:PartSpot.Handle1}"
+                                                    Margin="0,20,0,0"
+                                                    IsEnabled="{Binding Parts.IsWithoutHandle,Converter={StaticResource Boolean2BooleanReConverter}}" />
+                                            <CheckBox x:Name="HandleCheckBox"
+                                                      Visibility="{Binding Constraints.ShouldHaveHandle , Converter={StaticResource Boolean2VisibilityReConverter}}"
+                                                      Style="{StaticResource WithoutCheckBox}"
+                                                      IsChecked="{Binding Parts.IsWithoutHandle , Mode=TwoWay}"
+                                                      ToolTip="{StaticResource lnhWithoutHandleTooltip}" />
+                                            <StackPanel x:Name="HandleStackPanel"
+                                                        Margin="0,5"
+                                                        IsEnabled="{Binding Parts.IsWithoutHandle, Converter={StaticResource Boolean2BooleanReConverter}}">
+                                                <TextBlock x:Name="HandleTextBlock"
+                                                           Style="{StaticResource TitleTextBlockStyle}"
+                                                           Text="{StaticResource lngHandle}" />
+                                                <ComboBox x:Name="HandleComboBox"
+                                                          Tag="{x:Static spotEnum:PartSpot.Handle1}"
+                                                          ItemsSource="{Binding Parts.SelectableHandles , Mode=OneWay}"
+                                                          SelectedItem="{Binding Parts.Handle , Mode=TwoWay}"
+                                                          SelectedValue="{Binding Parts.Handle.Code, Mode=OneWay}"
+                                                          SelectedValuePath="Code"
+                                                          ItemTemplateSelector="{StaticResource ComboBoxPartsTemplateSelector}"
+                                                          ItemContainerStyle="{StaticResource DisablePartWhenNotInListComboboxContainerStyle}"
+                                                          hc:DropDownElement.ConsistentWidth="False" />
+                                            </StackPanel>
+                                        </DockPanel>
+                                        <!--#endregion-->
+
+                                        <!--#region 3.Rounding -->
+                                        <StackPanel x:Name="CornerRadiusStackPanel"
+                                                    Margin="0,5"
+                                                    ToolTipService.InitialShowDelay="0"
+                                                    ToolTipService.Placement="Right"
+                                                    ToolTip="{StaticResource lngCornerRadiusTooltip}">
+                                            <TextBlock x:Name="CornerRadiusTextBlock"
+                                                       Style="{StaticResource TitleTextBlockStyle}"
+                                                       Text="{StaticResource lngCornerRadius}" />
+                                            <TextBox x:Name="CornerRadiusTextBox"
+                                                     Text="{Binding Constraints.CornerRadiusTopEdge ,Mode=TwoWay , UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}">
+                                                <i:Interaction.Behaviors>
+                                                    <b:TextBoxNumericInputBehavior Precision="0"
+                                                                                   InputMode="DigitInput"
+                                                                                   JustPositivDecimalInput="True" />
+                                                </i:Interaction.Behaviors>
+                                            </TextBox>
+                                        </StackPanel>
+                                        <!--#endregion-->
+
+                                    </StackPanel>
+                                </DataTemplate>
+                                <!--#endregion-->
+
+                                <!--#region 17. NP DataTemplate -->
+                                <DataTemplate x:Name="DataTemplateNP"
+                                              DataType="{x:Type vmc:CabinNPViewModel}">
+                                    <StackPanel x:Name="PartsStackPanel">
+
+                                        <!--#region 1.Closer -->
+                                        <DockPanel x:Name="CloserDockPanel"
+                                                   LastChildFill="True">
+                                            <Button Style="{StaticResource EditPartButtonStyle}"
+                                                    Command="{Binding Parts.RequestPartEditCommand}"
+                                                    CommandParameter="{x:Static spotEnum:PartSpot.CloseProfile}"
+                                                    Margin="0,20,0,0"
+                                                    IsEnabled="{Binding Parts.IsWithoutCloser,Converter={StaticResource Boolean2BooleanReConverter}}" />
+                                            <CheckBox x:Name="WithoutCloserCheckBox"
+                                                      Style="{StaticResource WithoutCheckBox}"
+                                                      IsChecked="{Binding Parts.IsWithoutCloser , Mode=TwoWay}"
+                                                      ToolTip="{StaticResource lngWithoutCloseProfileTooltip}" />
+                                            <StackPanel x:Name="ComboBoxCloserStackPanel"
+                                                        Margin="0,5"
+                                                        IsEnabled="{Binding Parts.IsWithoutCloser, Converter={StaticResource Boolean2BooleanReConverter}}">
+                                                <TextBlock x:Name="CloserTextBlock"
+                                                           Style="{StaticResource TitleTextBlockStyle}"
+                                                           Text="{StaticResource lngCloseProfile}" />
+                                                <hc:ComboBox x:Name="CloserComboBox"
+                                                             Tag="{StaticResource DoubleSpotClosers}"
+                                                             ItemsSource="{Binding Parts.SelectableClosers , Mode=OneWay}"
+                                                             SelectedItem="{Binding Parts.SelectedCloser , Mode=TwoWay}"
+                                                             SelectedValue="{Binding Parts.SelectedCloser.Code, Mode=OneWay}"
+                                                             SelectedValuePath="Code"
+                                                             ItemTemplateSelector="{StaticResource ComboBoxPartsTemplateSelector}"
+                                                             ItemContainerStyle="{StaticResource DisablePartWhenNotInListComboboxContainerStyle}"
+                                                             hc:DropDownElement.ConsistentWidth="False">
+                                                </hc:ComboBox>
+                                            </StackPanel>
+                                        </DockPanel>
+                                        <!--#endregion-->
+
+                                        <!--#region 2.Middle Hinge -->
+                                        <StackPanel x:Name="MiddleHingeStackPanel"
+                                                    Margin="0,5"
+                                                    ToolTipService.Placement="Right"
+                                                    ToolTipService.InitialShowDelay="0"
+                                                    ToolTip="{StaticResource lngMiddleHingeTooltip}">
+                                            <TextBlock x:Name="MiddleHingeTextBlock"
+                                                       Style="{StaticResource TitleTextBlockStyle}"
+                                                       Text="{StaticResource lngMiddleHinge}" />
+                                            <DockPanel>
+                                                <Button Style="{StaticResource EditPartButtonStyle}"
+                                                        Command="{Binding Parts.RequestPartEditCommand}"
+                                                        CommandParameter="{x:Static spotEnum:PartSpot.MiddleHinge}" />
+                                                <ComboBox x:Name="MiddleHingeComboBox"
+                                                          Tag="{x:Static spotEnum:PartSpot.MiddleHinge}"
+                                                          ItemsSource="{Binding Parts.SelectableMiddleHinges , Mode=OneWay}"
+                                                          SelectedItem="{Binding Parts.MiddleHinge , Mode=TwoWay}"
+                                                          SelectedValue="{Binding Parts.MiddleHinge.Code, Mode=OneWay}"
+                                                          SelectedValuePath="Code"
+                                                          ItemTemplateSelector="{StaticResource ComboBoxPartsTemplateSelector}"
+                                                          ItemContainerStyle="{StaticResource DisablePartWhenNotInListComboboxContainerStyle}"
+                                                          hc:DropDownElement.ConsistentWidth="False">
+                                                </ComboBox>
+                                            </DockPanel>
+                                        </StackPanel>
+                                        <!--#endregion-->
+
+                                        <!--#region 3.Handle -->
+                                        <DockPanel x:Name="HandleDockPanel"
+                                                   LastChildFill="True">
+                                            <Button Style="{StaticResource EditPartButtonStyle}"
+                                                    Command="{Binding Parts.RequestPartEditCommand}"
+                                                    CommandParameter="{x:Static spotEnum:PartSpot.Handle1}"
+                                                    Margin="0,20,0,0"
+                                                    IsEnabled="{Binding Parts.IsWithoutHandle,Converter={StaticResource Boolean2BooleanReConverter}}" />
+                                            <CheckBox x:Name="HandleCheckBox"
+                                                      Visibility="{Binding Constraints.ShouldHaveHandle , Converter={StaticResource Boolean2VisibilityReConverter}}"
+                                                      Style="{StaticResource WithoutCheckBox}"
+                                                      IsChecked="{Binding Parts.IsWithoutHandle , Mode=TwoWay}"
+                                                      ToolTip="{StaticResource lnhWithoutHandleTooltip}" />
+                                            <StackPanel x:Name="HandleStackPanel"
+                                                        Margin="0,5"
+                                                        IsEnabled="{Binding Parts.IsWithoutHandle, Converter={StaticResource Boolean2BooleanReConverter}}">
+                                                <TextBlock x:Name="HandleTextBlock"
+                                                           Style="{StaticResource TitleTextBlockStyle}"
+                                                           Text="{StaticResource lngHandle}" />
+                                                <ComboBox x:Name="HandleComboBox"
+                                                          Tag="{x:Static spotEnum:PartSpot.Handle1}"
+                                                          ItemsSource="{Binding Parts.SelectableHandles , Mode=OneWay}"
+                                                          SelectedItem="{Binding Parts.Handle , Mode=TwoWay}"
+                                                          SelectedValue="{Binding Parts.Handle.Code, Mode=OneWay}"
+                                                          SelectedValuePath="Code"
+                                                          ItemTemplateSelector="{StaticResource ComboBoxPartsTemplateSelector}"
+                                                          ItemContainerStyle="{StaticResource DisablePartWhenNotInListComboboxContainerStyle}"
+                                                          hc:DropDownElement.ConsistentWidth="False" />
+                                            </StackPanel>
+                                        </DockPanel>
+                                        <!--#endregion-->
+
+                                    </StackPanel>
+                                </DataTemplate>
+                                <!--#endregion-->
+
+                                <!--#region 18. WS DataTemplate -->
+                                <DataTemplate x:Name="DataTemplateWS"
+                                              DataType="{x:Type vmc:CabinWSViewModel}">
+                                    <StackPanel x:Name="PartsStackPanel">
+
+                                        <!--#region 1.Overlap -->
+                                        <StackPanel x:Name="OverlapStackPanel"
+                                                    Margin="0,5"
+                                                    ToolTipService.InitialShowDelay="0"
+                                                    ToolTipService.Placement="Right"
+                                                    ToolTip="{StaticResource lngOverlapTooltip}">
+                                            <TextBlock x:Name="OverlapTextBlock"
+                                                       Style="{StaticResource TitleTextBlockStyle}"
+                                                       Text="{StaticResource lngOverlap}" />
+                                            <TextBox x:Name="OverlapTextBox"
+                                                     Text="{Binding Constraints.Overlap ,Mode=TwoWay , UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}">
+                                                <i:Interaction.Behaviors>
+                                                    <b:TextBoxNumericInputBehavior Precision="0"
+                                                                                   InputMode="DigitInput"
+                                                                                   JustPositivDecimalInput="True" />
+                                                </i:Interaction.Behaviors>
+                                            </TextBox>
+                                        </StackPanel>
+                                        <!--#endregion-->
+
+                                        <!--#region 2.Closer -->
+                                        <DockPanel x:Name="CloserDockPanel"
+                                                   LastChildFill="True">
+                                            <Button Style="{StaticResource EditPartButtonStyle}"
+                                                    Command="{Binding Parts.RequestPartEditCommand}"
+                                                    CommandParameter="{x:Static spotEnum:PartSpot.CloseProfile}"
+                                                    Margin="0,20,0,0"
+                                                    IsEnabled="{Binding Parts.IsWithoutCloser,Converter={StaticResource Boolean2BooleanReConverter}}" />
+                                            <CheckBox x:Name="WithoutCloserCheckBox"
+                                                      Style="{StaticResource WithoutCheckBox}"
+                                                      IsChecked="{Binding Parts.IsWithoutCloser , Mode=TwoWay}"
+                                                      ToolTip="{StaticResource lngWithoutCloseProfileTooltip}" />
+                                            <StackPanel x:Name="ComboBoxCloserStackPanel"
+                                                        Margin="0,5"
+                                                        IsEnabled="{Binding Parts.IsWithoutCloser, Converter={StaticResource Boolean2BooleanReConverter}}">
+                                                <TextBlock x:Name="CloserTextBlock"
+                                                           Style="{StaticResource TitleTextBlockStyle}"
+                                                           Text="{StaticResource lngCloseProfile}" />
+                                                <hc:ComboBox x:Name="CloserComboBox"
+                                                             Tag="{StaticResource DoubleSpotClosers}"
+                                                             ItemsSource="{Binding Parts.SelectableClosers , Mode=OneWay}"
+                                                             SelectedItem="{Binding Parts.SelectedCloser , Mode=TwoWay}"
+                                                             SelectedValue="{Binding Parts.SelectedCloser.Code, Mode=OneWay}"
+                                                             SelectedValuePath="Code"
+                                                             ItemTemplateSelector="{StaticResource ComboBoxPartsTemplateSelector}"
+                                                             ItemContainerStyle="{StaticResource DisablePartWhenNotInListComboboxContainerStyle}"
+                                                             hc:DropDownElement.ConsistentWidth="False">
+                                                </hc:ComboBox>
+                                            </StackPanel>
+                                        </DockPanel>
+                                        <!--#endregion-->
+
+                                        <!--#region 3.Handle -->
+                                        <StackPanel x:Name="HandleStackPanel"
+                                                    Margin="0,5">
+                                            <TextBlock x:Name="HandleTextBlock"
+                                                       Style="{StaticResource TitleTextBlockStyle}"
+                                                       Text="{StaticResource lngHandle}" />
+                                            <DockPanel>
+                                                <Button Style="{StaticResource EditPartButtonStyle}"
+                                                        Command="{Binding Parts.RequestPartEditCommand}"
+                                                        CommandParameter="{x:Static spotEnum:PartSpot.Handle1}" />
+                                                <ComboBox x:Name="HandleComboBox"
+                                                          Tag="{x:Static spotEnum:PartSpot.Handle1}"
+                                                          ItemsSource="{Binding Parts.SelectableHandles , Mode=OneWay}"
+                                                          SelectedItem="{Binding Parts.Handle , Mode=TwoWay}"
+                                                          SelectedValue="{Binding Parts.Handle.Code, Mode=OneWay}"
+                                                          SelectedValuePath="Code"
+                                                          ItemTemplateSelector="{StaticResource ComboBoxPartsTemplateSelector}"
+                                                          ItemContainerStyle="{StaticResource DisablePartWhenNotInListComboboxContainerStyle}"
+                                                          hc:DropDownElement.ConsistentWidth="False">
+                                                </ComboBox>
+                                            </DockPanel>
+                                        </StackPanel>
+                                        <!--#endregion-->
+                                    </StackPanel>
+                                </DataTemplate>
+                                <!--#endregion-->
+
+                                <!--#region 19. EMPTY DATATEMPLATE -->
+
+                                <DataTemplate x:Name="EmptyTemplate"
+                                              DataType="{x:Type vm:CabinViewModel}">
+
+                                </DataTemplate>
+
+                                <!--#endregion-->
+
+                            </ContentControl.Resources>
+                        </ContentControl>
+                    </GroupBox>
+
+                    <!--#endregion-->
+
+                </DockPanel>
+
+            </Grid>
+        </GroupBox>
+
+
+    </Grid>
+</UserControl>

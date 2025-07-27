@@ -1,0 +1,372 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.Modals.EntityToJsonXmlModal"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.Modals"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels.ModalViewModels"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=vm:EntityToJsonXmlModalViewModel}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <DockPanel x:Name="RadioButtonsDockPanel"
+                   HorizontalAlignment="Center"
+                   Grid.Row="0">
+            <RadioButton Content="Single Accessory"
+                         Margin="20"
+                         x:Name="SingleAccessoryRadioButton"
+                         IsChecked="{Binding IsSingleAccessorySelected}"/>
+            <RadioButton Content="MultiAccessory"
+                         Margin="20" 
+                         x:Name="MultiAccessoryRadioButton"
+                         IsChecked="{Binding IsMultiAccessorySelected}"
+                         d:IsChecked="True"/>
+        </DockPanel>
+
+        <StackPanel x:Name="SingleAccessoriesPropsStackPanel"
+                    Orientation="Horizontal"
+                    Grid.Row="1"
+                    Margin="5"
+                    Visibility="{Binding ElementName=SingleAccessoryRadioButton, Path=IsChecked, Converter={StaticResource Boolean2VisibilityConverter}}"
+                    d:Visibility="Visible">
+            <!--#region ListBox with Title -->
+            <StackPanel VerticalAlignment="Center">
+                <DockPanel>
+                    <cc:Icon ToolTip="{StaticResource lngSerializablePropsTooltip}"
+                             Style="{StaticResource CInfoTooltipIcon}" />
+                    <TextBlock Style="{StaticResource TitleTextBlockStyle}"
+                               Text="{StaticResource lngAccSerializableProps}">
+                    </TextBlock>
+                </DockPanel>
+                <ListBox ItemsSource="{Binding WebItemSelectedProperties}"
+                         Height="250"
+                         Width="300">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <DockPanel LastChildFill="True">
+                                <Button Style="{StaticResource ButtonIconCircular.Small}"
+                                        Foreground="{DynamicResource DangerBrush}"
+                                        hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
+                                        hc:IconElement.Height="8"
+                                        BorderBrush="{DynamicResource DangerBrush}"
+                                        Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor} , Path=DataContext.RemoveWebItemPropertyCommand}"
+                                        CommandParameter="{Binding .}" />
+                                <TextBlock Text="{Binding .}"
+                                           VerticalAlignment="Center"
+                                           TextAlignment="Center"
+                                           Margin="10,0" />
+                            </DockPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+            <!--#endregion-->
+            <!--#region ComboBox with Add Button -->
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Margin="20,10,0,0">
+                <StackPanel>
+                    <DockPanel>
+                        <cc:Icon ToolTip="{StaticResource lngAddProperty}"
+                                 Style="{StaticResource CInfoTooltipIcon}" />
+                        <TextBlock Style="{StaticResource TitleTextBlockStyle}"
+                                   Text="{StaticResource lngAddProperty}">
+                        </TextBlock>
+                    </DockPanel>
+                    <ComboBox ItemsSource="{Binding WebItemUnselectedProperties}"
+                              SelectedItem="{Binding WebItemPropertyToAdd}"
+                              Width="200"
+                              FontSize="14"
+                              VerticalAlignment="Center" />
+                </StackPanel>
+                <Button Style="{StaticResource ButtonIconCircular}"
+                        hc:IconElement.Geometry="{StaticResource AddGeometry}"
+                        Foreground="{DynamicResource SuccessBrush}"
+                        Command="{Binding AddWebItemPropertyCommand}"
+                        VerticalAlignment="Bottom"
+                        Margin="15,0"
+                        ToolTip="{StaticResource lngAddProperty}" />
+            </StackPanel>
+            <!--#endregion-->
+        </StackPanel>
+
+        <StackPanel x:Name="AccessoriesPropsStackPanel"
+                    Orientation="Horizontal"
+                    Grid.Row="2"
+                    Margin="5"
+                    Visibility="{Binding ElementName=MultiAccessoryRadioButton, Path=IsChecked, Converter={StaticResource Boolean2VisibilityConverter}}">
+            <!--#region ListBox with Title -->
+            <StackPanel VerticalAlignment="Center">
+                <DockPanel>
+                    <cc:Icon ToolTip="{StaticResource lngSerializablePropsTooltip}"
+                             Style="{StaticResource CInfoTooltipIcon}" />
+                    <TextBlock x:Name="AccessoriesPropsTextBlock"
+                               Style="{StaticResource TitleTextBlockStyle}"
+                               Text="{StaticResource lngAccSerializableProps}">
+                    </TextBlock>
+                </DockPanel>
+                <ListBox ItemsSource="{Binding AccessoriesSelectedProperties}"
+                         Height="250"
+                         Width="300">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <DockPanel LastChildFill="True">
+                                <Button Style="{StaticResource ButtonIconCircular.Small}"
+                                        Foreground="{DynamicResource DangerBrush}"
+                                        hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
+                                        hc:IconElement.Height="8"
+                                        BorderBrush="{DynamicResource DangerBrush}"
+                                        Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor} , Path=DataContext.RemoveAccessoryPropertyCommand}"
+                                        CommandParameter="{Binding .}" />
+                                <TextBlock Text="{Binding .}"
+                                           VerticalAlignment="Center"
+                                           TextAlignment="Center"
+                                           Margin="10,0" />
+                            </DockPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+            <!--#endregion-->
+            <!--#region ComboBox with Add Button -->
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Margin="20,10,0,0">
+                <StackPanel>
+                    <DockPanel>
+                        <cc:Icon ToolTip="{StaticResource lngAddProperty}"
+                                 Style="{StaticResource CInfoTooltipIcon}" />
+                        <TextBlock x:Name="AddAccPropertyTextBlock"
+                                   Style="{StaticResource TitleTextBlockStyle}"
+                                   Text="{StaticResource lngAddProperty}">
+                        </TextBlock>
+                    </DockPanel>
+                    <ComboBox x:Name="AddAccPropertyComboBox"
+                              ItemsSource="{Binding AccessoriesUnselectedProperties}"
+                              SelectedItem="{Binding AccessoryPropertyToAdd}"
+                              Width="200"
+                              FontSize="14"
+                              VerticalAlignment="Center" />
+                </StackPanel>
+                <Button Style="{StaticResource ButtonIconCircular}"
+                        hc:IconElement.Geometry="{StaticResource AddGeometry}"
+                        Foreground="{DynamicResource SuccessBrush}"
+                        Command="{Binding AddAccessoryPropertyCommand}"
+                        VerticalAlignment="Bottom"
+                        Margin="15,0"
+                        ToolTip="{StaticResource lngAddProperty}" />
+            </StackPanel>
+            <!--#endregion-->
+        </StackPanel>
+        <StackPanel x:Name="TraitsPropsStackPanel"
+                    Orientation="Horizontal"
+                    Grid.Row="3"
+                    Margin="5"
+                    Visibility="{Binding ElementName=MultiAccessoryRadioButton, Path=IsChecked, Converter={StaticResource Boolean2VisibilityConverter}}">
+            <!--#region ListBox with Title -->
+            <StackPanel VerticalAlignment="Center">
+                <DockPanel>
+                    <cc:Icon ToolTip="{StaticResource lngSerializablePropsTooltip}"
+                             Style="{StaticResource CInfoTooltipIcon}" />
+                    <TextBlock x:Name="TraitsPropsTextBlock"
+                               Style="{StaticResource TitleTextBlockStyle}"
+                               Text="{StaticResource lngTraitSerializableProps}">
+                    </TextBlock>
+                </DockPanel>
+                <ListBox ItemsSource="{Binding TraitSelectedProperties}"
+                         Height="185"
+                         Width="300">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <DockPanel LastChildFill="True">
+                                <Button Style="{StaticResource ButtonIconCircular.Small}"
+                                        Foreground="{DynamicResource DangerBrush}"
+                                        hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
+                                        hc:IconElement.Height="8"
+                                        BorderBrush="{DynamicResource DangerBrush}"
+                                        Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor} , Path=DataContext.RemoveTraitPropertyCommand}"
+                                        CommandParameter="{Binding .}" />
+                                <TextBlock Text="{Binding .}"
+                                           VerticalAlignment="Center"
+                                           TextAlignment="Center"
+                                           Margin="10,0" />
+                            </DockPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+            <!--#endregion-->
+            <!--#region ComboBox with Add Button -->
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Margin="20,10,0,0">
+                <StackPanel>
+                    <DockPanel>
+                        <cc:Icon ToolTip="{StaticResource lngAddProperty}"
+                                 Style="{StaticResource CInfoTooltipIcon}" />
+                        <TextBlock x:Name="TraitPropTextBlock"
+                                   Style="{StaticResource TitleTextBlockStyle}"
+                                   Text="{StaticResource lngAddProperty}">
+                        </TextBlock>
+                    </DockPanel>
+                    <ComboBox x:Name="AddTraitPropComboBox"
+                              ItemsSource="{Binding TraitUnselectedProperties}"
+                              SelectedItem="{Binding TraitPropertyToAdd}"
+                              Width="200"
+                              FontSize="14"
+                              VerticalAlignment="Center" />
+                </StackPanel>
+                <Button Style="{StaticResource ButtonIconCircular}"
+                        hc:IconElement.Geometry="{StaticResource AddGeometry}"
+                        Foreground="{DynamicResource SuccessBrush}"
+                        Command="{Binding AddTraitPropertyCommand}"
+                        VerticalAlignment="Bottom"
+                        Margin="15,0"
+                        ToolTip="{StaticResource lngAddProperty}" />
+            </StackPanel>
+            <!--#endregion-->
+        </StackPanel>
+        <StackPanel x:Name="TraitClassesPropsStackPanel"
+                    Orientation="Horizontal"
+                    Grid.Row="4"
+                    Margin="5"
+                    Visibility="{Binding ElementName=MultiAccessoryRadioButton, Path=IsChecked, Converter={StaticResource Boolean2VisibilityConverter}}">
+            <!--#region ListBox with Title -->
+            <StackPanel VerticalAlignment="Center">
+                <DockPanel>
+                    <cc:Icon ToolTip="{StaticResource lngSerializablePropsTooltip}"
+                             Style="{StaticResource CInfoTooltipIcon}" />
+                    <TextBlock x:Name="TraitClassesPropsTextBlock"
+                               Style="{StaticResource TitleTextBlockStyle}"
+                               Text="{StaticResource lngTraitClassSerializableProps}">
+                    </TextBlock>
+                </DockPanel>
+                <ListBox ItemsSource="{Binding TraitClassSelectedProperties}"
+                         Height="215"
+                         Width="300">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <DockPanel LastChildFill="True">
+                                <Button Style="{StaticResource ButtonIconCircular.Small}"
+                                        Foreground="{DynamicResource DangerBrush}"
+                                        hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
+                                        hc:IconElement.Height="8"
+                                        BorderBrush="{DynamicResource DangerBrush}"
+                                        Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor} , Path=DataContext.RemoveTraitClassPropertyCommand}"
+                                        CommandParameter="{Binding .}" />
+                                <TextBlock Text="{Binding .}"
+                                           VerticalAlignment="Center"
+                                           TextAlignment="Center"
+                                           Margin="10,0" />
+                            </DockPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+            <!--#endregion-->
+            <!--#region ComboBox with Add Button -->
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Margin="20,10,0,0">
+                <StackPanel>
+                    <DockPanel>
+                        <cc:Icon ToolTip="{StaticResource lngAddProperty}"
+                                 Style="{StaticResource CInfoTooltipIcon}" />
+                        <TextBlock x:Name="TraitClassPropTextBlock"
+                                   Style="{StaticResource TitleTextBlockStyle}"
+                                   Text="{StaticResource lngAddProperty}">
+                        </TextBlock>
+                    </DockPanel>
+                    <ComboBox x:Name="TraitClassPropComboBox"
+                              ItemsSource="{Binding TraitClassUnselectedProperties}"
+                              SelectedItem="{Binding TraitClassPropertyToAdd}"
+                              Width="200"
+                              FontSize="14"
+                              VerticalAlignment="Center" />
+                </StackPanel>
+                <Button Style="{StaticResource ButtonIconCircular}"
+                        hc:IconElement.Geometry="{StaticResource AddGeometry}"
+                        Foreground="{DynamicResource SuccessBrush}"
+                        Command="{Binding AddTraitClassPropertyCommand}"
+                        VerticalAlignment="Bottom"
+                        Margin="15,0"
+                        ToolTip="{StaticResource lngAddProperty}" />
+            </StackPanel>
+            <!--#endregion-->
+        </StackPanel>
+
+        <StackPanel x:Name="ButtonsStackPanel"
+                    Orientation="Horizontal"
+                    Grid.Row="5"
+                    HorizontalAlignment="Center">
+            <StackPanel x:Name="LanguageComboBoxStackPanel"
+                        Margin="20,10">
+                <DockPanel>
+                    <cc:Icon ToolTip="{StaticResource lngLanguage}"
+                             Style="{StaticResource CInfoTooltipIcon}" />
+                    <TextBlock x:Name="LanguageComboBoxTextBlock"
+                               Style="{StaticResource TitleTextBlockStyle}"
+                               Text="{StaticResource lngLanguage}">
+                    </TextBlock>
+                </DockPanel>
+                <ComboBox x:Name="LanguageComboBox"
+                          ItemsSource="{Binding AvailableLanguages}"
+                          SelectedItem="{Binding SelectedLanguageToExport}"
+                          Width="250"
+                          FontSize="14"
+                          VerticalAlignment="Center" />
+                <DockPanel Margin="0,10,0,0">
+                    <cc:Icon ToolTip="{StaticResource lngPriceGroupTooltip}"
+                             Style="{StaticResource CInfoTooltipIcon}" />
+                    <TextBlock x:Name="PriceGroupTextBlock"
+                               Style="{StaticResource TitleTextBlockStyle}"
+                               Text="{StaticResource lngPriceGroup}">
+                    </TextBlock>
+                </DockPanel>
+                <ComboBox x:Name="PriceGroupComboBox"
+                          ItemsSource="{Binding PriceGroups}"
+                          SelectedItem="{Binding SelectedPriceGroup}"
+                          Width="250"
+                          FontSize="14"
+                          VerticalAlignment="Center">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Width="60"
+                                           TextAlignment="Left"
+                                           Text="{Binding Code}" />
+                                <TextBlock Text=" - " />
+                                <TextBlock Text="{Binding Name, Converter={StaticResource LocalizedStringConverter}}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+            <Button hc:IconElement.Geometry="{StaticResource XmlIconGeometry}"
+                    Command="{Binding SaveAsXmlFileCommand}"
+                    Content="Save as XML"
+                    Margin="20"
+                    Foreground="{DynamicResource SecondaryBrush}" />
+            <Button hc:IconElement.Geometry="{StaticResource JsonIconGeometry}"
+                    Margin="20"
+                    Command="{Binding SaveAsJsonFileCommand}"
+                    Content="Save as JSON"
+                    Foreground="{DynamicResource SecondaryBrush}" />
+        </StackPanel>
+
+    </Grid>
+</UserControl>

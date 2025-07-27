@@ -1,0 +1,89 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.ComponentsUC.GlassOrderUcs.GlassesOrdersDisplayUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.GlassOrderUcs"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels.ModalViewModels"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:b="clr-namespace:BronzeFactoryApplication.Helpers.Behaviours"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=vm:GlassesOrdersDisplayModalViewModel}">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding InitilizeCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+        <Grid.Resources>
+            <!--#region 2. ColumnHeader Style Datagrid -->
+            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderStyle}">
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+            </Style>
+            <!--#endregion-->
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!--#region BUSY LOADER -->
+        <DockPanel Grid.Row="0" Grid.RowSpan="2"
+                   d:Visibility="Collapsed"
+                   Panel.ZIndex="2"
+                   Visibility="{Binding IsBusy, Converter={StaticResource Boolean2VisibilityConverter}}">
+            <DockPanel.Background>
+                <SolidColorBrush Color="{StaticResource SecondaryRegionColor}" Opacity="0.9"/>
+            </DockPanel.Background>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <hc:LoadingCircle Height="50" Width="50"/>
+                <TextBlock Text="{Binding BusyPrompt}" Margin="10" FontSize="18" Style="{StaticResource CLoaderTextBlock}"/>
+            </StackPanel>
+        </DockPanel>
+        <!--#endregion-->
+
+        <!--#region Title and Retrieve More Button -->
+        <StackPanel Grid.Row="0"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal">
+            <TextBlock Style="{StaticResource CHeaderTextBlock}"
+                       Text="{StaticResource lngOrders}" />
+            <Button Margin="30,0,0,0"
+                    ToolTip="{StaticResource lngRefresh}"
+                    ToolTipService.Placement="Top"
+                    ToolTipService.HorizontalOffset="-25"
+                    Foreground="{StaticResource SecondaryBrush}"
+                    Background="Transparent"
+                    hc:IconElement.Geometry="{StaticResource RefreshCloudGeometry}"
+                    BorderThickness="0"
+                    Command="{Binding RetrieveMoreOrdersCommand}" />
+        </StackPanel>
+        <!--#endregion-->
+        <DataGrid ItemsSource="{Binding Orders}"
+                  Grid.Row="1"
+                  SelectedItem="{Binding SelectedOrder}"
+                  SelectionMode="Single"
+                  SelectionUnit="FullRow"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  MaxHeight="600"
+                  CellStyle="{StaticResource CCenteredDatagridCell}"
+                  VerticalAlignment="Stretch">
+            <DataGrid.InputBindings>
+                <MouseBinding Gesture="LeftDoubleClick" 
+                              Command="{Binding SelectOrderCommand}"
+                              CommandParameter="{Binding SelectedOrder}"/>
+            </DataGrid.InputBindings>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="{StaticResource lngOrderNo}" Binding="{Binding OrderId, Mode=OneWay}"/>
+                <DataGridTextColumn Header="{StaticResource lngStatus}" Binding="{Binding Status, Mode=OneWay , Converter={StaticResource languageConverter}}"/>
+                <DataGridTextColumn Header="{StaticResource lngCreated}" Binding="{Binding Created, Mode=OneWay, StringFormat='{}{0:dd/MM/yyyy}'}"/>
+                <DataGridTextColumn Header="{StaticResource lngGlassesNumber}" Binding="{Binding GlassesCount, Mode=OneWay}"/>
+                <DataGridTextColumn Header="{StaticResource lngCabinsNumber}" Binding="{Binding CabinsCount, Mode=OneWay}"/>
+                <DataGridTextColumn Header="{StaticResource lngPA0Numbers}" Binding="{Binding PA0Count, Mode=OneWay}"/>
+                <DataGridTextColumn Header="{StaticResource lngLastModified}" Binding="{Binding LastModified , Mode=OneWay ,StringFormat='{}{0:dd/MM/yyyy}'}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

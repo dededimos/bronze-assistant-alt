@@ -1,0 +1,18 @@
+﻿
+#MainDimensionsPanelContainer:focus-within{
+    border-color: lightslategray;
+}
+
+#MainDimensionsPanelContainer {
+    border: 1px solid lightgray;
+}
+
+@keyframes opacity-anime {
+    from {
+        opacity:1.0
+    }
+
+    to {
+        opacity:0.5
+    }
+}

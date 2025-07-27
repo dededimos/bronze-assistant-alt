@@ -1,0 +1,123 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.SettingsUCs.GlassesStockSettingsUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:b="clr-namespace:BronzeFactoryApplication.Helpers.Behaviours"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.SettingsUCs"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels.SettingsViewModels"
+             mc:Ignorable="d"
+             x:Name="StockSettingsUC"
+             d:DataContext="{d:DesignInstance Type=vm:GlassesStockSettingsViewModel}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="{Binding ElementName=StockSettingsUC, Path=Orientation}">
+            <!--#region 1.Length Diff -->
+            <StackPanel x:Name="LengthSettingStackPanel"
+                        Grid.Column="0"
+                        Margin="5">
+                <DockPanel>
+                    <cc:Icon ToolTip="{StaticResource lngLengthDifferenceTooltip}"
+                             Style="{StaticResource CInfoTooltipIcon}" />
+                    <CheckBox x:Name="LengthCheckBox"
+                              FontSize="12"
+                              Content="{StaticResource lngLengthDifference}"
+                              Margin="0,0,5,5"
+                              IsChecked="{Binding SessionSettings.ShouldCompareLength, Mode=TwoWay}">
+                    </CheckBox>
+                </DockPanel>
+                <TextBox x:Name="LengthDiffTextBox"
+                         d:Text="1000"
+                         MaxLength="5"
+                         Text="{Binding SessionSettings.AllowedLengthDifference,Mode=TwoWay, TargetNullValue='0'}">
+                    <i:Interaction.Behaviors>
+                        <b:TextBoxNumericInputBehavior Precision="0"
+                                                       InputMode="DigitInput"
+                                                       JustPositivDecimalInput="True" />
+                    </i:Interaction.Behaviors>
+                </TextBox>
+            </StackPanel>
+            <!--#endregion-->
+
+            <!--#region 2.Height Diff -->
+            <StackPanel x:Name="HeightSettingStackPanel"
+                        Grid.Column="1"
+                        Margin="5">
+                <DockPanel>
+                    <cc:Icon ToolTip="{StaticResource lngHeightDifferenceTooltip}"
+                             Style="{StaticResource CInfoTooltipIcon}" />
+                    <CheckBox x:Name="HeightCheckBox"
+                              FontSize="12"
+                              Content="{StaticResource lngHeightDifference}"
+                              Margin="0,0,5,5"
+                              IsChecked="{Binding SessionSettings.ShouldCompareHeight, Mode=TwoWay}">
+                    </CheckBox>
+                </DockPanel>
+                <TextBox x:Name="HeightDiffTextBox"
+                         d:Text="1000"
+                         MaxLength="5"
+                         Text="{Binding SessionSettings.AllowedHeightDifference ,Mode=TwoWay, TargetNullValue='0'}">
+                    <i:Interaction.Behaviors>
+                        <b:TextBoxNumericInputBehavior Precision="0"
+                                                       InputMode="DigitInput"
+                                                       JustPositivDecimalInput="True" />
+                    </i:Interaction.Behaviors>
+                </TextBox>
+            </StackPanel>
+            <!--#endregion-->
+
+            <!--#region 3. Thickness and Finish -->
+            <StackPanel Margin="5"
+                        Grid.Column="2"
+                        VerticalAlignment="Center">
+                <DockPanel Margin="2">
+                    <cc:Icon ToolTip="{StaticResource lngMatchThicknessTooltip}"
+                             Style="{StaticResource CInfoTooltipIcon}" />
+                    <CheckBox x:Name="ThicknessCheckBox"
+                              FontSize="12"
+                              Content="{StaticResource lngMatchThickness}"
+                              Margin="0,0,5,5"
+                              IsChecked="{Binding SessionSettings.ShouldCompareThickness, Mode=TwoWay}">
+                    </CheckBox>
+                </DockPanel>
+                <DockPanel Margin="2">
+                    <cc:Icon ToolTip="{StaticResource lngMatchFinishTooltip}"
+                             Style="{StaticResource CInfoTooltipIcon}" />
+                    <CheckBox x:Name="FinishCheckBox"
+                              FontSize="12"
+                              Content="{StaticResource lngMatchFinish}"
+                              Margin="0,0,5,5"
+                              IsChecked="{Binding SessionSettings.ShouldCompareFinish, Mode=TwoWay}">
+                    </CheckBox>
+                </DockPanel>
+            </StackPanel>
+            <!--#endregion-->
+            
+            <!--#region 4.Save - Defaults Buttons -->
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center">
+                <Button hc:IconElement.Geometry="{StaticResource SaveGeometry}"
+                        hc:IconElement.Height="10"
+                        Padding="5"
+                        Margin="5,0"
+                        Foreground="{DynamicResource SecondaryBrush}"
+                        Command="{Binding SaveSettingsCommand}" />
+                <Button Content="Defaults"
+                        FontSize="10"
+                        Margin="5,0"
+                        Foreground="{DynamicResource SecondaryBrush}"
+                        Command="{Binding SetSettingToDefaultCommand}" />
+            </StackPanel>
+            <!--#endregion-->
+            
+        </StackPanel>
+
+    </Grid>
+</UserControl>

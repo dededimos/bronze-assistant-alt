@@ -1,0 +1,8 @@
+﻿#MetalFinishPanelContainer:focus-within {
+    border-color:lightslategray
+}
+
+#MetalFinishPanelContainer {
+    height: 100%;
+    border: 1px solid lightgray
+}

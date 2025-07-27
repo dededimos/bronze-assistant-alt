@@ -1,0 +1,233 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.MirrorsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels"
+             xmlns:hvw="clr-namespace:BronzeFactoryApplication.Views.HelperViews"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:vwGlass="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs"
+             xmlns:mirrorModuleEnum="clr-namespace:MirrorsLib.Enums;assembly=MirrorsLib"
+             xmlns:vwMirrorsOrders="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.MirrorsViewsUcs.MirrorsOrdersRelevantViews"
+             x:Name="MirrorsMainView"
+             d:DataContext="{d:DesignInstance Type=vm:MirrorsModuleViewModel}"
+             mc:Ignorable="d">
+    <Grid HorizontalAlignment="Stretch"
+          VerticalAlignment="Stretch">
+        <Grid.InputBindings>
+            <KeyBinding Key="Add"
+                        Command="{Binding OpenAddRowToOrderCommand}" />
+        </Grid.InputBindings>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!--#region Database Action Buttons -->
+        <DockPanel Grid.Row="0"
+                   Grid.ColumnSpan="3"
+                   Margin="10,5,10,0">
+            <hc:UniformSpacingPanel Spacing="5"
+                                    DockPanel.Dock="Left"
+                                    Orientation="Horizontal"
+                                    HorizontalAlignment="Left">
+                <Button hc:IconElement.Geometry="{StaticResource DeleteFillCircleGeometry}"
+                        Foreground="{DynamicResource SecondaryBrush}"
+                        BorderBrush="{DynamicResource SecondaryBorderBrush}"
+                        Command="{Binding MirrorEditor.MirrorEditor.ResetMirrorCommand}"
+                        ToolTip="Resets the current Mirror"
+                        Content="Reset Mirror" />
+                <Button hc:IconElement.Geometry="{StaticResource RedoIconGeometry}"
+                        Foreground="{DynamicResource SecondaryBrush}"
+                        BorderBrush="{DynamicResource SecondaryBorderBrush}"
+                        Command="{Binding RemakeLastAddedMirrorCommand}"
+                        ToolTip="Remakes the last Mirror Added to the Order"
+                        Content="Reload Last Mirror" />
+            </hc:UniformSpacingPanel>
+            <hc:UniformSpacingPanel Spacing="5"
+                                    DockPanel.Dock="Right"
+                                    HorizontalAlignment="Right"
+                                    Orientation="Horizontal">
+                <Button hc:IconElement.Geometry="{StaticResource RefreshCloudGeometry}"
+                        Foreground="{DynamicResource SecondaryBrush}"
+                        BorderBrush="{DynamicResource SecondaryBorderBrush}"
+                        Command="{Binding BuildMirrorsCacheCommand}"
+                        ToolTip="{StaticResource lngRefresh}"
+                        Content="Refresh Data" />
+                <Button hc:IconElement.Geometry="{StaticResource SettingsGeometry2}"
+                        Foreground="{DynamicResource SecondaryBrush}"
+                        BorderBrush="{DynamicResource SecondaryBorderBrush}"
+                        Command="{Binding OpenEntitiesManagmentCommand}"
+                        Content="Database Items" />
+            </hc:UniformSpacingPanel>
+        </DockPanel>
+        <!--#endregion-->
+
+        <vwGlass:MirrorGlassEditView  Grid.Row="1"
+                                      Grid.RowSpan="2"
+                                      HorizontalAlignment="Left"
+                                      DataContext="{Binding MirrorEditor.MirrorEditor}" />
+
+        <DockPanel Grid.Row="1"
+                   Grid.Column="1"
+                   Margin="10,0,0,0"
+                   LastChildFill="False">
+            <DockPanel DockPanel.Dock="Left"
+                       VerticalAlignment="Bottom"
+                       HorizontalAlignment="Stretch">
+                <hvw:TasNumericTextBox TextBoxTitle="{StaticResource ReferencePA0}"
+                                       IconTooltip="{StaticResource ReferencePA0}"
+                                       HorizontalAlignment="Left"
+                                       DockPanel.Dock="Bottom"
+                                       Text="{Binding RefPaoPamMirrorRow,UpdateSourceTrigger=PropertyChanged}"
+                                       InputMode="DigitInput"
+                                       JustPositiveInput="True"
+                                       Width="165"/>
+                <hvw:TasTextBox TextBoxTitle="{StaticResource lngInsertMirrorWithCode}"
+                                IconTooltip="{StaticResource lngInsertMirrorWithCodeTooltip}"
+                                PlaceHolder="{StaticResource lngInsertMirrorWithCode}"
+                                HorizontalAlignment="Left"
+                                Margin="0,0,0,5"
+                                x:Name="InsertMirrorWithCodeTextbox"
+                                Text="{Binding EnteredCode,UpdateSourceTrigger=PropertyChanged}"
+                                DockPanel.Dock="Bottom"
+                                Width="165">
+                    <hvw:TasTextBox.InputBindings>
+                        <KeyBinding Key="Enter"
+                                    Command="{Binding TryParseEnteredCodeCommand}" />
+                    </hvw:TasTextBox.InputBindings>
+                </hvw:TasTextBox>
+            </DockPanel>
+            
+            <!--#region 5.Retrieve Orders Button -->
+            <Button DockPanel.Dock="Right"
+                    HorizontalAlignment="Right"
+                    Style="{StaticResource CToolBarBigButtonStyle}"
+                    Padding="0"
+                    VerticalAlignment="Top"
+                    Margin="5,0,15,0"
+                    ToolTip="{StaticResource lngRetrieveOrderTooltip}"
+                    Command="{Binding OpenSelectMirrorsOrderCommand}">
+                <DockPanel LastChildFill="True"
+                           VerticalAlignment="Stretch">
+                    <TextBlock Text="{StaticResource lngRetrieveOrder}"
+                               Style="{StaticResource CButtonTextBlock}"
+                               DockPanel.Dock="Bottom" />
+                    <Image Source="{StaticResource RetrieveImage}"
+                           Style="{StaticResource CBigToolBarButtonImage}" />
+                </DockPanel>
+            </Button>
+            <!--#endregion-->
+            <!--#region 4. New Order Button -->
+            <Button DockPanel.Dock="Right"
+                    HorizontalAlignment="Right"
+                    Style="{StaticResource CToolBarBigButtonStyle}"
+                    Padding="0"
+                    VerticalAlignment="Top"
+                    Margin="5,0"
+                    ToolTip="{StaticResource lngNewOrderTooltip}"
+                    Command="{Binding NewOrderCommand}">
+                <DockPanel LastChildFill="True">
+                    <TextBlock Text="{StaticResource lngNewOrder}"
+                               Style="{StaticResource CButtonTextBlock}"
+                               DockPanel.Dock="Bottom" />
+                    <Image Source="{StaticResource NewDocumentImage}"
+                           Style="{StaticResource CBigToolBarButtonImage}" />
+                </DockPanel>
+            </Button>
+            <!--#endregion-->
+            <!--#region 3.SaveOrder Button -->
+            <Button x:Name="TrySaveOrderButton"
+                    DockPanel.Dock="Right"
+                    HorizontalAlignment="Right"
+                    Style="{StaticResource CToolBarBigButtonStyle}"
+                    Padding="0"
+                    VerticalAlignment="Top"
+                    Margin="5,0"
+                    ToolTip="{StaticResource lngSaveOrderTooltip}"
+                    Command="{Binding MirrorsOrderEditor.TrySaveOrderCommand}">
+                <DockPanel LastChildFill="true">
+                    <TextBlock Text="{StaticResource lngSave}"
+                               Style="{StaticResource CButtonTextBlock}"
+                               DockPanel.Dock="Bottom" />
+                    <Image>
+                        <Image.Style>
+                            <Style TargetType="{x:Type Image}"
+                                   BasedOn="{StaticResource CBigToolBarButtonImage}">
+                                <Setter Property="Source"
+                                        Value="{StaticResource SaveImage}" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=TrySaveOrderButton, Path=DataContext.MirrorsOrderEditor.HasUnsavedChanges }"
+                                                 Value="False">
+                                        <Setter Property="Source"
+                                                Value="{StaticResource SavedImage}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Image.Style>
+                    </Image>
+                </DockPanel>
+            </Button>
+            <!--#endregion-->
+            <!--#region 2.ToExcel Button -->
+            <Button DockPanel.Dock="Right"
+                    Command="{Binding MirrorsOrderEditor.GenerateOrderXlsCommand}"
+                    Style="{StaticResource CToolBarBigButtonStyle}"
+                    Padding="0"
+                    VerticalAlignment="Top"
+                    Margin="5,0"
+                    ToolTip="{StaticResource lngSaveToExcelTooltip}">
+                <DockPanel LastChildFill="True">
+                    <TextBlock Text="{StaticResource lngSaveToExcel}"
+                               Style="{StaticResource CButtonTextBlock}"
+                               DockPanel.Dock="Bottom" />
+                    <Image Source="{StaticResource ExcelImage}"
+                           Style="{StaticResource CBigToolBarButtonImage}" />
+                </DockPanel>
+            </Button>
+            <!--#endregion-->
+            <!--#region 1.Add New Row Button -->
+            <Button DockPanel.Dock="Right"
+                    Command="{Binding OpenAddRowToOrderCommand}"
+                    Style="{StaticResource CToolBarBigButtonStyle}"
+                    Padding="0"
+                    Margin="5,0"
+                    VerticalAlignment="Top"
+                    ToolTip="{StaticResource lngAddMirrorToOrderTooltip}">
+                <DockPanel LastChildFill="True">
+                    <TextBlock Text="{StaticResource lngAdd}"
+                               Style="{StaticResource CButtonTextBlock}"
+                               DockPanel.Dock="Bottom" />
+                    <Image Source="{StaticResource AddImage}"
+                           Style="{StaticResource CBigToolBarButtonImage}" />
+                </DockPanel>
+            </Button>
+            <!--#endregion-->
+        </DockPanel>
+
+
+
+        <vwGlass:MirrorGlassDrawingView Grid.Row="2"
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Top"
+                                        Width="645"
+                                        Height="850"
+                                        DataContext="{Binding MirrorEditor.MirrorDrawing}" />
+
+
+        <vwMirrorsOrders:MirrorsOrderView Grid.Row="1"
+                                          Grid.RowSpan="2"
+                                          Grid.Column="2"
+                                          DataContext="{Binding MirrorsOrderEditor}" />
+    </Grid>
+</UserControl>

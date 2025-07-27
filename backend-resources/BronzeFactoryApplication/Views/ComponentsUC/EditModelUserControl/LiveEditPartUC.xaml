@@ -1,0 +1,1784 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.ComponentsUC.EditModelUserControl.LiveEditPartUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.EditModelUserControl"
+             xmlns:cachedImage="clr-namespace:CachedImage.Core;assembly=CachedImage.Core"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels.CabinsViewModels.PartsViewModels.Parts"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:b="clr-namespace:BronzeFactoryApplication.Helpers.Behaviours"
+             xmlns:ext="clr-namespace:BronzeFactoryApplication.Helpers.MarkupExtensions"
+             xmlns:enums="clr-namespace:ShowerEnclosuresModelsLibrary.Enums;assembly=ShowerEnclosuresModelsLibrary"
+             xmlns:partTypeEnum="clr-namespace:ShowerEnclosuresModelsLibrary.Models.CabinAllParts.PartsModels;assembly=ShowerEnclosuresModelsLibrary"
+             xmlns:handleTypeEnum="clr-namespace:ShowerEnclosuresModelsLibrary.Models.CabinAllParts.PartsModels.HandlesModels;assembly=ShowerEnclosuresModelsLibrary"
+             xmlns:hingeTypeEnum="clr-namespace:ShowerEnclosuresModelsLibrary.Models.CabinAllParts.PartsModels.HingesModels;assembly=ShowerEnclosuresModelsLibrary"
+             xmlns:profileTypeEnum="clr-namespace:ShowerEnclosuresModelsLibrary.Models.CabinAllParts.PartsModels.ProfilesModels;assembly=ShowerEnclosuresModelsLibrary"
+             xmlns:stripTypeEnum="clr-namespace:ShowerEnclosuresModelsLibrary.Models.CabinAllParts.PartsModels.StripsModels;assembly=ShowerEnclosuresModelsLibrary"
+             xmlns:placementEnum="clr-namespace:ShowerEnclosuresModelsLibrary.Models.CabinAllParts.PartsModels.SupportsModels;assembly=ShowerEnclosuresModelsLibrary"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=vm:LiveEditPartViewModel}">
+    <UserControl.Resources>
+        
+        <!--#region 1.Styles -->
+        <Style TargetType="{x:Type cc:Icon}" BasedOn="{StaticResource CInfoTooltipIcon}"/>
+        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource TextBoxExtend}">
+            <Setter Property="ToolTipService.Placement" Value="Right"/>
+            <Setter Property="ToolTipService.VerticalOffset" Value="-17.5"/>
+            <Setter Property="ToolTipService.InitialShowDelay" Value="0"/>
+            <Setter Property="ToolTipService.BetweenShowDelay" Value="0"/>
+            <Setter Property="ToolTipService.ShowsToolTipOnKeyboardFocus" Value="True"/>
+            <Setter Property="Width" Value="250"/>
+        </Style>
+        <Style x:Key="VerticalDivider" TargetType="{x:Type hc:Divider}" BasedOn="{StaticResource DividerBaseStyle}">
+            <Setter Property="Orientation" Value="Vertical"/>
+            <Setter Property="Width" Value="25"/>
+            <Setter Property="Height" Value="120"/>
+            <Setter Property="LineStroke" Value="{DynamicResource PrimaryBrush}"/>
+            <Setter Property="LineStrokeThickness" Value="0.5"/>
+        </Style>
+        <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource ComboBoxExtend}">
+            <Setter Property="Width" Value="250"/>
+        </Style>
+        <!--#endregion-->
+
+        <!--#region 2.DataTemplates -->
+
+        <!--#region A. Angle DataTemplate -->
+
+        <DataTemplate x:Key="CabinAngleDataTemplate" DataType="{x:Type vm:LiveEditAngleViewModel}">
+            <StackPanel x:Name="CabinAngleStackPanel" 
+                                Orientation="Vertical" 
+                                HorizontalAlignment="Center">
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel>
+
+                        <!--#region A. AngleDistanceFromDoor -->
+                        <StackPanel 
+                                    x:Name="AngleDistanceFromDoorStackPanel"
+                                    Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngAngleDistanceFromDoorTooltip}"/>
+                                <TextBlock 
+                                            x:Name="AngleDistanceFromDoorTextBlock"
+                                            Style="{StaticResource TitleTextBlockStyle}"
+                                            Text="{StaticResource lngAngleDistanceFromDoor}">
+                                </TextBlock>
+                            </DockPanel>
+                            <TextBox 
+                                        x:Name="AngleDistanceFromDoorTextBox" d:Text="1000"
+                                        Text="{Binding AngleDistanceFromDoor ,Mode=TwoWay , TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior Precision="0" 
+                                                                       InputMode="DigitInput"
+                                                                       JustPositivDecimalInput="True"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                    </StackPanel>
+                    <hc:Divider 
+                                Style="{StaticResource VerticalDivider}"
+                                Height="50"/>
+
+                    <StackPanel>
+
+                        <!--#region D. AngleLengthL0 -->
+                        <StackPanel 
+                                    x:Name="AngleLengthL0StackPanel"
+                                    Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngAngleLengthL0Tooltip}"/>
+                                <TextBlock 
+                                            x:Name="AngleLengthL0TextBlock"
+                                            Style="{StaticResource TitleTextBlockStyle}"
+                                            Text="{StaticResource lngAngleLengthL0}">
+                                </TextBlock>
+                            </DockPanel>
+                            <TextBox 
+                                        x:Name="AngleLengthL0TextBox" d:Text="1000"
+                                        Text="{Binding AngleLengthL0 ,Mode=TwoWay , TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior Precision="0" 
+                                                                       InputMode="DigitInput"
+                                                                       JustPositivDecimalInput="True"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                    </StackPanel>
+                </StackPanel>
+
+                <!--#region D. AngleHeight -->
+                <StackPanel 
+                            x:Name="AngleHeightStackPanel"
+                            Margin="0,5" HorizontalAlignment="Center">
+                    <DockPanel>
+                        <cc:Icon ToolTip="{StaticResource lngAngleHeightTooltip}"/>
+                        <TextBlock 
+                                    x:Name="AngleHeightTextBlock"
+                                    Style="{StaticResource TitleTextBlockStyle}"
+                                    Text="{StaticResource lngAngleHeight}">
+                        </TextBlock>
+                    </DockPanel>
+                    <TextBox 
+                                x:Name="AngleHeightTextBox" d:Text="1000"
+                                Text="{Binding AngleHeight ,Mode=TwoWay , TargetNullValue=''}">
+                        <i:Interaction.Behaviors>
+                            <b:TextBoxNumericInputBehavior 
+                                        Precision="0" 
+                                        InputMode="DigitInput"
+                                        JustPositivDecimalInput="True"/>
+                        </i:Interaction.Behaviors>
+                    </TextBox>
+                </StackPanel>
+                <!--#endregion-->
+            </StackPanel>
+        </DataTemplate>
+
+        <!--#endregion-->
+
+        <!--#region B. Handle DataTemplate -->
+
+        <DataTemplate x:Key="CabinHandleDataTemplate" DataType="{x:Type vm:LiveEditHandleViewModel}">
+            <StackPanel x:Name="CabinHandleStackPanel" 
+                                Orientation="Vertical" 
+                                HorizontalAlignment="Center">
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel>
+
+                        <!--#region A. HandleType -->
+                        <StackPanel x:Name="HandleTypeStackPanel"
+                                            Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngHandleTypeTooltip}"/>
+                                <TextBlock 
+                                            x:Name="HandleTypeTextBlock" DockPanel.Dock="Left"
+                                            Style="{StaticResource TitleTextBlockStyle}"
+                                            Text="{StaticResource lngHandleType}">
+                                </TextBlock>
+                            </DockPanel>
+                            <ComboBox x:Name="HandleTypeComboBox"
+                                              d:ItemsSource="{x:Null}"
+                                              ItemsSource="{Binding Source={ext:BindingSourceEnumValues {x:Type handleTypeEnum:CabinHandleType}}, Mode=OneWay}"
+                                              SelectedItem="{Binding  HandleType, Mode=OneWay}"
+                                              IsEnabled="False">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Converter={StaticResource languageConverter} , TargetNullValue=''}"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region Β. HandleLengthToGlass -->
+                        <StackPanel x:Name="HandleLengthToGlassStackPanel"
+                                    Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngHandleLengthToGlassTooltip}"/>
+                                <TextBlock x:Name="HandleLengthToGlassTextBlock"
+                                           Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="{StaticResource lngHandleLengthToGlass}">
+                                </TextBlock>
+                            </DockPanel>
+                            <TextBox x:Name="HandleLengthToGlassTextBox" d:Text="1000"
+                                     Text="{Binding HandleLengthToGlass ,Mode=TwoWay , TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior Precision="0" 
+                                                                       InputMode="DigitInput"
+                                                                       JustPositivDecimalInput="True"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region C. HandleHeightToGlass -->
+                        <StackPanel x:Name="HandleHeightToGlassStackPanel"
+                                    Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngHandleHeightToGlassTooltip}"/>
+                                <TextBlock x:Name="HandleHeightToGlassTextBlock"
+                                           Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="{StaticResource lngHandleHeightToGlass}">
+                                </TextBlock>
+                            </DockPanel>
+                            <TextBox x:Name="HandleHeightToGlassTextBox" d:Text="1000"
+                                     Text="{Binding HandleHeightToGlass ,Mode=TwoWay , TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior Precision="0" 
+                                                                       InputMode="DigitInput"
+                                                                       JustPositivDecimalInput="True"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region D. HandleEdgesCornerRadius -->
+                        <StackPanel x:Name="HandleEdgesCornerRadiusStackPanel"
+                                    Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngHandleEdgesCornerRadiusTooltip}"/>
+                                <TextBlock x:Name="HandleEdgesCornerRadiusTextBlock"
+                                           Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="{StaticResource lngHandleEdgesCornerRadius}">
+                                </TextBlock>
+                            </DockPanel>
+                            <TextBox x:Name="HandleEdgesCornerRadiusTextBox" d:Text="1000"
+                                     Text="{Binding HandleEdgesCornerRadius ,Mode=TwoWay , TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior Precision="1" 
+                                                                       InputMode="DecimalInput"
+                                                                       JustPositivDecimalInput="True"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                    </StackPanel>
+                    <hc:Divider Style="{StaticResource VerticalDivider}"/>
+
+                    <StackPanel>
+
+                        <!--#region E. HandleOuterThickness -->
+                        <StackPanel x:Name="HandleOuterThicknessStackPanel"
+                                    Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngHandleOuterThicknessTooltip}"/>
+                                <TextBlock x:Name="HandleOuterThicknessTextBlock"
+                                           Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="{StaticResource lngHandleOuterThickness}">
+                                </TextBlock>
+                            </DockPanel>
+                            <TextBox x:Name="HandleOuterThicknessTextBox" d:Text="1000"
+                                     Text="{Binding HandleOuterThickness ,Mode=TwoWay , TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior Precision="1" 
+                                                                       InputMode="DecimalInput"
+                                                                       JustPositivDecimalInput="True"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region F. HandleComfortDistance -->
+                        <StackPanel x:Name="HandleComfortDistanceStackPanel"
+                                    Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngHandleComfortDistanceTooltip}"/>
+                                <TextBlock x:Name="HandleComfortDistanceTextBlock"
+                                           Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="{StaticResource lngHandleComfortDistance}">
+                                </TextBlock>
+                            </DockPanel>
+                            <TextBox x:Name="HandleComfortDistanceTextBox" d:Text="1000"
+                                     Text="{Binding HandleComfortDistance ,Mode=TwoWay , TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior Precision="0" 
+                                                                       InputMode="DigitInput"
+                                                                       JustPositivDecimalInput="True"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region G. MinimumDistanceFromEdge -->
+                        <StackPanel x:Name="MinimumDistanceFromEdgeStackPanel"
+                                    Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngMinimumDistanceFromEdgeTooltip}"/>
+                                <TextBlock x:Name="MinimumDistanceFromEdgeTextBlock"
+                                           Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="{StaticResource lngMinimumDistanceFromEdge}">
+                                </TextBlock>
+                            </DockPanel>
+                            <TextBox x:Name="MinimumDistanceFromEdgeTextBox" d:Text="1000"
+                                     Text="{Binding MinimumDistanceFromEdge ,Mode=TwoWay , TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior Precision="0" 
+                                                                   InputMode="DigitInput"
+                                                                   JustPositivDecimalInput="True"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region H.Is Circular -->
+
+                        <TextBlock Text="Σχήμα Λαβής" 
+                                           Style="{StaticResource CSmallInfoTextBlock}"
+                                           Margin="0,10,0,5" HorizontalAlignment="Center"/>
+                        <TextBlock 
+                                           Margin="0" HorizontalAlignment="Center" Tag="{Binding IsCircularHandle}">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock" BasedOn="{StaticResource TitleTextBlockStyle}">
+                                    <Setter Property="Text" Value="{StaticResource lngStraightHandle}"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Tag}" Value="True">
+                                            <Setter Property="Text" Value="{StaticResource lngCircularHandle}"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+
+                        <!--#endregion-->
+
+                    </StackPanel>
+                </StackPanel>
+
+                <!--EMPTY-->
+
+            </StackPanel>
+        </DataTemplate>
+
+        <!--#endregion-->
+
+        <!--#region C. Hinge DataTemplate -->
+
+        <!--#region 1.Hinge Generic -->
+        <DataTemplate x:Key="CabinHingeDataTemplate" DataType="{x:Type vm:LiveEditHingeViewModel}">
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center">
+                    <StackPanel>
+
+                        <!--#region A. HingeType -->
+                        <StackPanel x:Name="HingeTypeStackPanel"
+                                            Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngHingeTypeTooltip}"/>
+                                <TextBlock x:Name="HingeTypeTextBlock" DockPanel.Dock="Left"
+                                                   Style="{StaticResource TitleTextBlockStyle}"
+                                                   Text="{StaticResource lngHingeType}">
+                                </TextBlock>
+                            </DockPanel>
+                            <ComboBox x:Name="HingeTypeComboBox"
+                                              d:ItemsSource="{x:Null}"
+                                              ItemsSource="{Binding Source={ext:BindingSourceEnumValues {x:Type hingeTypeEnum:CabinHingeType}},Mode=OneWay}"
+                                              SelectedItem="{Binding  HingeType, Mode=OneWay}"
+                                              IsEnabled="False">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Converter={StaticResource languageConverter} , TargetNullValue=''}"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region Β. LengthViewHinge -->
+                        <StackPanel x:Name="LengthViewHingeStackPanel"
+                                    Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngLengthViewHingeTooltip}"/>
+                                <TextBlock x:Name="LengthViewHingeTextBlock"
+                                           Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="{StaticResource lngLengthViewHinge}">
+                                </TextBlock>
+                            </DockPanel>
+                            <TextBox x:Name="LengthViewHingeTextBox" d:Text="1000"
+                                     Text="{Binding LengthView ,Mode=TwoWay , TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior Precision="0" 
+                                                                           InputMode="DigitInput"
+                                                                           JustPositivDecimalInput="True"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                    </StackPanel>
+                    <hc:Divider Style="{StaticResource VerticalDivider}" Height="100"/>
+
+                    <StackPanel>
+
+                        <!--#region C. HeightViewHinge -->
+                        <StackPanel x:Name="HeightViewHingeStackPanel"
+                                    Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngHeightViewHingeTooltip}"/>
+                                <TextBlock x:Name="HeightViewHingeTextBlock"
+                                           Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="{StaticResource lngHeightViewHinge}">
+                                </TextBlock>
+                            </DockPanel>
+                            <TextBox x:Name="HeightViewHingeTextBox" d:Text="1000"
+                                     Text="{Binding HeightView ,Mode=TwoWay , TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior Precision="0" 
+                                                                           InputMode="DigitInput"
+                                                                           JustPositivDecimalInput="True"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region D. GlassGapAER -->
+                        <StackPanel x:Name="GlassGapAERStackPanel"
+                                    Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngGlassGapAERHingeTooltip}"/>
+                                <TextBlock x:Name="GlassGapAERTextBlock"
+                                           Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="{StaticResource lngGlassGapAERHinge}">
+                                </TextBlock>
+                            </DockPanel>
+                            <TextBox x:Name="GlassGapAERTextBox" d:Text="1000"
+                                     Text="{Binding GlassGapAER ,Mode=TwoWay , TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior Precision="0" 
+                                                                           InputMode="DigitInput"
+                                                                           JustPositivDecimalInput="True"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                    </StackPanel>
+                </StackPanel>
+        </DataTemplate>
+        <!--#endregion-->
+
+        <!--#region 2.Glass To Glass Hinge -->
+        <DataTemplate x:Key="GlassToGlassHingeDataTemplate" DataType="{x:Type vm:LiveEditGlassToGlassHingeViewModel}">
+            <StackPanel 
+                Orientation="Vertical"
+                HorizontalAlignment="Center">
+                <ContentPresenter ContentTemplate="{StaticResource CabinHingeDataTemplate}"/>
+
+                <!--#region 1. InDoorLengthHinge -->
+                <StackPanel 
+                        x:Name="InDoorLengthHingeStackPanel"
+                        Margin="0,5"
+                    HorizontalAlignment="Center">
+                    <DockPanel>
+                        <cc:Icon ToolTip="{StaticResource lngInDoorLengthHingeTooltip}"/>
+                        <TextBlock 
+                                x:Name="InDoorLengthHingeTextBlock"
+                                Style="{StaticResource TitleTextBlockStyle}"
+                                Text="{StaticResource lngInDoorLengthHinge}">
+                        </TextBlock>
+                    </DockPanel>
+                    <TextBox 
+                            x:Name="InDoorLengthHingeTextBox" d:Text="1000"
+                            Text="{Binding InDoorLength ,Mode=TwoWay , TargetNullValue=''}">
+                        <i:Interaction.Behaviors>
+                            <b:TextBoxNumericInputBehavior 
+                                    Precision="0" 
+                                    InputMode="DigitInput"
+                                    JustPositivDecimalInput="True"/>
+                        </i:Interaction.Behaviors>
+                    </TextBox>
+                </StackPanel>
+                <!--#endregion-->
+
+            </StackPanel>
+        </DataTemplate>
+        <!--#endregion-->
+
+        <!--#region 3.Hinge 9B -->
+        <DataTemplate x:Key="Hinge9BDataTemplate" DataType="{x:Type vm:LiveEditHinge9BHingeViewModel}">
+            <StackPanel 
+                Orientation="Vertical"
+                HorizontalAlignment="Center">
+                <ContentPresenter ContentTemplate="{StaticResource CabinHingeDataTemplate}"/>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel>
+                        <!--#region 1. HingeOverlappingHeight -->
+                        <StackPanel 
+                            x:Name="HingeOverlappingHeightStackPanel"
+                            Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngHingeOverlappingHeightTooltip}"/>
+                                <TextBlock 
+                                    x:Name="HingeOverlappingHeightTextBlock"
+                                    Style="{StaticResource TitleTextBlockStyle}"
+                                    Text="{StaticResource lngHingeOverlappingHeight}">
+                                </TextBlock>
+                            </DockPanel>
+                            <TextBox 
+                                x:Name="HingeOverlappingHeightTextBox" 
+                                d:Text="1000"
+                                Text="{Binding HingeOverlappingHeight ,Mode=TwoWay , TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior 
+                                        Precision="0" 
+                                        InputMode="DigitInput"
+                                        JustPositivDecimalInput="True"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region 2. SupportTubeLength -->
+                        <StackPanel 
+                            x:Name="SupportTubeLengthStackPanel"
+                            Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngSupportTubeLengthTooltip}"/>
+                                <TextBlock 
+                                    x:Name="SupportTubeLengthTextBlock"
+                                    Style="{StaticResource TitleTextBlockStyle}"
+                                    Text="{StaticResource lngSupportTubeLength}">
+                                </TextBlock>
+                            </DockPanel>
+                            <TextBox 
+                                x:Name="SupportTubeLengthTextBox" 
+                                d:Text="1000"
+                                Text="{Binding SupportTubeLength ,Mode=TwoWay , TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior 
+                                        Precision="0" 
+                                        InputMode="DigitInput"
+                                        JustPositivDecimalInput="True"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+                    </StackPanel>
+                    <hc:Divider Style="{StaticResource VerticalDivider}" Height="100"/>
+                    <StackPanel>
+                        <!--#region 3. SupportTubeHeight -->
+                        <StackPanel 
+                            x:Name="SupportTubeHeightStackPanel"
+                            Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngSupportTubeHeightTooltip}"/>
+                                <TextBlock 
+                                    x:Name="SupportTubeHeightTextBlock"
+                                    Style="{StaticResource TitleTextBlockStyle}"
+                                    Text="{StaticResource lngSupportTubeHeight}">
+                                </TextBlock>
+                            </DockPanel>
+                            <TextBox 
+                                x:Name="SupportTubeHeightTextBox" 
+                                d:Text="1000"
+                                Text="{Binding SupportTubeHeight ,Mode=TwoWay , TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior 
+                                        Precision="0" 
+                                        InputMode="DigitInput"
+                                        JustPositivDecimalInput="True"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region 4. CornerRadiusInGlass -->
+                        <StackPanel 
+                            x:Name="CornerRadiusInGlassStackPanel"
+                            Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngCornerRadiusInGlassTooltip}"/>
+                                <TextBlock 
+                                    x:Name="CornerRadiusInGlassTextBlock"
+                                    Style="{StaticResource TitleTextBlockStyle}"
+                                    Text="{StaticResource lngCornerRadiusInGlass}">
+                                </TextBlock>
+                            </DockPanel>
+                            <TextBox 
+                                x:Name="CornerRadiusInGlassTextBox" d:Text="1000"
+                                Text="{Binding CornerRadiusInGlass ,Mode=TwoWay , TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior 
+                                        Precision="0" 
+                                        InputMode="DigitInput"
+                                        JustPositivDecimalInput="True"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </DataTemplate>
+        <!--#endregion-->
+
+        <!--#region 4.Hinge DB -->
+        <DataTemplate x:Key="HingeDBDataTemplate" DataType="{x:Type vm:LiveEditHingeDBViewModel}">
+            <StackPanel 
+                Orientation="Vertical"
+                HorizontalAlignment="Center">
+                <ContentPresenter ContentTemplate="{StaticResource CabinHingeDataTemplate}"/>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel>
+                        <!--#region 1. InnerHeight -->
+                        <StackPanel 
+                            x:Name="InnerHeightStackPanel"
+                            Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngInnerHeightHingeTooltip}"/>
+                                <TextBlock 
+                                    x:Name="InnerHeightTextBlock"
+                                    Style="{StaticResource TitleTextBlockStyle}"
+                                    Text="{StaticResource lngInnerHeightHinge}">
+                                </TextBlock>
+                            </DockPanel>
+                            <TextBox 
+                                x:Name="InnerHeightTextBox" 
+                                d:Text="1000"
+                                Text="{Binding InnerHeight ,Mode=TwoWay , TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior 
+                                        Precision="0" 
+                                        InputMode="DigitInput"
+                                        JustPositivDecimalInput="True"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+                    </StackPanel>
+                    <hc:Divider Style="{StaticResource VerticalDivider}" Height="40"/>
+                    <StackPanel>
+                        <!--#region 2. WallPlateThicknessView -->
+                        <StackPanel 
+                            x:Name="WallPlateThicknessViewStackPanel"
+                            Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngWallPlateThicknessViewTooltip}"/>
+                                <TextBlock 
+                                    x:Name="WallPlateThicknessViewTextBlock"
+                                    Style="{StaticResource TitleTextBlockStyle}"
+                                    Text="{StaticResource lngWallPlateThicknessView}">
+                                </TextBlock>
+                            </DockPanel>
+                            <TextBox 
+                                x:Name="WallPlateThicknessViewTextBox" d:Text="1000"
+                                Text="{Binding WallPlateThicknessView ,Mode=TwoWay , TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior 
+                                        Precision="0" 
+                                        InputMode="DigitInput"
+                                        JustPositivDecimalInput="True"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </DataTemplate>
+        <!--#endregion-->
+
+        <!--#endregion-->
+
+        <!--#region D. Profile DataTemplate -->
+
+        <!--#region Profile DataTemplate -->
+        <DataTemplate x:Key="ProfileDataTemplate" DataType="{x:Type vm:LiveEditProfileViewModel}">
+            <StackPanel x:Name="ProfileStackPanel" 
+                            Orientation="Vertical" 
+                            HorizontalAlignment="Center">
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel>
+
+                        <!--#region A. ProfileType -->
+                        <StackPanel 
+                                    x:Name="ProfileTypeStackPanel"
+                                    Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngProfileTypeTooltip}"/>
+                                <TextBlock 
+                                            x:Name="ProfileTypeTextBlock" DockPanel.Dock="Left"
+                                            Style="{StaticResource TitleTextBlockStyle}"
+                                            Text="{StaticResource lngProfileType}">
+                                </TextBlock>
+                            </DockPanel>
+                            <ComboBox 
+                                        x:Name="ProfileTypeComboBox"
+                                        d:ItemsSource="{x:Null}"
+                                        ItemsSource="{Binding Source={ext:BindingSourceEnumValues {x:Type profileTypeEnum:CabinProfileType}},Mode=OneWay}"
+                                        SelectedItem="{Binding  ProfileType, Mode=OneWay}"
+                                        IsEnabled="False">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Converter={StaticResource languageConverter} , TargetNullValue=''}"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region Β. GlassInProfileDepth -->
+                        <StackPanel 
+                                    x:Name="GlassInProfileDepthStackPanel"
+                                    Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngGlassInProfileDepthTooltip}"/>
+                                <TextBlock 
+                                            x:Name="GlassInProfileDepthTextBlock"
+                                            Style="{StaticResource TitleTextBlockStyle}"
+                                            Text="{StaticResource lngGlassInProfileDepth}"/>
+                            </DockPanel>
+                            <TextBox 
+                                        x:Name="GlassInProfileDepthTextBox" 
+                                        d:Text="1000"
+                                        Text="{Binding GlassInProfileDepth ,Mode=TwoWay , TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior 
+                                                Precision="0" 
+                                                InputMode="DigitInput"
+                                                JustPositivDecimalInput="True"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region C. SliderDistance -->
+                        <StackPanel 
+                                    x:Name="SliderDistanceStackPanel"
+                                    Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngSliderDistanceTooltip}"/>
+                                <TextBlock 
+                                            x:Name="SliderDistanceTextBlock"
+                                            Style="{StaticResource TitleTextBlockStyle}"
+                                            Text="{StaticResource lngSliderDistance}">
+                                </TextBlock>
+                            </DockPanel>
+                            <TextBox 
+                                        x:Name="SliderDistanceTextBox" 
+                                        d:Text="1000"
+                                        Text="{Binding SliderDistance ,Mode=TwoWay , TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior 
+                                                Precision="0" 
+                                                InputMode="DigitInput"
+                                                JustPositivDecimalInput="True"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region D. GlassCavityThickness -->
+                        <StackPanel 
+                                    x:Name="GlassCavityThicknessStackPanel"
+                                    Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngGlassCavityThicknessTooltip}"/>
+                                <TextBlock 
+                                            x:Name="GlassCavityThicknessTextBlock"
+                                            Style="{StaticResource TitleTextBlockStyle}"
+                                            Text="{StaticResource lngGlassCavityThickness}">
+                                </TextBlock>
+                            </DockPanel>
+                            <TextBox 
+                                        x:Name="GlassCavityThicknessTextBox" 
+                                        d:Text="1000"
+                                        Text="{Binding GlassCavityThickness ,Mode=TwoWay , TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior 
+                                                Precision="0" 
+                                                InputMode="DigitInput"
+                                                JustPositivDecimalInput="True"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region E. PlacementWidth -->
+                        <StackPanel 
+                                    x:Name="PlacementWidthStackPanel"
+                                    Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngPlacementWidthTooltip}"/>
+                                <TextBlock 
+                                            x:Name="PlacementWidthTextBlock"
+                                            Style="{StaticResource TitleTextBlockStyle}"
+                                            Text="{StaticResource lngPlacementWidth}">
+                                </TextBlock>
+                            </DockPanel>
+                            <TextBox 
+                                        x:Name="PlacementWidthTextBox" 
+                                        d:Text="1000"
+                                        Text="{Binding PlacementWidth ,Mode=TwoWay , TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior 
+                                                Precision="0" 
+                                                InputMode="DigitInput"
+                                                JustPositivDecimalInput="True"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region F. ContainedStripCode -->
+                        <StackPanel x:Name="ContainedStripCodeStackPanel"
+                                    Margin="0,5"
+                                    HorizontalAlignment="Center">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngContainedStripCodeTooltip}" />
+                                <TextBlock x:Name="ContainedStripCodeTextBlock"
+                                           DockPanel.Dock="Left"
+                                           Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="{StaticResource lngContainedStripCode}" />
+                            </DockPanel>
+                            <hc:TextBox IsEnabled="False"
+                                        Text="{Binding ContainedStripCode}"
+                                        hc:InfoElement.Placeholder="{StaticResource lngProfileWithoutStrip}" />
+                        </StackPanel>
+                        <!--#endregion-->
+
+                    </StackPanel>
+                    <hc:Divider Style="{StaticResource VerticalDivider}" />
+
+                    <StackPanel>
+                        <!--#region G. CutLength -->
+                        <StackPanel 
+                                    x:Name="CutLengthStackPanel"
+                                    Margin="0,5" 
+                                    IsEnabled="False">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngCutLengthTooltip}"/>
+                                <TextBlock 
+                                            x:Name="CutLengthTextBlock"
+                                            Style="{StaticResource TitleTextBlockStyle}"
+                                            Text="{StaticResource lngCutLength}">
+                                </TextBlock>
+                            </DockPanel>
+                            <TextBox 
+                                        x:Name="CutLengthTextBox" 
+                                        d:Text="1000"
+                                        Text="{Binding CutLength ,Mode=TwoWay , TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior 
+                                                Precision="1" 
+                                                InputMode="DecimalInput"
+                                                JustPositivDecimalInput="True"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region H. CutLengthStepPart -->
+                        <StackPanel 
+                                    x:Name="CutLengthStepPartStackPanel"
+                                    Margin="0,5" 
+                                    IsEnabled="False">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngCutLengthStepPartTooltip}"/>
+                                <TextBlock 
+                                            x:Name="CutLengthStepPartTextBlock"
+                                            Style="{StaticResource TitleTextBlockStyle}"
+                                            Text="{StaticResource lngCutLengthStepPart}">
+                                </TextBlock>
+                            </DockPanel>
+                            <TextBox 
+                                        x:Name="CutLengthStepPartTextBox" 
+                                        d:Text="1000"
+                                        Text="{Binding CutLengthStepPart ,Mode=TwoWay , TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior 
+                                                Precision="2" 
+                                                InputMode="DecimalInput"
+                                                JustPositivDecimalInput="True"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region I. ThicknessView -->
+                        <StackPanel 
+                                    x:Name="ThicknessViewStackPanel"
+                                    Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngThicknessViewProfileTooltip}"/>
+                                <TextBlock 
+                                            x:Name="ThicknessViewTextBlock"
+                                            Style="{StaticResource TitleTextBlockStyle}"
+                                            Text="{StaticResource lngThicknessViewProfile}">
+                                </TextBlock>
+                            </DockPanel>
+                            <TextBox 
+                                        x:Name="ThicknessViewTextBox" 
+                                        d:Text="1000"
+                                        Text="{Binding ThicknessView ,Mode=TwoWay , TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior 
+                                                Precision="0" 
+                                                InputMode="DigitInput"
+                                                JustPositivDecimalInput="True"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region J. InnerThicknessView -->
+                        <StackPanel 
+                                    x:Name="InnerThicknessViewStackPanel"
+                                    Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngInnerThicknessViewProfileTooltip}"/>
+                                <TextBlock 
+                                            x:Name="InnerThicknessViewTextBlock"
+                                            Style="{StaticResource TitleTextBlockStyle}"
+                                            Text="{StaticResource lngInnerThicknessViewProfile}">
+                                </TextBlock>
+                            </DockPanel>
+                            <TextBox 
+                                        x:Name="InnerThicknessViewTextBox" 
+                                        d:Text="1000"
+                                        Text="{Binding InnerThicknessView ,Mode=TwoWay , TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior 
+                                                Precision="0" 
+                                                InputMode="DigitInput"
+                                                JustPositivDecimalInput="True"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region K. Tollerance -->
+                        <StackPanel 
+                                    x:Name="TolleranceProfileStackPanel"
+                                    Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngTolleranceProfileTooltip}"/>
+                                <TextBlock 
+                                            x:Name="TolleranceProfileTextBlock"
+                                            Style="{StaticResource TitleTextBlockStyle}"
+                                            Text="{StaticResource lngTolleranceProfile}">
+                                </TextBlock>
+                            </DockPanel>
+                            <TextBox 
+                                        x:Name="TolleranceProfileTextBox" 
+                                        d:Text="1000"
+                                        Text="{Binding Tollerance ,Mode=TwoWay , TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior 
+                                                Precision="0" 
+                                                InputMode="DigitInput"
+                                                JustPositivDecimalInput="True"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region K. SideTollerance -->
+                        <StackPanel x:Name="SideTolleranceProfileStackPanel"
+                                    Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngSideTolleranceProfileTooltip}" />
+                                <TextBlock x:Name="SideTolleranceProfileTextBlock"
+                                           Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="{StaticResource lngSideTolleranceProfile}">
+                                </TextBlock>
+                            </DockPanel>
+                            <TextBox x:Name="SideTolleranceProfileTextBox"
+                                     d:Text="1000"
+                                     Text="{Binding SideTollerance ,Mode=TwoWay , TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior Precision="0"
+                                                                   InputMode="DigitInput"
+                                                                   JustPositivDecimalInput="False" />
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                    </StackPanel>
+                </StackPanel>
+
+                
+
+            </StackPanel>
+        </DataTemplate>
+        <!--#endregion-->
+
+        <!--#region ProfileHinge DataTemplate -->
+        <DataTemplate x:Key="ProfileHingeDataTemplate" DataType="{x:Type vm:LiveEditProfileHingeViewModel}">
+            <StackPanel HorizontalAlignment="Center">
+                <ContentPresenter ContentTemplate="{StaticResource ProfileDataTemplate}"/>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel>
+
+                        <!--#region 1. TopHeightAboveGlass -->
+                        <StackPanel 
+                                                x:Name="TopHeightAboveGlassStackPanel"
+                                                Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngTopHeightAboveGlassProfileHingeTooltip}"/>
+                                <TextBlock 
+                                                        x:Name="TopHeightAboveGlassTextBlock"
+                                                        Style="{StaticResource TitleTextBlockStyle}"
+                                                        Text="{StaticResource lngTopHeightAboveGlassProfileHinge}"/>
+                            </DockPanel>
+                            <TextBox 
+                                                    x:Name="TopHeightAboveGlassTextBox" 
+                                                    d:Text="1000"
+                                                    Text="{Binding TopHeightAboveGlass ,Mode=TwoWay , TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior 
+                                                            Precision="0" 
+                                                            InputMode="DigitInput"
+                                                            JustPositivDecimalInput="True"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                    </StackPanel>
+                    <hc:Divider Style="{StaticResource VerticalDivider}" Height="40"/>
+                    <StackPanel>
+                        <!--#region 2. BottomHeightBelowGlass -->
+                        <StackPanel 
+                                                x:Name="BottomHeightBelowGlassStackPanel"
+                                                Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngBottomHeightBelowGlassProfileHingeTooltip}"/>
+                                <TextBlock 
+                                                        x:Name="BottomHeightBelowGlassViewTextBlock"
+                                                        Style="{StaticResource TitleTextBlockStyle}"
+                                                        Text="{StaticResource lngBottomHeightBelowGlassProfileHinge}"/>
+                            </DockPanel>
+                            <TextBox 
+                                                    x:Name="BottomHeightBelowGlassTextBox" 
+                                                    d:Text="1000"
+                                                    Text="{Binding BottomHeightBelowGlass ,Mode=TwoWay , TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior 
+                                                            Precision="0" 
+                                                            InputMode="DigitInput"
+                                                            JustPositivDecimalInput="True"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </DataTemplate>
+        <!--#endregion-->
+
+        <!--#endregion-->
+
+        <!--#region E. GlassStrip DataTemplate -->
+
+        <DataTemplate x:Key="GlassStripDataTemplate" DataType="{x:Type vm:LiveEditStripViewModel}">
+                <StackPanel 
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center">
+                    <StackPanel>
+
+                        <!--#region A. StripType -->
+                        <StackPanel x:Name="StripTypeStackPanel"
+                                            Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngStripTypeTooltip}"/>
+                                <TextBlock 
+                                            x:Name="StripTypeTextBlock" DockPanel.Dock="Left"
+                                            Style="{StaticResource TitleTextBlockStyle}"
+                                            Text="{StaticResource lngStripType}">
+                                </TextBlock>
+                            </DockPanel>
+                            <ComboBox 
+                                        x:Name="StripTypeComboBox"
+                                        d:ItemsSource="{x:Null}"
+                                        ItemsSource="{Binding Source={ext:BindingSourceEnumValues {x:Type stripTypeEnum:CabinStripType}}, Mode=OneWay}"
+                                        SelectedItem="{Binding  StripType, Mode=OneWay}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Converter={StaticResource languageConverter} , TargetNullValue=''}"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region B. CutLengthStrip -->
+                        <StackPanel 
+                                    x:Name="CutLengthStripStackPanel"
+                                    Margin="0,5" 
+                                    IsEnabled="False">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngCutLengthStripTooltip}"/>
+                                <TextBlock 
+                                            x:Name="CutLengthStripTextBlock"
+                                            Style="{StaticResource TitleTextBlockStyle}"
+                                            Text="{StaticResource lngCutLengthStrip}">
+                                </TextBlock>
+                            </DockPanel>
+                            <TextBox 
+                                        x:Name="CutLengthStripTextBox" 
+                                        d:Text="1000"
+                                        Text="{Binding CutLength ,Mode=TwoWay , TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior 
+                                                Precision="1" 
+                                                InputMode="DecimalInput"
+                                                JustPositivDecimalInput="True"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region C. OutOfGlassLength -->
+                        <StackPanel 
+                                    x:Name="OutOfGlassLengthStackPanel"
+                                    Margin="0,5" 
+                                    IsEnabled="False">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngOutOfGlassLengthStripTooltip}"/>
+                                <TextBlock 
+                                            x:Name="OutOfGlassLengthTextBlock"
+                                            Style="{StaticResource TitleTextBlockStyle}"
+                                            Text="{StaticResource lngOutOfGlassLengthStrip}">
+                                </TextBlock>
+                            </DockPanel>
+                            <TextBox 
+                                        x:Name="OutOfGlassLengthTextBox" 
+                                        d:Text="1000"
+                                        Text="{Binding OutOfGlassLength ,Mode=TwoWay , TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior 
+                                                Precision="0" 
+                                                InputMode="DigitInput"
+                                                JustPositivDecimalInput="True"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                    </StackPanel>
+                    <hc:Divider Style="{StaticResource VerticalDivider}"/>
+
+                    <StackPanel>
+
+                        <!--#region D. InGlassLengthStrip -->
+                        <StackPanel x:Name="InGlassLengthStripStackPanel"
+                                            Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngInGlassLengthStripTooltip}"/>
+                                <TextBlock x:Name="InGlassLengthStripTextBlock"
+                                                   Style="{StaticResource TitleTextBlockStyle}"
+                                                   Text="{StaticResource lngInGlassLengthStrip}">
+                                </TextBlock>
+                            </DockPanel>
+                            <TextBox x:Name="InGlassLengthStripTextBox" d:Text="1000"
+                                             Text="{Binding InGlassLength ,Mode=TwoWay , TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior Precision="0" 
+                                                                       InputMode="DigitInput"
+                                                                       JustPositivDecimalInput="True"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region E. MetalLength -->
+                        <StackPanel x:Name="MetalLengthStackPanel"
+                                            Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngMetalLengthStripTooltip}"/>
+                                <TextBlock x:Name="MetalLengthTextBlock"
+                                                   Style="{StaticResource TitleTextBlockStyle}"
+                                                   Text="{StaticResource lngMetalLengthStrip}">
+                                </TextBlock>
+                            </DockPanel>
+                            <TextBox x:Name="MetalLengthTextBox" d:Text="1000"
+                                             Text="{Binding MetalLength ,Mode=TwoWay , TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior Precision="0" 
+                                                                           InputMode="DigitInput"
+                                                                           JustPositivDecimalInput="True"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region F. PolycarbonicLength -->
+                        <StackPanel x:Name="PolycarbonicLengthStackPanel"
+                                            Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngPolycarbonicLengthTooltip}"/>
+                                <TextBlock x:Name="PolycarbonicLengthTextBlock"
+                                                   Style="{StaticResource TitleTextBlockStyle}"
+                                                   Text="{StaticResource lngPolycarbonicLength}">
+                                </TextBlock>
+                            </DockPanel>
+                            <TextBox x:Name="PolycarbonicLengthTextBox" d:Text="1000"
+                                             Text="{Binding PolycarbonicLength ,Mode=TwoWay , TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior Precision="0" 
+                                                                           InputMode="DigitInput"
+                                                                           JustPositivDecimalInput="True"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                    </StackPanel>
+                </StackPanel>
+        </DataTemplate>
+
+        <!--#endregion-->
+
+        <!--#region F. Support DataTemplate -->
+
+        <!--#region 1.Support Generic -->
+        <DataTemplate x:Key="SupportDataTemplate" DataType="{x:Type vm:LiveEditSupportViewModel}">
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center">
+                    <StackPanel>
+
+                        <!--#region A. LengthViewSupport -->
+                        <StackPanel x:Name="LengthViewSupportStackPanel"
+                                    Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngLengthViewSupportTooltip}"/>
+                                <TextBlock x:Name="LengthViewSupportTextBlock"
+                                           Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="{StaticResource lngLengthViewSupport}">
+                                </TextBlock>
+                            </DockPanel>
+                            <TextBox x:Name="LengthViewSupportTextBox" d:Text="1000"
+                                     Text="{Binding LengthView ,Mode=TwoWay , TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior Precision="0" 
+                                                                           InputMode="DigitInput"
+                                                                           JustPositivDecimalInput="True"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region B. HeightViewSupport -->
+                        <StackPanel x:Name="HeightViewSupportStackPanel"
+                                    Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngHeightViewSupportTooltip}"/>
+                                <TextBlock x:Name="HeightViewSupportTextBlock"
+                                           Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="{StaticResource lngHeightViewSupport}">
+                                </TextBlock>
+                            </DockPanel>
+                            <TextBox x:Name="HeightViewSupportTextBox" d:Text="1000"
+                                     Text="{Binding HeightView ,Mode=TwoWay , TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior Precision="0" 
+                                                                           InputMode="DigitInput"
+                                                                           JustPositivDecimalInput="True"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                    </StackPanel>
+                    <hc:Divider Style="{StaticResource VerticalDivider}" />
+
+                    <StackPanel>
+
+                        <!--#region C. GlassGapAERSupport -->
+                        <StackPanel x:Name="GlassGapAERSupportStackPanel"
+                                            Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngGlassGapAERSupportTooltip}"/>
+                                <TextBlock x:Name="GlassGapAERSupportTextBlock"
+                                                   Style="{StaticResource TitleTextBlockStyle}"
+                                                   Text="{StaticResource lngGlassGapAERSupport}">
+                                </TextBlock>
+                            </DockPanel>
+                            <TextBox x:Name="GlassGapAERSupportTextBox" d:Text="1000"
+                                             Text="{Binding GlassGapAER ,Mode=TwoWay , TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior Precision="0" 
+                                                                           InputMode="DigitInput"
+                                                                           JustPositivDecimalInput="True"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region D. TolleranceSupport -->
+                        <StackPanel x:Name="TolleranceSupportStackPanel"
+                                    Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngTolleranceSupportTooltip}"/>
+                                <TextBlock x:Name="TolleranceSupportTextBlock"
+                                                   Style="{StaticResource TitleTextBlockStyle}"
+                                                   Text="{StaticResource lngTolleranceSupport}">
+                                </TextBlock>
+                            </DockPanel>
+                            <TextBox x:Name="TolleranceSupportTextBox" d:Text="1000"
+                                             Text="{Binding Tollerance ,Mode=TwoWay , TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior Precision="0" 
+                                                                           InputMode="DigitInput"
+                                                                           JustPositivDecimalInput="True"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                    </StackPanel>
+                </StackPanel>
+        </DataTemplate>
+        <!--#endregion-->
+            
+        <!--#region 2.Floor Stopper Support -->
+
+        <DataTemplate x:Key="FloorStopperDataTemplate" DataType="{x:Type vm:LiveEditFloorStopperViewModel}">
+            <StackPanel x:Name="SupportStackPanel" 
+                                Orientation="Vertical" 
+                                HorizontalAlignment="Center">
+                <ContentPresenter ContentTemplate="{StaticResource SupportDataTemplate}"/>
+                <!--#region 1. OutOfGlassLengthSupport -->
+                <StackPanel 
+                    x:Name="OutOfGlassLengthSupportStackPanel"
+                    Margin="0,5"
+                    HorizontalAlignment="Center">
+                    <DockPanel>
+                        <cc:Icon ToolTip="{StaticResource lngOutOfGlassLengthSupportTooltip}"/>
+                        <TextBlock 
+                            x:Name="OutOfGlassLengthSupportTextBlock"
+                            Style="{StaticResource TitleTextBlockStyle}"
+                            Text="{StaticResource lngOutOfGlassLengthSupport}">
+                        </TextBlock>
+                    </DockPanel>
+                    <TextBox 
+                        x:Name="OutOfGlassLengthSupportTextBox" 
+                        d:Text="1000"
+                        Text="{Binding OutOfGlassLength ,Mode=TwoWay , TargetNullValue=''}">
+                        <i:Interaction.Behaviors>
+                            <b:TextBoxNumericInputBehavior 
+                                Precision="0" 
+                                InputMode="DigitInput"
+                                JustPositivDecimalInput="True"/>
+                        </i:Interaction.Behaviors>
+                    </TextBox>
+                </StackPanel>
+                <!--#endregion-->
+            </StackPanel>
+        </DataTemplate>
+        
+        <!--#endregion-->
+
+        <!--#endregion-->
+
+        <!--#region G. SupportBar DataTemplate -->
+
+        <DataTemplate x:Key="SupportBarDataTemplate" DataType="{x:Type vm:LiveEditSupportBarViewModel}">
+            <StackPanel x:Name="SupportBarStackPanel" 
+                                Orientation="Vertical" 
+                                HorizontalAlignment="Center">
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel>
+
+                        <!--#region A. Placement -->
+                        <StackPanel x:Name="PlacementStackPanel"
+                                            Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngPlacementSupportBarTooltip}"/>
+                                <TextBlock x:Name="PlacementTextBlock" DockPanel.Dock="Left"
+                                                   Style="{StaticResource TitleTextBlockStyle}"
+                                                   Text="{StaticResource lngPlacementSupportBar}">
+                                </TextBlock>
+                            </DockPanel>
+                            <ComboBox x:Name="PlacementComboBox"
+                                              d:ItemsSource="{x:Null}"
+                                              ItemsSource="{Binding Source={ext:BindingSourceEnumValues {x:Type placementEnum:SupportBarPlacement}}, Mode=OneWay}"
+                                              SelectedItem="{Binding  Placement, Mode=TwoWay}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Converter={StaticResource languageConverter} , TargetNullValue=''}"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region Β. ClampViewLength -->
+                        <StackPanel x:Name="ClampViewLengthStackPanel"
+                                    Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngClampLengthViewSupportBarTooltip}"/>
+                                <TextBlock x:Name="ClampViewLengthTextBlock"
+                                           Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="{StaticResource lngClampLengthViewSupportBar}">
+                                </TextBlock>
+                            </DockPanel>
+                            <TextBox x:Name="ClampViewLengthTextBox" d:Text="1000"
+                                     Text="{Binding ClampViewLength ,Mode=TwoWay , TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior Precision="0" 
+                                                                           InputMode="DigitInput"
+                                                                           JustPositivDecimalInput="True"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region C. ClampViewHeight -->
+                        <StackPanel x:Name="ClampViewHeightStackPanel"
+                                    Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngClampHeightViewSupportBarTooltip}"/>
+                                <TextBlock x:Name="ClampViewHeightTextBlock"
+                                           Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="{StaticResource lngClampHeightViewSupportBar}">
+                                </TextBlock>
+                            </DockPanel>
+                            <TextBox x:Name="ClampViewHeightTextBox" d:Text="1000"
+                                     Text="{Binding ClampViewHeight ,Mode=TwoWay , TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior Precision="0" 
+                                                                           InputMode="DigitInput"
+                                                                           JustPositivDecimalInput="True"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                    </StackPanel>
+                    <hc:Divider Style="{StaticResource VerticalDivider}"/>
+
+                    <StackPanel>
+
+                        <!--#region D. ClampCenterDistanceFromGlassDefault -->
+                        <StackPanel x:Name="ClampFromGlassDefaultStackPanel"
+                                    Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngClampCenterDistanceFromGlassDefaultTooltip}"/>
+                                <TextBlock x:Name="ClampFromGlassDefaultTextBlock"
+                                           Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="{StaticResource lngClampCenterDistanceFromGlassDefault}">
+                                </TextBlock>
+                            </DockPanel>
+                            <TextBox x:Name="ClampFromGlassDefaultTextBox" d:Text="1000"
+                                     Text="{Binding ClampCenterDistanceFromGlassDefault ,Mode=TwoWay , TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior 
+                                                Precision="0" 
+                                                InputMode="DigitInput"
+                                                JustPositivDecimalInput="True"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region E. ClampCenterDistanceFromGlass -->
+                        <StackPanel x:Name="ClampFromGlassStackPanel"
+                                            IsEnabled="False"
+                                            Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngClampCenterDistanceFromGlassTooltip}"/>
+                                <TextBlock x:Name="ClampFromGlassTextBlock"
+                                           Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="{StaticResource lngClampCenterDistanceFromGlass}">
+                                </TextBlock>
+                            </DockPanel>
+                            <TextBox x:Name="ClampFromGlassTextBox" d:Text="1000"
+                                     Text="{Binding ClampCenterDistanceFromGlass ,Mode=TwoWay , TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior Precision="0" 
+                                                                           InputMode="DigitInput"
+                                                                           JustPositivDecimalInput="True"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region F. OutOfGlassHeightSupportBar -->
+                        <StackPanel x:Name="OutOfGlassHeightSupportBarStackPanel"
+                                    Margin="0,5">
+                            <DockPanel>
+                                <cc:Icon ToolTip="{StaticResource lngOutOfGlassHeightSupportBarTooltip}"/>
+                                <TextBlock x:Name="OutOfGlassHeightSupportBarTextBlock"
+                                           Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="{StaticResource lngOutOfGlassHeightSupportBar}">
+                                </TextBlock>
+                            </DockPanel>
+                            <TextBox x:Name="OutOfGlassHeightSupportBarTextBox" d:Text="1000"
+                                     Text="{Binding OutOfGlassHeight ,Mode=TwoWay , TargetNullValue=''}">
+                                <i:Interaction.Behaviors>
+                                    <b:TextBoxNumericInputBehavior Precision="0" 
+                                                                   InputMode="DigitInput"
+                                                                   JustPositivDecimalInput="True"/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                    </StackPanel>
+                </StackPanel>
+
+                <!--EMPTY-->
+
+            </StackPanel>
+        </DataTemplate>
+
+        <!--#endregion-->
+
+        <!--#endregion-->
+
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <!--#region 1.Common Part Properties -->
+        <StackPanel Grid.Row="0" 
+                    Grid.Column="0">
+            <TextBlock Text="{StaticResource lngCommonPartProperties}"
+                       Style="{StaticResource CHeaderTextBlock}"
+                       TextDecorations="Underline"
+                       Margin="0,0,0,10"/>
+        </StackPanel>
+
+        <StackPanel x:Name="CommonConstraintsStackPanel"
+                    HorizontalAlignment="Center"
+                    Grid.Row="1" 
+                    Grid.Column="0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <StackPanel>
+
+                    <!--#region A. Code -->
+                    <StackPanel 
+                        x:Name="CodeStackPanel"
+                        Margin="0,5">
+                        <DockPanel>
+                            <cc:Icon ToolTip="{StaticResource lngPartCodeTooltip}"/>
+                            <TextBlock 
+                                x:Name="CodeTextBlock"
+                                Style="{StaticResource TitleTextBlockStyle}"
+                                Text="{StaticResource lngCode}"/>
+                        </DockPanel>
+                        <TextBox 
+                            x:Name="CodeTextBox" 
+                            d:Text="CODE" MaxLength="40"
+                            Text="{Binding Code ,Mode=TwoWay, TargetNullValue=''}">
+                        </TextBox>
+                    </StackPanel>
+                    <!--#endregion-->
+
+                    <!--#region B. Description Default -->
+                    <StackPanel 
+                        x:Name="DescriptionStackPanel"
+                        Margin="0,5">
+                        <DockPanel>
+                            <cc:Icon ToolTip="{StaticResource lngPartDescriptionTooltip}"/>
+                            <TextBlock 
+                                x:Name="DescriptionTextBlock"
+                                Style="{StaticResource TitleTextBlockStyle}"
+                                Text="{StaticResource lngPartDescription}">
+                            </TextBlock>
+                        </DockPanel>
+                        <TextBox 
+                            x:Name="DescriptionTextBox" 
+                            d:Text="DESCRIPTION"
+                            Text="{Binding Description ,Mode=TwoWay, TargetNullValue=''}">
+                        </TextBox>
+                    </StackPanel>
+                    <!--#endregion-->
+
+                </StackPanel>
+
+                <hc:Divider Style="{StaticResource VerticalDivider}"/>
+
+                <StackPanel>
+
+                    <!--#region C. Material -->
+                    <StackPanel 
+                        x:Name="MaterialStackPanel"
+                        Margin="0,5">
+                        <DockPanel>
+                            <cc:Icon ToolTip="{StaticResource lngPartMaterialTooltip}"/>
+                            <TextBlock 
+                                x:Name="MaterialTextBlock" 
+                                DockPanel.Dock="Left"
+                                Style="{StaticResource TitleTextBlockStyle}"
+                                Text="{StaticResource lngMaterial}">
+                            </TextBlock>
+                        </DockPanel>
+                        <ComboBox 
+                            x:Name="MaterialComboBox"
+                            ItemsSource="{Binding Source={ext:BindingSourceEnumValues {x:Type enums:MaterialType}}}"
+                            SelectedItem="{Binding Material , Mode=TwoWay}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Converter={StaticResource languageConverter} , TargetNullValue=''}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+                    <!--#endregion-->
+
+                    <!--#region D. Part Type -->
+                    <StackPanel x:Name="TypeStackPanel" Margin="0,5">
+                        <DockPanel>
+                            <cc:Icon ToolTip="{StaticResource lngPartTypeTooltip}"/>
+                            <TextBlock 
+                                x:Name="TypeTextBlock" 
+                                DockPanel.Dock="Left"
+                                Style="{StaticResource TitleTextBlockStyle}"
+                                Text="{StaticResource lngType}">
+                            </TextBlock>
+                        </DockPanel>
+                        <ComboBox 
+                            x:Name="TypeComboBox"
+                            ItemsSource="{Binding Source={ext:BindingSourceEnumValues {x:Type partTypeEnum:CabinPartType}}}"
+                            SelectedItem="{Binding PartType , Mode=OneWay}"
+                            IsEnabled="False">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Converter={StaticResource languageConverter} , TargetNullValue=''}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+                    <!--#endregion-->
+
+                </StackPanel>
+            </StackPanel>
+
+            <!--#region E. PhotoPath -->
+            <StackPanel x:Name="PhotoPathStackPanel"
+                        Margin="5,5,0,10">
+                <DockPanel>
+                    <cc:Icon>
+                        <cc:Icon.ToolTip>
+                            <StackPanel>
+                                <TextBlock Text="{StaticResource lngPartPhotoPathTooltip}"/>
+                                <TextBlock Text="{StaticResource lngCurrentPlacePhotoLink}" Margin="0,10,0,5" HorizontalAlignment="Center"/>
+                                <cachedImage:Image ImageUrl="{Binding PhotoPath}"
+                                                   FailedImage="{StaticResource DefaultNoImage}"
+                                                   MaxWidth="100" MaxHeight="100" Stretch="Uniform"/>
+                            </StackPanel>
+                        </cc:Icon.ToolTip>
+                    </cc:Icon>
+                    <TextBlock x:Name="PhotoPathTextBlock"
+                           Style="{StaticResource TitleTextBlockStyle}"
+                           Text="{StaticResource lngPhotoPath}">
+                    </TextBlock>
+                </DockPanel>
+                <TextBox x:Name="PhotoPathTextBox" d:Text="PhotoPath" Width="535"
+                         Text="{Binding PhotoPath ,Mode=TwoWay, TargetNullValue=''}">
+                </TextBox>
+            </StackPanel>
+            <!--#endregion-->
+
+        </StackPanel>
+
+
+
+        <!--#endregion-->
+        
+        <!--#region 2.Specific Properties -->
+        <StackPanel Grid.Row="2" Margin="0,15,0,0"
+                    Grid.Column="0">
+            <TextBlock Text="{Binding PartType, Converter={StaticResource languageConverter}}"
+                       Style="{StaticResource CHeaderTextBlock}"
+                       TextDecorations="Underline"/>
+        </StackPanel>
+
+        <ContentControl Content="{Binding .}" 
+                        MinWidth="300" 
+                        Margin="0,20,0,0"
+                        Grid.Row="3" 
+                        Grid.Column="0"
+                        d:DataContext="{d:DesignInstance Type={x:Type vm:LiveEditSupportViewModel},IsDesignTimeCreatable=True}">
+
+            <ContentControl.Resources>
+
+                <!--#region A. Angle DataTemplate -->
+
+                <DataTemplate x:Name="CabinAngleDataTemplate" DataType="{x:Type vm:LiveEditAngleViewModel}">
+                    <ContentPresenter ContentTemplate="{StaticResource CabinAngleDataTemplate}"/>
+                </DataTemplate>
+
+                <!--#endregion-->
+
+                <!--#region B. Handle DataTemplate -->
+
+                <DataTemplate x:Name="CabinHandleDataTemplate" DataType="{x:Type vm:LiveEditHandleViewModel}">
+                    <ContentPresenter ContentTemplate="{StaticResource CabinHandleDataTemplate}"/>
+                </DataTemplate>
+
+                <!--#endregion-->
+
+                <!--#region C. Hinge DataTemplate -->
+                <DataTemplate DataType="{x:Type vm:LiveEditGlassToGlassHingeViewModel}">
+                    <ContentPresenter ContentTemplate="{StaticResource GlassToGlassHingeDataTemplate}"/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:LiveEditHinge9BHingeViewModel}">
+                    <ContentPresenter ContentTemplate="{StaticResource Hinge9BDataTemplate}"/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:LiveEditHingeDBViewModel}">
+                    <ContentPresenter ContentTemplate="{StaticResource HingeDBDataTemplate}"/>
+                </DataTemplate>
+                <DataTemplate x:Name="CabinHingeDataTemplate" DataType="{x:Type vm:LiveEditHingeViewModel}">
+                    <ContentPresenter ContentTemplate="{StaticResource CabinHingeDataTemplate}"/>
+                </DataTemplate>
+
+                <!--#endregion-->
+
+                <!--#region D. Profile DataTemplate -->
+                
+                <!--#region ProfileHinge DataTemplate -->
+                <DataTemplate x:Key="ProfileHingeDataTemplate" DataType="{x:Type vm:LiveEditProfileHingeViewModel}">
+                    <ContentPresenter ContentTemplate="{StaticResource ProfileHingeDataTemplate}"/>
+                </DataTemplate>
+                <!--#endregion-->
+
+                <!--#region Profile DataTemplate -->
+                <DataTemplate DataType="{x:Type vm:LiveEditProfileViewModel}">
+                    <ContentPresenter ContentTemplate="{StaticResource ProfileDataTemplate}"/>
+                </DataTemplate>
+                <!--#endregion-->
+
+                <!--#endregion-->
+
+                <!--#region E. GlassStrip DataTemplate -->
+
+                <DataTemplate x:Name="GlassStripDataTemplate" DataType="{x:Type vm:LiveEditStripViewModel}">
+                    <ContentPresenter ContentTemplate="{StaticResource GlassStripDataTemplate}"/>
+                </DataTemplate>
+
+                <!--#endregion-->
+
+                <!--#region F. Support DataTemplate -->
+
+                <DataTemplate x:Name="FloorStopperDataTemplate" DataType="{x:Type vm:LiveEditFloorStopperViewModel}">
+                    <ContentPresenter ContentTemplate="{StaticResource FloorStopperDataTemplate}"/>
+                </DataTemplate>
+                
+                <DataTemplate x:Name="SupportDataTemplate" DataType="{x:Type vm:LiveEditSupportViewModel}">
+                    <ContentPresenter ContentTemplate="{StaticResource SupportDataTemplate}"/>
+                </DataTemplate>
+
+                <!--#endregion-->
+
+                <!--#region G. SupportBar DataTemplate -->
+
+                <DataTemplate x:Name="SupportBarDataTemplate" DataType="{x:Type vm:LiveEditSupportBarViewModel}">
+                    <ContentPresenter ContentTemplate="{StaticResource SupportBarDataTemplate}"/>
+                </DataTemplate>
+
+                <!--#endregion-->
+
+                <!--#region 0. Empty -->
+                <DataTemplate x:Name="EmptyEditPartDataTemplate" DataType="{x:Type vm:LiveEditPartViewModel}">
+
+                </DataTemplate>
+                <!--#endregion-->
+
+            </ContentControl.Resources>
+        </ContentControl>
+
+        <!--#endregion-->
+    </Grid>
+</UserControl>

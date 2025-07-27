@@ -1,0 +1,105 @@
+﻿@*Contains The Selected Cabin Draw as well as an SVG with Length Dimensions*@
+@namespace BronzeArtWebApplication.Pages.CabinsPage.Components.DrawComponents
+@using ShowerEnclosuresModelsLibrary.Enums.ShowerDrawEnums
+@using static BronzeArtWebApplication.Shared.Helpers.StaticInfoCabins
+@inject ILanguageContainerService lc
+
+<div id="measureDrawContainer" class="d-flex flex-row justify-center align-center rounded-lg" style="width:100%;min-width:@(LengthSVG*(IsImageSketchVisible ? 1.8d : 1.1d))px;min-height:@(HeightSVG+VerticalMargin*2)px;background-color:@(BackgroundColor);@(IsBordered ? "border:solid 1px black;" : "")">
+    
+    <!--THE DRAW IMAGE OF THE CURRENT MEASURED CABIN-->
+    @if (IsImageSketchVisible)
+    {
+        <img src="@(FocusedSynthesisModel == null ? imageSketchSRC : CabinDrawNumberSideImagePath[(DrawNumber,(CabinSynthesisModel)FocusedSynthesisModel)])" 
+        style="height:@(HeightSVG)px;user-select:none" 
+        class="mr-4 @(IsFlipped ? "flipHorizontal" : "")" />
+    }
+
+
+    <!--THE SVG DRAWING MEASURE-->
+    <svg fill="transparent" class="d-none d-sm-flex"
+         style="max-height:80vh" height="@(HeightSVG)" width="@(LengthSVG)">
+        <defs>
+            <filter id="inset-shadow" x="-50%" y="-50%" width="200%" height="200%">
+                <feComponentTransfer in=SourceAlpha>
+                    <feFuncA type="table" tableValues="1 0" />
+                </feComponentTransfer>
+                <feGaussianBlur stdDeviation="5" />
+                <feOffset dx="0" dy="0" result="offsetblur" />
+                <feFlood flood-color="rgb(0, 0, 0)" result="color" />
+                <feComposite in2="offsetblur" operator="in" />
+                <feComposite in2="SourceAlpha" operator="in" />
+                <feMerge>
+                    <feMergeNode in="SourceGraphic" />
+                    <feMergeNode />
+                </feMerge>
+            </filter>
+            <pattern id="sandblastPattern" width="5" height="5" viewBox="0 0 40 40" patternUnits="userSpaceOnUse" patternTransform="rotate(136)">
+                <rect width="100%" height="100%" fill="rgba(255, 255, 255,1)" />
+                <path d="M-0.5 20v20h1v-20zM39.5 20v20h1v-20z" fill="rgba(0, 0, 0,1)" />
+                <path d="M-10 29.5 h60 v1 h-60z" fill="rgba(0, 0, 0,1)" />
+                <path d="M19.5 0v40h1v-40z" fill="rgba(0, 0, 0,1)" />
+                <path d="M-10 9.5h60v1h-60z" fill="rgba(0, 0, 0,1)" />
+                <path d="M-0.5 0v20h1v-20zM39.5 0v20h1v-20z" fill="rgba(0, 0, 0,1)" />
+            </pattern>
+            <pattern id="@(hatchPatternIdName)" width="20" height="20" viewBox="0 0 40 40" patternUnits="userSpaceOnUse" patternTransform="rotate(135)">
+                <rect width="100%" height="100%" fill="ghostwhite" />
+                <path d="M-10 30h60v1h-60zM-10-10h60v1h-60" fill="black" />
+                <path d="M-10 10h60v1h-60zM-10-30h60v1h-60z" fill="black" />
+            </pattern>
+        </defs>
+
+        @foreach (var shape in shapesToDraw)
+        {
+            <path id="@shape.Name"
+              d="@(shape.GetShapePathData())"
+              stroke="@shape.Stroke"
+              fill="@shape.Fill"
+              filter="@shape.Filter"
+              opacity="@shape.Opacity" />
+        }
+
+        @foreach (var dimension in dimensionsToDraw)
+        {
+            <path id="@dimension.Name"
+              d="@(dimension.GetShapePathData())"
+              stroke="@(dimension.Name != FocusedDimensionName ? dimension.Stroke : FocusedDimensionStrokeFill)"
+              fill="@(dimension.Name != FocusedDimensionName ? dimension.Fill : FocusedDimensionStrokeFill)"
+              filter="@dimension.Filter"
+              opacity="@dimension.Opacity" />
+
+            <path d="@(dimension.GetTextAnchorMiddleLinePath())" id="anchor@(dimension.Name)" />
+            <text>
+                <text x="0"
+                  fill="@(dimension.Name != FocusedDimensionName ? "black" : FocusedDimensionStrokeFill)"
+                  font-size="14"
+                  text-anchor="middle"
+                  dominant-baseline="middle"
+                  class="noselect">
+                    <textPath href="#anchor@(dimension.Name)" startOffset="50%">
+                        @if (dimension.Name == PrimaryDimensionName) { @(PrimaryDimensionValue != null ? $"{PrimaryDimensionValue}mm" : "?") }
+                        else if (dimension.Name == SecondaryDimensionName) { @(SecondaryDimensionValue != null ? $"{SecondaryDimensionValue}mm" : "?") }
+                        else if (dimension.Name == TertiaryDimensionName) { @(TertiaryDimensionValue != null ? $"{TertiaryDimensionValue}mm" : "?") }
+                        else {@("?")}
+                    </textPath>
+                </text>
+            </text>
+        }
+
+        @foreach (var helpLine in helpLinesToDraw)
+        {
+            <path id="@helpLine.Name"
+              d="@(helpLine.GetShapePathData())"
+              stroke="@helpLine.Stroke"
+              fill="@helpLine.Fill"
+              filter="@helpLine.Filter"
+              opacity="@helpLine.Opacity"
+              stroke-dasharray="@helpLine.StrokeDashArray" />
+        }
+
+
+
+    </svg>
+</div>
+@code {
+
+}

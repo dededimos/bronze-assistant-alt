@@ -1,0 +1,91 @@
+﻿<Application xmlns:hc="https://handyorg.github.io/handycontrol"
+             x:Class="BronzeFactoryApplication.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:BronzeFactoryApplication"
+             xmlns:converters="clr-namespace:BronzeFactoryApplication.Helpers.Converters"
+             xmlns:templateSelectors="clr-namespace:BronzeFactoryApplication.Helpers.TemplateSelectors"
+             xmlns:ccd="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             DispatcherUnhandledException="Application_DispatcherUnhandledException"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <!--StartupUri="MainWindow.xaml" We delete this to Make WPF Work with Dependency Injection-->
+    <Application.Resources>
+        <ResourceDictionary>
+            <BitmapImage x:Key="DefaultNoImage"
+                         UriSource="/BronzeFactoryApplication;component/Resources/Images/Icons/QuestionMark.png" />
+            <sys:String x:Key="DefaultNoImageStringPath">/BronzeFactoryApplication;component/Resources/Images/Icons/QuestionMark.png</sys:String>
+            <BitmapImage x:Key="QuestionMarkIcon"
+                         UriSource="/BronzeFactoryApplication;component/Resources/Images/Icons/QuestionMark.png" />
+            <sys:String x:Key="QuestionMarkIconStringPath">/BronzeFactoryApplication;component/Resources/Images/Icons/QuestionMark.png</sys:String>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary x:Name="ConvertersDictionary">
+                    <converters:LanguageConverter x:Key="languageConverter" />
+                    <converters:LanguageTooltipConverter x:Key="languageTooltipConverter" />
+                    <converters:DrawImagePathConverter x:Key="DrawSketchConverter" />
+                    <converters:DrawSideImagePathMultiConverter x:Key="DrawSideSketchMultiConverter" />
+                    <converters:BoolToBoolFirstOrSecondConverter x:Key="Bool2BoolFirstOrSecondConverter" />
+                    <converters:StringToGeometryConverter x:Key="StringToGeometryConverter" />
+                    <converters:StringToBrushConverter x:Key="StringToBrushConverter" />
+                    <converters:StringToDoubleConverter x:Key="StringToDoubleConverter" />
+                    <converters:StringToDoubleCollectionConverter x:Key="StringToDoubleCollectionConverter" />
+                    <converters:DrawShapesToGeometryGroupConverter x:Key="DrawShapesToGeometryGroupConverter" />
+                    <converters:DimensionLineDrawToAnchoredTextCoverter x:Key="DimensionLineDrawToAnchoredTextCoverter" />
+                    <converters:VisibleWhenOneTrueConverter x:Key="VisibleWhenOneTrueConverter" />
+                    <converters:CabinPartAndPartsListToEnabledConverter x:Key="CabinPartAndPartsListToEnabledConverter" />
+                    <converters:EnumTypeToEnumValuesConverter x:Key="EnumTypeToEnumValuesConverter" />
+                    <converters:DateTimeToShortStringConverter x:Key="DateTimeToShortStringConverter" />
+                    <converters:RatioConverterDouble x:Key="RatioConverter" />
+                    <converters:GlassToStringConverter x:Key="GlassToStringConverter" />
+                    <converters:AccessoriesBlobUrlConverter x:Key="BlobUrlConverter" />
+                    <converters:MirrorsBlobUrlConverter x:Key="mirrorsBlobUrlConverter" />
+                    <converters:LocalizedStringValueConverter x:Key="LocalizedStringConverter" />
+                    <converters:TraitEntityListToStringConverter x:Key="TraitEntitiesListToStringConverter" />
+                    <converters:DecimalToPercentDiscountConverter x:Key="decimalToPercentDiscountConverter" />
+                    <converters:LocalizedStringMinifiedValueConverter x:Key="LocalizedStringMinifiedConverter" />
+                    <converters:StringToNullableDoubleValueConverter x:Key="stringToNullableDoubleValueConverter" />
+                    <converters:DrawingToGeometryTextConverter x:Key="drawingToGeometryTextConverter" />
+                    <converters:IntListToStringConverter x:Key="intListToStringConverter" />
+                    <converters:MirrorPositionWithConcerningShapeToTupleConverter x:Key="mirrorPositionWithConcerningShapeToTupleConverter" />
+                    <converters:StringToBarcodeImageConverter x:Key="stringToBarcodeImageConverter" />
+                    <converters:IsCheckedToMirrorShapeConverter x:Key="isCheckedToMirrorShapeConverter" />
+                    <converters:DrawBrushToBrushConverter x:Key="drawBrushToBrushConverter" />
+                    <converters:ListOfDoubleToDoubleCollectionConverter x:Key="listOfDoubleToDoubleCollectionConverter" />
+                    <converters:SolidColorBrushToHexadecimalStringConverter x:Key="solidColorBrushToHexadecimalStringConverter" />
+                    <converters:ModuleIdToAvailablePositionsConverter x:Key="moduleIdToAvailablePositionsConverter" />
+                    <converters:ObjectEnumerableToStringConverter x:Key="objectEnumerableToStringConverter" />
+                </ResourceDictionary>
+                <hc:ThemeResources RequestedTheme="Dark">
+                    <hc:ThemeResources.ThemeDictionaries>
+                        <ResourceDictionary x:Key="Light"
+                                            hc:ThemeDictionary.Key="Light">
+                            <ResourceDictionary.MergedDictionaries>
+                                <hc:ColorPresetResources TargetTheme="Light" />
+                            </ResourceDictionary.MergedDictionaries>
+                        </ResourceDictionary>
+
+                        <ResourceDictionary x:Key="Dark"
+                                            hc:ThemeDictionary.Key="Dark">
+                            <ResourceDictionary.MergedDictionaries>
+                                <hc:ColorPresetResources TargetTheme="Dark" />
+                            </ResourceDictionary.MergedDictionaries>
+                        </ResourceDictionary>
+                    </hc:ThemeResources.ThemeDictionaries>
+                </hc:ThemeResources>
+
+                <hc:Theme />
+
+                <hc:IntellisenseResources Source="/HandyControl;Component/DesignTime/DesignTimeResources.xaml" />
+                <ResourceDictionary x:Name="LanguageDictionary"
+                                    Source="Resources/Languages/Language.el-GR.xaml" />
+                <ResourceDictionary x:Name="IconsAsGeometries"
+                                    Source="Resources/Geometries/GeometriesDictionary.xaml" />
+                <ResourceDictionary x:Name="CustomControlsDictionary"
+                                    Source="pack://application:,,,/TasCustomControlsLibrary;component/Themes/Generic.xaml" />
+                <ResourceDictionary x:Name="CustomDataTemplates"
+                                    Source="Resources/CustomDictionaries/DataTemplatesDictionary.xaml" />
+                <ResourceDictionary x:Name="CustomStyles"
+                                    Source="Resources/CustomDictionaries/CustomStylesDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

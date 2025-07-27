@@ -1,0 +1,40 @@
+﻿@using BathAccessoriesModelsLibrary.AccessoriesUserOptions;
+@inject ILanguageContainerService Lc
+
+<table>
+    <tr>
+        <td>@(Lc.Keys["MainDiscount"])</td>
+        <td>@($"{Options.Discounts.MainDiscountDecimal * 100:0.00}%")</td>
+    </tr>
+    <tr>
+        <td>@(Lc.Keys["SecondaryDiscount"])</td>
+        <td>@($"{Options.Discounts.SecondaryDiscountDecimal * 100:0.00}%")</td>
+    </tr>
+    <tr>
+        <td>@(Lc.Keys["TertiaryDiscount"])</td>
+        <td>@($"{Options.Discounts.TertiaryDiscountDecimal * 100:0.00}%")</td>
+    </tr>
+    <tr>
+        <td>@(Lc.Keys["Rules"])</td>
+        <td>@(Options.CustomPriceRules.Count)</td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <div class="d-flex flex-column justify-start align-start">
+                @foreach (var rule in Options.CustomPriceRules)
+                {
+                    <span>@($"{Options.CustomPriceRules.IndexOf(rule) + 1}.{rule.DescriptionInfo.Name}")</span>
+                }
+                @if (Options.CustomPriceRules.Any() == false)
+                {
+                    <span style="margin:auto;">-</span>
+                }
+            </div>
+        </td>
+    </tr>
+</table>
+
+
+@code {
+    [Parameter] public UserAccessoriesOptions Options { get; set; } = UserAccessoriesOptions.Undefined();
+}

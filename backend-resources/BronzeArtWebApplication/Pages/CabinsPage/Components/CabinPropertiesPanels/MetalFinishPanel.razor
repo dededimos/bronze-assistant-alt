@@ -1,0 +1,37 @@
+﻿@*A Panel Containing Controls to Choose Metal Finish*@
+@namespace BronzeArtWebApplication.Pages.CabinsPage.Components.CabinPropertiesPanels
+@using static BronzeArtWebApplication.Shared.Helpers.StaticInfoCabins
+@using ShowerEnclosuresModelsLibrary.Enums
+@using ShowerEnclosuresModelsLibrary.Enums.ShowerDrawEnums
+@inject AssembleCabinViewModel vm
+@inject ILanguageContainerService lc
+
+<div id="MetalFinishPanelContainer" class="d-flex flex-column justify-center align-center rounded-lg mud-elevation-4">
+    <!--PANEL TITLE-->
+    <div id="FinishPanelTitleContainer" class="d-flex flex-row justify-center align-center pa-2 rounded-t-lg" style="width:100%;border-bottom:4px solid var(--BronzeDarkPink);background-color:var(--BackgroundColor)">
+        <i class="fas fa-palette fa-2x mr-4"></i>
+        <MudText Typo="Typo.h6" Style="user-select:none">@(lc.Keys["Finish"])</MudText>
+    </div>
+    <MudSelect T="@(CabinFinishEnum?)"
+    Class="my-auto mx-auto pa-4"
+    Label="@(lc.Keys["Finish"])"
+    Style="font-size:small"
+    AnchorOrigin="@(Origin.BottomLeft)"
+    TransformOrigin="@(Origin.TopLeft)"
+    Dense="true"
+    Variant="@(Variant.Outlined)"
+    Margin="@(Margin.Dense)"
+    @bind-Value="@(vm.PrimaryCabin.MetalFinish)"
+    ToStringFunc="@(v => v != null ? lc.Keys[CabinFinishEnumDescKey[(CabinFinishEnum)v]] : "")">
+        @foreach (CabinFinishEnum finish in vm.PrimaryCabin.ValidMetalFinishes)
+        {
+            <MudSelectItem T="CabinFinishEnum?" Value="finish"></MudSelectItem>
+        }
+    </MudSelect>
+</div>
+
+
+
+@code {
+    
+}

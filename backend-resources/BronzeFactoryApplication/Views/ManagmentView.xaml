@@ -1,0 +1,1293 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.ManagmentView"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:cachedImage="clr-namespace:CachedImage.Core;assembly=CachedImage.Core"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels"
+             xmlns:vmc="clr-namespace:BronzeFactoryApplication.ViewModels.CabinsViewModels"
+             xmlns:uc="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC"
+             xmlns:edituc="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.EditModelUserControl"
+             xmlns:cuc="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.CabinPropertiesUserControls"
+             xmlns:uc2="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.Various"
+             xmlns:ext="clr-namespace:BronzeFactoryApplication.Helpers.MarkupExtensions"
+             xmlns:enums="clr-namespace:ShowerEnclosuresModelsLibrary.Enums;assembly=ShowerEnclosuresModelsLibrary"
+             xmlns:drawEnums="clr-namespace:ShowerEnclosuresModelsLibrary.Enums.ShowerDrawEnums;assembly=ShowerEnclosuresModelsLibrary"
+             xmlns:partTypeEnum="clr-namespace:ShowerEnclosuresModelsLibrary.Models.CabinAllParts.PartsModels;assembly=ShowerEnclosuresModelsLibrary"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:componentmodel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=vm:ManagmentViewModel}">
+    <Grid x:Name="ManagmentGrid">
+        <Grid.Resources>
+            <Style TargetType="DataGridColumnHeader"
+                   BasedOn="{StaticResource DataGridColumnHeaderStyle}">
+                <Setter Property="HorizontalAlignment"
+                        Value="Center" />
+            </Style>
+            <Style TargetType="DataGridCell"
+                   BasedOn="{StaticResource DataGridCellStyle}">
+                <Setter Property="HorizontalAlignment"
+                        Value="Stretch" />
+                <Setter Property="HorizontalContentAlignment"
+                        Value="Center" />
+            </Style>
+            <Style TargetType="DataGrid"
+                   BasedOn="{StaticResource DataGridBaseStyle}">
+                <Setter Property="IsReadOnly"
+                        Value="True" />
+                <Setter Property="SelectionMode"
+                        Value="Single" />
+                <Setter Property="SelectionUnit"
+                        Value="FullRow" />
+                <Setter Property="hc:DataGridAttach.ShowRowNumber"
+                        Value="True" />
+                <Setter Property="AutoGenerateColumns"
+                        Value="False" />
+                <Setter Property="Height"
+                        Value="700" />
+                <Setter Property="Padding"
+                        Value="20,10" />
+                <Setter Property="VerticalAlignment"
+                        Value="Top" />
+                <Setter Property="HorizontalAlignment"
+                        Value="Center" />
+                <Setter Property="BorderThickness"
+                        Value="5" />
+                <Setter Property="MinWidth"
+                        Value="800" />
+            </Style>
+            <Style x:Key="LoadDBItemButton"
+                   TargetType="Button"
+                   BasedOn="{StaticResource ButtonDefault}">
+                <Setter Property="Width"
+                        Value="30" />
+                <Setter Property="Height"
+                        Value="30" />
+                <Setter Property="Margin"
+                        Value="10,5" />
+                <Setter Property="hc:BorderElement.CornerRadius"
+                        Value="15" />
+                <Setter Property="Foreground"
+                        Value="{DynamicResource SecondaryBrush}" />
+                <Setter Property="hc:IconElement.Geometry"
+                        Value="{StaticResource DownloadGeometry}" />
+            </Style>
+            <Style x:Key="ClearFiltersButton"
+                   TargetType="Button"
+                   BasedOn="{StaticResource ButtonIcon}">
+                <Setter Property="hc:IconElement.Geometry"
+                        Value="{StaticResource DeleteFillCircleGeometry}" />
+                <Setter Property="Foreground"
+                        Value="{DynamicResource SecondaryBrush}" />
+            </Style>
+            <Style x:Key="SaveButtonStyle"
+                   TargetType="Button"
+                   BasedOn="{StaticResource ButtonDefault}">
+                <Setter Property="Foreground"
+                        Value="{DynamicResource SecondaryBrush}" />
+                <Setter Property="Height"
+                        Value="auto" />
+                <Setter Property="Width"
+                        Value="auto" />
+                <Setter Property="FontSize"
+                        Value="14" />
+                <Setter Property="FontWeight"
+                        Value="DemiBold" />
+                <Setter Property="HorizontalAlignment"
+                        Value="Center" />
+            </Style>
+            <Style x:Key="SaveButtonTextBlock"
+                   TargetType="TextBlock">
+                <Setter Property="Text"
+                        Value="{StaticResource lngSave}" />
+                <Setter Property="TextWrapping"
+                        Value="Wrap" />
+                <Setter Property="MaxWidth"
+                        Value="90" />
+                <Setter Property="TextAlignment"
+                        Value="Center" />
+                <Setter Property="DockPanel.Dock"
+                        Value="Bottom" />
+            </Style>
+            <DataTemplate x:Key="CustomTabItemHeaderDataTemplate"
+                          DataType="{x:Type sys:String}">
+                <StackPanel>
+                    <TextBlock x:Name="TabHeaderTextBlock"
+                               Text="{Binding . , FallbackValue='N/A'}"
+                               Margin="0,0,0,0"
+                               HorizontalAlignment="Center" />
+                    <hc:Divider Orientation="Horizontal"
+                                Margin="5,0,10,0"
+                                LineStrokeThickness="2"
+                                LineStroke="{StaticResource PrimaryBrush}"
+                                Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabItem}, Path=IsSelected,Converter={StaticResource Boolean2VisibilityConverter}}" />
+                </StackPanel>
+            </DataTemplate>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="auto" />
+        </Grid.ColumnDefinitions>
+
+        <!--#region A. LOADING CIRCLE BORDER -->
+
+        <Border Panel.ZIndex="2"
+                Grid.Column="0"
+                Grid.Row="0"
+                Grid.ColumnSpan="2"
+                Background="{DynamicResource RegionBrush}"
+                Opacity="0.9"
+                Visibility="{Binding IsBusy, Converter={StaticResource Boolean2VisibilityConverter}}"
+                d:Visibility="Collapsed">
+            <StackPanel Margin="20"
+                        VerticalAlignment="Center">
+                <hc:CircleProgressBar IsIndeterminate="True" />
+                <TextBlock Text="Loading Items..."
+                           Foreground="{DynamicResource PrimaryBrush}"
+                           HorizontalAlignment="Center"
+                           Margin="0,10"
+                           FontSize="20"
+                           Padding="20,0,0,0" />
+            </StackPanel>
+        </Border>
+
+        <!--#endregion-->
+
+        <!--#region B. TAB CONTROL DATAGRIDS -->
+
+        <hc:TabControl TabStripPlacement="Top"
+                       BorderThickness="4"
+                       MaxWidth="{Binding ElementName=ManagmentGrid, Path=ActualWidth}"
+                       IsTabFillEnabled="True"
+                       Grid.Row="0"
+                       Grid.Column="0"
+                       Grid.ColumnSpan="2"
+                       SelectedIndex="{Binding SelectedTabIndex}">
+
+            <!--#region A. Parts TAB -->
+
+            <hc:TabItem Header="{StaticResource lngParts}"
+                        HeaderTemplate="{StaticResource CustomTabItemHeaderDataTemplate}">
+
+                <Grid Margin="20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40" />
+                        <RowDefinition MaxHeight="700" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <!--#region 1. Grid Title -->
+
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                Grid.Row="0"
+                                Grid.Column="0">
+                        <Button Style="{StaticResource LoadDBItemButton}"
+                                Command="{Binding LoadPartsCommand}" />
+                        <TextBlock Text="{StaticResource lngParts}"
+                                   Style="{StaticResource CHeaderTextBlock}" />
+                        <Button Style="{StaticResource ButtonIcon}"
+                                hc:IconElement.Geometry="{StaticResource ExcelGeometry}"
+                                Foreground="{DynamicResource SecondaryBrush}"
+                                DockPanel.Dock="Left"
+                                Margin="30,0,0,0"
+                                ToolTip="{StaticResource lngSaveListToXls}"
+                                ToolTipService.InitialShowDelay="0"
+                                ToolTipService.Placement="Top"
+                                ToolTipService.HorizontalOffset="-45"
+                                Command="{Binding SavePartsToExcelCommand}" />
+                    </StackPanel>
+
+                    <!--#endregion-->
+
+                    <!--#region 2. PARTS DataGrid -->
+                    <DataGrid ItemsSource="{Binding FilteredParts}"
+                              SelectedItem="{Binding SelectedPart}"
+                              Grid.Row="1"
+                              Grid.Column="0"
+                              IsSynchronizedWithCurrentItem="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="{StaticResource lngCode}"
+                                                Binding="{Binding Part.Code}" />
+                            <DataGridTextColumn Header="{StaticResource lngDescription}"
+                                                Binding="{Binding Part.Description}" />
+                            <DataGridTextColumn Header="{StaticResource lngType}"
+                                                Binding="{Binding Part.Part, Converter={StaticResource languageConverter}}" />
+                            <DataGridTextColumn Header="{StaticResource lngMaterial}"
+                                                Binding="{Binding Part.Material, Converter={StaticResource languageConverter}}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <!--#endregion-->
+
+                    <!--#region 3. DataGridFilters -->
+                    <StackPanel Grid.Row="2"
+                                Grid.Column="0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Top"
+                                Margin="0,20">
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Center">
+                            <TextBlock Style="{StaticResource CHeaderTextBlock}"
+                                       Text="{StaticResource lngFilters}" />
+                            <Button Style="{StaticResource ClearFiltersButton}"
+                                    Command="{Binding ClearPartsFiltersCommand}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"
+                                    Margin="0,10">
+                            <StackPanel Margin="5,0">
+                                <TextBlock Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="{StaticResource lngType}" />
+                                <hc:ComboBox ItemsSource="{Binding Source={ext:BindingSourceEnumValues {x:Type partTypeEnum:CabinPartType}}}"
+                                             SelectedItem="{Binding PartsFilterType}"
+                                             IsEditable="False"
+                                             Width="200"
+                                             hc:InfoElement.ShowClearButton="True">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Converter={StaticResource languageConverter} , TargetNullValue=''}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </hc:ComboBox>
+                            </StackPanel>
+                            <StackPanel Margin="5,0">
+                                <TextBlock Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="{StaticResource lngCode}" />
+                                <TextBox Width="200"
+                                         Text="{Binding PartsFilterCode,UpdateSourceTrigger=PropertyChanged}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                    <!--#endregion-->
+
+                    <!--#region 4.Selected Parts Title -->
+                    <DockPanel  VerticalAlignment="Center"
+                                Grid.Row="0"
+                                Grid.Column="1">
+                        <DockPanel.Resources>
+                            <CollectionViewSource x:Key="AllPartsViewSource"
+                                                  Source="{Binding Parts}">
+                                <CollectionViewSource.SortDescriptions>
+                                    <componentmodel:SortDescription PropertyName="Part.Code"
+                                                                    Direction="Ascending" />
+                                </CollectionViewSource.SortDescriptions>
+                            </CollectionViewSource>
+                        </DockPanel.Resources>
+
+                        <!--#region A.Create New Part Menu -->
+
+                        <Menu x:Name="NewPartMenu">
+                            <Menu.Resources>
+                                <Style TargetType="MenuItem"
+                                       BasedOn="{StaticResource MenuItemBaseStyle}">
+                                    <Setter Property="Foreground"
+                                            Value="{DynamicResource SecondaryBrush}" />
+                                </Style>
+                            </Menu.Resources>
+                            <MenuItem ToolTip="{StaticResource lngNewPartTooltip}"
+                                      ToolTipService.Placement="Top"
+                                      ToolTipService.HorizontalOffset="-40"
+                                      Foreground="{DynamicResource SecondaryBrush}">
+                                <MenuItem.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <cc:Icon GeometryData="{StaticResource AddGeometry}"
+                                                 Fill="{DynamicResource SecondaryBrush}"
+                                                 Height="12"
+                                                 Margin="0,0,5,0" />
+                                        <TextBlock Text="{StaticResource lngNewPart}" />
+                                    </StackPanel>
+                                </MenuItem.Header>
+                                <!--#region 00. Copy From Existing Part MENU ITEM -->
+                                <MenuItem Header="{StaticResource lngCopyFromExisting}"
+                                          ItemsSource="{Binding Source={StaticResource AllPartsViewSource}}">
+                                    <MenuItem.ItemContainerStyle>
+                                        <Style TargetType="MenuItem">
+                                            <Setter Property="Command"
+                                                    Value="{Binding RelativeSource={RelativeSource AncestorType=MenuItem}, Path=DataContext.CreateNewPartFromCopyCommand}" />
+                                            <Setter Property="CommandParameter"
+                                                    Value="{Binding .}" />
+                                        </Style>
+                                    </MenuItem.ItemContainerStyle>
+                                    <MenuItem.ItemTemplate>
+                                        <DataTemplate>
+                                            <DockPanel>
+                                                <TextBlock Foreground="{DynamicResource SecondaryBrush}"
+                                                           Text="{Binding Part.Code}"
+                                                           Width="150" />
+                                                <TextBlock Foreground="{DynamicResource SecondaryBrush}"
+                                                           Text="{Binding Part.Description}"
+                                                           Margin="30,0,0,0" />
+                                            </DockPanel>
+                                        </DataTemplate>
+                                    </MenuItem.ItemTemplate>
+                                </MenuItem>
+                                <!--#endregion-->
+                                <MenuItem Header="{StaticResource GenericPart}"
+                                          Command="{Binding CreateNewPartCommand}"
+                                          CommandParameter="{x:Static partTypeEnum:CabinPartType.GenericPart}" />
+                                <MenuItem Header="{StaticResource Handle}"
+                                          Command="{Binding CreateNewPartCommand}"
+                                          CommandParameter="{x:Static partTypeEnum:CabinPartType.Handle}" />
+                                <MenuItem Header="{StaticResource Hinge}"
+                                          Command="{Binding CreateNewPartCommand}"
+                                          CommandParameter="{x:Static partTypeEnum:CabinPartType.Hinge}" />
+                                <MenuItem Header="{StaticResource ProfileHinge}"
+                                          Command="{Binding CreateNewPartCommand}"
+                                          CommandParameter="{x:Static partTypeEnum:CabinPartType.ProfileHinge}" />
+                                <MenuItem Header="{StaticResource MagnetProfile}"
+                                          Command="{Binding CreateNewPartCommand}"
+                                          CommandParameter="{x:Static partTypeEnum:CabinPartType.MagnetProfile}" />
+                                <MenuItem Header="{StaticResource Profile}"
+                                          Command="{Binding CreateNewPartCommand}"
+                                          CommandParameter="{x:Static partTypeEnum:CabinPartType.Profile}" />
+                                <MenuItem Header="{StaticResource FloorStopperW}"
+                                          Command="{Binding CreateNewPartCommand}"
+                                          CommandParameter="{x:Static partTypeEnum:CabinPartType.FloorStopperW}" />
+                                <MenuItem Header="{StaticResource BarSupport}"
+                                          Command="{Binding CreateNewPartCommand}"
+                                          CommandParameter="{x:Static partTypeEnum:CabinPartType.BarSupport}" />
+                                <MenuItem Header="{StaticResource SmallSupport}"
+                                          Command="{Binding CreateNewPartCommand}"
+                                          CommandParameter="{x:Static partTypeEnum:CabinPartType.SmallSupport}" />
+                                <MenuItem Header="{StaticResource Strip}"
+                                          Command="{Binding CreateNewPartCommand}"
+                                          CommandParameter="{x:Static partTypeEnum:CabinPartType.Strip}" />
+                                <MenuItem Header="{StaticResource AnglePart}"
+                                          Command="{Binding CreateNewPartCommand}"
+                                          CommandParameter="{x:Static partTypeEnum:CabinPartType.AnglePart}" />
+                                <MenuItem Header="{StaticResource Wheel}"
+                                          Command="{Binding CreateNewPartCommand}"
+                                          CommandParameter="{x:Static partTypeEnum:CabinPartType.Wheel}" />
+                            </MenuItem>
+                        </Menu>
+
+                        <!--#endregion-->
+
+                        <!--#region B.Delete Part Button -->
+                        <Button DockPanel.Dock="Right"
+                                Margin="0,0,0,0"
+                                Foreground="{DynamicResource DangerBrush}"
+                                ToolTip="{StaticResource lngDeletePartTooltip}"
+                                ToolTipService.Placement="Top"
+                                ToolTipService.ShowOnDisabled="True"
+                                IsEnabled="{Binding SelectedPart.IsUsed , Converter={StaticResource Boolean2BooleanReConverter}}"
+                                Command="{Binding DeletePartCommand}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{StaticResource lngDeletePart}"
+                                           Margin="0,0,5,0" />
+                                <cc:Icon GeometryData="{StaticResource DeleteFillCircleGeometry}"
+                                         Height="15"
+                                         Fill="{DynamicResource DangerBrush}" />
+
+                            </StackPanel>
+                        </Button>
+
+                        <!--#endregion-->
+
+                        <!--#region C.Title of Edit Components (Middle Placed Last DockPanel Item) -->
+                        <!--Binds on weather current Part is Being Edited to Display NEW or EDIT Title-->
+                        <TextBlock Padding="0,0,0,0">
+                            <TextBlock.Resources>
+                                <Style TargetType="TextBlock"
+                                       BasedOn="{StaticResource CHeaderTextBlock}">
+                                    <Setter Property="Text"
+                                            Value="{StaticResource lngEditPart}" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding SelectedPartViewModel.IsEdit}"
+                                                     Value="False">
+                                            <Setter Property="Text"
+                                                    Value="{StaticResource lngNewPart}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Resources>
+                        </TextBlock>
+
+                        <!--#endregion-->
+
+                    </DockPanel>
+                    <!--#endregion-->
+
+                    <!--#region 5. Selected Part -->
+                    <Border Grid.Row="1"
+                            Grid.Column="1"
+                            Grid.RowSpan="2"
+                            BorderThickness="5"
+                            BorderBrush="{DynamicResource BorderBrush}"
+                            IsEnabled="{Binding IsPartSelected}">
+                        <DockPanel HorizontalAlignment="Stretch">
+                            <StackPanel VerticalAlignment="Top"
+                                        HorizontalAlignment="Center"
+                                        Margin="30,30,0,0">
+
+                                <!--#region A. IMAGE of Draw -->
+                                <Border BorderBrush="{DynamicResource LightPrimaryBrush}"
+                                        BorderThickness="2"
+                                        CornerRadius="20"
+                                        Width="260"
+                                        Height="200"
+                                        Margin="0,0,0,25">
+                                    <cachedImage:Image ImageUrl="{Binding SelectedPartViewModel.PhotoPath}"
+                                                       FailedImage="{StaticResource DefaultNoImage}"
+                                                       MaxWidth="180"
+                                                       MaxHeight="180"
+                                                       Stretch="Uniform" />
+                                </Border>
+                                <!--#endregion-->
+
+                                <StackPanel Orientation="Horizontal"
+                                            HorizontalAlignment="Center">
+                                    <!--#region A. USES -->
+                                    <StackPanel Orientation="Vertical"
+                                                VerticalAlignment="Center"
+                                                Margin="12,10,12,0"
+                                                ToolTipService.InitialShowDelay="0"
+                                                ToolTipService.Placement="Left"
+                                                ToolTipService.VerticalOffset="-150"
+                                                ToolTipService.HorizontalOffset="5">
+                                        <StackPanel.ToolTip>
+                                            <StackPanel>
+                                                <TextBlock Text="{StaticResource lngUses}"
+                                                           Style="{StaticResource CHeaderTextBlock}" />
+                                                <TextBlock Text="{StaticResource lngChangeCodeNote}"
+                                                           HorizontalAlignment="Center"
+                                                           Style="{StaticResource CSmallInfoTextBlock}" />
+                                                <DataGrid ItemsSource="{Binding SelectedPart.Uses,Mode=OneWay}"
+                                                          hc:DataGridAttach.ShowRowNumber="True"
+                                                          IsReadOnly="True"
+                                                          Width="auto"
+                                                          Height="auto"
+                                                          MinWidth="0"
+                                                          hc:DataGridAttach.ShowSelectAllButton="True"
+                                                          Background="{DynamicResource RegionBrush}"
+                                                          Margin="0"
+                                                          Padding="0"
+                                                          BorderThickness="0"
+                                                          MinRowHeight="0"
+                                                          RowHeight="30">
+                                                    <DataGrid.Columns>
+                                                        <DataGridTextColumn Header="{StaticResource lngModel}"
+                                                                            Binding="{Binding Model, Converter={StaticResource languageConverter}}" />
+                                                        <DataGridTextColumn Header="{StaticResource lngDraw}"
+                                                                            Binding="{Binding DrawNumber, Converter={StaticResource languageConverter}}" />
+                                                        <DataGridTextColumn Header="{StaticResource lngSynthesisModel}"
+                                                                            Binding="{Binding SynthesisModel, Converter={StaticResource languageConverter}}" />
+                                                    </DataGrid.Columns>
+                                                </DataGrid>
+                                            </StackPanel>
+                                        </StackPanel.ToolTip>
+                                        <cc:Icon GeometryData="{StaticResource PackageGeometry}"
+                                                 Height="25"
+                                                 Fill="{DynamicResource SecondaryBrush}" />
+                                        <TextBlock Text="{StaticResource lngUses}"
+                                                   FontSize="12"
+                                                   Width="80"
+                                                   TextAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Margin="0,10,0,0"
+                                                   TextWrapping="Wrap"
+                                                   Foreground="{DynamicResource SecondaryBrush}" />
+                                    </StackPanel>
+                                    <!--#endregion-->
+
+                                    <!--#region B. SAVE BUTTON -->
+                                    <Button x:Name="SavePartsButton"
+                                            Style="{StaticResource SaveButtonStyle}"
+                                            Command="{Binding SavePartCommand}">
+                                        <DockPanel>
+                                            <Image Stretch="Uniform"
+                                                   DockPanel.Dock="Top"
+                                                   Height="60"
+                                                   x:Name="ButtonImagePart">
+                                                <Image.Style>
+                                                    <Style TargetType="{x:Type Image}">
+                                                        <Setter Property="Source"
+                                                                Value="{StaticResource SaveImage}" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding ElementName=SavePartsButton, Path=DataContext.HasUnsavedPartEdits }"
+                                                                         Value="False">
+                                                                <Setter Property="Source"
+                                                                        Value="{StaticResource SavedImage}" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
+                                            <TextBlock Style="{StaticResource SaveButtonTextBlock}" />
+                                        </DockPanel>
+                                    </Button>
+                                    <!--#endregion-->
+                                </StackPanel>
+
+                                <!--#region C. Languages Translation -->
+                                <StackPanel Orientation="Vertical"
+                                            Margin="5,20"
+                                            MaxWidth="260"
+                                            HorizontalAlignment="Center"
+                                            DataContext="{Binding SelectedPartViewModel}">
+
+                                    <!--#region 1.LISTBOX WITH TRANSLATIONS -->
+                                    <StackPanel VerticalAlignment="Top"
+                                                Margin="0,5,0,0">
+                                        <TextBlock Text="{StaticResource lngDescriptions}"
+                                                   Style="{StaticResource TitleTextBlockStyle}" />
+                                        <ListBox ItemsSource="{Binding LanguageTranslations, Mode=OneWay}"
+                                                 MinWidth="260"
+                                                 MinHeight="100"
+                                                 SelectionMode="Single">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <DockPanel LastChildFill="True">
+                                                        <Button Style="{StaticResource ButtonIcon.Small}"
+                                                                hc:IconElement.Geometry="{StaticResource RemoveGeometry}"
+                                                                hc:IconElement.Height="10"
+                                                                Foreground="{DynamicResource DangerBrush}"
+                                                                Command="{Binding RelativeSource={RelativeSource AncestorType=ListBox, Mode=FindAncestor}, Path=DataContext.RemoveLanguageTranslationCommand}"
+                                                                CommandParameter="{Binding CultureKey}"
+                                                                VerticalAlignment="Center" />
+                                                        <TextBlock Text="{Binding CultureKey}"
+                                                                   Foreground="{DynamicResource PrimaryTextBrush}"
+                                                                   Width="35"
+                                                                   VerticalAlignment="Center"
+                                                                   TextAlignment="Left"
+                                                                   Margin="5,0,0,1"
+                                                                   DockPanel.Dock="Left" />
+                                                        <TextBlock Text="{Binding Translation}"
+                                                                   DockPanel.Dock="Left"
+                                                                   VerticalAlignment="Center"
+                                                                   Margin="10,0,0,1" />
+                                                    </DockPanel>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                    </StackPanel>
+                                    <!--#endregion-->
+
+                                    <!--#region 2.Controls to Manipulate Translations -->
+                                    <StackPanel VerticalAlignment="Center">
+                                        <StackPanel x:Name="NewCultureStackPanel"
+                                                    Margin="0,5">
+                                            <DockPanel>
+                                                <cc:Icon ToolTip="{StaticResource lngNewCultureTooltip}" />
+                                                <TextBlock x:Name="NewCultureTextBlock"
+                                                           DockPanel.Dock="Left"
+                                                           Style="{StaticResource TitleTextBlockStyle}"
+                                                           Text="{StaticResource lngLanguage}">
+                                                </TextBlock>
+                                            </DockPanel>
+                                            <ComboBox x:Name="NewCultureComboBox"
+                                                      ItemsSource="{Binding AllowedCultures}"
+                                                      SelectedItem="{Binding NewLanguageCultureKey , Mode=TwoWay}">
+                                            </ComboBox>
+                                        </StackPanel>
+                                        <StackPanel x:Name="NewTranslationStackPanel"
+                                                    Margin="0,5">
+                                            <DockPanel>
+                                                <cc:Icon ToolTip="{StaticResource lngDescriptionTranslationTooltip}" />
+                                                <TextBlock x:Name="NewTranslationTextBlock"
+                                                           DockPanel.Dock="Left"
+                                                           Style="{StaticResource TitleTextBlockStyle}"
+                                                           Text="{StaticResource lngDescriptionTranslation}">
+                                                </TextBlock>
+                                            </DockPanel>
+                                            <TextBox x:Name="NewTranslationTextBox"
+                                                     Text="{Binding NewLanguageTranslation}"
+                                                     MaxLength="40">
+                                            </TextBox>
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <!--#endregion-->
+
+                                    <!--#region 3. Button to Edit/Add Translation -->
+                                    <Button Margin="20,5,20,0"
+                                            Style="{StaticResource ButtonIconCircular}"
+                                            hc:IconElement.Geometry="{StaticResource AddGeometry}"
+                                            Foreground="{DynamicResource SecondaryBrush}"
+                                            ToolTip="{StaticResource lngAddNewTranslation}"
+                                            ToolTipService.InitialShowDelay="0"
+                                            ToolTipService.Placement="Top"
+                                            ToolTipService.HorizontalOffset="-30"
+                                            Command="{Binding AddOrEditTranslationCommand}" />
+                                    <!--#endregion-->
+
+                                </StackPanel>
+                                <!--#endregion-->
+
+                                <!--#region D. Edit Sub Parts Button-->
+                                <StackPanel Orientation="Horizontal"
+                                            HorizontalAlignment="Center">
+                                    <Button Content="{StaticResource lngSubParts}"
+                                            hc:IconElement.Geometry="{StaticResource EditGeometry}"
+                                            ToolTip="Press to Edit the Additional Parts List"
+                                            Command="{Binding OpenEditSubPartCommand}"
+                                            CommandParameter="{Binding SelectedPartViewModel}" />
+                                    <TextBlock Margin="10,0,0,0"
+                                               Text="{StaticResource lngTotal}"
+                                               VerticalAlignment="Center" />
+                                    <TextBlock Text=" : "
+                                               VerticalAlignment="Center" />
+                                    <TextBlock Text="{Binding SelectedPartViewModel.AdditionalParts.Count}"
+                                               VerticalAlignment="Center" />
+                                </StackPanel>
+                                <!--#endregion-->
+
+                            </StackPanel>
+                            <edituc:EditCabinPartUC DataContext="{Binding SelectedPartViewModel}"
+                                                    Margin="0,30,0,10"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Top" />
+                        </DockPanel>
+                    </Border>
+                    <!--#endregion-->
+
+                </Grid>
+            </hc:TabItem>
+
+            <!--#endregion-->
+
+            <!--#region B. Settings TAB -->
+
+            <hc:TabItem Header="{StaticResource lngCabinSettings}"
+                        HeaderTemplate="{StaticResource CustomTabItemHeaderDataTemplate}">
+
+                <Grid Margin="20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40" />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <!--#region 1. Grid Title -->
+
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                Grid.Row="0"
+                                Grid.Column="0">
+                        <Button Style="{StaticResource LoadDBItemButton}"
+                                Command="{Binding LoadSettingsCommand}" />
+                        <TextBlock Text="{StaticResource lngCabinSettings}"
+                                   Style="{StaticResource CHeaderTextBlock}" />
+                        <Button Style="{StaticResource ButtonIcon}"
+                                hc:IconElement.Geometry="{StaticResource ExcelGeometry}"
+                                Foreground="{DynamicResource SecondaryBrush}"
+                                DockPanel.Dock="Left"
+                                Margin="30,0,0,0"
+                                ToolTip="{StaticResource lngSaveListToXls}"
+                                ToolTipService.InitialShowDelay="0"
+                                ToolTipService.Placement="Top"
+                                ToolTipService.HorizontalOffset="-45"
+                                Command="{Binding SaveCabinSettingsToExcelCommand}" />
+                    </StackPanel>
+
+                    <!--#endregion-->
+
+                    <!--#region 2. Settings Grid -->
+
+                    <DataGrid ItemsSource="{Binding FilteredSettings}"
+                              x:Name="SettingsDataGrid"
+                              SelectedItem="{Binding SelectedSettings}"
+                              Grid.Row="1"
+                              Grid.Column="0">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Width="250"
+                                                Header="{StaticResource lngModel}"
+                                                Binding="{Binding Model , Converter={StaticResource languageConverter},Mode=OneWay}" />
+                            <DataGridTextColumn Width="130"
+                                                Header="{StaticResource lngDraw}"
+                                                Binding="{Binding DrawNumber ,Converter={StaticResource languageConverter}, Mode=OneWay}" />
+                            <DataGridTextColumn Width="130"
+                                                Header="{StaticResource lngSynthesisModel}"
+                                                Binding="{Binding SynthesisModel ,Converter={StaticResource languageConverter}, Mode=OneWay}" />
+                            <DataGridTextColumn FontSize="10"
+                                                Width="110"
+                                                Header="{StaticResource lngCreated}"
+                                                Binding="{Binding Created, StringFormat='{}{0:dd/MM/yyyy}' }" />
+                            <DataGridTextColumn FontSize="10"
+                                                Width="80"
+                                                Header="{StaticResource lngLastModified}"
+                                                Binding="{Binding LastModified, StringFormat='{}{0:dd/MM/yyyy}' }" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <!--#endregion-->
+
+                    <!--#region 3. DataGridFilters -->
+                    <StackPanel Grid.Row="2"
+                                Grid.Column="0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Top"
+                                Margin="0,20">
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Center">
+                            <TextBlock Style="{StaticResource CHeaderTextBlock}"
+                                       Text="{StaticResource lngFilters}" />
+                            <Button Style="{StaticResource ClearFiltersButton}"
+                                    Command="{Binding ClearSettingsFiltersCommand}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"
+                                    Margin="0,10">
+                            <StackPanel Margin="5,0">
+                                <TextBlock Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="{StaticResource lngModel}" />
+                                <hc:ComboBox ItemsSource="{Binding Source={ext:BindingSourceEnumValues {x:Type enums:CabinModelEnum}}}"
+                                             SelectedItem="{Binding SettingsFilterModel}"
+                                             IsEditable="False"
+                                             Width="250"
+                                             hc:InfoElement.ShowClearButton="True">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Converter={StaticResource languageConverter} , TargetNullValue=''}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </hc:ComboBox>
+                            </StackPanel>
+                            <StackPanel Margin="5,0">
+                                <TextBlock Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="{StaticResource lngDraw}" />
+                                <ComboBox ItemsSource="{Binding Source={ext:BindingSourceEnumValues {x:Type drawEnums:CabinDrawNumber}}}"
+                                          SelectedItem="{Binding SettingsFilterDraw}"
+                                          IsEditable="False"
+                                          Width="150"
+                                          hc:InfoElement.ShowClearButton="True">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Converter={StaticResource languageConverter} , TargetNullValue=''}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                    <!--#endregion-->
+
+                    <!--#region 4.Selected Constraints Title -->
+                    <StackPanel HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Grid.Row="0"
+                                Grid.Column="1">
+                        <TextBlock Style="{StaticResource CHeaderTextBlock}"
+                                   Text="{StaticResource lngEditCabinSettings}" />
+                    </StackPanel>
+                    <!--#endregion-->
+
+                    <!--#region 5. Selected Constraints -->
+                    <Border Grid.Row="1"
+                            Grid.Column="1"
+                            Grid.RowSpan="2"
+                            BorderThickness="5"
+                            BorderBrush="{DynamicResource BorderBrush}"
+                            IsEnabled="{Binding IsSettingsSelected}">
+                        <DockPanel>
+                            <StackPanel VerticalAlignment="Top"
+                                        HorizontalAlignment="Center"
+                                        Margin="30">
+
+                                <!--#region A. IMAGE of Draw -->
+                                <uc2:CabinSideImageUC DrawNumber="{Binding SelectedSettings.DrawNumber}"
+                                                      SynthesisModel="{Binding SelectedSettings.SynthesisModel}"
+                                                      MaxHeight="200"
+                                                      MinWidth="150" />
+                                <TextBlock Text="{Binding SelectedSettings.Model, Converter={StaticResource languageConverter}}"
+                                           Style="{StaticResource CInformativeTextBlock}"
+                                           d:Text="Model"
+                                           Margin="0,20,0,5" />
+                                <TextBlock Text="{Binding SelectedSettings.DrawNumber, Converter={StaticResource languageConverter}}"
+                                           Style="{StaticResource CInformativeTextBlock}"
+                                           Margin="0,0,0,5"
+                                           d:Text="Model" />
+                                <TextBlock Text="{Binding SelectedSettings.SynthesisModel, Converter={StaticResource languageConverter}}"
+                                           Style="{StaticResource CInformativeTextBlock}"
+                                           d:Text="Model"
+                                           Margin="0,0,0,5" />
+                                <!--#endregion-->
+
+                                <!--#region B. SAVE BUTTON -->
+                                <Button x:Name="SaveSettingsButton"
+                                        Command="{Binding SaveSettingsEditCommand}"
+                                        Style="{StaticResource SaveButtonStyle}">
+                                    <DockPanel>
+                                        <Image Stretch="Uniform"
+                                               DockPanel.Dock="Top"
+                                               Height="60"
+                                               x:Name="ButtonImageSettings">
+                                            <Image.Style>
+                                                <Style TargetType="{x:Type Image}">
+                                                    <Setter Property="Source"
+                                                            Value="{StaticResource SaveImage}" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding ElementName=SaveSettingsButton, Path=DataContext.HasUnsavedSettingsEdits }"
+                                                                     Value="False">
+                                                            <Setter Property="Source"
+                                                                    Value="{StaticResource SavedImage}" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Image.Style>
+                                        </Image>
+                                        <TextBlock Style="{StaticResource SaveButtonTextBlock}" />
+                                    </DockPanel>
+                                </Button>
+                                <!--#endregion-->
+
+                            </StackPanel>
+                            <edituc:EditCabinSettingsUC DataContext="{Binding SelectedSettingsViewModel}"
+                                                        Margin="0,30"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Top" />
+                        </DockPanel>
+                    </Border>
+                    <!--#endregion-->
+
+                </Grid>
+
+            </hc:TabItem>
+
+            <!--#endregion-->
+
+            <!--#region C. Constraints TAB -->
+
+            <hc:TabItem Header="{StaticResource lngConstraints}"
+                        HeaderTemplate="{StaticResource CustomTabItemHeaderDataTemplate}">
+                <Grid Margin="20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40" />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <!--#region 1. Grid Title -->
+
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                Grid.Row="0"
+                                Grid.Column="0">
+                        <Button Style="{StaticResource LoadDBItemButton}"
+                                Command="{Binding LoadConstraintsCommand}" />
+                        <TextBlock Text="{StaticResource lngConstraints}"
+                                   Style="{StaticResource CHeaderTextBlock}" />
+                        <Button Style="{StaticResource ButtonIcon}"
+                                hc:IconElement.Geometry="{StaticResource ExcelGeometry}"
+                                Foreground="{DynamicResource SecondaryBrush}"
+                                DockPanel.Dock="Left"
+                                Margin="30,0,0,0"
+                                ToolTip="{StaticResource lngSaveListToXls}"
+                                ToolTipService.InitialShowDelay="0"
+                                ToolTipService.Placement="Top"
+                                ToolTipService.HorizontalOffset="-45"
+                                Command="{Binding SaveConstraintsToExcelCommand}" />
+                    </StackPanel>
+
+                    <!--#endregion-->
+
+                    <!--#region 2. Constraints Grid -->
+
+                    <DataGrid ItemsSource="{Binding FilteredConstraints}"
+                              x:Name="ConstraintsDataGrid"
+                              SelectedItem="{Binding SelectedConstraints}"
+                              Grid.Row="1"
+                              Grid.Column="0">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Width="250"
+                                                Header="{StaticResource lngModel}"
+                                                Binding="{Binding Model , Converter={StaticResource languageConverter},Mode=OneWay}" />
+                            <DataGridTextColumn Width="130"
+                                                Header="{StaticResource lngDraw}"
+                                                Binding="{Binding DrawNumber ,Converter={StaticResource languageConverter}, Mode=OneWay}" />
+                            <DataGridTextColumn Width="130"
+                                                Header="{StaticResource lngSynthesisModel}"
+                                                Binding="{Binding SynthesisModel ,Converter={StaticResource languageConverter}, Mode=OneWay}" />
+                            <DataGridTextColumn FontSize="10"
+                                                Width="110"
+                                                Header="{StaticResource lngCreated}"
+                                                Binding="{Binding Created, StringFormat='{}{0:dd/MM/yyyy}' }" />
+                            <DataGridTextColumn FontSize="10"
+                                                Width="80"
+                                                Header="{StaticResource lngLastModified}"
+                                                Binding="{Binding LastModified, StringFormat='{}{0:dd/MM/yyyy}' }" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <!--#endregion-->
+
+                    <!--#region 3. DataGridFilters -->
+                    <StackPanel Grid.Row="2"
+                                Grid.Column="0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Top"
+                                Margin="0,20">
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Center">
+                            <TextBlock Style="{StaticResource CHeaderTextBlock}"
+                                       Text="{StaticResource lngFilters}" />
+                            <Button Style="{StaticResource ClearFiltersButton}"
+                                    Command="{Binding ClearConstraintsFiltersCommand}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"
+                                    Margin="0,10">
+                            <StackPanel Margin="5,0">
+                                <TextBlock Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="{StaticResource lngModel}" />
+                                <hc:ComboBox ItemsSource="{Binding Source={ext:BindingSourceEnumValues {x:Type enums:CabinModelEnum}}}"
+                                             SelectedItem="{Binding ConstraintsFilterModel}"
+                                             IsEditable="False"
+                                             Width="250"
+                                             hc:InfoElement.ShowClearButton="True">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Converter={StaticResource languageConverter} , TargetNullValue=''}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </hc:ComboBox>
+                            </StackPanel>
+                            <StackPanel Margin="5,0">
+                                <TextBlock Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="{StaticResource lngDraw}" />
+                                <hc:ComboBox ItemsSource="{Binding Source={ext:BindingSourceEnumValues {x:Type drawEnums:CabinDrawNumber}}}"
+                                             SelectedItem="{Binding ConstraintsFilterDraw}"
+                                             IsEditable="False"
+                                             Width="150"
+                                             hc:InfoElement.ShowClearButton="True">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Converter={StaticResource languageConverter} , TargetNullValue=''}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </hc:ComboBox>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                    <!--#endregion-->
+
+                    <!--#region 4.Selected Constraints Title -->
+                    <StackPanel HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Grid.Row="0"
+                                Grid.Column="1">
+                        <TextBlock Style="{StaticResource CHeaderTextBlock}"
+                                   Text="{StaticResource lngEditConstraints}" />
+                    </StackPanel>
+                    <!--#endregion-->
+
+                    <!--#region 5. Selected Constraints -->
+                    <Border Grid.Row="1"
+                            Grid.Column="1"
+                            Grid.RowSpan="2"
+                            BorderThickness="5"
+                            BorderBrush="{DynamicResource BorderBrush}"
+                            IsEnabled="{Binding IsConstraintSelected}">
+                        <DockPanel>
+                            <StackPanel VerticalAlignment="Top"
+                                        HorizontalAlignment="Center"
+                                        Margin="30">
+
+                                <!--#region A. IMAGE of Draw -->
+                                <uc2:CabinSideImageUC DrawNumber="{Binding SelectedConstraints.DrawNumber}"
+                                                      SynthesisModel="{Binding SelectedConstraints.SynthesisModel}"
+                                                      MaxHeight="200"
+                                                      MinWidth="150" />
+                                <TextBlock Text="{Binding SelectedConstraints.Model, Converter={StaticResource languageConverter}}"
+                                           Style="{StaticResource CInformativeTextBlock}"
+                                           d:Text="Model"
+                                           Margin="0,20,0,5" />
+                                <TextBlock Text="{Binding SelectedConstraints.DrawNumber, Converter={StaticResource languageConverter}}"
+                                           Style="{StaticResource CInformativeTextBlock}"
+                                           Margin="0,0,0,5"
+                                           d:Text="Model" />
+                                <TextBlock Text="{Binding SelectedConstraints.SynthesisModel, Converter={StaticResource languageConverter}}"
+                                           Style="{StaticResource CInformativeTextBlock}"
+                                           d:Text="Model"
+                                           Margin="0,0,0,5" />
+                                <!--#endregion-->
+
+                                <!--#region B. SAVE BUTTON -->
+                                <Button x:Name="SaveConstraintsButton"
+                                        Command="{Binding SaveConstraintEditCommand}"
+                                        Style="{StaticResource SaveButtonStyle}">
+                                    <DockPanel>
+                                        <Image Stretch="Uniform"
+                                               DockPanel.Dock="Top"
+                                               Height="60"
+                                               x:Name="ButtonImageConstraints">
+                                            <Image.Style>
+                                                <Style TargetType="{x:Type Image}">
+                                                    <Setter Property="Source"
+                                                            Value="{StaticResource SaveImage}" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding ElementName=SaveConstraintsButton, Path=DataContext.HasUnsavedConstraintsEdits }"
+                                                                     Value="False">
+                                                            <Setter Property="Source"
+                                                                    Value="{StaticResource SavedImage}" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Image.Style>
+                                        </Image>
+                                        <TextBlock Style="{StaticResource SaveButtonTextBlock}" />
+                                    </DockPanel>
+                                </Button>
+                                <!--#endregion-->
+                            </StackPanel>
+                            <cuc:AdvancedCabinPropsUC DataContext="{Binding SelectedConstraintsViewModel}"
+                                                      Margin="0,30"
+                                                      HorizontalAlignment="Center"
+                                                      VerticalAlignment="Top"
+                                                      AreRestrictedFieldsOpen="True" />
+                        </DockPanel>
+                    </Border>
+                    <!--#endregion-->
+
+                </Grid>
+            </hc:TabItem>
+
+            <!--#endregion-->
+
+            <!--#region D. PartsLists TAB -->
+
+            <hc:TabItem Header="{StaticResource lngPartsLists}"
+                        HeaderTemplate="{StaticResource CustomTabItemHeaderDataTemplate}">
+                <Grid Margin="20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40" />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <!--#region 1. Grid Title -->
+
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                Grid.Row="0"
+                                Grid.Column="0">
+                        <Button Style="{StaticResource LoadDBItemButton}"
+                                Command="{Binding LoadDefaultPartsListsCommand}" />
+                        <TextBlock Text="{StaticResource lngDefaultPartsLists}"
+                                   Style="{StaticResource CHeaderTextBlock}" />
+                        <Button Style="{StaticResource ButtonIcon}"
+                                hc:IconElement.Geometry="{StaticResource ExcelGeometry}"
+                                Foreground="{DynamicResource SecondaryBrush}"
+                                DockPanel.Dock="Left"
+                                Margin="30,0,0,0"
+                                ToolTip="{StaticResource lngSaveListToXls}"
+                                ToolTipService.InitialShowDelay="0"
+                                ToolTipService.Placement="Top"
+                                ToolTipService.HorizontalOffset="-45"
+                                Command="{Binding SaveDefaultListsToExcelCommand}" />
+                    </StackPanel>
+
+                    <!--#endregion-->
+
+                    <!--#region 2. PARTSLISTS DataGrid -->
+                    <DataGrid ItemsSource="{Binding FilteredDefaultLists}"
+                              SelectedItem="{Binding SelectedDefaultList, Mode=TwoWay}"
+                              Grid.Row="1"
+                              Grid.Column="0"
+                              IsSynchronizedWithCurrentItem="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Width="250"
+                                                Header="{StaticResource lngModel}"
+                                                Binding="{Binding Model , Converter={StaticResource languageConverter},Mode=OneWay}" />
+                            <DataGridTextColumn Width="130"
+                                                Header="{StaticResource lngDraw}"
+                                                Binding="{Binding DrawNumber ,Converter={StaticResource languageConverter}, Mode=OneWay}" />
+                            <DataGridTextColumn Width="130"
+                                                Header="{StaticResource lngSynthesisModel}"
+                                                Binding="{Binding SynthesisModel ,Converter={StaticResource languageConverter}, Mode=OneWay}" />
+                            <DataGridTextColumn FontSize="10"
+                                                Width="110"
+                                                Header="{StaticResource lngCreated}"
+                                                Binding="{Binding Created, StringFormat='{}{0:dd/MM/yyyy}' }" />
+                            <DataGridTextColumn FontSize="10"
+                                                Width="80"
+                                                Header="{StaticResource lngLastModified}"
+                                                Binding="{Binding LastModified, StringFormat='{}{0:dd/MM/yyyy}' }" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <!--#endregion-->
+
+                    <!--#region 3. DataGridFilters -->
+                    <StackPanel Grid.Row="2"
+                                Grid.Column="0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Top"
+                                Margin="0,20">
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Center">
+                            <TextBlock Style="{StaticResource CHeaderTextBlock}"
+                                       Text="{StaticResource lngFilters}" />
+                            <Button Style="{StaticResource ClearFiltersButton}"
+                                    Command="{Binding ClearDefaultListsFiltersCommand}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"
+                                    Margin="0,10">
+                            <StackPanel x:Name="ModelFilterStackPanel"
+                                        Margin="5,0">
+                                <TextBlock Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="{StaticResource lngModel}" />
+                                <hc:ComboBox x:Name="ModelFilterComboBox"
+                                             ItemsSource="{Binding Source={ext:BindingSourceEnumValues {x:Type enums:CabinModelEnum}}}"
+                                             SelectedItem="{Binding DefaultListsFilterModel}"
+                                             Width="250"
+                                             hc:InfoElement.ShowClearButton="True">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Converter={StaticResource languageConverter} , TargetNullValue=''}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </hc:ComboBox>
+                            </StackPanel>
+                            <StackPanel x:Name="DrawFilterStackPanel"
+                                        Margin="5,0">
+                                <TextBlock Style="{StaticResource TitleTextBlockStyle}"
+                                           Text="{StaticResource lngDraw}" />
+                                <hc:ComboBox ItemsSource="{Binding Source={ext:BindingSourceEnumValues {x:Type drawEnums:CabinDrawNumber}}}"
+                                             SelectedItem="{Binding DefaultListsFilterDraw}"
+                                             IsEditable="True"
+                                             Width="150"
+                                             hc:InfoElement.ShowClearButton="True">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Converter={StaticResource languageConverter} , TargetNullValue=''}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </hc:ComboBox>
+                            </StackPanel>
+                        </StackPanel>
+                        <Button Margin="15,15,0,0"
+                                Content="Check All Parts Uses"
+                                Command="{Binding CheckAndAddAllPartsUsesCommand}" />
+                    </StackPanel>
+                    <!--#endregion-->
+
+                    <!--#region 4.Selected PartsList Title -->
+                    <StackPanel HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Grid.Row="0"
+                                Grid.Column="1">
+                        <TextBlock Style="{StaticResource CHeaderTextBlock}"
+                                   Text="{StaticResource lngEditPartsList}" />
+                    </StackPanel>
+                    <!--#endregion-->
+
+                    <!--#region 5. Selected PartsList -->
+                    <Border Grid.Row="1"
+                            Grid.Column="1"
+                            Grid.RowSpan="2"
+                            BorderThickness="5"
+                            BorderBrush="{DynamicResource BorderBrush}"
+                            IsEnabled="{Binding IsDefaultListSelected}">
+                        <DockPanel>
+                            <StackPanel VerticalAlignment="Top"
+                                        HorizontalAlignment="Center"
+                                        Margin="30,30,0,30">
+
+                                <!--#region A. IMAGE of Draw -->
+                                <uc2:CabinSideImageUC DrawNumber="{Binding SelectedDefaultList.DrawNumber}"
+                                                      SynthesisModel="{Binding SelectedDefaultList.SynthesisModel}"
+                                                      MaxHeight="200"
+                                                      MinWidth="150" />
+                                <TextBlock Text="{Binding SelectedDefaultList.Model, Converter={StaticResource languageConverter}}"
+                                           Style="{StaticResource CInformativeTextBlock}"
+                                           d:Text="Model"
+                                           Margin="0,20,0,5" />
+                                <TextBlock Text="{Binding SelectedDefaultList.DrawNumber, Converter={StaticResource languageConverter}}"
+                                           Style="{StaticResource CInformativeTextBlock}"
+                                           Margin="0,0,0,5"
+                                           d:Text="Model" />
+                                <TextBlock Text="{Binding SelectedDefaultList.SynthesisModel, Converter={StaticResource languageConverter}}"
+                                           Style="{StaticResource CInformativeTextBlock}"
+                                           d:Text="Model"
+                                           Margin="0,0,0,5" />
+                                <!--#endregion-->
+
+                                <!--#region B. SAVE BUTTON -->
+                                <Button x:Name="SavePartsListButton"
+                                        Command="{Binding SaveDefaultListEditCommand}"
+                                        Style="{StaticResource SaveButtonStyle}">
+                                    <DockPanel>
+                                        <Image Stretch="Uniform"
+                                               DockPanel.Dock="Top"
+                                               Height="60"
+                                               x:Name="ButtonImagePartsList">
+                                            <Image.Style>
+                                                <Style TargetType="{x:Type Image}">
+                                                    <Setter Property="Source"
+                                                            Value="{StaticResource SaveImage}" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding ElementName=SavePartsListButton, Path=DataContext.HasUnsavedDefaultListEdits }"
+                                                                     Value="False">
+                                                            <Setter Property="Source"
+                                                                    Value="{StaticResource SavedImage}" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Image.Style>
+                                        </Image>
+                                        <TextBlock Style="{StaticResource SaveButtonTextBlock}" />
+                                    </DockPanel>
+                                </Button>
+                                <!--#endregion-->
+
+                                <!--#region C.Edit Part Sets -->
+                                <StackPanel Orientation="Vertical"
+                                            HorizontalAlignment="Center"
+                                            Margin="0,30,0,0">
+                                    <Button Content="{StaticResource lngPartSets}"
+                                            hc:IconElement.Geometry="{StaticResource EditGeometry}"
+                                            ToolTip="Press to Edit PartSets of the Default List"
+                                            Command="{Binding OpenEditPartSetCommand}"
+                                            CommandParameter="{Binding SelectedDefaultListViewModel}" />
+                                    <StackPanel Orientation="Horizontal"
+                                                HorizontalAlignment="Center"
+                                                Margin="0,5">
+                                        <TextBlock Margin="10,0,0,0"
+                                                   Text="{StaticResource lngTotal}"
+                                                   VerticalAlignment="Center" />
+                                        <TextBlock Text=" : "
+                                                   VerticalAlignment="Center" />
+                                        <TextBlock Text="{Binding SelectedDefaultListViewModel.ConnectedParts.Count}"
+                                                   VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </StackPanel>
+                                <!--#endregion-->
+                            </StackPanel>
+                            <edituc:EditDefaultListUC DataContext="{Binding SelectedDefaultListViewModel}"
+                                                      Margin="0"
+                                                      HorizontalAlignment="Center"
+                                                      VerticalAlignment="Top" />
+                        </DockPanel>
+                    </Border>
+                    <!--#endregion-->
+
+                </Grid>
+            </hc:TabItem>
+
+            <!--#endregion-->
+
+        </hc:TabControl>
+
+        <!--#endregion-->
+
+    </Grid>
+</UserControl>

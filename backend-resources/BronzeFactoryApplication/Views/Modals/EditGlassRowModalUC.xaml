@@ -1,0 +1,208 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.Modals.EditGlassRowModalUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:b="clr-namespace:BronzeFactoryApplication.Helpers.Behaviours"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:cc="clr-namespace:TasCustomControlsLibrary.CustomControls;assembly=TasCustomControlsLibrary"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.Modals"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels.ModalViewModels"
+             xmlns:uc="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.CabinPropertiesUserControls"
+             xmlns:draws="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.DrawsRelevantUcs"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=vm:GlassRowEditViewModel}">
+    <Grid>
+        <Grid.Resources>
+            <Style TargetType="cc:Icon"
+                   BasedOn="{StaticResource CInfoTooltipIcon}" />
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+
+        <GroupBox Style="{StaticResource GroupBoxCabinProperties}"
+                  Grid.Row="0"
+                  Grid.Column="2"
+                  HorizontalContentAlignment="Stretch">
+            <GroupBox.HeaderTemplate>
+                <DataTemplate>
+                    <DockPanel LastChildFill="True">
+                        <Button VerticalAlignment="Top"
+                                HorizontalAlignment="Right"
+                                Padding="0"
+                                Margin="0"
+                                Style="{StaticResource ButtonIcon}"
+                                hc:IconElement.Geometry="{StaticResource PrintGeometry}"
+                                hc:IconElement.Height="16"
+                                Foreground="{DynamicResource SecondaryBrush}"
+                                Panel.ZIndex="2"
+                                Command="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=DataContext.OpenPrintPreviewCommand}"
+                                DockPanel.Dock="Right" />
+                        <TextBlock Text="{StaticResource lngDraw}"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="16" />
+                    </DockPanel>
+                </DataTemplate>
+            </GroupBox.HeaderTemplate>
+
+            <draws:DrawContainerUC Grid.Row="0"
+                                   Grid.Column="2"
+                                   x:Name="GlassDrawContainer"
+                                   DataContext="{Binding GlassDraw}"
+                                   Margin="30" />
+        </GroupBox>
+
+        <uc:GlassUC DataContext="{Binding Glass}"
+                    Grid.Column="1" />
+
+        <GroupBox Grid.Column="0"
+                  Style="{StaticResource GroupBoxCabinProperties}"
+                  Header="{StaticResource lngOrderRow}">
+
+            <StackPanel>
+
+                <!--#region 1.ReferencePA0-->
+                <StackPanel x:Name="ReferencePA0StackPanel"
+                            Margin="0,5">
+                    <DockPanel>
+                        <cc:Icon ToolTip="{StaticResource lngPA0NumberGlassTooltip}" />
+                        <TextBlock x:Name="ReferencePA0TextBlock"
+                                   DockPanel.Dock="Left"
+                                   Style="{StaticResource TitleTextBlockStyle}"
+                                   Text="{StaticResource lngPA0Number}">
+                        </TextBlock>
+                    </DockPanel>
+                    <TextBox x:Name="ReferencePA0TextBox"
+                             Text="{Binding ReferencePA0 ,Mode=TwoWay}"
+                             IsEnabled="False" />
+                </StackPanel>
+                <!--#endregion-->
+
+                <!--#region 2. Quantity -->
+                <StackPanel x:Name="QuantityGlassStackPanel"
+                            Margin="0,5">
+                    <DockPanel>
+                        <cc:Icon ToolTip="{StaticResource lngQuantityGlassTooltip}" />
+                        <TextBlock x:Name="QuantityGlassTextBlock"
+                                   Style="{StaticResource TitleTextBlockStyle}"
+                                   Text="{StaticResource lngQuantity}">
+                        </TextBlock>
+                    </DockPanel>
+                    <TextBox x:Name="QuantityGlassTextBox"
+                             d:Text="1000"
+                             Text="{Binding Quantity ,Mode=TwoWay , TargetNullValue=''}"
+                             MaxLength="4">
+                        <i:Interaction.Behaviors>
+                            <b:TextBoxNumericInputBehavior Precision="0"
+                                                           InputMode="DigitInput"
+                                                           JustPositivDecimalInput="True" />
+                        </i:Interaction.Behaviors>
+                    </TextBox>
+                </StackPanel>
+                <!--#endregion-->
+
+                <!--#region 3.Notes -->
+                <StackPanel x:Name="NotesStackPanel"
+                            Margin="0,5">
+                    <DockPanel>
+                        <cc:Icon ToolTip="{StaticResource lngGlassOrderRowNotesTooltip}" />
+                        <TextBlock x:Name="NotesTextBlock"
+                                   Style="{StaticResource TitleTextBlockStyle}"
+                                   Text="{StaticResource lngGlassOrderRowNotes}">
+                        </TextBlock>
+                    </DockPanel>
+                    <TextBox x:Name="NotesTextBox"
+                             d:Text="1000"
+                             Text="{Binding Notes ,Mode=TwoWay , TargetNullValue=''}"
+                             MaxLength="150"
+                             Width="250"
+                             AcceptsReturn="True"
+                             Height="150"
+                             VerticalContentAlignment="Top"
+                             Loaded="NotesTextBox_Loaded">
+
+                    </TextBox>
+                </StackPanel>
+                <!--#endregion-->
+
+                <!--#region 4. Lettering -->
+                <StackPanel x:Name="LetteringStackPanel"
+                            Margin="0,5">
+                    <DockPanel>
+                        <cc:Icon ToolTip="{StaticResource lngLetteringTooltip}" />
+                        <TextBlock x:Name="LetteringTextBlock"
+                                   Style="{StaticResource TitleTextBlockStyle}"
+                                   Text="{StaticResource lngLettering}">
+                        </TextBlock>
+                    </DockPanel>
+                    <TextBox x:Name="LetteringTextBox"
+                             d:Text="1000"
+                             Text="{Binding SpecialDrawString ,Mode=TwoWay , TargetNullValue=''}"
+                             MaxLength="3">
+                    </TextBox>
+                </StackPanel>
+                <!--#endregion-->
+
+                <!--#region 5. Numbering -->
+                <StackPanel x:Name="NumberingStackPanel"
+                            Margin="0,5">
+                    <DockPanel>
+                        <cc:Icon ToolTip="{StaticResource lngSpecialDrawNumberTooltip}" />
+                        <TextBlock x:Name="NumberingTextBlock"
+                                   Style="{StaticResource TitleTextBlockStyle}"
+                                   Text="{StaticResource lngSpecialDrawNumber}">
+                        </TextBlock>
+                    </DockPanel>
+                    <TextBox x:Name="NumberingTextBox"
+                             d:Text="1000"
+                             Text="{Binding SpecialDrawNumber ,Mode=TwoWay , TargetNullValue=''}"
+                             MaxLength="3">
+                    </TextBox>
+                </StackPanel>
+                <!--#endregion-->
+
+                <CheckBox Content="{StaticResource lngIsFromStock}"
+                          HorizontalAlignment="Center"
+                          IsChecked ="{Binding IsFromStock}"
+                          Margin="30" />
+
+            </StackPanel>
+
+        </GroupBox>
+
+        <!--#region 4.Save and Undo Buttons -->
+        <DockPanel Grid.Row="1"
+                   Grid.ColumnSpan="3"
+                   LastChildFill="False"
+                   Margin="70,20,70,0">
+            <Button DockPanel.Dock="Left"
+                    Command="{Binding UndoEditsCommand}"
+                    hc:IconElement.Geometry="{StaticResource UndoGeometry}"
+                    ToolTip="{StaticResource lngUndo}"
+                    ToolTipService.Placement="Top"
+                    RenderTransform="{StaticResource FlipVertically}"
+                    RenderTransformOrigin="0.5,0.5"
+                    Foreground="{DynamicResource SecondaryBrush}"
+                    ToolTipService.VerticalOffset="30"
+                    ToolTipService.HorizontalOffset="-25"
+                    ToolTipService.InitialShowDelay="0">
+            </Button>
+            <Button Style="{StaticResource SaveButton}"
+                    Command="{Binding EditRowCommand}"
+                    DockPanel.Dock="Right" />
+        </DockPanel>
+        <!--#endregion-->
+
+    </Grid>
+
+</UserControl>

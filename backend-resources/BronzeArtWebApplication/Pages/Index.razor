@@ -1,0 +1,177 @@
+﻿@page "/"
+@layout MainLayout
+@using BronzeArtWebApplication.Components.UniversalComponents
+@using ShowerEnclosuresModelsLibrary.Enums.ShowerDrawEnums
+@using ShowerEnclosuresModelsLibrary.Models
+@inject NavigationManager navManager
+@inject ILanguageContainerService lc
+
+<PageTitle>@(lc.Keys["IndexPageTitle"])</PageTitle>
+
+<div class="page-background">
+    <div class="page-overlay"></div>
+</div>
+
+@if (navManager.Uri == "https://www.bronzeapp.eu/" || navManager.Uri == "https://localhost:5001/")
+{
+    <div class="espa-banner-container">
+        @if (lc.CurrentCulture.Name != "el-GR")
+        {
+            <img src="https://storagebronze.blob.core.windows.net/bronzewebapp-images/EspaBanners/EspaBannerEN.jpg"
+                 class="espa-banner"
+                 @onclick="@(()=> navManager.NavigateTo("/espaPoster"))">
+        }
+        else
+        {
+            <img src="https://storagebronze.blob.core.windows.net/bronzewebapp-images/EspaBanners/EspaBannerGR.jpg"
+                 class="espa-banner"
+                 @onclick="@(()=> navManager.NavigateTo("/espaPoster"))">
+        }
+    </div>
+}
+
+<div class="content-container">
+    @if (user.IsPowerUser)
+    {
+        <div class="settings-button-container">
+            <MudTooltip>
+                <ChildContent>
+                    <MudIconButton Icon="@(Icons.Material.Filled.Settings)"
+                                   Size="@(Size.Small)"
+                                   Color="@(Color.Primary)"
+                                   Variant="@(Variant.Filled)"
+                                   Class="settings-button"
+                                   OnClick="@(()=> PromptToRegisterMachine())" />
+                </ChildContent>
+                <TooltipContent>
+                    @(lc.Keys["RegisterMachine"])
+                </TooltipContent>
+            </MudTooltip>
+        </div>
+    }
+
+    <MudGrid Class="grid-container" Justify="@(Justify.SpaceEvenly)">
+        <MudItem xs="12" sm="10" md="6" lg="4" Class="d-flex justify-center">
+            <div class="feature-card" @onclick="@(()=> SelectCabin())">
+                <div class="feature-image-container">
+                    <img src="../Images/Various/MainCabinButton.jpg" class="feature-image" alt="@(lc.Keys["Showers"])" />
+                </div>
+                <div class="feature-overlay">
+                    <div class="feature-text noselect">@(lc.Keys["Showers"])</div>
+                </div>
+            </div>
+        </MudItem>
+
+        <MudItem xs="12" sm="10" md="6" lg="4" Class="d-flex justify-center">
+            <div class="feature-card" @onclick="@(()=> SelectMirror())">
+                <div class="feature-image-container">
+                    <img src="../Images/MirrorsImages/MakeYourMirrorButton.png" class="feature-image" alt="@(lc.Keys["Mirrors"])" />
+                </div>
+                <div class="feature-overlay">
+                    <div class="feature-text noselect">@(lc.Keys["Mirrors"])</div>
+                </div>
+            </div>
+        </MudItem>
+
+        @if (!user.IsWhiteLabeled)
+        {
+            <MudItem xs="12" sm="10" md="6" lg="4" Class="d-flex justify-center">
+                <div class="feature-card" @onclick="@(()=> SelectAccessories())">
+                    <div class="feature-image-container">
+                        <img src="../Images/Various/MainAccessoriesButton1.jpg" class="feature-image" alt="@(lc.Keys["Accessories"])" />
+                    </div>
+                    <div class="feature-overlay">
+                        <div class="feature-text noselect">@(lc.Keys["Accessories"])</div>
+                    </div>
+                    @* Uncomment if needed for new badge
+                    <div class="new-badge noselect">
+                        @($"{lc.Keys["NewTryMe"]}")
+                    </div>
+                    *@
+                </div>
+            </MudItem>
+        }
+    </MudGrid>
+</div>
+
+@*
+<div style="height:100%;width:100%;z-index:-1;position:absolute;top:0%;left:0%;background-image:url(../Images/Various/BathroomBackground.jpg);background-size:cover;background-position:center bottom;background-repeat:no-repeat;">
+</div>
+
+
+@if (navManager.Uri == "https://www.bronzeapp.eu/" || navManager.Uri == "https://localhost:5001/")
+{
+    @if (lc.CurrentCulture.Name != "el-GR")
+    {
+        <img src="https://storagebronze.blob.core.windows.net/bronzewebapp-images/EspaBanners/EspaBannerEN.jpg"
+             style="height:60px;border-radius:10px"
+             class="mr-auto my-auto"
+             @onclick="@(()=> navManager.NavigateTo("/espaPoster"))">
+    }
+    else
+    {
+        <img src="https://storagebronze.blob.core.windows.net/bronzewebapp-images/EspaBanners/EspaBannerGR.jpg"
+             style="height:80px;border-radius:10px"
+             class="ma-auto"
+             @onclick="@(()=> navManager.NavigateTo("/espaPoster"))">
+    }
+}
+
+<div class="bronze-FadeIn d-flex align-center justify-center rounded-lg mt-5"
+     style="flex-grow:1;background-color: transparent;position:relative">
+    @if (user.IsPowerUser)
+    {
+        <div style="position:absolute;bottom:2%;right:2%">
+            <MudTooltip>
+                <ChildContent>
+                    <MudIconButton Icon="@(Icons.Material.Filled.Settings)"
+                                   Size="@(Size.Small)"
+                                   Color="@(Color.Primary)"
+                                   Variant="@(Variant.Filled)"
+                                   OnClick="@(()=> PromptToRegisterMachine())" />
+                </ChildContent>
+                <TooltipContent>
+                    @(lc.Keys["RegisterMachine"])
+                </TooltipContent>
+            </MudTooltip>
+        </div>
+    }
+    <MudGrid Class="pa-5" Justify="@(Justify.SpaceEvenly)">
+        <MudItem xs="12" sm="10" md="6" lg="4" Class="d-flex justify-center">
+            <div id="buttonImageContainer" class="d-flex" style="max-width:80%;height:100%;position:relative" @onclick="@(()=> SelectCabin())">
+                <img src="../Images/Various/MainCabinButton.jpg" class="buttonImage" />
+                <div class="d-flex flex-column buttonImage-Text align-center justify-center" style="color:white;position:absolute;left:0%;top:0%;width:100%;height:100%">
+                    <span class="noselect">@(lc.Keys["Showers"])</span>
+                </div>
+            </div>
+        </MudItem>
+        <MudItem xs="12" sm="10" md="6" lg="4" Class="d-flex justify-center">
+            <div id="buttonImageContainer" class="d-flex" style="max-width:80%;height:100%;position:relative" @onclick="@(()=> SelectMirror())">
+                <img src="../Images/Various/MainMirrorButton.jpg" class="buttonImage" />
+                <div class="d-flex buttonImage-Text align-center justify-center" style="color:white;position:absolute;left:0%;top:0%;width:100%;height:100%">
+                    <span class="noselect">@(lc.Keys["Mirrors"])</span>
+                </div>
+            </div>
+        </MudItem>
+        @if (!user.IsWhiteLabeled)
+        {
+            <MudItem xs="12" sm="10" md="6" lg="4" Class="d-flex justify-center">
+                <div id="buttonImageContainer" class="d-flex" style="max-width:80%;height:100%;position:relative" onclick="@(()=>SelectAccessories())">
+                    <img src="../Images/Various/MainAccessoriesButton1.jpg" class="buttonImage" />
+                    <div class="d-flex flex-column buttonImage-Text align-center justify-center" style="color:white;position:absolute;left:0%;top:0%;width:100%;height:100%">
+                        <span class="noselect">@(lc.Keys["Accessories"])</span>
+                    </div>
+                </div>
+            </MudItem>
+        }
+    </MudGrid>
+</div>
+*@
+
+@code {
+
+
+}
+
+
+

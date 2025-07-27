@@ -1,0 +1,79 @@
+﻿@*A Dialog to Select Specific Cabin Parts*@
+@namespace BronzeArtWebApplication.Pages.CabinsPage.Components.Dialogs
+@using ShowerEnclosuresModelsLibrary.Models.CabinAllParts.PartsModels
+@using ShowerEnclosuresModelsLibrary.Models.CabinAllParts.PartsModels.HandlesModels
+@using ShowerEnclosuresModelsLibrary.Models.CabinAllParts.PartsModels.StripsModels
+@using static BronzeArtWebApplication.Shared.Helpers.StylesStaticInfoCabins
+@using static BronzeArtWebApplication.Shared.Helpers.StaticInfoCabins
+@typeparam T where T : CabinPart
+@inject ILanguageContainerService lc
+
+<MudDialog @bind-Visible:get="IsVisible"
+           @bind-Visible:set="IsVisibleChanged"
+           Gutters="@(false)" Class="ma-2"
+           ContentStyle="max-width:750px"
+           ContentClass="px-5 py-5">
+    <TitleContent>
+        <div class="d-flex flex-row align-center">
+            <MudText Typo="Typo.h6">@lc.Keys["SelectOption"]</MudText>
+        </div>
+    </TitleContent>
+    <DialogContent>
+            <MudGrid Justify="Justify.Center"
+                     Spacing="2">
+                @foreach (T part in PartsSelectionList)
+                {
+                    <MudItem xs="12" sm="12" md="6" lg="6" xxl="6" Class="d-flex justify-center align-center">
+                        <div class="cabinItemContainer" @onclick="(()=> SelectPart(part))">
+                            <div class="middleContainer">
+                                <div class="cabinItemContainerImage">
+                                    <img src="@(part.PhotoPath)" />
+                                </div>
+                                <div class="propertiesBox noselect">
+                                    @if (part is CabinHandle handle)
+                                    {
+                                        <MudText Typo="@(Typo.subtitle2)">@(lc.Keys[CabinHandleTypeDescKey[handle.HandleType]])</MudText>
+                                    }
+                                    else if (part is GlassStrip strip)
+                                    {
+                                        <MudText Typo="@(Typo.subtitle2)">@(lc.Keys[CabinStripTypeDescKey[strip.StripType]])</MudText>
+                                    }
+                                    else
+                                    {
+                                        <MudText Typo="@(Typo.subtitle2)">@(lc.Keys[GetCabinPartTypeDescKey(part.Part)])</MudText>
+                                    }
+                                    <MudText Typo="@(Typo.subtitle2)">@(lc.Keys[MaterialTypeDescKey[part.Material]])</MudText>
+                                    <MudText Typo="@(Typo.subtitle2)">@(GetDimensionsString(part))</MudText>
+                                </div>
+                            </div>
+
+                            <div class="bottomHeader">
+                                <MudText Style="flex-grow:1" Align="@(Align.Center)" Typo="@(Typo.subtitle1)">@(part.Code)</MudText>
+                                <div style="flex-grow:0" class="d-flex justify-center align-center">
+                                    <MudCheckBox T="bool" Size="@(Size.Large)" Value="@(SelectedPart is not null && SelectedPart.Code == part.Code)"
+                                                 Color="@(Color.Success)" UnCheckedColor="@(Color.Default)" />
+                                </div>
+                            </div>
+                        </div>
+                    </MudItem>
+                }
+            </MudGrid>
+        
+    </DialogContent>
+    <DialogActions>
+        <MudContainer Class="d-flex justify-center align-center">
+            <MudButton Variant="@ActionButtonVariantCabin"
+                       Color="@ActionButtonColorCabin"
+                       Style="text-transform:none"
+                       Class="ma-4"
+                       OnClick="(() => IsVisible = false)">
+                @lc.Keys["DialogActionButtonClose"]
+            </MudButton>
+        </MudContainer>
+    </DialogActions>
+</MudDialog>
+
+
+@code {
+
+}

@@ -1,0 +1,300 @@
+﻿@*Sets the Step Dimensions for the Selected Cabin Draw Number*@
+@namespace BronzeArtWebApplication.Pages.CabinsPage.Components.Dialogs
+@using BronzeArtWebApplication.Pages.CabinsPage.Components.DrawComponents
+@using BronzeArtWebApplication.Components.Various
+@using ShowerEnclosuresModelsLibrary.Enums
+@using ShowerEnclosuresModelsLibrary.Enums.ShowerDrawEnums
+@inject ILanguageContainerService lc
+@inject AssembleCabinViewModel vm
+@using static BronzeArtWebApplication.Shared.Helpers.StaticInfoCabins
+@using static BronzeArtWebApplication.Shared.Helpers.StylesStaticInfoCabins
+
+<MudDialog @bind-Visible:get="@IsVisible" @bind-Visible:set="@OnIsVisibleChangedAsync" Gutters="@(false)">
+    <TitleContent>
+        <div class="d-flex flex-row align-center">
+            <MudText Typo="Typo.h6">@lc.Keys["DialogSetStepDimensionsTitle"]</MudText>
+            <MudTooltip Placement="@(Placement.Bottom)">
+                <TooltipContent>
+                    <div class="pt-1">
+                        <img src="../Images/CabinImages/HelpPhotos/StepHelpImg.jpg/" class="rounded-lg" style="max-width:400px">
+                    </div>
+                </TooltipContent>
+                <ChildContent>
+                    <MudIcon Icon="@(Icons.Material.Filled.Info)" Color="@Color.Primary" Class="mx-2 mt-2" />
+                </ChildContent>
+            </MudTooltip>
+        </div>
+    </TitleContent>
+    <DialogContent>
+        <!-- DialogContentContainerStyle -->
+        <MudContainer Style="max-height:70vh;overflow-y:auto;max-width:90vw" Class="px-10 py-5" MaxWidth="MaxWidth.False">
+            <MudGrid Justify="Justify.Center" Spacing="3">
+
+                @if (vm.PrimaryCabin?.Model != null)
+                {
+                    <MudItem xs="12" md="@(ActiveCabinSides > 1 ? 6 : 12)" lg="@(12/ActiveCabinSides)" Class="d-flex flex-column justify-center align-center" Style="height:fit-content">
+                        <MeasureCabinDraw DrawNumber="@(vm.SelectedCabinDraw)"
+                                          PrimaryDimensionName="StepLength"
+                                          SecondaryDimensionName="StepHeight"
+                                          PrimaryDimensionValue="@(vm.PrimaryCabin.InputStepLength)"
+                                          SecondaryDimensionValue="@(vm.PrimaryCabin.InputStepHeight)"
+                                          HeightSVG="220"
+                                          LengthSVG="140"
+                                          Mode="StepDraw"
+                                          SynthesisModelNo="@(CabinSynthesisModel.Primary)"
+                                          FocusedDimensionName="@(focusedDimensionPrimary)"
+                                          IsFlipped="@(_isFlipped)" />
+                        <div id="stepDimensions1Container" class="d-flex flex-wrap justify-center align-center" style="width:fit-content">
+                            @if (canHaveStep.Item1)
+                            {
+                                <div id="stepLength1Container" class="d-flex flex-column mx-2 my-2">
+                                    <MudNumericField T="int?"
+                                                     Style="min-width:150px"
+                                                     AutoFocus="false"
+                                                     Label="@(lc.Keys["StepLength"])"
+                                                     FullWidth="true"
+                                                     Max="@(vm.PrimaryCabin.MaxLengthLimit)"
+                                                     Min="0"
+                                                     HelperText="@($"{lc.Keys["Range"]}:0-{vm.PrimaryCabin.MaxLengthLimit}mm")"
+                                                     Variant="@Variant.Filled"
+                                                     @bind-Value="@(vm.PrimaryCabin.InputStepLength)"
+                                                     AdornmentText="mm"
+                                                     Adornment="Adornment.End"
+                                                     @onfocus="@(() => IsStepLength1Focused = true)"
+                                                     OnBlur="@(()=> IsStepLength1Focused = false)">
+                                    </MudNumericField>
+                                    <MudSlider T="int"
+                                               Step="1"
+                                               Max="@(vm.PrimaryCabin.MaxLengthLimit)"
+                                               Min="0"
+                                               Color="Color.Primary"
+                                               Class="pl-4 pr-4"
+                                               @bind-NullableValue="@(vm.PrimaryCabin.InputStepLength)"
+                                               @onfocus="@(() => IsStepLength1Focused = true)"
+                                               @onblur="@(()=> IsStepLength1Focused = false)" />
+                                </div>
+                                <div id="stepHeight1Container" class="d-flex flex-column mx-2 my-2">
+                                    <MudNumericField T="int?"
+                                                     Style="min-width:150px"
+                                                     AutoFocus="false"
+                                                     Label="@(lc.Keys["StepHeight"])"
+                                                     FullWidth="true"
+                                                     Max="@(vm.PrimaryCabin.MaxHeightLimit)"
+                                                     Min="0"
+                                                     HelperText="@($"{lc.Keys["Range"]}:0-{vm.PrimaryCabin.MaxHeightLimit}mm")"
+                                                     Variant="@Variant.Filled"
+                                                     @bind-Value="@(vm.PrimaryCabin.InputStepHeight)"
+                                                     AdornmentText="mm"
+                                                     Adornment="Adornment.End"
+                                                     @onfocus="@(() => IsStepHeight1Focused = true)"
+                                                     OnBlur="@(()=> IsStepHeight1Focused = false)">
+                                    </MudNumericField>
+                                    <MudSlider T="int"
+                                               Step="1"
+                                               Max="@(vm.PrimaryCabin.MaxLengthLimit)"
+                                               Min="0"
+                                               Color="Color.Primary"
+                                               Class="pl-4 pr-4"
+                                               @bind-NullableValue="@(vm.PrimaryCabin.InputStepHeight)"
+                                               @onfocus="@(() => IsStepHeight1Focused = true)"
+                                               @onblur="@(()=> IsStepHeight1Focused = false)" />
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="d-flex flex-column mx-2 my-auto justify-center align-center">
+                                    <MudText>@(lc.Keys["SideCannotHaveStep"])</MudText>
+                                    <MudIcon Icon="@(Icons.Material.Filled.Lock)" Color="Color.Primary" Size="Size.Large" />
+                                </div>
+                            }
+                        </div>
+                    </MudItem>
+                }
+                @if (vm.SecondaryCabin?.Model != null)
+                {
+                    <MudItem xs="12" md="@(ActiveCabinSides > 1 ? 6 : 12)" lg="@(12/ActiveCabinSides)" Class="d-flex flex-column justify-center align-center" Style="height:fit-content">
+
+                        <MeasureCabinDraw DrawNumber="@(vm.SelectedCabinDraw)"
+                                          PrimaryDimensionName="StepLength"
+                                          SecondaryDimensionName="StepHeight"
+                                          PrimaryDimensionValue="@(vm.SecondaryCabin.InputStepLength)"
+                                          SecondaryDimensionValue="@(vm.SecondaryCabin.InputStepHeight)"
+                                          HeightSVG="220"
+                                          LengthSVG="140"
+                                          Mode="StepDraw"
+                                          SynthesisModelNo="@(CabinSynthesisModel.Secondary)"
+                                          FocusedDimensionName="@(focusedDimensionSecondary)"
+                                          IsFlipped="@(_isFlipped)" />
+
+                        <div id="stepDimensions2Container" class="d-flex flex-wrap justify-center align-center" style="width:fit-content">
+
+                            @if (canHaveStep.Item2)
+                            {
+                                <div id="stepLength2Container" class="d-flex flex-column mx-2 my-2">
+                                    <MudNumericField T="int?"
+                                                     Style="min-width:150px"
+                                                     AutoFocus="false"
+                                                     Label="@(lc.Keys["StepLength"])"
+                                                     FullWidth="true"
+                                                     Max="@(vm.SecondaryCabin.MaxLengthLimit)"
+                                                     Min="0"
+                                                     HelperText="@($"{lc.Keys["Range"]}:0-{vm.SecondaryCabin.MaxLengthLimit}mm")"
+                                                     Variant="@Variant.Filled"
+                                                     @bind-Value="@(vm.SecondaryCabin.InputStepLength)"
+                                                     AdornmentText="mm"
+                                                     Adornment="Adornment.End"
+                                                     @onfocus="@(() => IsStepLength2Focused = true)"
+                                                     OnBlur="@(()=> IsStepLength2Focused = false)">
+                                    </MudNumericField>
+                                    <MudSlider T="int"
+                                               Step="1"
+                                               Max="@(vm.SecondaryCabin.MaxLengthLimit)"
+                                               Min="0"
+                                               Color="Color.Primary"
+                                               Class="pl-4 pr-4"
+                                               @bind-NullableValue="@(vm.SecondaryCabin.InputStepLength)"
+                                               @onfocus="@(() => IsStepLength2Focused = true)"
+                                               @onblur="@(()=> IsStepLength2Focused = false)" />
+                                </div>
+                                <div id="stepHeight2Container" class="d-flex flex-column mx-2 my-2">
+                                    <MudNumericField T="int?"
+                                                     Style="min-width:150px"
+                                                     AutoFocus="false"
+                                                     Label="@(lc.Keys["StepHeight"])"
+                                                     FullWidth="true"
+                                                     Max="@(vm.SecondaryCabin.MaxHeightLimit)"
+                                                     Min="0"
+                                                     HelperText="@($"{lc.Keys["Range"]}:0-{vm.SecondaryCabin.MaxHeightLimit}mm")"
+                                                     Variant="@Variant.Filled"
+                                                     @bind-Value="@(vm.SecondaryCabin.InputStepHeight)"
+                                                     AdornmentText="mm"
+                                                     Adornment="Adornment.End"
+                                                     @onfocus="@(() => IsStepHeight2Focused = true)"
+                                                     OnBlur="@(()=> IsStepHeight2Focused = false)">
+                                    </MudNumericField>
+                                    <MudSlider T="int"
+                                               Step="1"
+                                               Max="@(vm.SecondaryCabin.MaxLengthLimit)"
+                                               Min="0"
+                                               Color="Color.Primary"
+                                               Class="pl-4 pr-4"
+                                               @bind-NullableValue="@(vm.SecondaryCabin.InputStepHeight)"
+                                               @onfocus="@(() => IsStepHeight2Focused = true)"
+                                               @onblur="@(()=> IsStepHeight2Focused = false)" />
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="d-flex flex-column mx-2 my-2 justify-center align-center">
+                                    <MudText>@(lc.Keys["SideCannotHaveStep"])</MudText>
+                                    <MudIcon Icon="@(Icons.Material.Filled.Lock)" Color="Color.Primary" Size="Size.Large" />
+                                </div>
+                            }
+                        </div>
+                    </MudItem>
+                }
+                @if (vm.TertiaryCabin?.Model != null)
+                {
+                    <MudItem xs="12" md="@(ActiveCabinSides > 1 ? 6 : 12)" lg="@(12/ActiveCabinSides)" Class="d-flex flex-column justify-center align-center" Style="height:fit-content">
+
+                        <MeasureCabinDraw DrawNumber="@(vm.SelectedCabinDraw)"
+                                          PrimaryDimensionName="StepLength"
+                                          SecondaryDimensionName="StepHeight"
+                                          PrimaryDimensionValue="@(vm.TertiaryCabin.InputStepLength)"
+                                          SecondaryDimensionValue="@(vm.TertiaryCabin.InputStepHeight)"
+                                          HeightSVG="220"
+                                          LengthSVG="140"
+                                          Mode="StepDraw"
+                                          SynthesisModelNo="@(CabinSynthesisModel.Tertiary)"
+                                          FocusedDimensionName="@(focusedDimensionTertiary)"
+                                          IsFlipped="@(_isFlipped)" />
+
+                        <div id="stepDimensions3Container" class="d-flex flex-wrap justify-center align-center" style="width:fit-content">
+
+
+                            @if (canHaveStep.Item3)
+                            {
+                                <div id="stepLength3Container" class="d-flex flex-column mx-2 my-2">
+                                    <MudNumericField T="int?"
+                                                     Style="min-width:150px"
+                                                     AutoFocus="false"
+                                                     Label="@(lc.Keys["StepLength"])"
+                                                     FullWidth="true"
+                                                     Max="@(vm.TertiaryCabin.MaxLengthLimit)"
+                                                     Min="0"
+                                                     HelperText="@($"{lc.Keys["Range"]}:0-{vm.TertiaryCabin.MaxLengthLimit}mm")"
+                                                     Variant="@Variant.Filled"
+                                                     @bind-Value="@(vm.TertiaryCabin.InputStepLength)"
+                                                     AdornmentText="mm"
+                                                     Adornment="Adornment.End"
+                                                     @onfocus="@(() => IsStepLength3Focused = true)"
+                                                     OnBlur="@(()=> IsStepLength3Focused = false)">
+                                    </MudNumericField>
+                                    <MudSlider T="int"
+                                               Step="1"
+                                               Max="@(vm.TertiaryCabin.MaxLengthLimit)"
+                                               Min="0"
+                                               Color="Color.Primary"
+                                               Class="pl-4 pr-4"
+                                               @bind-NullableValue="@(vm.TertiaryCabin.InputStepLength)"
+                                               @onfocus="@(() => IsStepLength3Focused = true)"
+                                               @onblur="@(()=> IsStepLength3Focused = false)" />
+                                </div>
+                                <div id="stepHeight3Container" class="d-flex flex-column mx-2 my-2">
+                                    <MudNumericField T="int?"
+                                                     Style="min-width:150px"
+                                                     AutoFocus="false"
+                                                     Label="@(lc.Keys["StepHeight"])"
+                                                     FullWidth="true"
+                                                     Max="@(vm.TertiaryCabin.MaxHeightLimit)"
+                                                     Min="0"
+                                                     HelperText="@($"{lc.Keys["Range"]}:0-{vm.TertiaryCabin.MaxHeightLimit}mm")"
+                                                     Variant="@Variant.Filled"
+                                                     @bind-Value="@(vm.TertiaryCabin.InputStepHeight)"
+                                                     AdornmentText="mm"
+                                                     Adornment="Adornment.End"
+                                                     @onfocus="@(() => IsStepHeight3Focused = true)"
+                                                     OnBlur="@(()=> IsStepHeight3Focused = false)">
+                                    </MudNumericField>
+                                    <MudSlider T="int"
+                                               Step="1"
+                                               Max="@(vm.TertiaryCabin.MaxLengthLimit)"
+                                               Min="0"
+                                               Color="Color.Primary"
+                                               Class="pl-4 pr-4"
+                                               @bind-NullableValue="@(vm.TertiaryCabin.InputStepHeight)"
+                                               @onfocus="@(() => IsStepHeight3Focused = true)"
+                                               @onblur="@(()=> IsStepHeight3Focused = false)" />
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="d-flex flex-column mx-2 my-2 justify-center align-center">
+                                    <MudText>@(lc.Keys["SideCannotHaveStep"])</MudText>
+                                    <MudIcon Icon="@(Icons.Material.Filled.Lock)" Color="Color.Primary" Size="Size.Large" />
+                                </div>
+
+                            }
+                        </div>
+                    </MudItem>
+                }
+            </MudGrid>
+        </MudContainer>
+    </DialogContent>
+    <DialogActions>
+        <MudContainer Class="d-flex justify-center align-center">
+            <MudButton Variant="@ActionButtonVariantCabin"
+                       Color="@ActionButtonColorCabin"
+                       Style="text-transform:none"
+                       Class="ma-4"
+                       OnClick="(() => IsVisible = false)">
+                @lc.Keys["DialogActionButtonClose"]
+            </MudButton>
+        </MudContainer>
+    </DialogActions>
+</MudDialog>
+
+
+@code {
+
+}

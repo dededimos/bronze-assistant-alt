@@ -1,0 +1,146 @@
+﻿@using BathAccessoriesModelsLibrary.Services;
+@using BathAccessoriesModelsLibrary;
+@using BronzeArtWebApplication.Pages.NewAccessoriesPage.VariousComponents
+@using BronzeArtWebApplication.Shared.Layouts;
+@using BronzeArtWebApplication.Shared.Services;
+@using BronzeArtWebApplication.Shared.ViewModels.AccessoriesPageViewModels;
+@inject AccessoriesUrlHelper photosHelper
+@inject NavigationManager Nav
+@inject BasketViewModel Basket
+@inject IAccessoriesMemoryRepository repo
+@inject ILanguageContainerService Lc
+@inject IMessageService Ms
+@inject JSCallService Js
+@inject BronzeUser User
+@inject APICallService Api
+@layout AccessoriesLayout
+@page "/Accessories/AccessoryCard"
+
+@if (accessory is null)
+{
+    <MudText>
+        Provided Item Link does not Exists or its Name has Been Changed
+    </MudText>
+}
+else
+{
+    <div class="detailedCardContainer bronze-FadeIn doNotPrint">
+        <div class="cardContainerItem">
+            <div class="mainImageContainer">
+                <div class="imgCarouselContainer">
+                    <CustomCarousel 
+                        ImageUrls="@(accessory.GetAllPhotoUrls().ToList())"
+                        @bind-ImageHovered="@(carouselHoveredImage)" />
+                </div>
+                <AccessoryImagePresenter 
+                    Accessory="@(accessory)"
+                    PhotoSize="@(PhotoSize.Medium)"
+                    ShownAccessoryFinishCode="@(selectedFinish.Finish.Code)"
+                    DirectImageUrl="@(string.IsNullOrEmpty(carouselHoveredImage) ? hoveredDimensionPhotoUrl : carouselHoveredImage)" 
+                    OtherSizeToLoadHidden="@(PhotoSize.Small)"/>
+            </div>
+            <AccessoryFinishesSelector Finishes="@(accessory.AvailableFinishes)"
+            @bind-SelectedFinish="@(selectedFinish)" />
+        </div>
+        <div class="cardContainerItem" style="padding:10px;">
+            <AccessoryPropertiesTable 
+                Accessory="@(accessory)"
+                SelectedFinish="@(selectedFinish)" />
+            <AccessoryDimensionsTable 
+                Accessory="@(accessory)"
+                SelectedFinish="@(selectedFinish)"
+                @bind-HoveredDimensionPhotoUrl="@(hoveredDimensionPhotoUrl)" />
+            <div class="controlsContainer">
+                <MudButton 
+                    OnClick="@(()=> Js.PrintCurrentPage())"
+                    Class="d-none d-sm-flex" 
+                    StartIcon="@(Icons.Material.Filled.PictureAsPdf)" 
+                    Color="@(Color.Primary)" 
+                    Variant="@(Variant.Outlined)"
+                    Style="text-transform:none">
+                        @(Lc.Keys["PrintItemSheet"])
+                </MudButton>
+                <MudMenu Class="d-none d-sm-flex"
+                    ListClass="grey darken-2"
+                    ActivationEvent="@(MouseEvent.LeftClick)"
+                    MaxHeight="600"
+                    Dense="@(true)">
+                         <ActivatorContent>
+                             <MudButton StartIcon="@(Icons.Material.Filled.Photo)" 
+                                      Variant="@(Variant.Outlined)" 
+                                      Color="@(Color.Primary)"
+                                      Style="text-transform:none"
+                                      Disabled="@(!accessory.AvailableFinishes.Where(af=>!string.IsNullOrEmpty(af.PhotoUrl)).Any())">
+                                      @(Lc.Keys["Photos"])
+                                  </MudButton>
+                         </ActivatorContent>
+                         <ChildContent>
+                             <div class="downloadMenuTitleText">
+                                 @(Lc.Keys["Download"])
+                             </div>
+                            @foreach (var finish in accessory.AvailableFinishes.Where(af=>!string.IsNullOrEmpty(af.PhotoUrl)))
+                            {
+                               <MudMenuItem @onclick="@(()=> DownloadBlob(finish.PhotoUrl))">
+                                   <div class="downloadMenuItemContainer opaqueHover">
+                                       <img loading="lazy" 
+                                           src="@(photosHelper.GetThumbnail(finish.PhotoUrl))" 
+                                           class="downloadMenuSmallImg" />
+                                       <span class="downloadMenuItemText">
+                                           @($"{finish.Finish.Trait}")
+                                           <br/>
+                                           @($"{accessory.GetSpecificCode(finish.Finish.Code)}")
+                                       </span>
+                                   </div>
+                               </MudMenuItem>
+                            }
+                         </ChildContent>
+                </MudMenu>
+                <MudTooltip RootClass="d-none d-sm-flex">
+                    <ChildContent>
+                        <MudIconButton Icon="@(Icons.Material.Outlined.ShoppingCart)"
+                                       Color="@(Color.Primary)"
+                                       Size="@(Size.Medium)"
+                                       Variant="@(Variant.Outlined)"
+                                       OnClick="@(()=> Ms.OpenAddToBasketDialogAsync(accessory,selectedFinish))" />
+                    </ChildContent>
+                    <TooltipContent>
+                        @(Lc.Keys["AddToQuoteBasket"])
+                    </TooltipContent>
+                </MudTooltip>
+                @if (Basket.PricesEnabled)
+                {
+                    <div class="externalPriceContainer">
+                        @if (User.IsPowerUser)
+                        {
+                            @foreach (var price in accessory.GetAllPricesOfFinish(selectedFinish.Finish.Id, repo.AllAccessoriesOptions.Select(o => o.PricesGroup?.Id ?? "").Distinct()))
+                            {
+                                <div class="priceContainer">
+                                    <img class="priceIcon"
+                                         loading="lazy"
+                                         src="@(photosHelper.GetThumbnail(price.PriceTrait.PhotoURL))" />
+                                    <span class="priceValueText">@(price.PriceValue.ToString("0.00€"))</span>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="priceContainer">
+                                <img class="priceIcon"
+                                     loading="lazy"
+                                     src="@(photosHelper.GetThumbnail(repo.GetTraitClass(TypeOfTrait.PriceTrait).PhotoURL))" />
+                                <span class="priceValueText">@(accessory.GetPriceFirstOrDefault(string.IsNullOrEmpty(selectedFinish.Finish.Code) ? accessory.BasicFinish.Code : selectedFinish.Finish.Code).PriceValue.ToString("0.00€"))</span>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <AccessorySheetPrint Accessory="@(accessory)" SelectedFinish="@(selectedFinish)"/>
+}
+
+
+
+@code {
+
+}

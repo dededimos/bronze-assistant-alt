@@ -1,0 +1,165 @@
+﻿@page "/PrintingOfferCabins"
+@using BronzeArtWebApplication.Components.SVGComponents
+@using ShowerEnclosuresModelsLibrary.Enums
+@using ShowerEnclosuresModelsLibrary.Enums.CabinCategories
+@using static BronzeArtWebApplication.Shared.Helpers.StaticInfoCabins
+@using ShowerEnclosuresModelsLibrary.Enums.ShowerDrawEnums
+@using ShowerEnclosuresModelsLibrary.Models
+@using ShowerEnclosuresModelsLibrary.Models.SeriesModels
+@using ShowerEnclosuresModelsLibrary.Models.SeriesModels.DBModels
+@using ShowerEnclosuresModelsLibrary.Models.SeriesModels.Inox304Models
+@using System.Text.RegularExpressions
+@using System.Web
+@layout BlankLayout
+@inject IJSRuntime jsRuntime
+@inject ILanguageContainerService lc
+@inject AssembleCabinViewModel vm
+@*PAGE WIDTH 900px*@
+
+@*An Overlay to Cover Rest Elements before printing*@
+<div id="printOverlay">
+    <MudOverlay Class="d-flex flex-start" Style="background-color:white" AutoClose="false" Visible="true">
+        <div style="height:100vh;width:100vw;">
+            <div class="d-flex flex-column justify-center align-center ma-3" style="width:fit-content">
+                <i class="fas fa-print fa-10x"></i>
+                <MudText Typo="@(Typo.body2)">@(lc.Keys["PrintsBestIn"])</MudText>
+                    <MudText Typo="@(Typo.body2)">Google Chrome</MudText>
+                </div>
+            </div>
+        </MudOverlay>
+    </div>
+
+    @*Header Gets printed in each page -- 1px Top Position otherwise a small part is printed to the Previous Page*@
+    <header style="width:100%;position:fixed;top:1px" class="d-flex flex-row">
+
+    @if (vm.PrimaryCabin.Series != null)
+    {
+        <span style="flex-grow:5;border-bottom:5px solid var(--BronzeDarkPink)" class="mb-4"></span>
+        <MudPaper Style="background-color:var(--BronzePink);flex-grow:0" Elevation="0" Class="px-5 pt-2 pb-2 mx-2">
+            <MudText Style="color:var(--BronzeDarkPink)" Typo="Typo.body1">@($"{lc.Keys["Series"]} {lc.Keys[CabinSeriesDescKey[(CabinSeries)vm.PrimaryCabin.Series]]}")</MudText>
+            </MudPaper>
+        <span style="flex-grow:1;border-bottom:5px solid var(--BronzeDarkPink)" class="mb-4"></span>
+    }
+</header>
+
+@*CSS for HTML Body Padding 15 Top-Bottom otherwise header/footer Overlap*@
+<MudGrid Class="pt-15" Spacing="2">
+    <MudItem xs="8">
+        <div class="d-flex flex-column rounded-lg" style="border:3px solid var(--BackgroundColor)">
+            <div style="background-color:var(--BackgroundColor);border-bottom:6px solid var(--BronzeDarkPink)" class="rounded-t-sm">
+                <MudText Typo="@(Typo.h6)" Align="@(Align.Center)" Style="font-weight:500;" Color="@(Color.Dark)">@(lc.Keys[CabinDrawNumberDescKey[vm.SelectedCabinDraw]])</MudText>
+                </div>
+                <img src="@(CabinDrawNumberImagePath[vm.SelectedCabinDraw])" class="rounded-lg ma-auto" />
+            </div>
+        </MudItem>
+        <MudItem xs="4">
+            <div class="d-flex flex-column rounded-lg" style="height:100%;border:3px solid var(--BackgroundColor)">
+                <div style="background-color:var(--BackgroundColor);border-bottom:6px solid var(--BronzeDarkPink)" class="rounded-t-sm">
+                    <MudText Align="@(Align.Center)" Style="font-weight:500" Color="@(Color.Dark)" Typo=@(Typo.h6)>@(lc.Keys["Draw"])</MudText>
+                </div>
+                <img class="pa-2 mx-auto" style="max-height:200px;" src="@(CabinDrawNumberSketchImagePath[vm.SelectedCabinDraw])" />
+                <div class="d-flex flex-wrap justify-center align-center" style="height:100%">
+                @if (vm.PrimaryCabin?.Extras.Any(e => e.ExtraType == CabinExtraType.StepCut) is true)
+                {
+                    <div class="IconContainer">
+                        <img class="iconImg" src="@(CabinExtraImagePath[CabinExtraType.StepCut])" />
+                    </div>
+                }
+                @if (vm.PrimaryCabin?.HasBronzeClean is true)
+                {
+                    <div class="IconContainer">
+                        <img class="iconImg" src="@(CabinExtraImagePath[CabinExtraType.BronzeClean])" />
+                    </div>
+                }
+                @if (vm.PrimaryCabin?.HasSafeKids is true)
+                {
+                    <div class="IconContainer">
+                        <img class="iconImg" src="@(CabinExtraImagePath[CabinExtraType.SafeKids])" />
+                    </div>
+                }
+                <div class="IconContainer">
+                    <img class="iconImg" src="../Images/CabinImages/CabinExtras/Packing.png" />
+                </div>
+                @if (vm.Synthesis.IsReversible)
+                {
+                    <div class="IconContainer">
+                        <img class="iconImg" src="../Images/CabinImages/CabinExtras/Reversible.jpg" />
+                    </div>
+                }
+                @if (vm.PrimaryCabin.Series is CabinSeries.Bronze6000 && vm.PrimaryCabin.Model is not CabinModelEnum.Model9B)
+                {
+                    <div class="IconContainer">
+                        <img class="iconImg" src="../Images/CabinImages/CabinExtras/Wheels8x8.png" />
+                    </div>
+                }
+                <div class="IconContainer">
+                    <img class="iconImg" src="../Images/CabinImages/CabinExtras/MadeInGreece.png" />
+                </div>
+            </div>
+        </div>
+    </MudItem>
+</MudGrid>
+
+<div style="overflow-x:hidden;max-width:100%">
+    <CabinPartsPhotoTable Synthesis="vm.Synthesis" />
+</div>
+<div class="align-self-center pb-10">
+    <CabinInfoTable Synthesis="@(vm.Synthesis)" />
+</div>
+
+@*Pseudo Div element to break the page in Printing*@
+<div style="page-break-before:always;"></div>
+
+<CabinsPricingTable WithPrintStyle="@(true)" PrintingTopPaddingPX="50" />
+@if (string.IsNullOrWhiteSpace(vm.NotesText) is false)
+{
+    <div style="font-style:italic">
+        @*Captures the new Lines e.t.c. and replaces them with html elements to keep formating the same - Thanks StackOverflow!*@
+        @((MarkupString)Regex.Replace(
+            HttpUtility.HtmlEncode($"{lc.Keys["Notes"]}: {vm.NotesText}"), "\r?\n|\r", "<br />"))
+    </div>
+}
+
+
+@*Pseudo Div element to break the page in Printing
+<div style="page-break-before:always;"></div>
+
+<div class="d-flex flex-column justify-center align-center py-10" style="height:100vh;">
+    @for (var i = 1; i < vm.NumberOfActiveCabinSides + 1; i++)
+    {
+        <CabinDrawSVG Synthesis="@(vm.Synthesis)"
+                      AreSideButtonsVisible="@(false)"
+                      SelectedDraw="@(i)"
+                      Style="width:100%;max-height:30vh;"/>
+    }
+</div>*@
+
+
+@*Footer Gets printed in each page*@
+<footer style="width:100%;position:fixed;bottom:0px">
+    <div style="width:100%;" class="d-flex flex-row mt-auto">
+
+        @if (vm.PrimaryCabin.Series != null)
+        {
+            <span style="flex-grow:5;border-bottom:5px solid var(--BronzeDarkPink)" class="mb-4"></span>
+            <BrandLogo Style="width:150px" Class="px-5 d-flex align-center justify-center" IsVisibleBronzeLogoRetail="@(false)" />
+            <span style="flex-grow:1;border-bottom:5px solid var(--BronzeDarkPink)" class="mb-4"></span>
+        }
+    </div>
+</footer>
+
+
+@code {
+
+    /// <summary>
+    /// Opens the Print Dialog immediately after rendering the page
+    /// </summary>
+    /// <param name="firstRender"></param>
+    protected override void OnAfterRender(bool firstRender)
+    {
+        Task.Run(() =>
+        {
+            jsRuntime.InvokeVoidAsync("printPage");
+        });
+    }
+}

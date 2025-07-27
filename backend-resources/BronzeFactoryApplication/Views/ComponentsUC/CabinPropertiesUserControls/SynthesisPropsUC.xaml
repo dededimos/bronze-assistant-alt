@@ -1,0 +1,121 @@
+﻿<UserControl x:Class="BronzeFactoryApplication.Views.ComponentsUC.CabinPropertiesUserControls.SynthesisPropsUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:uc="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:cuc="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.CabinPropertiesUserControls"
+             xmlns:vm="clr-namespace:BronzeFactoryApplication.ViewModels.CabinsViewModels"
+             xmlns:uc2="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.Various"
+             xmlns:local="clr-namespace:BronzeFactoryApplication.Views.ComponentsUC.CabinPropertiesUserControls"
+             mc:Ignorable="d"
+             x:Name="SynthesisUC"
+             d:DataContext="{d:DesignInstance Type=vm:SynthesisViewModel}">
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="TabItemCabinHeaderDataTemplate" DataType="{x:Type vm:CabinViewModel}">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Width="90">
+                    <uc2:CabinSideImageUC MaxHeight="90" DrawNumber="{Binding DrawNumber}" SynthesisModel="{Binding SynthesisModel}"/>
+                    <TextBlock x:Name="TabHeaderTextBlock" Text="{Binding SynthesisModel , FallbackValue='N/A'}"
+                               Margin="0,5,0,0" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <!--#region 1.Synthesis Tab Control -->
+        <TabControl TabStripPlacement="Right"
+                    Grid.Row="0"
+                    Background="Transparent"
+                    BorderThickness="0" SelectedIndex="{Binding SelectedTabIndex}"
+                    Margin="0,10,0,0">
+            <TabControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel/>
+                </ItemsPanelTemplate>
+            </TabControl.ItemsPanel>
+
+            <!--#region 1.Primary Tab -->
+            <TabItem Header="{Binding PrimaryCabin}"
+                     HeaderTemplate="{StaticResource TabItemCabinHeaderDataTemplate}"
+                     Padding="0,0,0,5">
+                <DockPanel>
+                    <cuc:CabinPropertiesUC DataContext="{Binding PrimaryCabin}"
+                                           OpenAdvancedCommand="{Binding ElementName=SynthesisUC, Path=DataContext.OpenAdvancedModalCommand}"
+                                           IsEnabled="{Binding ElementName=SynthesisUC, Path=DataContext.HasPrimary}"
+                                           DockPanel.Dock="Top"/>
+                    <cuc:CabinCalculationsTable DataContext="{Binding PrimaryCalcTable}"
+                                                DockPanel.Dock="Bottom"/>
+                </DockPanel>
+            </TabItem>
+            <!--#endregion-->
+
+            <!--#region 2.Secondary Tab -->
+            <TabItem Header="{Binding SecondaryCabin}"
+                     HeaderTemplate="{StaticResource TabItemCabinHeaderDataTemplate}"
+                     Padding="0,5" 
+                     Visibility="{Binding HasSecondary, Converter={StaticResource Boolean2VisibilityConverter}}">
+                <DockPanel>
+                    <cuc:CabinPropertiesUC DataContext="{Binding SecondaryCabin}"
+                                           OpenAdvancedCommand="{Binding ElementName=SynthesisUC, Path=DataContext.OpenAdvancedModalCommand}"
+                                           IsEnabled="{Binding ElementName=SynthesisUC, Path=DataContext.HasSecondary}"
+                                           DockPanel.Dock="Top"/>
+                    <cuc:CabinCalculationsTable DataContext="{Binding SecondaryCalcTable}"
+                                                DockPanel.Dock="Bottom"/>
+                </DockPanel>
+            </TabItem>
+            <!--#endregion-->
+
+            <!--#region 3.Tertiary Tab -->
+            <TabItem Header="{Binding TertiaryCabin}"
+                     HeaderTemplate="{StaticResource TabItemCabinHeaderDataTemplate}"
+                     Padding="0,5" 
+                     Visibility="{Binding HasTertiary, Converter={StaticResource Boolean2VisibilityConverter}}">
+                <DockPanel>
+                    <cuc:CabinPropertiesUC DataContext="{Binding TertiaryCabin}"
+                                           OpenAdvancedCommand="{Binding ElementName=SynthesisUC, Path=DataContext.OpenAdvancedModalCommand}"
+                                           IsEnabled="{Binding ElementName=SynthesisUC, Path=DataContext.HasTertiary}"
+                                           DockPanel.Dock="Top"/>
+                    <cuc:CabinCalculationsTable DataContext="{Binding TertiaryCalcTable}"
+                                                DockPanel.Dock="Bottom"/>
+                </DockPanel>
+            </TabItem>
+            <!--#endregion-->
+
+        </TabControl>
+        <!--#endregion-->
+
+        <!--#region 2.Information of Structure-->
+        <!--2nd Column Width Set to the Width of the Tabs of the Tab Control so this can be properly aligned to Center-->
+        <Border Grid.Row="1" BorderBrush="{DynamicResource RegionBrush}" BorderThickness="2,0,2,2" Margin="0,0,90,0">
+            <StackPanel Margin="0,5">
+                <StackPanel Orientation="Horizontal" 
+                            Grid.Row="0" 
+                            Grid.Column="0" 
+                            Grid.ColumnSpan="2" Margin="0,5,0,0" 
+                            HorizontalAlignment="Center">
+                    <TextBlock Text="{StaticResource lngDraw}" Margin="5,0"/>
+                    <TextBlock Text="{Binding PrimaryCabin.DrawNumber,Converter={StaticResource languageConverter},TargetNullValue=''}"/>
+                </StackPanel>
+                <DockPanel Margin="0,3"
+                           LastChildFill="True"
+                           Grid.Row="1" 
+                           Grid.Column="0" HorizontalAlignment="Center">
+                    <TextBlock Text="{StaticResource lngSynthesisOpening}" FontSize="14"/>
+                    <TextBlock Text=" : " FontSize="14"/>
+                    <TextBlock Text="{Binding Opening,TargetNullValue='N/A',StringFormat={}{0:0}mm}"
+                               TextAlignment="Right" FontSize="14"/>
+                </DockPanel>
+            </StackPanel>
+        </Border>
+        <!--#endregion-->
+
+    </Grid>
+</UserControl>

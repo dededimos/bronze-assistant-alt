@@ -1,0 +1,61 @@
+﻿@* Sandblast Dialog -- Parameter Shape Defines which Sandblasts to Show Circular/Rectangular  *@
+@namespace BronzeArtWebApplication.Components.MirrorCreationComponents.Dialogs
+@inject ILanguageContainerService languageContainer
+
+<MudDialog @bind-Visible:get="@IsVisible" @bind-Visible:set="@IsVisibleChanged" Class="ma-4" Style="max-width:95vw">
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            @languageContainer.Keys["DialogSandblastTitle"]
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudContainer Style="@($"{DialogContainerCssStyle};max-width:1100px")" Class="pa-0 ma-0">
+            <MudPaper Class="d-flex flex-wrap justify-center ma-0 pa-0"
+                      Elevation="0"
+                      Outlined="false">
+                @foreach (var sandblast in Sandblasts)
+                {
+                    <MudPaper Elevation="0" Outlined="false" Class="ma-0 pa-0">
+                        <MudButton Variant="Variant.Text"
+                                   FullWidth="false"
+                                   Style="text-transform:none"
+                                   Class="ma-1"
+                                   OnClick="(() => OnSandblastClick.InvokeAsync(sandblast))">
+                            <MudContainer Class="d-flex flex-column ma-0 pa-0">
+                                <img src="@SandblastImagePaths[sandblast]"
+                                     alt="@languageContainer.Keys[MirrorSandblastDescKey[sandblast]]"
+                                     style="max-height:500px;max-width:300px"
+                                     class="rounded-lg" />
+                                <MudText Typo="Typo.caption">
+                                    @languageContainer.Keys[MirrorSandblastDescKey[sandblast]]
+                                </MudText>
+                            </MudContainer>
+                        </MudButton>
+                    </MudPaper>
+                }
+            </MudPaper>
+        </MudContainer>
+    </DialogContent>
+    <DialogActions>
+        <MudContainer Class="d-flex justify-center align-center">
+            <MudButton Variant="@ActionButtonVariant"
+                       Color="@ActionButtonColor"
+                       Style="text-transform:none"
+                       Class="ma-4"
+                       OnClick="(() => OnPreviousClick.InvokeAsync())">
+                @languageContainer.Keys["DialogActionButtonBack"]
+            </MudButton>
+        </MudContainer>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    
+    [Parameter] public bool IsVisible {get;set;}
+    [Parameter] public EventCallback<bool> IsVisibleChanged { get; set; }
+
+    [Parameter] public List<MirrorSandblast> Sandblasts { get; set; }
+
+    [Parameter] public EventCallback<MirrorSandblast> OnSandblastClick { get; set; }
+    [Parameter] public EventCallback OnPreviousClick { get; set; }
+}

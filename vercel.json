@@ -1,13 +1,7 @@
 {
   "functions": {
-    "pages/api/*.js": {
+    "api/*.js": {
       "runtime": "nodejs18.x"
     }
-  },
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "pages/api/$1.js"
-    }
-  ]
+  }
 }

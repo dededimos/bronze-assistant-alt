@@ -1,5 +1,5 @@
 async function getCabinInfo(userText) {
-  const response = await fetch('/api/assistant', {
+  const response = await fetch('/api/finalCabinCode', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({ text: userText })

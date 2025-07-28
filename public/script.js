@@ -32,7 +32,9 @@ async function submitCabinRequest() {
 
   try {
     const cabinInfo = await getCabinInfo(userText);
+    
     const details = cabinInfo.details;
+    
 
     document.getElementById('result').innerHTML = `
       <p><strong>✅ Κωδικός καμπίνας (debug):</strong> ${cabinInfo.internal_debug_code}</p>

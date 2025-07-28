@@ -1,0 +1,45 @@
+// api/finalCabinCode_v3.js
+// Safe‑Kids extras code fixed to "2exp"
+
+const MODEL_CODES = {
+  "9a": "0", "9s": "1", "94": "2", "9f": "3", "9b": "4", "9c": "5",
+  "vs": "6", "vf": "7", "v4": "8", "va": "9", "ws": "10", "e": "11",
+  "flipper": "12", "nb": "13", "db": "14", "nv": "15", "mv2": "16",
+  "icp": "17", "glasscontainer": "18", "qb": "19", "qp": "20"
+};
+
+const GLASS_THICKNESS_CODES = { "6mm": "2", "6/8mm": "3", "8mm": "4" };
+
+// Only extras that εμφανίζονται στο URL
+const EXTRAS_CODES = { "safekid": "2exp" };
+
+function interpretRequest(text) {
+  text = text.toLowerCase();
+  const model_key = Object.keys(MODEL_CODES).find(k => text.includes(k));
+  const glass_key = Object.keys(GLASS_THICKNESS_CODES).find(k => text.includes(k));
+  const dimMatch = text.match(/(\d{2,3})\s*[x×]\s*(\d{2,3})/);
+  const width = dimMatch ? parseInt(dimMatch[1], 10) : null;
+  const height = dimMatch ? parseInt(dimMatch[2], 10) : null;
+  const extras = Object.keys(EXTRAS_CODES).filter(k => text.includes(k));
+  return { model_key, glass_key, width, height, extras };
+}
+
+function generateCabinDetailCode(req) {
+  const modelCode = MODEL_CODES[req.model_key];
+  const thicknessCode = GLASS_THICKNESS_CODES[req.glass_key] || "2";
+  const widthMM = (req.width || 100) * 10;
+  const heightMM = (req.height || 190) * 10;
+  // Αν υπάρχει extra που μπαίνει στο URL, πάρε τον κωδικό του, αλλιώς nullexp
+  const extrasCode = req.extras.length ? EXTRAS_CODES[req.extras[0]] || "nullexp" : "nullexp";
+  return `${modelCode}-0-${thicknessCode}-1-1-0-0-${widthMM}-${heightMM}-${extrasCode}nullexpnullexpnullexxcccnullcccprtprt`;
+}
+
+export default async function handler(req, res) {
+  const { text } = req.body;
+  if (!text) return res.status(400).json({ error: "Λείπει το πεδίο 'text'." });
+  const parsed = interpretRequest(text);
+  if (!parsed.model_key) return res.status(400).json({ error: "Δεν αναγνωρίστηκε μοντέλο." });
+  const cabin_code = generateCabinDetailCode(parsed);
+  const cabin_url = `https://www.bronzeapp.eu/AssembleCabinLink/${cabin_code}`;
+  return res.status(200).json({ cabin_url, debug: parsed });
+}

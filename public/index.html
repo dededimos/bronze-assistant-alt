@@ -15,24 +15,30 @@
   <div id="result" style="margin-top:20px;"></div>
 
   <script>
+    async function getCabinInfo(userText) {
+      const response = await fetch('/api/finalCabinCode', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: userText })
+      });
+
+      if (!response.ok) {
+        throw new Error(`Σφάλμα API: ${response.statusText}`);
+      }
+
+      return response.json();
+    }
+
     async function submitCabinRequest() {
       const userText = document.getElementById('userText').value;
 
       try {
-        const response = await fetch('/api/finalCabinCode', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text: userText }),
-        });
-
-        if (!response.ok) throw new Error(`Σφάλμα API: ${response.statusText}`);
-
-        const data = await response.json();
+        const cabinInfo = await getCabinInfo(userText);
 
         document.getElementById('result').innerHTML = `
-          <p><strong>Κωδικός (Debug):</strong> ${data.internal_debug_code}</p>
-          <p><strong>Προβολή:</strong> 
-            <a href="${data.cabin_url}" target="_blank">Δες την καμπίνα σου</a>
+          <p><strong>Κωδικός καμπίνας (debug):</strong> ${cabinInfo.internal_debug_code}</p>
+          <p><strong>Προβολή καμπίνας:</strong> 
+            <a href="${cabinInfo.cabin_url}" target="_blank">Δες την καμπίνα σου</a>
           </p>
         `;
       } catch (error) {

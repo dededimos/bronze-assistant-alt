@@ -1,4 +1,4 @@
-// api/cabin.js – Τελικό API Endpoint
+// api/cabin.js — DEBUG VERSION
 
 const MODEL_CODES = {
   "9a": "0", "9s": "1", "94": "2", "9f": "3", "9b": "4", "9c": "5",
@@ -30,6 +30,7 @@ function interpretRequest(text) {
 
   const extras = Object.keys(EXTRAS_CODES).filter(k => text.includes(k));
 
+  console.log("🔍 INTERPRETED:", { model_key, glass_key, finish_key, width, height, extras });
   return { model_key, glass_key, finish_key, width, height, extras };
 }
 
@@ -46,8 +47,11 @@ function generateCabinDetailCode(req) {
     ? (EXTRAS_CODES[req.extras[0]] || "nullexp")
     : "nullexp";
 
-  return `${modelCode}-0-${thicknessCode}-${glassFinishCode}-${drawNumber}-0-0-` +
-         `${widthMM}-${heightMM}-${extrasCode}nullexpnullexpnullexxcccnullcccnullcccprtprt`;
+  const result = `${modelCode}-0-${thicknessCode}-${glassFinishCode}-${drawNumber}-0-0-` +
+                 `${widthMM}-${heightMM}-${extrasCode}nullexpnullexpnullexxcccnullcccnullcccprtprt`;
+
+  console.log("🧪 Generated code:", result);
+  return result;
 }
 
 export default function handler(req, res) {
@@ -56,6 +60,8 @@ export default function handler(req, res) {
   }
 
   const { text } = req.body || {};
+  console.log("📨 Incoming text:", text);
+
   if (!text) {
     return res.status(400).json({ error: 'Missing text field.' });
   }
@@ -64,6 +70,7 @@ export default function handler(req, res) {
     const parsed = interpretRequest(text);
 
     if (!parsed.model_key || !parsed.glass_key) {
+      console.warn("⚠️ Λείπει model_key ή glass_key");
       return res.status(400).json({
         error: "Λείπει το μοντέλο ή το πάχος γυαλιού. Π.χ. 'VS 120x190 φιμέ 8mm SafeKid'"
       });
@@ -78,6 +85,8 @@ export default function handler(req, res) {
       details: parsed
     });
   } catch (e) {
-    return res.status(500).json({ error: e.message });
+    console.error("⛔ Internal error:", e);
+    return res.status(500).json({ error: e?.message || "Άγνωστο σφάλμα." });
   }
 }
+

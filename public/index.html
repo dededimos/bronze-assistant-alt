@@ -3,18 +3,53 @@
 <head>
   <meta charset="UTF-8">
   <title>Bronze Assistant</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      max-width: 600px;
+      margin: auto;
+      background-color: #f8f8f8;
+    }
+
+    input[type="text"] {
+      padding: 0.5rem;
+      font-size: 1rem;
+      width: 300px;
+    }
+
+    button {
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+
+    #result {
+      margin-top: 30px;
+      background-color: #fff;
+      padding: 1rem;
+      border-radius: 6px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+  </style>
 </head>
 <body>
-  <h2>Bronze Assistant - Σχεδιασμός Καμπίνας</h2>
+  <h2>🛠 Bronze Assistant - Σχεδιασμός Καμπίνας</h2>
+
+  <p>Πληκτρολόγησε περιγραφή όπως:<br>
+    <em>VS 140x200 φιμέ 8mm SafeKid</em> ή <em>9S 120x190 διάφανο BronzeClean</em>
+  </p>
 
   <div>
-    <input type="text" id="userText" placeholder="Περιγραφή καμπίνας" style="width:300px;">
+    <input type="text" id="userText" placeholder="Περιγραφή καμπίνας...">
     <button onclick="submitCabinRequest()">Πάρε προσφορά</button>
   </div>
 
-  <div id="result" style="margin-top:20px;"></div>
+  <div id="result"></div>
 
-  <!-- Συνδέουμε το εξωτερικό script -->
+  <!-- Συνδέουμε το script -->
   <script src="script.js"></script>
 </body>
 </html>
+

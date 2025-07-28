@@ -19,7 +19,7 @@
       const userText = document.getElementById('userText').value;
 
       try {
-        const response = await fetchapi/assist('/ant', {
+        const response = await fetchapi/api/finalCabinCode('/ant', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ text: userText }),

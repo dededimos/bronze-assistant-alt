@@ -59,6 +59,6 @@ export default function handler(req, res) {
     return res.status(400).json({ error: 'Missing text' });
   }
   const parsed = interpretRequest(text);
-  const cabinCode = generateCabinCode(parsed);
+  const cabinCode = generateCabinDetailCode(parsed);
   res.status(200).json({ cabinCode });
 }

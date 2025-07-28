@@ -6,11 +6,11 @@ async function getCabinInfo(userText) {
     },
     body: JSON.stringify({ text: userText })
   });
-
-  if (!response.ok) {
-    throw new Error(`API error: ${response.statusText}`);
-  }
-
+if (!response.ok) {
+  let data = {};
+  try { data = await response.json(); } catch (_) {}
+  throw new Error(`API error: ${data.error || response.statusText}`);
+}
   return response.json();
 }
 

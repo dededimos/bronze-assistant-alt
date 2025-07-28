@@ -9,6 +9,9 @@ async function getCabinInfo(userText) {
     if (!response.ok) {
       let data = {};
       try { data = await response.json(); } catch (_) {}
+         console.warn("⚠️ Could not parse JSON error from server.");
+       }
+      console.error("❌ API error full response:", response);
       throw new Error(`API error: ${data.error || response.statusText}`);
     }
 

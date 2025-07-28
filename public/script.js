@@ -1,11 +1,5 @@
 async function getCabinInfo(userText) {
-  const response = await fetch("https://bronze-assistant-alt.vercel.app/api/finalCabinCode", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ text: userText })
-  });
+  const response = await fetch(;
 if (!response.ok) {
   let data = {};
   try { data = await response.json(); } catch (_) {}

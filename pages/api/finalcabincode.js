@@ -49,3 +49,16 @@ export function generateCabinDetailCode(req) {
   return `${modelCode}-0-${thicknessCode}-${glassFinishCode}-${drawNumber}-0-0-` +
          `${widthMM}-${heightMM}-${extrasCode}nullexpnullexxcccnullcccnullcccprtprt`;
 }
+
+export default function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+  const { text } = req.body || {};
+  if (!text) {
+    return res.status(400).json({ error: 'Missing text' });
+  }
+  const parsed = interpretRequest(text);
+  const cabinCode = generateCabinCode(parsed);
+  res.status(200).json({ cabinCode });
+}

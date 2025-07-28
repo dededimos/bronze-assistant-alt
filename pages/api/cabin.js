@@ -1,4 +1,4 @@
-// api/finalCabinCode.js (v8 logic)
+t// api/finalCabinCode.js (v8 logic)
 // VS 140×200 fume 8 mm, BronzeClean – corrected pattern
 
 const MODEL_CODES = {

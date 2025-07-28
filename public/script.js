@@ -7,7 +7,6 @@ if (!response.ok) {
 }
   return response.json();
 }
-
 async function submitCabinRequest() {
   const userText = document.getElementById('userText').value;
 
